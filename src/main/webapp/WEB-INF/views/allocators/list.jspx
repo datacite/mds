@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_datacite_mds_domain_Allocator" items="${allocators}" z="tqw0MA+bC4GB53FD7Gr10BRXsj8=">
+        <table:table data="${allocators}" id="l_org_datacite_mds_domain_Allocator" path="/allocators" z="UGoXfwCKKwJRZZtxsVU/PTZEr+w=">
+            <table:column id="c_org_datacite_mds_domain_Allocator_symbol" property="symbol" z="lGYR8RjYX5zWWE5TXPLzWiX81lM="/>
+            <table:column id="c_org_datacite_mds_domain_Allocator_password" property="password" z="6kHk0AI+jpLrHMb8aw0QrZdRJLI="/>
+            <table:column id="c_org_datacite_mds_domain_Allocator_name" property="name" z="KkhDYxEHIcOgj6O3IGvnzkNTeGA="/>
+            <table:column id="c_org_datacite_mds_domain_Allocator_contactName" property="contactName" z="M37WpmZtTFJjwU+nirNG0JlWP8g="/>
+            <table:column id="c_org_datacite_mds_domain_Allocator_contactEmail" property="contactEmail" z="BZnYJX1qRwBBLACr9fLEnJseBOs="/>
+            <table:column id="c_org_datacite_mds_domain_Allocator_doiQuotaAllowed" property="doiQuotaAllowed" z="uPMRasua1y1Nei2ImzyMpfY4MkQ="/>
+        </table:table>
+    </page:list>
+</div>

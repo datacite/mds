@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:find finderName="ByDoiEquals" id="ff_org_datacite_mds_domain_Dataset" path="/datasets" z="tr4GTGiH08JQvgc6Q58D7hkDnYY=">
+        <field:input disableFormBinding="true" field="doi" id="f_org_datacite_mds_domain_Dataset_doi" max="255" min="9" required="true" validationRegex="10.(\\d)+/(\\S)+" z="bdudwqNInZ82kc8/des/rOP6VsQ="/>
+    </form:find>
+</div>

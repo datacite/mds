@@ -1,0 +1,6 @@
+#Updated at Wed Sep 29 16:32:04 BST 2010
+#Wed Sep 29 16:32:04 BST 2010
+database.password=
+database.url=jdbc:oracle:thin:@localhost:1521:xe
+database.username=datacite
+database.driverClassName=oracle.jdbc.OracleDriver

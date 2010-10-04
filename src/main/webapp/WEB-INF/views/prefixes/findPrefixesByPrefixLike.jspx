@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:find finderName="ByPrefixLike" id="ff_org_datacite_mds_domain_Prefix" path="/prefixes" z="2A7BEpjRZFH6MH13qCClGxcOeqQ=">
+        <field:input disableFormBinding="true" field="prefix" id="f_org_datacite_mds_domain_Prefix_prefix" max="80" min="4" required="true" validationRegex="10.(\\d)+" z="ZdWYMa6iNX9rMM13Du1mAUK475k="/>
+    </form:find>
+</div>

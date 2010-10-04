@@ -1,0 +1,34 @@
+package org.datacite.mds.domain;
+
+import javax.persistence.Entity;
+import org.springframework.roo.addon.javabean.RooJavaBean;
+import org.springframework.roo.addon.tostring.RooToString;
+import org.springframework.roo.addon.entity.RooEntity;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Entity
+@RooJavaBean
+@RooToString
+@RooEntity
+public class OaiSources {
+
+    @NotNull
+    @Size(min = 5, max = 255)
+    private String url;
+
+    @NotNull
+    @Size(min = 2, max = 17)
+    private String owner;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "S-")
+    private Date lastHarvest;
+
+    @Size(min = 2, max = 30)
+    private String lastStatus;
+}

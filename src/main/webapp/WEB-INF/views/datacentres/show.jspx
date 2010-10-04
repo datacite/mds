@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_datacite_mds_domain_Datacentre" object="${datacentre}" path="/datacentres" z="hBSYOILxz2F9r6z0nH2LJBR5Xag=">
+        <field:display field="symbol" id="s_org_datacite_mds_domain_Datacentre_symbol" object="${datacentre}" z="BRIyEhrJU2Yd0GWzDGnW1i68PUI="/>
+        <field:display field="password" id="s_org_datacite_mds_domain_Datacentre_password" object="${datacentre}" z="YpxotESqiDorJsKNhDPumHfEIWI="/>
+        <field:display field="name" id="s_org_datacite_mds_domain_Datacentre_name" object="${datacentre}" z="JXNqfv/cA9Q9vtJEJOnrqTZJcGw="/>
+        <field:display field="contactName" id="s_org_datacite_mds_domain_Datacentre_contactName" object="${datacentre}" z="aD1cKOqg5HkLOIMei0JUm9+jmS8="/>
+        <field:display field="contactEmail" id="s_org_datacite_mds_domain_Datacentre_contactEmail" object="${datacentre}" z="apJJoLEv0PR4RVYqoccg6Y3aNhg="/>
+        <field:display field="doiQuotaAllowed" id="s_org_datacite_mds_domain_Datacentre_doiQuotaAllowed" object="${datacentre}" z="498WJS5jP9p2BuMTQRcP68uDFdo="/>
+        <field:display field="doiQuotaUsed" id="s_org_datacite_mds_domain_Datacentre_doiQuotaUsed" object="${datacentre}" z="5EdaPf3xY87GrpUrRE+Ef+59im0="/>
+        <field:display field="isActive" id="s_org_datacite_mds_domain_Datacentre_isActive" object="${datacentre}" z="3mtD10pWlj5M/m9vsve6jcJLseE="/>
+        <field:display field="domains" id="s_org_datacite_mds_domain_Datacentre_domains" object="${datacentre}" z="fpiAzq/RMol+4GRHvi4V47NpSyI="/>
+        
+        <field:display field="allocator" id="s_org_datacite_mds_domain_Datacentre_allocator" object="${datacentre}" z="1ATRi/EPpyKgQn8iyCd414S8yAw="/>
+        <field:display field="prefixes" id="s_org_datacite_mds_domain_Datacentre_prefixes" object="${datacentre}" z="Tupqob8sQAftvqvD8SKu9zKixuQ="/>
+    <field:display field="comments" id="s_org_datacite_mds_domain_Datacentre_comments" object="${datacentre}" z="8cMJ4DFn76IxKTinjuBVq5neICc="/>
+    </page:show>
+</div>

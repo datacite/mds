@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_org_datacite_mds_domain_OaiSources" object="${oaisources}" path="/oaisourceses" z="7udQTkf0J90dSw8T4Df2CAfU1rA=">
+        <field:display field="url" id="s_org_datacite_mds_domain_OaiSources_url" object="${oaisources}" z="4y5NbaWqbtA8tMjfE3mFlHIzBM0="/>
+        <field:display field="owner" id="s_org_datacite_mds_domain_OaiSources_owner" object="${oaisources}" z="cfZSkECA3F/n0rDe9QbIMVOLRZs="/>
+        <field:display date="true" dateTimePattern="${oaiSources_lastharvest_date_format}" field="lastHarvest" id="s_org_datacite_mds_domain_OaiSources_lastHarvest" object="${oaisources}" z="VhoXx3Y93Ihxip4MssqGiXttf88="/>
+        <field:display field="lastStatus" id="s_org_datacite_mds_domain_OaiSources_lastStatus" object="${oaisources}" z="rjdSCVX7+80FvVZ4cSTxvPxsdG0="/>
+    </page:show>
+</div>

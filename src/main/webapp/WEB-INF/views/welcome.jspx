@@ -1,0 +1,136 @@
+<div id="welcome" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:spring="http://www.springframework.org/tags" version="2.0">
+<spring:url var="api_doc" value="apidoc/apidoc" /> <script
+	type="text/javascript"><![CDATA[
+			var tld_ = new Array()
+tld_[0] = "com";
+tld_[1] = "org";
+tld_[2] = "net";
+tld_[3] = "ws";
+tld_[4] = "info";
+tld_[10] = "co.uk";
+tld_[11] = "org.uk";
+tld_[12] = "gov.uk";
+tld_[13] = "ac.uk";
+var topDom_ = 13;
+var m_ = "mailto:";
+var a_ = "@";
+var d_ = ".";
+
+function mail(name, dom, tl, params)
+{
+	var s = e(name,dom,tl);
+	document.write('<a href="'+m_+s+params+'">'+s+'</a>');
+}
+function mail2(name, dom, tl, params, display)
+{
+	document.write('<a href="'+m_+e(name,dom,tl)+params+'">'+display+'</a>');
+}
+function e(name, dom, tl)
+{
+	var s = name+a_;
+	if (tl!=-2)
+	{
+		s+= dom;
+		if (tl>=0)
+			s+= d_+tld_[tl];
+	}
+	else
+		s+= swapper(dom);
+	return s;
+}
+function swapper(d)
+{
+	var s = "";
+	for (var i=0; i<d.length; i+=2)
+		if (i+1==d.length)
+			s+= d.charAt(i)
+		else
+			s+= d.charAt(i+1)+d.charAt(i);
+	return s.replace(/\?/g,'.');
+}
+		]]> 
+</script>
+
+
+<h1>What is this service?</h1>
+<p>This is the DataCite service. DataCite is an international consortium 
+which aims to enable data citation and facilitate easier access to scientific research 
+data on the Internet.  In doing so we will increase acceptance of research data 
+as legitimate, citable contributions to the scientific record. For 
+more information please see the <a href="http://www.datacite.org">DataCite home page</a>.</p>
+<h1>Who can use this service?</h1>
+<p>DataCite will work with data publishers - organisations that maintain and 
+make available research data. In most cases this will be established and dedicated 
+data centres, though institutional repositories and supplementary data archives 
+are also considered data publishers. This service is aimed at scientific and 
+research data publishers.</p>
+<p>Data generators, researchers for example, who wish to obtain DataCite DOIs will 
+first establish the most appropriate data publisher for their data and 
+deposit their datasets there. The publisher can then obtain DOIs from us.</p>
+<h1>What are DOIs and why should I care?</h1>
+<p>A DOI is an identifier which is persistent and it resolves into URL. 
+The primary objective is to provide a stable means for citation of 
+datasets. The DOI can be used to reference online datasets independent 
+of a URL, which can become invalid. Use of DOIs instead of URLs makes 
+finding cited data more successful and will be a cornerstone for giving 
+the appropriate credit to data producers. In the scientific publishing 
+industry, DOIs have been a great success.</p>
+<p>The URL is a location of a landing page. This page is controlled and 
+maintained by the data publisher. A landing page must be an open access 
+web page. Please note this affects only accessibility of metadata (the 
+landing page), not the underlying dataset, which can have restricted 
+access (e.g. medical records, unpublished paper etc). At the very minimum 
+the landing page will contain the mandatory metadata elements required 
+by DataCite - DOI, Creator, Title, Publisher, Publication Date, and 
+Discipline. In addition, and it is highly recommended, the landing 
+page will also contain additional metadata further describing the 
+dataset and a preferred citation style. The landing page must 
+contain either a link that downloads the referenced dataset 
+or a rights/access notification.</p> 
+<p>It is an important duty of the publisher to 
+maintain both the landing page and the URL that is registered with each DOI.</p>
+<h1>How much does it cost?</h1>
+<p>In 2010 we do not intend to charge for issuing or updating DOIs.  
+In the future there will be a cost associated with DOI registration 
+and managing broken links etc. This cost is being determined but 
+will be a minimum charge to cover costs.</p>
+<h1>I have datasets and want to mint DOIs! How can I use this service?</h1>
+<p>At the moment the service is in a beta stage and we welcome established 
+data centres who wish to participate in our test.</p>
+<p>There are two steps. Firstly, you will need to register with our service. 
+Please email to <script>mail("admin","datacite",1,"")</script> and we will 
+get in touch with you to discuss your eligibility, requirements and 
+responsibilities. If you qualify, we will provide you a user name, 
+password and other necessary information.</p>
+<p>Secondly, you will need to use our <a href="${api_doc}">application programming interface (API)</a> 
+to mint DOIs. It is recommended that you integrate minting and updating DOIs with your 
+metadata management infrastructure. So if, for example, a URL changes, automatic 
+notification will be pushed to our service and the updated URL will be used 
+for resolving the DOI. Similarly if metadata changes, we prefer to receive automatic 
+updates. We do not recommend manual processes in registration or updating DOIs.</p>
+<h1>I have millions of files. How should I proceed?</h1>
+<p>In this test period each data publisher will be limited to the number of DOI they can 
+register.  This allocation will be determined when you request membership. Determining to 
+what granularity you should apply a DOI will depend on your requirements; there 
+is no one correct answer. Remember that the primary use for DOI is citation. If in 
+doubt, it is better use coarse grained approach and follow this with finer grained 
+detail as logically citable units become apparent.  Remember each DOI requires a 
+landing page with metadata and this is the responsibility of the data publisher.</p>
+<h1>Can I register DOI for my datasets manually (not via API)?</h1>
+<p>At this stage we can only provide a limited manual service. Our primary means of assigning DOIs is
+via our <a href="${api_doc}">API</a></p>
+<h1>How should I use DOI obtained here?</h1>
+<p>In print, citing a dataset with its DOI follows the convention of preceding a 
+DOI itself with string ‘doi:’ e.g. <code>doi:10.4124/2</code></p>
+<p>For the web, we recommend a link constructed as follows: 
+<code><c:out value="&lt;a href=&quot;http://dx.doi.org/10.4124/2&quot;&gt;doi:10.4124/2&lt;/a&gt;" /></code>
+which will be rendered as <a href="http://dx.doi.org/10.4124/2">doi:10.4124/2</a> 
+and will use the DOI redirection service to redirect you to the appropriate dataset.</p>
+<h1>Can I see all the registered datasets?</h1>
+<p>At the moment, only registered users can see all the DOIs and their metadata. 
+Please login using the link at the bottom of the page and then select the link on the left hand menu (shown after login).</p>
+<h1>Who are you? How can I contact you?</h1>
+<p>For more information please email us at <script>mail("admin","datacite",1,"")</script></p>
+</div>

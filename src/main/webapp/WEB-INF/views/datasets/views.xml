@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="datasets/list">
+        <put-attribute name="body" value="/WEB-INF/views/datasets/list.jspx"/>
+    </definition>
+<definition extends="default" name="datasets/show">
+        <put-attribute name="body" value="/WEB-INF/views/datasets/show.jspx"/>
+    </definition>
+<definition extends="default" name="datasets/create">
+        <put-attribute name="body" value="/WEB-INF/views/datasets/create.jspx"/>
+    </definition>
+<definition extends="default" name="datasets/update">
+        <put-attribute name="body" value="/WEB-INF/views/datasets/update.jspx"/>
+    </definition>
+<definition extends="default" name="datasets/findDatasetsByDoiEquals">
+        <put-attribute name="body" value="/WEB-INF/views/datasets/findDatasetsByDoiEquals.jspx"/>
+    </definition>
+</tiles-definitions>

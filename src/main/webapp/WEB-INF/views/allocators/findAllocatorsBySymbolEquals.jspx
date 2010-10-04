@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:find finderName="BySymbolEquals" id="ff_org_datacite_mds_domain_Allocator" path="/allocators" z="eZYEt2s3xozX7CHXLnzuFsC48xU=">
+        <field:input disableFormBinding="true" field="symbol" id="f_org_datacite_mds_domain_Allocator_symbol" max="8" min="2" required="true" validationRegex="[A-Z]+" z="raYE6ifc/aMfVjfELMuZ1i8lwgk="/>
+    </form:find>
+</div>

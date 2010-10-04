@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0">
+	<jsp:output omit-xml-declaration="yes"/>
+
+<menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
+        <menu:category id="c_prefix" z="UoY6ZmE5dw0GJWXxFuRnP4Ci2Pw=">
+            <menu:item id="i_prefix_new" messageCode="global_menu_new" url="/prefixes?form" z="Mn3ToVTR3O12jAFfx2gTHcz2Qt4="/>
+        <menu:item id="i_prefix_list" messageCode="global_menu_list" url="/prefixes?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="hmsxdSELaBMrN/rSnL1DALqMBKw="/>
+        <menu:item id="fi_prefix_prefixlike" messageCode="global_menu_find" url="/prefixes?find=ByPrefixLike&amp;form" z="OJncnX3HQzOQ1yRop65exEyPmHk="/>
+        </menu:category>
+    <menu:category id="c_allocator" z="iLSmvxIkMXVJXHF0wFMGX9o0qP0=">
+            <menu:item id="i_allocator_new" messageCode="global_menu_new" url="/allocators?form" z="y/NPimJktFG6tgpMZhm/cttPZLc="/>
+        <menu:item id="i_allocator_list" messageCode="global_menu_list" url="/allocators?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="FIHHGmz8QJFpEnwCyoCIxo39CL0="/>
+        <menu:item id="fi_allocator_symbolequals" messageCode="global_menu_find" url="/allocators?find=BySymbolEquals&amp;form" z="jJMmBovVVwhaYnO/EMYkZs6HByo="/>
+        <menu:item id="fi_allocator_namelike" messageCode="global_menu_find" url="/allocators?find=ByNameLike&amp;form" z="jBRvOq9ZUHDYiSDUPNMBP9UwAA0="/>
+        </menu:category>
+    <menu:category id="c_datacentre" z="8aWSi7JtMgKf/+09az41cVJ+kvY=">
+            <menu:item id="i_datacentre_new" messageCode="global_menu_new" url="/datacentres?form" z="G7kSQp6HuNiDpBdOT42AroCeTgI="/>
+        <menu:item id="i_datacentre_list" messageCode="global_menu_list" url="/datacentres?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="zgSBRBhA5tuhYY64U2o8qkB08Wg="/>
+        <menu:item id="fi_datacentre_symbolequals" messageCode="global_menu_find" url="/datacentres?find=BySymbolEquals&amp;form" z="Y7mMtAyfgjHAHyQf8c2tKnbWLAE="/>
+        <menu:item id="fi_datacentre_namelike" messageCode="global_menu_find" url="/datacentres?find=ByNameLike&amp;form" z="j1pnMvDkTtNqhc+d/AhXyDN7/1U="/>
+        </menu:category>
+    <menu:category id="c_oaisources" z="ez5c+rl2h4racFvE24tCqxTjaiM=">
+            <menu:item id="i_oaisources_new" messageCode="global_menu_new" url="/oaisourceses?form" z="0qFYp4rCDv+XBbIG017UBwqARJU="/>
+        <menu:item id="i_oaisources_list" messageCode="global_menu_list" url="/oaisourceses?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="cxqnKCjkoEZt2oStEPCBtFt8DtE="/>
+        </menu:category>
+    <menu:category id="c_dataset" z="8v6u2JQw6ua8kbT2zW1sFUNGceU=">
+            <menu:item id="i_dataset_new" messageCode="global_menu_new" url="/datasets?form" z="IkOAVp6qsKlvJ7TI906mWO6PP2I="/>
+        <menu:item id="i_dataset_list" messageCode="global_menu_list" url="/datasets?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="fFXe4q3EzMqB1C1UfUZC9jrK/TA="/>
+        <menu:item id="fi_dataset_doiequals" messageCode="global_menu_find" url="/datasets?find=ByDoiEquals&amp;form" z="QG8NTZw9ek/kLlzpa5Q+qDN+FZA="/>
+        </menu:category>
+    <menu:category id="c_metadata" z="eDjrEVWwDTlv9Pe+izrD6GfEWCU=">
+            <menu:item id="i_metadata_new" messageCode="global_menu_new" url="/metadatas?form" z="t7Y7EyYeymOIiWS/6t44dCQDHc4="/>
+        <menu:item id="i_metadata_list" messageCode="global_menu_list" url="/metadatas?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="K4pK5x1uMsZjgh/1lKJNcc+9A68="/>
+        </menu:category>
+    <menu:category id="c_controller" z="nj8Dm3hojIyIEyPkwE1UMDIs+K8=">
+            <menu:item id="i_controller__datacentreapiindex_id" messageCode="global_generic" url="/datacentreapi/index" z="qtiYIMrU0TXSlkbGTlAzJwUyrPM="/>
+        <menu:item id="i_controller__doiapiindex_id" messageCode="global_generic" url="/doiapi/index" z="UpWbbdr3M7C4fAgSwiUFsyzaFj4="/>
+        <menu:item id="i_controller__metadataapiindex_id" messageCode="global_generic" url="/metadataapi/index" z="oDNQqGeUGk0isna42Kxv5OLPUIQ="/>
+        <menu:item id="i_controller__oaisourcesapiindex_id" messageCode="global_generic" url="/oaisourcesapi/index" z="MNjgf2bmbs9MadRYJxBoHLtImhg="/>
+        </menu:category>
+    <menu:category id="c_view" z="HjmI4Chx/kBYfS/6HjBLbCA+XpU=">
+            <menu:item id="i_view__apidocapidoc_id" messageCode="global_generic" url="/apidoc/apidoc" z="/MThF8RCKEL6s/iifI2ugn8ir3I="/>
+        </menu:category>
+    </menu:menu>
+</div>

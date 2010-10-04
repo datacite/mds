@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="allocators/list">
+        <put-attribute name="body" value="/WEB-INF/views/allocators/list.jspx"/>
+    </definition>
+<definition extends="default" name="allocators/show">
+        <put-attribute name="body" value="/WEB-INF/views/allocators/show.jspx"/>
+    </definition>
+<definition extends="default" name="allocators/create">
+        <put-attribute name="body" value="/WEB-INF/views/allocators/create.jspx"/>
+    </definition>
+<definition extends="default" name="allocators/update">
+        <put-attribute name="body" value="/WEB-INF/views/allocators/update.jspx"/>
+    </definition>
+<definition extends="default" name="allocators/findAllocatorsBySymbolEquals">
+        <put-attribute name="body" value="/WEB-INF/views/allocators/findAllocatorsBySymbolEquals.jspx"/>
+    </definition>
+<definition extends="default" name="allocators/findAllocatorsByNameLike">
+        <put-attribute name="body" value="/WEB-INF/views/allocators/findAllocatorsByNameLike.jspx"/>
+    </definition>
+</tiles-definitions>

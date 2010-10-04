@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_org_datacite_mds_domain_Datacentre" modelAttribute="datacentre" path="/datacentres" render="${empty dependencies}" z="v+pNG2RvBFPDFY9thjDHhASPFuA=">
+        <field:input field="symbol" id="c_org_datacite_mds_domain_Datacentre_symbol" max="17" min="5" required="true" validationRegex="[A-Z]+.[A-Z]." z="0ML616J8WY4h8/saWRkl/8yesmI="/>
+        <field:input field="password" id="c_org_datacite_mds_domain_Datacentre_password" max="30" min="8" required="true" z="zaGQm8W8zzCeFV2L4U476+veQQQ="/>
+        <field:textarea field="name" id="c_org_datacite_mds_domain_Datacentre_name" required="true" z="uBWUzaT/SrLIs9chzq0ml2AHX3U="/>
+        <field:textarea field="contactName" id="c_org_datacite_mds_domain_Datacentre_contactName" required="true" z="/iHtVJWTszKcl99KhYL3VO3fLME="/>
+        <field:input field="contactEmail" id="c_org_datacite_mds_domain_Datacentre_contactEmail" required="true" validationRegex="[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\\b" z="Zxk8TsGssT3bR9z0cmr4jv5evXs="/>
+        <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaAllowed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="Gkm2RvIy+LuIWrEbqhFLAuKq8N0="/>
+        <field:input field="doiQuotaUsed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaUsed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="Cv1MAJbNN9Oc35bxGmioYmN/X1w="/>
+        <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Datacentre_isActive" z="lrf8mMimLYTsM1DqCg/0Vf08hm0="/>
+        <field:textarea field="domains" id="c_org_datacite_mds_domain_Datacentre_domains" z="k0FYxyPWyqAUcdyd1VxoV2ds0jQ="/>
+        
+        <field:select field="allocator" id="c_org_datacite_mds_domain_Datacentre_allocator" itemValue="id" items="${allocators}" path="/allocators" required="true" z="Q9xGvmtIB6OgOU1WwA/0MeAzLEw="/>
+        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" z="SnpZnnN5j8t3Meta9tj1IlCGOIU="/>
+    <field:textarea field="comments" id="c_org_datacite_mds_domain_Datacentre_comments" z="7scBOc9Lbz9U32Wucy+zXfwQRSM="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Datacentre" render="${not empty dependencies}" z="2mOyhvEGqo+B/6PwSRFZpMQcTJ4="/>
+</div>
