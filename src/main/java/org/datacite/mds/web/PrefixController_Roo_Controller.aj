@@ -76,14 +76,6 @@ privileged aspect PrefixController_Roo_Controller {
         return "prefixes/update";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String PrefixController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
-        Prefix.findPrefix(id).remove();
-        model.addAttribute("page", (page == null) ? "1" : page.toString());
-        model.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/prefixes?page=" + ((page == null) ? "1" : page.toString()) + "&size=" + ((size == null) ? "10" : size.toString());
-    }
-    
     @RequestMapping(params = { "find=ByPrefixLike", "form" }, method = RequestMethod.GET)
     public String PrefixController.findPrefixesByPrefixLikeForm(Model model) {
         return "prefixes/findPrefixesByPrefixLike";

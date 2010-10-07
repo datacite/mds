@@ -94,14 +94,6 @@ privileged aspect MetadataController_Roo_Controller {
         return "metadatas/update";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String MetadataController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
-        Metadata.findMetadata(id).remove();
-        model.addAttribute("page", (page == null) ? "1" : page.toString());
-        model.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/metadatas?page=" + ((page == null) ? "1" : page.toString()) + "&size=" + ((size == null) ? "10" : size.toString());
-    }
-    
     @ModelAttribute("datasets")
     public Collection<Dataset> MetadataController.populateDatasets() {
         return Dataset.findAllDatasets();

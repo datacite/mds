@@ -84,14 +84,6 @@ privileged aspect OaiSourcesController_Roo_Controller {
         return "oaisourceses/update";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String OaiSourcesController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
-        OaiSources.findOaiSources(id).remove();
-        model.addAttribute("page", (page == null) ? "1" : page.toString());
-        model.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/oaisourceses?page=" + ((page == null) ? "1" : page.toString()) + "&size=" + ((size == null) ? "10" : size.toString());
-    }
-    
     Converter<OaiSources, String> OaiSourcesController.getOaiSourcesConverter() {
         return new Converter<OaiSources, String>() {
             public String convert(OaiSources oaiSources) {

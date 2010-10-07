@@ -87,14 +87,6 @@ privileged aspect DatacentreController_Roo_Controller {
         return "datacentres/update";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String DatacentreController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
-        Datacentre.findDatacentre(id).remove();
-        model.addAttribute("page", (page == null) ? "1" : page.toString());
-        model.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/datacentres?page=" + ((page == null) ? "1" : page.toString()) + "&size=" + ((size == null) ? "10" : size.toString());
-    }
-    
     @RequestMapping(params = { "find=BySymbolEquals", "form" }, method = RequestMethod.GET)
     public String DatacentreController.findDatacentresBySymbolEqualsForm(Model model) {
         return "datacentres/findDatacentresBySymbolEquals";

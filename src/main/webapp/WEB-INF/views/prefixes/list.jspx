@@ -2,7 +2,7 @@
 <div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <page:list id="pl_org_datacite_mds_domain_Prefix" items="${prefixes}" z="SaaXQxPm5tIlbVH3uryihMKQwCw=">
-        <table:table data="${prefixes}" id="l_org_datacite_mds_domain_Prefix" path="/prefixes" z="hUSr2BwRVyU/qjvWgeyzTnaLGYo=">
+        <table:table data="${prefixes}" delete="false" id="l_org_datacite_mds_domain_Prefix" path="/prefixes" z="OuiTYtSm9kKqoO2IUTrit2awhoY=">
             <table:column id="c_org_datacite_mds_domain_Prefix_prefix" property="prefix" z="ubYdDJmmhzMVX8IHzP7PSnMBdXI="/>
         </table:table>
     </page:list>

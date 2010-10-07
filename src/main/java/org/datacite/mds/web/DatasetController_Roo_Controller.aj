@@ -94,14 +94,6 @@ privileged aspect DatasetController_Roo_Controller {
         return "datasets/update";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String DatasetController.delete(@PathVariable("id") Long id, @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
-        Dataset.findDataset(id).remove();
-        model.addAttribute("page", (page == null) ? "1" : page.toString());
-        model.addAttribute("size", (size == null) ? "10" : size.toString());
-        return "redirect:/datasets?page=" + ((page == null) ? "1" : page.toString()) + "&size=" + ((size == null) ? "10" : size.toString());
-    }
-    
     @RequestMapping(params = { "find=ByDoiEquals", "form" }, method = RequestMethod.GET)
     public String DatasetController.findDatasetsByDoiEqualsForm(Model model) {
         return "datasets/findDatasetsByDoiEquals";

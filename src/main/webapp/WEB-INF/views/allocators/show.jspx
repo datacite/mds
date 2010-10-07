@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    <page:show id="ps_org_datacite_mds_domain_Allocator" object="${allocator}" path="/allocators" z="mq7cugTEHT2lJTwFem2Yb4I6jj8=">
+    <page:show delete="false" id="ps_org_datacite_mds_domain_Allocator" object="${allocator}" path="/allocators" z="HoWjWsp2XYm0EwzB9aQRn2L/P7A=">
         <field:display field="symbol" id="s_org_datacite_mds_domain_Allocator_symbol" object="${allocator}" z="8VeHkMbYOzqowa/AFx3edtZZSus="/>
         <field:display field="password" id="s_org_datacite_mds_domain_Allocator_password" object="${allocator}" z="kkRrPL4+MVwgynbchM5LYyrPeRI="/>
         <field:display field="name" id="s_org_datacite_mds_domain_Allocator_name" object="${allocator}" z="sJgbHtFrWszjFmUfwXcMPYYXC+4="/>
