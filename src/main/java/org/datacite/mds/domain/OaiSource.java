@@ -15,7 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @RooJavaBean
 @RooToString
 @RooEntity
-public class OaiSources {
+public class OaiSource {
 
     @NotNull
     @Size(min = 5, max = 255)

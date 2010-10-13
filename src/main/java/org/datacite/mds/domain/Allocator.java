@@ -52,4 +52,8 @@ public class Allocator {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
+    
+    private String roleName;
+    
+    private Boolean isActive;
 }

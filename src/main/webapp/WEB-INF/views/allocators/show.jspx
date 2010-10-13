@@ -10,5 +10,7 @@
         <field:display field="doiQuotaAllowed" id="s_org_datacite_mds_domain_Allocator_doiQuotaAllowed" object="${allocator}" z="HFUS5muFQliRObX8oEb4Fm5D9HU="/>
         <field:display field="doiQuotaUsed" id="s_org_datacite_mds_domain_Allocator_doiQuotaUsed" object="${allocator}" z="5nf+Lr69mb8ZTfZI6+YdTxkwPsk="/>
         <field:display field="prefixes" id="s_org_datacite_mds_domain_Allocator_prefixes" object="${allocator}" z="4+e4MC+wxWb7HbLBHDqD++b4Ka8="/>
+    <field:display field="roleName" id="s_org_datacite_mds_domain_Allocator_roleName" object="${allocator}" z="gJjbj3W/jr9y+xUuSKrteDaZgWw="/>
+    <field:display field="isActive" id="s_org_datacite_mds_domain_Allocator_isActive" object="${allocator}" z="74aOaR8T1OanckzBBVV9t9Icnq8="/>
     </page:show>
 </div>

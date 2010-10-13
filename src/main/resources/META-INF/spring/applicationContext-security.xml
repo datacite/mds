@@ -6,28 +6,34 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
-	<!-- HTTP security configurations -->
-    <http auto-config="true" use-expressions="true">
-    	<form-login login-processing-url="/resources/j_spring_security_check" login-page="/login" authentication-failure-url="/login?login_error=t"/>
-        <logout logout-url="/resources/j_spring_security_logout"/>
+	<http auto-config="true" use-expressions="true">
+        <form-login login-processing-url="/static/j_spring_security_check" login-page="/login" authentication-failure-url="/login?login_error=t"/>
+        <logout logout-url="/static/j_spring_security_logout"/>
         
-        <!-- Configure these elements to secure URIs in your application -->
-        <intercept-url pattern="/choices/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/member/**" access="isAuthenticated()" />
-        <intercept-url pattern="/resources/**" access="permitAll" />
-        <intercept-url pattern="/**" access="permitAll" />
+        <!-- API -->
+        <intercept-url method="PUT" pattern="/v1/**" access="hasRole('ROLE_USER')" requires-channel="https" />
+        <intercept-url method="POST" pattern="/v1/**" access="hasRole('ROLE_USER')" requires-channel="https" />
+        <intercept-url method="DELETE" pattern="/v1/**" access="hasRole('ROLE_USER')" requires-channel="https"/>
+        
+        <!-- UI  -->
+        <intercept-url pattern="/allocators/**" access="hasRole('ROLE_ADMIN')" requires-channel="https" />
+        <intercept-url pattern="/datacentres/**" access="hasRole('ROLE_ALLOCATOR')" requires-channel="https" />        
+        <intercept-url pattern="/datasets/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />
+        <intercept-url pattern="/metadatas/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />
+        <intercept-url pattern="/prefixes/**" access="hasRole('ROLE_ADMIN')" requires-channel="https" />
+        <intercept-url pattern="/oaisources/**" access="hasRole('ROLE_ADMIN')" requires-channel="https" />
+        
+        <!-- static content -->
+        <intercept-url pattern="/resources/**" access="permitAll" requires-channel="https" />
+        <intercept-url pattern="/static/**" access="permitAll" requires-channel="https" />
+        <intercept-url pattern="/**" access="permitAll" requires-channel="https" />
+         
     </http>
 
-	<!-- Configure Authentication mechanism -->
     <authentication-manager alias="authenticationManager">
-    	<!-- SHA-256 values can be produced using 'echo -n your_desired_password | sha256sum' (using normal *nix environments) -->
-    	<authentication-provider>
-	    	<password-encoder hash="sha-256"/>
-	        <user-service>
-	            <user name="admin" password="8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918" authorities="ROLE_ADMIN"/>
-		        <user name="user" password="04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb" authorities="ROLE_USER"/>
-		    </user-service>
-    	</authentication-provider>
-	</authentication-manager>
+        <authentication-provider user-service-ref='myUserDetailsService'/>
+    </authentication-manager>
+    
+    <beans:bean id="myUserDetailsService" class="org.datacite.mds.service.impl.UserDetailsServiceImpl" />
 
 </beans:beans>

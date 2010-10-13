@@ -5,8 +5,8 @@ package org.datacite.mds.domain;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect OaiSources_Roo_Configurable {
+privileged aspect OaiSource_Roo_Configurable {
     
-    declare @type: OaiSources: @Configurable;
+    declare @type: OaiSource: @Configurable;
     
 }

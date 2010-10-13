@@ -36,10 +36,10 @@ privileged aspect MetadataController_Roo_Controller {
         if (result.hasErrors()) {
             model.addAttribute("metadata", metadata);
             addDateTimeFormatPatterns(model);
-            return "metadatas/create";
+            return "metadata/create";
         }
         metadata.persist();
-        return "redirect:/metadatas/" + metadata.getId();
+        return "redirect:/metadata/" + metadata.getId();
     }
     
     @RequestMapping(params = "form", method = RequestMethod.GET)
@@ -51,7 +51,7 @@ privileged aspect MetadataController_Roo_Controller {
             dependencies.add(new String[]{"dataset", "datasets"});
         }
         model.addAttribute("dependencies", dependencies);
-        return "metadatas/create";
+        return "metadata/create";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -59,7 +59,7 @@ privileged aspect MetadataController_Roo_Controller {
         addDateTimeFormatPatterns(model);
         model.addAttribute("metadata", Metadata.findMetadata(id));
         model.addAttribute("itemId", id);
-        return "metadatas/show";
+        return "metadata/show";
     }
     
     @RequestMapping(method = RequestMethod.GET)
@@ -73,7 +73,7 @@ privileged aspect MetadataController_Roo_Controller {
             model.addAttribute("metadatas", Metadata.findAllMetadatas());
         }
         addDateTimeFormatPatterns(model);
-        return "metadatas/list";
+        return "metadata/list";
     }
     
     @RequestMapping(method = RequestMethod.PUT)
@@ -81,17 +81,17 @@ privileged aspect MetadataController_Roo_Controller {
         if (result.hasErrors()) {
             model.addAttribute("metadata", metadata);
             addDateTimeFormatPatterns(model);
-            return "metadatas/update";
+            return "metadata/update";
         }
         metadata.merge();
-        return "redirect:/metadatas/" + metadata.getId();
+        return "redirect:/metadata/" + metadata.getId();
     }
     
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String MetadataController.updateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("metadata", Metadata.findMetadata(id));
         addDateTimeFormatPatterns(model);
-        return "metadatas/update";
+        return "metadata/update";
     }
     
     @ModelAttribute("datasets")

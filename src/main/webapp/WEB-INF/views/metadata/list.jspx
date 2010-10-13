@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" z="mljgaghzFHzbNyUiiA4AuuYUK4g=">
+        <table:table data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadata" z="P8A/NuiZwKPYmc+ZGaCNZ4zYeXg=">
+            <table:column id="c_org_datacite_mds_domain_Metadata_xml" property="xml" z="AOEY9+VWSc2RYk7HpXKq5Jdg5l8="/>
+            <table:column id="c_org_datacite_mds_domain_Metadata_metadataVersion" property="metadataVersion" z="H/GGYlZBJrZWWq2e7VIZaUn+1ck="/>
+            <table:column id="c_org_datacite_mds_domain_Metadata_lastUpdated" property="lastUpdated" z="xpWdPsuT/G30qfA7HTN2EdSJOhs="/>
+            <table:column id="c_org_datacite_mds_domain_Metadata_dataset" property="dataset" z="JH7VlPj7IaFLuCHhAnyMgkik3rc="/>
+        </table:table>
+    </page:list>
+</div>

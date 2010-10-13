@@ -5,7 +5,7 @@ package org.datacite.mds.domain;
 
 import java.util.List;
 import java.util.Random;
-import org.datacite.mds.domain.OaiSources;
+import org.datacite.mds.domain.OaiSource;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +16,10 @@ privileged aspect OaiSourcesDataOnDemand_Roo_DataOnDemand {
     
     private Random OaiSourcesDataOnDemand.rnd = new java.security.SecureRandom();
     
-    private List<OaiSources> OaiSourcesDataOnDemand.data;
+    private List<OaiSource> OaiSourcesDataOnDemand.data;
     
-    public OaiSources OaiSourcesDataOnDemand.getNewTransientOaiSources(int index) {
-        org.datacite.mds.domain.OaiSources obj = new org.datacite.mds.domain.OaiSources();
+    public OaiSource OaiSourcesDataOnDemand.getNewTransientOaiSource(int index) {
+        org.datacite.mds.domain.OaiSource obj = new org.datacite.mds.domain.OaiSource();
         obj.setLastHarvest(new java.util.Date());
         obj.setLastStatus("lastStatus_" + index);
         java.lang.String owner = "owner_" + index;
@@ -35,21 +35,21 @@ privileged aspect OaiSourcesDataOnDemand_Roo_DataOnDemand {
         return obj;
     }
     
-    public OaiSources OaiSourcesDataOnDemand.getSpecificOaiSources(int index) {
+    public OaiSource OaiSourcesDataOnDemand.getSpecificOaiSource(int index) {
         init();
         if (index < 0) index = 0;
         if (index > (data.size() - 1)) index = data.size() - 1;
-        OaiSources obj = data.get(index);
-        return OaiSources.findOaiSources(obj.getId());
+        OaiSource obj = data.get(index);
+        return OaiSource.findOaiSource(obj.getId());
     }
     
-    public OaiSources OaiSourcesDataOnDemand.getRandomOaiSources() {
+    public OaiSource OaiSourcesDataOnDemand.getRandomOaiSource() {
         init();
-        OaiSources obj = data.get(rnd.nextInt(data.size()));
-        return OaiSources.findOaiSources(obj.getId());
+        OaiSource obj = data.get(rnd.nextInt(data.size()));
+        return OaiSource.findOaiSource(obj.getId());
     }
     
-    public boolean OaiSourcesDataOnDemand.modifyOaiSources(OaiSources obj) {
+    public boolean OaiSourcesDataOnDemand.modifyOaiSource(OaiSource obj) {
         return false;
     }
     
@@ -59,15 +59,15 @@ privileged aspect OaiSourcesDataOnDemand_Roo_DataOnDemand {
             return;
         }
         
-        data = org.datacite.mds.domain.OaiSources.findOaiSourcesEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'OaiSources' illegally returned null");
+        data = org.datacite.mds.domain.OaiSource.findOaiSourceEntries(0, 10);
+        if (data == null) throw new IllegalStateException("Find entries implementation for 'OaiSource' illegally returned null");
         if (!data.isEmpty()) {
             return;
         }
         
-        data = new java.util.ArrayList<org.datacite.mds.domain.OaiSources>();
+        data = new java.util.ArrayList<org.datacite.mds.domain.OaiSource>();
         for (int i = 0; i < 10; i++) {
-            org.datacite.mds.domain.OaiSources obj = getNewTransientOaiSources(i);
+            org.datacite.mds.domain.OaiSource obj = getNewTransientOaiSource(i);
             obj.persist();
             data.add(obj);
         }

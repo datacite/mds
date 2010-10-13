@@ -3,6 +3,7 @@
 
 package org.datacite.mds.domain;
 
+import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
 import java.util.Set;
@@ -72,6 +73,22 @@ privileged aspect Allocator_Roo_JavaBean {
     
     public void Allocator.setPrefixes(Set<Prefix> prefixes) {
         this.prefixes = prefixes;
+    }
+    
+    public String Allocator.getRoleName() {
+        return this.roleName;
+    }
+    
+    public void Allocator.setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+    
+    public Boolean Allocator.getIsActive() {
+        return this.isActive;
+    }
+    
+    public void Allocator.setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
     
 }
