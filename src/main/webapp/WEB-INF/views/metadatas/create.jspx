@@ -7,7 +7,7 @@
         <field:datetime dateTimePattern="${metadata_lastupdated_date_format}" field="lastUpdated" id="c_org_datacite_mds_domain_Metadata_lastUpdated" z="TmD8dnRQpIoz6hE4g5hyfn4zsiU="/>
         <field:select field="dataset" id="c_org_datacite_mds_domain_Metadata_dataset" itemValue="id" items="${datasets}" path="/datasets" required="true" z="/80V3uLXRRQ6UsBXbY6Gg5FG+9Y="/>
     <field:input field="metadataVersion" id="c_org_datacite_mds_domain_Metadata_metadataVersion" min="0" validationMessageCode="field_invalid_integer" z="0EnXchb6sEQf9VfGjWnwToeSJ00="/>
-    <field:input field="xml" id="c_org_datacite_mds_domain_Metadata_xml" z="cqu+07pQZkNd3lZRfGu38dXEcqA="/>
+    <field:upload field="xml" id="c_org_datacite_mds_domain_Metadata_xml" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Metadata" render="${not empty dependencies}" z="/BeB2uLyPmZHab3U5/roD986PXs="/>
 </div>
