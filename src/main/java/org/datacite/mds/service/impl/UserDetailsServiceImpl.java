@@ -14,6 +14,9 @@ package org.datacite.mds.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.persistence.NoResultException;
+
+import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.springframework.dao.DataAccessException;
@@ -29,6 +32,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    Logger log4j = Logger.getLogger(UserDetailsServiceImpl.class);
+    
     /*
      * (non-Javadoc)
      * 
@@ -38,15 +43,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 
+        log4j.debug("trying to find user name " + username);
+        
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         String symbol, password, role;
         boolean isActive;
         
-        Allocator allocator = (Allocator) Allocator.findAllocatorsBySymbolEquals(username).getSingleResult();
+        Allocator allocator = null;
+        try {
+            allocator = (Allocator) Allocator.findAllocatorsBySymbolEquals(username).getSingleResult();
+        } catch (Exception e) {
+            log4j.debug("no allocator found");
+        }
 
         if (allocator != null) {
+            
+            log4j.debug("found allocator = " + username);
 
-            authorities.add(new GrantedAuthorityImpl(allocator.getRoleName()));
             symbol = allocator.getSymbol(); 
             password = allocator.getPassword();
             role = allocator.getRoleName();
@@ -54,11 +67,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             
         } else {
 
-            Datacentre datacentre = (Datacentre) Datacentre.findDatacentresBySymbolEquals(username).getSingleResult();
-
-            if (datacentre == null)
+            Datacentre datacentre;
+            try {
+                datacentre = (Datacentre) Datacentre.findDatacentresBySymbolEquals(username).getSingleResult();
+            } catch (Exception e) {
+                log4j.debug("no datacentre found");
                 throw new UsernameNotFoundException("user not found");
+            }
 
+            log4j.debug("found datacentre " + username);
             symbol = datacentre.getSymbol(); 
             password = datacentre.getPassword();
             role = datacentre.getRoleName();
