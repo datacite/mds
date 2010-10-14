@@ -54,6 +54,8 @@ public class Datacentre {
     private Integer doiQuotaUsed;
 
     private Boolean isActive;
+    
+    private String roleName;
 
     @Size(min = 3, max = 255)
     private String domains;
