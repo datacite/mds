@@ -4,8 +4,9 @@ src/main/resources/META-INF/spring/email.properties
 src/main/resources/log4j.properties
 *.log
 *.roo
-roo_*.zip
+mds_*.zip
 target/
 .classpath
 .project
 .settings
+.springBeans
