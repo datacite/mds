@@ -23,17 +23,17 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     @Test
     public void OaiSourcesIntegrationTest.testCountOaiSourceses() {
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", dod.getRandomOaiSources());
-        long count = org.datacite.mds.domain.OaiSource.countOaiSourceses();
+        long count = org.datacite.mds.domain.OaiSources.countOaiSourceses();
         org.junit.Assert.assertTrue("Counter for 'OaiSources' incorrectly reported there were no entries", count > 0);
     }
     
     @Test
     public void OaiSourcesIntegrationTest.testFindOaiSources() {
-        org.datacite.mds.domain.OaiSource obj = dod.getRandomOaiSources();
+        org.datacite.mds.domain.OaiSources obj = dod.getRandomOaiSources();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", obj);
         java.lang.Long id = obj.getId();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to provide an identifier", id);
-        obj = org.datacite.mds.domain.OaiSource.findOaiSources(id);
+        obj = org.datacite.mds.domain.OaiSources.findOaiSources(id);
         org.junit.Assert.assertNotNull("Find method for 'OaiSources' illegally returned null for id '" + id + "'", obj);
         org.junit.Assert.assertEquals("Find method for 'OaiSources' returned the incorrect identifier", id, obj.getId());
     }
@@ -41,9 +41,9 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     @Test
     public void OaiSourcesIntegrationTest.testFindAllOaiSourceses() {
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", dod.getRandomOaiSources());
-        long count = org.datacite.mds.domain.OaiSource.countOaiSourceses();
+        long count = org.datacite.mds.domain.OaiSources.countOaiSourceses();
         org.junit.Assert.assertTrue("Too expensive to perform a find all test for 'OaiSources', as there are " + count + " entries; set the findAllMaximum to exceed this value or set findAll=false on the integration test annotation to disable the test", count < 250);
-        java.util.List<org.datacite.mds.domain.OaiSource> result = org.datacite.mds.domain.OaiSource.findAllOaiSourceses();
+        java.util.List<org.datacite.mds.domain.OaiSources> result = org.datacite.mds.domain.OaiSources.findAllOaiSourceses();
         org.junit.Assert.assertNotNull("Find all method for 'OaiSources' illegally returned null", result);
         org.junit.Assert.assertTrue("Find all method for 'OaiSources' failed to return any data", result.size() > 0);
     }
@@ -51,9 +51,9 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     @Test
     public void OaiSourcesIntegrationTest.testFindOaiSourcesEntries() {
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", dod.getRandomOaiSources());
-        long count = org.datacite.mds.domain.OaiSource.countOaiSourceses();
+        long count = org.datacite.mds.domain.OaiSources.countOaiSourceses();
         if (count > 20) count = 20;
-        java.util.List<org.datacite.mds.domain.OaiSource> result = org.datacite.mds.domain.OaiSource.findOaiSourcesEntries(0, (int) count);
+        java.util.List<org.datacite.mds.domain.OaiSources> result = org.datacite.mds.domain.OaiSources.findOaiSourcesEntries(0, (int) count);
         org.junit.Assert.assertNotNull("Find entries method for 'OaiSources' illegally returned null", result);
         org.junit.Assert.assertEquals("Find entries method for 'OaiSources' returned an incorrect number of entries", count, result.size());
     }
@@ -61,11 +61,11 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     @Test
     @Transactional
     public void OaiSourcesIntegrationTest.testFlush() {
-        org.datacite.mds.domain.OaiSource obj = dod.getRandomOaiSources();
+        org.datacite.mds.domain.OaiSources obj = dod.getRandomOaiSources();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", obj);
         java.lang.Long id = obj.getId();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to provide an identifier", id);
-        obj = org.datacite.mds.domain.OaiSource.findOaiSources(id);
+        obj = org.datacite.mds.domain.OaiSources.findOaiSources(id);
         org.junit.Assert.assertNotNull("Find method for 'OaiSources' illegally returned null for id '" + id + "'", obj);
         boolean modified =  dod.modifyOaiSources(obj);
         java.lang.Integer currentVersion = obj.getVersion();
@@ -76,11 +76,11 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     @Test
     @Transactional
     public void OaiSourcesIntegrationTest.testMerge() {
-        org.datacite.mds.domain.OaiSource obj = dod.getRandomOaiSources();
+        org.datacite.mds.domain.OaiSources obj = dod.getRandomOaiSources();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", obj);
         java.lang.Long id = obj.getId();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to provide an identifier", id);
-        obj = org.datacite.mds.domain.OaiSource.findOaiSources(id);
+        obj = org.datacite.mds.domain.OaiSources.findOaiSources(id);
         boolean modified =  dod.modifyOaiSources(obj);
         java.lang.Integer currentVersion = obj.getVersion();
         obj.merge();
@@ -92,7 +92,7 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     @Transactional
     public void OaiSourcesIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", dod.getRandomOaiSources());
-        org.datacite.mds.domain.OaiSource obj = dod.getNewTransientOaiSources(Integer.MAX_VALUE);
+        org.datacite.mds.domain.OaiSources obj = dod.getNewTransientOaiSources(Integer.MAX_VALUE);
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to provide a new transient entity", obj);
         org.junit.Assert.assertNull("Expected 'OaiSources' identifier to be null", obj.getId());
         obj.persist();
@@ -103,14 +103,14 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     @Test
     @Transactional
     public void OaiSourcesIntegrationTest.testRemove() {
-        org.datacite.mds.domain.OaiSource obj = dod.getRandomOaiSources();
+        org.datacite.mds.domain.OaiSources obj = dod.getRandomOaiSources();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", obj);
         java.lang.Long id = obj.getId();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to provide an identifier", id);
-        obj = org.datacite.mds.domain.OaiSource.findOaiSources(id);
+        obj = org.datacite.mds.domain.OaiSources.findOaiSources(id);
         obj.remove();
         obj.flush();
-        org.junit.Assert.assertNull("Failed to remove 'OaiSources' with identifier '" + id + "'", org.datacite.mds.domain.OaiSource.findOaiSources(id));
+        org.junit.Assert.assertNull("Failed to remove 'OaiSources' with identifier '" + id + "'", org.datacite.mds.domain.OaiSources.findOaiSources(id));
     }
     
 }

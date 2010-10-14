@@ -1,8 +1,8 @@
 package org.datacite.mds.domain;
 
 import org.springframework.roo.addon.dod.RooDataOnDemand;
-import org.datacite.mds.domain.OaiSource;
+import org.datacite.mds.domain.OaiSources;
 
-@RooDataOnDemand(entity = OaiSource.class)
+@RooDataOnDemand(entity = OaiSources.class)
 public class OaiSourcesDataOnDemand {
 }

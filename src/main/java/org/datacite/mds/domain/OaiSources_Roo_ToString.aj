@@ -5,9 +5,9 @@ package org.datacite.mds.domain;
 
 import java.lang.String;
 
-privileged aspect OaiSource_Roo_ToString {
+privileged aspect OaiSources_Roo_ToString {
     
-    public String OaiSource.toString() {
+    public String OaiSources.toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Version: ").append(getVersion()).append(", ");

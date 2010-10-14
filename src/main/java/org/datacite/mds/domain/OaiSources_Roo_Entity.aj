@@ -14,93 +14,93 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Version;
-import org.datacite.mds.domain.OaiSource;
+import org.datacite.mds.domain.OaiSources;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect OaiSource_Roo_Entity {
+privileged aspect OaiSources_Roo_Entity {
     
     @PersistenceContext
-    transient EntityManager OaiSource.entityManager;
+    transient EntityManager OaiSources.entityManager;
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long OaiSource.id;
+    private Long OaiSources.id;
     
     @Version
     @Column(name = "version")
-    private Integer OaiSource.version;
+    private Integer OaiSources.version;
     
-    public Long OaiSource.getId() {
+    public Long OaiSources.getId() {
         return this.id;
     }
     
-    public void OaiSource.setId(Long id) {
+    public void OaiSources.setId(Long id) {
         this.id = id;
     }
     
-    public Integer OaiSource.getVersion() {
+    public Integer OaiSources.getVersion() {
         return this.version;
     }
     
-    public void OaiSource.setVersion(Integer version) {
+    public void OaiSources.setVersion(Integer version) {
         this.version = version;
     }
     
     @Transactional
-    public void OaiSource.persist() {
+    public void OaiSources.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
     
     @Transactional
-    public void OaiSource.remove() {
+    public void OaiSources.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            OaiSource attached = this.entityManager.find(this.getClass(), this.id);
+            OaiSources attached = this.entityManager.find(this.getClass(), this.id);
             this.entityManager.remove(attached);
         }
     }
     
     @Transactional
-    public void OaiSource.flush() {
+    public void OaiSources.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
     
     @Transactional
-    public OaiSource OaiSource.merge() {
+    public OaiSources OaiSources.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
-        OaiSource merged = this.entityManager.merge(this);
+        OaiSources merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
     }
     
-    public static final EntityManager OaiSource.entityManager() {
-        EntityManager em = new OaiSource().entityManager;
+    public static final EntityManager OaiSources.entityManager() {
+        EntityManager em = new OaiSources().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
-    public static long OaiSource.countOaiSources() {
-        return ((Number) entityManager().createQuery("select count(o) from OaiSource o").getSingleResult()).longValue();
+    public static long OaiSources.countOaiSourceses() {
+        return ((Number) entityManager().createQuery("select count(o) from OaiSources o").getSingleResult()).longValue();
     }
     
     @SuppressWarnings("unchecked")
-    public static List<OaiSource> OaiSource.findAllOaiSources() {
-        return entityManager().createQuery("select o from OaiSource o").getResultList();
+    public static List<OaiSources> OaiSources.findAllOaiSourceses() {
+        return entityManager().createQuery("select o from OaiSources o").getResultList();
     }
     
-    public static OaiSource OaiSource.findOaiSource(Long id) {
+    public static OaiSources OaiSources.findOaiSources(Long id) {
         if (id == null) return null;
-        return entityManager().find(OaiSource.class, id);
+        return entityManager().find(OaiSources.class, id);
     }
     
     @SuppressWarnings("unchecked")
-    public static List<OaiSource> OaiSource.findOaiSourceEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from OaiSource o").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    public static List<OaiSources> OaiSources.findOaiSourcesEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("select o from OaiSources o").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

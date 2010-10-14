@@ -108,12 +108,4 @@ privileged aspect Datacentre_Roo_JavaBean {
         this.prefixes = prefixes;
     }
     
-    public String Datacentre.getRoleName() {
-        return this.roleName;
-    }
-    
-    public void Datacentre.setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-    
 }

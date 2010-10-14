@@ -18,9 +18,7 @@ privileged aspect Allocator_Roo_ToString {
         sb.append("ContactEmail: ").append(getContactEmail()).append(", ");
         sb.append("DoiQuotaAllowed: ").append(getDoiQuotaAllowed()).append(", ");
         sb.append("DoiQuotaUsed: ").append(getDoiQuotaUsed()).append(", ");
-        sb.append("Prefixes: ").append(getPrefixes() == null ? "null" : getPrefixes().size()).append(", ");
-        sb.append("RoleName: ").append(getRoleName()).append(", ");
-        sb.append("IsActive: ").append(getIsActive());
+        sb.append("Prefixes: ").append(getPrefixes() == null ? "null" : getPrefixes().size());
         return sb.toString();
     }
     

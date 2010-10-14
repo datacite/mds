@@ -68,6 +68,4 @@ public class Datacentre {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
-    
-    private String roleName;
 }

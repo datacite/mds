@@ -6,37 +6,37 @@ package org.datacite.mds.domain;
 import java.lang.String;
 import java.util.Date;
 
-privileged aspect OaiSource_Roo_JavaBean {
+privileged aspect OaiSources_Roo_JavaBean {
     
-    public String OaiSource.getUrl() {
+    public String OaiSources.getUrl() {
         return this.url;
     }
     
-    public void OaiSource.setUrl(String url) {
+    public void OaiSources.setUrl(String url) {
         this.url = url;
     }
     
-    public String OaiSource.getOwner() {
+    public String OaiSources.getOwner() {
         return this.owner;
     }
     
-    public void OaiSource.setOwner(String owner) {
+    public void OaiSources.setOwner(String owner) {
         this.owner = owner;
     }
     
-    public Date OaiSource.getLastHarvest() {
+    public Date OaiSources.getLastHarvest() {
         return this.lastHarvest;
     }
     
-    public void OaiSource.setLastHarvest(Date lastHarvest) {
+    public void OaiSources.setLastHarvest(Date lastHarvest) {
         this.lastHarvest = lastHarvest;
     }
     
-    public String OaiSource.getLastStatus() {
+    public String OaiSources.getLastStatus() {
         return this.lastStatus;
     }
     
-    public void OaiSource.setLastStatus(String lastStatus) {
+    public void OaiSources.setLastStatus(String lastStatus) {
         this.lastStatus = lastStatus;
     }
     
