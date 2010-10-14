@@ -1,6 +1,8 @@
 package org.datacite.mds.web;
 
 import org.datacite.mds.domain.Metadata;
+import org.datacite.mds.util.Converters;
+import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -16,5 +18,9 @@ public class MetadataController {
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+        if (binder.getConversionService() instanceof GenericConversionService) {
+            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
+            conversionService.addConverter(Converters.getByteArrayConverter());
+        }
     }
 }
