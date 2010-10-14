@@ -36,6 +36,7 @@ privileged aspect AllocatorDataOnDemand_Roo_DataOnDemand {
             doiQuotaUsed = 999999999;
         }
         obj.setDoiQuotaUsed(doiQuotaUsed);
+        obj.setIsActive(new Boolean(true));
         java.lang.String name = "name_" + index;
         if (name.length() > 255) {
             name  = name.substring(0, 255);
@@ -46,6 +47,7 @@ privileged aspect AllocatorDataOnDemand_Roo_DataOnDemand {
             password  = password.substring(0, 30);
         }
         obj.setPassword(password);
+        obj.setRoleName("roleName_" + index);
         java.lang.String symbol = "symbol_" + index;
         if (symbol.length() > 8) {
             symbol  = symbol.substring(0, 8);

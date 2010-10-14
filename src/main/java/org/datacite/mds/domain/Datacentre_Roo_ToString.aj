@@ -19,6 +19,7 @@ privileged aspect Datacentre_Roo_ToString {
         sb.append("DoiQuotaAllowed: ").append(getDoiQuotaAllowed()).append(", ");
         sb.append("DoiQuotaUsed: ").append(getDoiQuotaUsed()).append(", ");
         sb.append("IsActive: ").append(getIsActive()).append(", ");
+        sb.append("RoleName: ").append(getRoleName()).append(", ");
         sb.append("Domains: ").append(getDomains()).append(", ");
         sb.append("Comments: ").append(getComments()).append(", ");
         sb.append("Allocator: ").append(getAllocator()).append(", ");

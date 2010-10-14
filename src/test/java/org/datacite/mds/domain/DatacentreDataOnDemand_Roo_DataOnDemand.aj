@@ -55,6 +55,7 @@ privileged aspect DatacentreDataOnDemand_Roo_DataOnDemand {
             password  = password.substring(0, 30);
         }
         obj.setPassword(password);
+        obj.setRoleName("roleName_" + index);
         java.lang.String symbol = "symbol_" + index;
         if (symbol.length() > 17) {
             symbol  = symbol.substring(0, 17);
