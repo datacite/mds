@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.validation.constraints.Symbol;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.ManyToOne;
@@ -25,8 +26,7 @@ import javax.persistence.CascadeType;
 public class Datacentre {
 
     @NotNull
-    @Size(min = 5, max = 17)
-    @Pattern(regexp = "[A-Z]+.[A-Z].")
+    @Symbol(Symbol.Type.DATACENTRE)
     private String symbol;
 
     @NotNull
