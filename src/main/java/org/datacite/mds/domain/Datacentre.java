@@ -10,6 +10,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 import org.datacite.mds.domain.Allocator;
+import org.hibernate.validator.constraints.Email;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import java.util.Set;
@@ -40,7 +42,7 @@ public class Datacentre {
     private String contactName;
 
     @NotNull
-    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\\b")
+    @Email
     private String contactEmail;
 
     @NotNull

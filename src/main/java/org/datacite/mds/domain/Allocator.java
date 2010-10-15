@@ -1,6 +1,8 @@
 package org.datacite.mds.domain;
 
 import javax.persistence.Entity;
+
+import org.hibernate.validator.constraints.Email;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.roo.addon.entity.RooEntity;
@@ -37,7 +39,7 @@ public class Allocator {
     private String contactName;
 
     @NotNull
-    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\\b")
+    @Email
     private String contactEmail;
 
     @NotNull
