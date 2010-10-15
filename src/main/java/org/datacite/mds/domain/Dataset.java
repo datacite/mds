@@ -14,6 +14,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.validation.constraints.Doi;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 
@@ -24,8 +26,7 @@ import javax.persistence.JoinColumn;
 public class Dataset {
 
     @NotNull
-    @Size(min = 9, max = 255)
-    @Pattern(regexp = "10.(\\d)+/(\\S)+")
+    @Doi
     private String doi;
 
     @NotNull
