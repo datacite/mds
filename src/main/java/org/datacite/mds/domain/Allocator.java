@@ -2,13 +2,13 @@ package org.datacite.mds.domain;
 
 import javax.persistence.Entity;
 
+import org.datacite.mds.validation.constraints.Symbol;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.roo.addon.entity.RooEntity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 import java.util.Set;
@@ -22,8 +22,7 @@ import javax.persistence.CascadeType;
 public class Allocator {
 
     @NotNull
-    @Size(min = 2, max = 8)
-    @Pattern(regexp = "[A-Z]+")
+    @Symbol(Symbol.Type.ALLOCATOR)
     private String symbol;
 
     @NotNull
