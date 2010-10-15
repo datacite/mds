@@ -24,7 +24,7 @@ public class OaiSources {
     private String url;
 
     @NotNull
-    @Symbol({Symbol.Type.DATACENTRE, Symbol.Type.ALLOCATOR})
+    @Symbol(hasToExist=true, value={Symbol.Type.DATACENTRE, Symbol.Type.ALLOCATOR})
     private String owner;
 
     @Temporal(TemporalType.TIMESTAMP)

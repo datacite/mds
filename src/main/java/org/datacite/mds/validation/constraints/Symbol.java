@@ -30,6 +30,8 @@ public @interface Symbol {
     };
 
     public abstract Type[] value();
+    
+    public abstract boolean hasToExist() default false; 
 
     public abstract String message() default "";
 
