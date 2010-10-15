@@ -29,13 +29,6 @@ public @interface Symbol {
         }
     };
 
-    static final HashMap<Type, String> MESSAGES = new HashMap<Type, String>() {
-        {
-            put(Type.ALLOCATOR, "No Allocator");
-            put(Type.DATACENTRE, "No Datacentre");
-        }
-    };
-
     public abstract Type[] value();
 
     public abstract String message() default "";

@@ -24,7 +24,8 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
             if (Symbol.PATTERNS.get(t).matcher(symbol).matches()) {
                 return true;
             } else {
-                context.buildConstraintViolationWithTemplate(Symbol.MESSAGES.get(t)).addConstraintViolation();
+                String message = "{org.datacite.mds.validation.constraints.Symbol." + t.name() + ".message}";
+                context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
             }
         }
 
