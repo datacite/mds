@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.validation.constraints.ListOfDomains;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.hibernate.validator.constraints.Email;
 
@@ -59,7 +60,8 @@ public class Datacentre {
     
     private String roleName;
 
-    @Size(min = 3, max = 255)
+    @Size(min = 0, max = 255)
+    @ListOfDomains
     private String domains;
 
     @Size(max = 4000)
