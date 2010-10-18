@@ -20,11 +20,7 @@ privileged aspect PrefixDataOnDemand_Roo_DataOnDemand {
     
     public Prefix PrefixDataOnDemand.getNewTransientPrefix(int index) {
         org.datacite.mds.domain.Prefix obj = new org.datacite.mds.domain.Prefix();
-        java.lang.String prefix = "prefix_" + index;
-        if (prefix.length() > 80) {
-            prefix  = prefix.substring(0, 80);
-        }
-        obj.setPrefix(prefix);
+        obj.setPrefix("prefix_" + index);
         return obj;
     }
     

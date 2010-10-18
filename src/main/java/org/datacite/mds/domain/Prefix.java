@@ -1,6 +1,8 @@
 package org.datacite.mds.domain;
 
 import javax.persistence.Entity;
+
+import org.datacite.mds.validation.constraints.DoiPrefix;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.roo.addon.entity.RooEntity;
@@ -15,7 +17,6 @@ import javax.validation.constraints.Pattern;
 public class Prefix {
 
     @NotNull
-    @Size(min = 4, max = 80)
-    @Pattern(regexp = "10.(\\d)+")
+    @DoiPrefix
     private String prefix;
 }
