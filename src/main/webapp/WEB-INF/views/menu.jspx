@@ -3,14 +3,14 @@
 	<jsp:output omit-xml-declaration="yes"/>
 
 <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
-    <sec:authorize ifAllGranted="ROLE_ADMIN">
+    <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_DEV">
         <menu:category id="c_prefix" z="UoY6ZmE5dw0GJWXxFuRnP4Ci2Pw=">
             <menu:item id="i_prefix_new" messageCode="global_menu_new" url="/prefixes?form" z="Mn3ToVTR3O12jAFfx2gTHcz2Qt4="/>
         <menu:item id="i_prefix_list" messageCode="global_menu_list" url="/prefixes?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="hmsxdSELaBMrN/rSnL1DALqMBKw="/>
         <menu:item id="fi_prefix_prefixlike" messageCode="global_menu_find" url="/prefixes?find=ByPrefixLike&amp;form" z="OJncnX3HQzOQ1yRop65exEyPmHk="/>
         </menu:category>
     </sec:authorize>
-    <sec:authorize ifAllGranted="ROLE_ADMIN">
+    <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_DEV">
     <menu:category id="c_allocator" z="iLSmvxIkMXVJXHF0wFMGX9o0qP0=">
             <menu:item id="i_allocator_new" messageCode="global_menu_new" url="/allocators?form" z="y/NPimJktFG6tgpMZhm/cttPZLc="/>
         <menu:item id="i_allocator_list" messageCode="global_menu_list" url="/allocators?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="FIHHGmz8QJFpEnwCyoCIxo39CL0="/>
@@ -18,7 +18,7 @@
         <menu:item id="fi_allocator_namelike" messageCode="global_menu_find" url="/allocators?find=ByNameLike&amp;form" z="jBRvOq9ZUHDYiSDUPNMBP9UwAA0="/>
         </menu:category>
     </sec:authorize>
-    <sec:authorize ifAllGranted="ROLE_ALLOCATOR">
+    <sec:authorize ifAnyGranted="ROLE_ALLOCATOR,ROLE_DEV">
     <menu:category id="c_datacentre" z="8aWSi7JtMgKf/+09az41cVJ+kvY=">
             <menu:item id="i_datacentre_new" messageCode="global_menu_new" url="/datacentres?form" z="G7kSQp6HuNiDpBdOT42AroCeTgI="/>
         <menu:item id="i_datacentre_list" messageCode="global_menu_list" url="/datacentres?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="zgSBRBhA5tuhYY64U2o8qkB08Wg="/>
@@ -26,13 +26,13 @@
         <menu:item id="fi_datacentre_namelike" messageCode="global_menu_find" url="/datacentres?find=ByNameLike&amp;form" z="j1pnMvDkTtNqhc+d/AhXyDN7/1U="/>
         </menu:category>
     </sec:authorize>
-    <sec:authorize ifAllGranted="ROLE_ADMIN">
+    <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_DEV">
     <menu:category id="c_oaisources" z="ez5c+rl2h4racFvE24tCqxTjaiM=">
             <menu:item id="i_oaisources_new" messageCode="global_menu_new" url="/oaisourceses?form" z="0qFYp4rCDv+XBbIG017UBwqARJU="/>
         <menu:item id="i_oaisources_list" messageCode="global_menu_list" url="/oaisourceses?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="cxqnKCjkoEZt2oStEPCBtFt8DtE="/>
         </menu:category>
     </sec:authorize>
-    <sec:authorize ifAllGranted="ROLE_DATACENTRE">
+    <sec:authorize ifAnyGranted="ROLE_DATACENTRE,ROLE_DEV">
     <menu:category id="c_dataset" z="8v6u2JQw6ua8kbT2zW1sFUNGceU=">
             <menu:item id="i_dataset_new" messageCode="global_menu_new" url="/datasets?form" z="IkOAVp6qsKlvJ7TI906mWO6PP2I="/>
         <menu:item id="i_dataset_list" messageCode="global_menu_list" url="/datasets?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="fFXe4q3EzMqB1C1UfUZC9jrK/TA="/>
