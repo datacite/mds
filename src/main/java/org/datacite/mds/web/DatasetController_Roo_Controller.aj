@@ -13,14 +13,10 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -108,31 +104,6 @@ privileged aspect DatasetController_Roo_Controller {
     @ModelAttribute("datacentres")
     public Collection<Datacentre> DatasetController.populateDatacentres() {
         return Datacentre.findAllDatacentres();
-    }
-    
-    Converter<Datacentre, String> DatasetController.getDatacentreConverter() {
-        return new Converter<Datacentre, String>() {
-            public String convert(Datacentre datacentre) {
-                return new StringBuilder().append(datacentre.getSymbol()).append(" ").append(datacentre.getPassword()).append(" ").append(datacentre.getName()).toString();
-            }
-        };
-    }
-    
-    Converter<Dataset, String> DatasetController.getDatasetConverter() {
-        return new Converter<Dataset, String>() {
-            public String convert(Dataset dataset) {
-                return new StringBuilder().append(dataset.getDoi()).append(" ").append(dataset.getLastLandingPageStatus()).append(" ").append(dataset.getLastLandingPageStatusCheck()).toString();
-            }
-        };
-    }
-    
-    @InitBinder
-    void DatasetController.registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(getDatacentreConverter());
-            conversionService.addConverter(getDatasetConverter());
-        }
     }
     
     void DatasetController.addDateTimeFormatPatterns(Model model) {

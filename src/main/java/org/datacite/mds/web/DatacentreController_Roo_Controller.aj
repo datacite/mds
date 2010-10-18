@@ -12,14 +12,10 @@ import javax.validation.Valid;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -117,40 +113,6 @@ privileged aspect DatacentreController_Roo_Controller {
     @ModelAttribute("prefixes")
     public Collection<Prefix> DatacentreController.populatePrefixes() {
         return Prefix.findAllPrefixes();
-    }
-    
-    Converter<Allocator, String> DatacentreController.getAllocatorConverter() {
-        return new Converter<Allocator, String>() {
-            public String convert(Allocator allocator) {
-                return new StringBuilder().append(allocator.getSymbol()).append(" ").append(allocator.getPassword()).append(" ").append(allocator.getName()).toString();
-            }
-        };
-    }
-    
-    Converter<Datacentre, String> DatacentreController.getDatacentreConverter() {
-        return new Converter<Datacentre, String>() {
-            public String convert(Datacentre datacentre) {
-                return new StringBuilder().append(datacentre.getSymbol()).append(" ").append(datacentre.getPassword()).append(" ").append(datacentre.getName()).toString();
-            }
-        };
-    }
-    
-    Converter<Prefix, String> DatacentreController.getPrefixConverter() {
-        return new Converter<Prefix, String>() {
-            public String convert(Prefix prefix) {
-                return new StringBuilder().append(prefix.getPrefix()).toString();
-            }
-        };
-    }
-    
-    @InitBinder
-    void DatacentreController.registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(getAllocatorConverter());
-            conversionService.addConverter(getDatacentreConverter());
-            conversionService.addConverter(getPrefixConverter());
-        }
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")

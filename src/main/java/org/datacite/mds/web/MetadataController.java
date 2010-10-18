@@ -16,11 +16,12 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 public class MetadataController {
 
     @InitBinder
-    protected void initBinder(WebDataBinder binder) {
+    void registerConverters(WebDataBinder binder) {
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
         if (binder.getConversionService() instanceof GenericConversionService) {
             GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
             conversionService.addConverter(Converters.getByteArrayConverter());
+            conversionService.addConverter(Converters.getSimpleDatasetConverter());
         }
     }
 }

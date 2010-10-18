@@ -13,14 +13,10 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -97,31 +93,6 @@ privileged aspect MetadataController_Roo_Controller {
     @ModelAttribute("datasets")
     public Collection<Dataset> MetadataController.populateDatasets() {
         return Dataset.findAllDatasets();
-    }
-    
-    Converter<Dataset, String> MetadataController.getDatasetConverter() {
-        return new Converter<Dataset, String>() {
-            public String convert(Dataset dataset) {
-                return new StringBuilder().append(dataset.getDoi()).append(" ").append(dataset.getLastLandingPageStatus()).append(" ").append(dataset.getLastLandingPageStatusCheck()).toString();
-            }
-        };
-    }
-    
-    Converter<Metadata, String> MetadataController.getMetadataConverter() {
-        return new Converter<Metadata, String>() {
-            public String convert(Metadata metadata) {
-                return new StringBuilder().append(metadata.getMetadataVersion()).append(" ").append(metadata.getLastUpdated()).toString();
-            }
-        };
-    }
-    
-    @InitBinder
-    void MetadataController.registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(getDatasetConverter());
-            conversionService.addConverter(getMetadataConverter());
-        }
     }
     
     void MetadataController.addDateTimeFormatPatterns(Model model) {
