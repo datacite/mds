@@ -1,5 +1,7 @@
 package org.datacite.mds.util;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintValidatorContext;
@@ -14,6 +16,10 @@ public class Utils {
 
     public static String getDoiSuffix(String doi) {
         return doi.split("/")[1];
+    }
+    
+    public static List<String> csvToList(String csv) {
+        return Arrays.asList(csv.split(","));
     }
 
     public static boolean isValid(Object object, String propertyName) {

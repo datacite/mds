@@ -9,6 +9,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.validator.UrlValidator;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.ListOfDomains;
 
 public class ListOfDomainsValidator implements ConstraintValidator<ListOfDomains, String> {
@@ -18,8 +19,7 @@ public class ListOfDomainsValidator implements ConstraintValidator<ListOfDomains
     }
 
     public boolean isValid(String domains, ConstraintValidatorContext context) {
-        List<String> domainList = Arrays.asList(domains.split(","));
-        for (String domain : domainList) {
+        for (String domain : Utils.csvToList(domains)) {
             try {
                 URL url = new URL("http://" + domain);
                 UrlValidator urlValidator = new UrlValidator();
