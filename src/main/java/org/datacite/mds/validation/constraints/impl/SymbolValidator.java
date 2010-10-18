@@ -8,6 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Symbol.Type;
 
@@ -36,7 +37,7 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
                 return false;
             } else {
                 String message = "{org.datacite.mds.validation.constraints.Symbol." + t.name() + ".message}";
-                context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+                Utils.addConstraintViolation(context, message);
             }
         }
         return true;
@@ -54,8 +55,7 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
             }
         }
 
-        context.buildConstraintViolationWithTemplate("{org.datacite.mds.validation.constraints.Symbol.notfound}")
-                .addConstraintViolation();
+        Utils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.Symbol.notfound}");
         return false;
     }
 }

@@ -28,7 +28,7 @@ public class MatchDoiPrefixValidator implements ConstraintValidator<MatchDoiPref
         }
 
         context.disableDefaultConstraintViolation();
-        context.buildConstraintViolationWithTemplate(defaultMessage).addNode("doi").addConstraintViolation();
+        Utils.addConstraintViolation(context, defaultMessage, "doi");
         return false;
     }
 }

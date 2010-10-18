@@ -12,6 +12,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.ValidXML;
 
 public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> {
@@ -32,7 +33,7 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
             Source xml = new StreamSource(inputStream);
             validator.validate(xml);
         } catch (Exception e) {
-            context.buildConstraintViolationWithTemplate(e.getMessage()).addConstraintViolation();
+            Utils.addConstraintViolation(context, e.getMessage());
             return false;
         }
 
