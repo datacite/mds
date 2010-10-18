@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.validation.constraints.Doi;
+import org.datacite.mds.validation.constraints.MatchDoiPrefix;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
@@ -23,6 +24,7 @@ import javax.persistence.JoinColumn;
 @RooJavaBean
 @RooToString
 @RooEntity(finders = { "findDatasetsByDoiEquals" })
+@MatchDoiPrefix
 public class Dataset {
 
     @NotNull
