@@ -2,6 +2,6 @@
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_datacite_mds_domain_Prefix" modelAttribute="prefix" path="/prefixes" z="VWDOry8tlQoVwlTIGGet1bClcno=">
-        <field:textarea field="prefix" id="c_org_datacite_mds_domain_Prefix_prefix" required="true" validationRegex="10.(\\d)+" z="tSKWmM0YToGdo1OaMgjFHz25Gog="/>
+        <field:input field="prefix" id="c_org_datacite_mds_domain_Prefix_prefix" required="true" z="MMIRHc0PqzsvbZh/V8rhWbjmVzc="/>
     </form:update>
 </div>

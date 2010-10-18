@@ -22,16 +22,8 @@ privileged aspect OaiSourcesDataOnDemand_Roo_DataOnDemand {
         org.datacite.mds.domain.OaiSources obj = new org.datacite.mds.domain.OaiSources();
         obj.setLastHarvest(new java.util.Date());
         obj.setLastStatus("lastStatus_" + index);
-        java.lang.String owner = "owner_" + index;
-        if (owner.length() > 17) {
-            owner  = owner.substring(0, 17);
-        }
-        obj.setOwner(owner);
-        java.lang.String url = "url_" + index;
-        if (url.length() > 255) {
-            url  = url.substring(0, 255);
-        }
-        obj.setUrl(url);
+        obj.setOwner("owner_" + index);
+        obj.setUrl("url_" + index);
         return obj;
     }
     

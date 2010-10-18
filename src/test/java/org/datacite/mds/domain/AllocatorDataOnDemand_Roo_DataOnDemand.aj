@@ -48,11 +48,7 @@ privileged aspect AllocatorDataOnDemand_Roo_DataOnDemand {
         }
         obj.setPassword(password);
         obj.setRoleName("roleName_" + index);
-        java.lang.String symbol = "symbol_" + index;
-        if (symbol.length() > 8) {
-            symbol  = symbol.substring(0, 8);
-        }
-        obj.setSymbol(symbol);
+        obj.setSymbol("symbol_" + index);
         return obj;
     }
     
