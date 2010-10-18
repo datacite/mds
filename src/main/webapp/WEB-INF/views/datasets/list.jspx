@@ -6,9 +6,9 @@
             <table:column id="c_org_datacite_mds_domain_Dataset_doi" property="doi" z="AWmYwQPquwEgSn0Tk4TlzCniXDo="/>
             <table:column id="c_org_datacite_mds_domain_Dataset_isActive" property="isActive" z="AjHg1GNtxiHeG0woZu85Bed21sc="/>
             <table:column id="c_org_datacite_mds_domain_Dataset_isRefQuality" property="isRefQuality" z="WyuCSPG2748Crn7gq/EichOzXhs="/>
-            <table:column id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" property="lastLandingPageStatus" z="DXQXBt+DsGc/Lh66mg1LN8YlKC4="/>
-            <table:column id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" property="lastLandingPageStatusCheck" z="+SO3M6KqDr7RBfD/KTrHE0vng7w="/>
-            <table:column id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" property="lastMetadataStatus" z="LflnkHFR/0PVSRaem96602XmUQ8="/>
+            <table:column id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" property="lastLandingPageStatus" render="false" z="user-managed"/>
+            <table:column id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" property="lastLandingPageStatusCheck" render="false" z="user-managed"/>
+            <table:column id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" property="lastMetadataStatus" render="false" z="user-managed"/>
         </table:table>
     </page:list>
 </div>

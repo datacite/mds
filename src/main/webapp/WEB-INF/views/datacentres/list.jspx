@@ -4,10 +4,10 @@
     <page:list id="pl_org_datacite_mds_domain_Datacentre" items="${datacentres}" z="wn3TZpNlM1IZgd1CG8z1K8jrfhk=">
         <table:table data="${datacentres}" delete="false" id="l_org_datacite_mds_domain_Datacentre" path="/datacentres" z="vWIHMDwBYznaKurxu32uwnVI8pM=">
             <table:column id="c_org_datacite_mds_domain_Datacentre_symbol" property="symbol" z="3TjQR9FMHnETLoTlc4UUtql+vgQ="/>
-            <table:column id="c_org_datacite_mds_domain_Datacentre_password" property="password" z="RHKGuskQnIaorz1HiOATUIjn1qc="/>
+            <table:column id="c_org_datacite_mds_domain_Datacentre_password" property="password" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_name" property="name" z="B3pk/gga9DpPwGI/a2TNbtjup4w="/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_contactName" property="contactName" z="MrnuTJZ4CkWBFb1Xpz//eRKpaKs="/>
-            <table:column id="c_org_datacite_mds_domain_Datacentre_contactEmail" property="contactEmail" z="g6lwtpIM2pLQMTIMuOPA2hm2+8s="/>
+            <table:column id="c_org_datacite_mds_domain_Datacentre_contactEmail" property="contactEmail" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_doiQuotaAllowed" property="doiQuotaAllowed" z="qZONcizRk10ROYWbIwo7JfRjRAo="/>
         </table:table>
     </page:list>
