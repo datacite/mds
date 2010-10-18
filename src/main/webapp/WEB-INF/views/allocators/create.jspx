@@ -2,11 +2,11 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_org_datacite_mds_domain_Allocator" modelAttribute="allocator" path="/allocators" render="${empty dependencies}" z="WZduv86RlA4lLlRDzNh0H3doBHM=">
-        <field:input field="symbol" id="c_org_datacite_mds_domain_Allocator_symbol" max="8" min="2" required="true" validationRegex="[A-Z]+" z="Npotx/WqBYS6rWQCV7Elf9nwEZA="/>
+        <field:input field="symbol" id="c_org_datacite_mds_domain_Allocator_symbol" required="true" z="KtF++KB5FDWRKiYmxPMREG9cCkk="/>
         <field:input field="password" id="c_org_datacite_mds_domain_Allocator_password" max="30" min="8" required="true" z="ESrJNKPHrmAHVJJAE8TiLutCNo8="/>
         <field:textarea field="name" id="c_org_datacite_mds_domain_Allocator_name" required="true" z="q3lecVWHFw6wDWux7cvKm1kaWV0="/>
         <field:textarea field="contactName" id="c_org_datacite_mds_domain_Allocator_contactName" required="true" z="y1zOZH57Meld4p62RwgldAeNu40="/>
-        <field:input field="contactEmail" id="c_org_datacite_mds_domain_Allocator_contactEmail" required="true" validationRegex="[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&amp;'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\\b" z="UJkq3FxFwVevD+aN+J17B1sL0o8="/>
+        <field:input field="contactEmail" id="c_org_datacite_mds_domain_Allocator_contactEmail" required="true" z="JBlmrLGQu/6+nUPzjpsfz9Pg+SE="/>
         <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Allocator_doiQuotaAllowed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="mwhrNgVG7ii5iZCJe/Ceu4ZQ8N0="/>
         <field:input field="doiQuotaUsed" id="c_org_datacite_mds_domain_Allocator_doiQuotaUsed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="VVgrfTiLLFf7e5K9oBobk8R/ayM="/>
         <field:select field="prefixes" id="c_org_datacite_mds_domain_Allocator_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" z="CwzHCpQlv6T6Sd6wbQUQLSo2DJ0="/>
