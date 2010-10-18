@@ -23,11 +23,7 @@ privileged aspect OaiSourcesDataOnDemand_Roo_DataOnDemand {
         obj.setLastHarvest(new java.util.Date());
         obj.setLastStatus("lastStatus_" + index);
         obj.setOwner("owner_" + index);
-        java.lang.String url = "url_" + index;
-        if (url.length() > 255) {
-            url  = url.substring(0, 255);
-        }
-        obj.setUrl(url);
+        obj.setUrl("url_" + index);
         return obj;
     }
     
