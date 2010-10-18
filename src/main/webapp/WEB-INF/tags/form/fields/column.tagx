@@ -16,12 +16,12 @@
       <c:when test="${empty columnProperties and empty columnLabels}">
         <c:set var="columnProperties" value="${property}" scope="request" />
         <c:set var="columnLabels" value="${label}" scope="request" />
-        <c:set var="columnMaxLengths" value="${empty maxLength ? 10 : maxLength}" scope="request" />
+        <c:set var="columnMaxLengths" value="${empty maxLength ? -1 : maxLength}" scope="request" />
       </c:when>
       <c:otherwise>
         <c:set var="columnProperties" value="${columnProperties},${property}" scope="request" />
         <c:set var="columnLabels" value="${columnLabels},${label}" scope="request" />
-        <c:set var="columnMaxLengths" value="${columnMaxLengths},${empty maxLength ? 10 : maxLength}" scope="request" />
+        <c:set var="columnMaxLengths" value="${columnMaxLengths},${empty maxLength ? -1 : maxLength}" scope="request" />
       </c:otherwise>
     </c:choose>
   </c:if>
