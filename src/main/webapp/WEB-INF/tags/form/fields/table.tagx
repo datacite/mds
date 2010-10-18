@@ -62,7 +62,7 @@
                 <spring:eval expression="item[column]" />
               </c:when>
               <c:otherwise>
-                <spring:eval expression="item[column]" var="colTxt"/>
+                <c:set var="colTxt"><spring:eval expression="item[column]"/></c:set>
                 <c:out value="${fn:substring(colTxt, 0, columnMaxLength)}" />
               </c:otherwise>
             </c:choose>			   
