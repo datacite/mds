@@ -372,3 +372,7 @@ fieldset th {
 .dijitDateTextBox {
     width: 100px !important;
 }
+
+table th.icon_column {
+	width: 20px;
+}

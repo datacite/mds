@@ -43,12 +43,12 @@
               <c:out value="${columnHeading}" />
             </th>
           </c:forTokens>
-          <th></th>
+          <th class="icon_column"></th>
           <c:if test="${update}">
-            <th></th>
+            <th class="icon_column"></th>
           </c:if>
           <c:if test="${delete}">
-            <th></th>
+            <th class="icon_column"></th>
           </c:if>
         </tr>
       </thead>
