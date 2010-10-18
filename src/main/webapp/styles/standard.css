@@ -16,9 +16,9 @@ body {
 }
 
 #wrapper {
-	width:800px;
+    /* width:800px; */
 	min-width: 800px;
-	max-width: 800px;
+	/* max-width: 800px; */
 	margin-right: auto;
 	margin-left: auto;
 
@@ -109,7 +109,7 @@ table.navigation {
 }
 
 label {
-	width:100px;
+	width:150px;
 	float:left;
 	margin-left: 5px;
 	margin-top: 0px;
@@ -363,4 +363,12 @@ fieldset th {
 .flag {
 	height: 11px;
 	width: 16px;
+}
+
+.dijitTextBox, .dijitComboBox, .dijitSpinner {
+    width: 300px  !important;
+}
+
+.dijitDateTextBox {
+    width: 100px !important;
 }
