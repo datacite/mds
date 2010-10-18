@@ -13,6 +13,10 @@ import javax.validation.constraints.Size;
 
 import org.datacite.mds.validation.constraints.impl.ListOfDomainsValidator;
 
+/**
+ * This annotation is used for a String containing a comma separated list of
+ * domains (e.g. "datacite.org,datacite.org.uk")  
+ */
 @Documented
 @Constraint(validatedBy = ListOfDomainsValidator.class)
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })

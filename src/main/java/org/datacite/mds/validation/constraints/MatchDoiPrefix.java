@@ -11,6 +11,15 @@ import javax.validation.Payload;
 
 import org.datacite.mds.validation.constraints.impl.MatchDoiPrefixValidator;
 
+/**
+ * This annotation has to be placed on type level and is only applicable for a
+ * Dataset.
+ * 
+ * It checks if prefix of the specified DOI is in the list of the allowed
+ * prefixes of the datacentre.
+ * 
+ * @see org.datacite.mds.domain.Dataset
+ */
 @Documented
 @Constraint(validatedBy = MatchDoiPrefixValidator.class)
 @Target( { ElementType.TYPE, ElementType.ANNOTATION_TYPE })
