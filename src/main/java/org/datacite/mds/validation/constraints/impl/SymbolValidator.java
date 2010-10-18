@@ -25,15 +25,17 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
     public boolean isValid(String symbol, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         if (hasToExist) {
+            // do database lookup only
             return exists(symbol, context);
         } else {
             return !isMalformed(symbol, context);
         }
     }
 
-    public boolean isMalformed(String symbol, ConstraintValidatorContext context) {
+    boolean isMalformed(String symbol, ConstraintValidatorContext context) {
         for (Type t : types) {
             if (Symbol.PATTERNS.get(t).matcher(symbol).matches()) {
+                //check against the pattern for each given type 
                 return false;
             } else {
                 String message = "{org.datacite.mds.validation.constraints.Symbol." + t.name() + ".message}";
@@ -43,12 +45,14 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
         return true;
     }
 
-    public boolean exists(String symbol, ConstraintValidatorContext context) {
+    boolean exists(String symbol, ConstraintValidatorContext context) {
+        //check table Allocator or Datacentre based on given types
         if (types.contains(Type.ALLOCATOR)) {
             if (Allocator.findAllocatorsBySymbolEquals(symbol).getResultList().size() > 0) {
                 return true;
             }
         }
+        
         if (types.contains(Type.DATACENTRE)) {
             if (Datacentre.findDatacentresBySymbolEquals(symbol).getResultList().size() > 0) {
                 return true;

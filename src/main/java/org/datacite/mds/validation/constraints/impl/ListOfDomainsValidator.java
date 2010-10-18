@@ -2,8 +2,6 @@ package org.datacite.mds.validation.constraints.impl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -20,13 +18,21 @@ public class ListOfDomainsValidator implements ConstraintValidator<ListOfDomains
 
     public boolean isValid(String domains, ConstraintValidatorContext context) {
         for (String domain : Utils.csvToList(domains)) {
+            // for each comma separated value
             try {
                 URL url = new URL("http://" + domain);
+                if (!url.getHost().equals(domain)) {
+                    // domain should only consists of the pure host name
+                    return false;
+                }
+                
                 UrlValidator urlValidator = new UrlValidator();
-                if (!url.getHost().equals(domain) || !urlValidator.isValid(url.toString())) {
+                if (!urlValidator.isValid(url.toString())) {
+                    // url should be valid, e.g. "test.t" or "com" should be fail  
                     return false;
                 }
             } catch (MalformedURLException ex) {
+                // url should be well formed
                 return false;
             }
         }

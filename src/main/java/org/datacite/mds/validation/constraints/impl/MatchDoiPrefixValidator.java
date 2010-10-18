@@ -17,9 +17,11 @@ public class MatchDoiPrefixValidator implements ConstraintValidator<MatchDoiPref
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
         if (dataset.getDatacentre() == null || !Utils.isValid(dataset, "doi")) {
+            // don't check until a datacentre is selected and valid doi is given
             return true;
         }
 
+        // check each allowed prefix of the datacentre against the used one
         String prefixStr = Utils.getDoiPrefix(dataset.getDoi());
         for (Prefix prefix : dataset.getDatacentre().getPrefixes()) {
             if (prefix.getPrefix().equals(prefixStr)) {

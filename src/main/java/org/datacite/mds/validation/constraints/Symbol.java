@@ -31,14 +31,16 @@ import org.datacite.mds.validation.constraints.impl.SymbolValidator;
  * String symbol;
  * </pre>
  * 
- * It also possible to ensure the symbol is already in the database.
+ * It also possible to ensure the symbol is already in the database. The symbol
+ * is not checked to be well formed cause in the database there should be only
+ * well formed symbols.
  * 
  * <pre>
  *   &#064;Symbol(hasToExist = true; value = {Symbol.Type.DATACENTRE});
  *   String symbol;
  * </pre>
  * 
- * The appropriate tables for lookup are chosen based on the given symbol types
+ * The appropriate tables for lookup are chosen based on the given symbol types.
  * 
  * @see org.datacite.mds.validation.constraints.Symbol.Type
  */
