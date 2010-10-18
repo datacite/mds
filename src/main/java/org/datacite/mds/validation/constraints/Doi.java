@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 @Documented
 @Constraint(validatedBy = {})
 @Size(max = 255)
-@Pattern(regexp = "10.(\\d)+/(\\S)+", message = "{org.datacite.mds.validation.constraints.Doi.message}")
+@Pattern(regexp = "10\\.(\\d)+/(\\S)+", message = "{org.datacite.mds.validation.constraints.Doi.message}")
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Doi {
