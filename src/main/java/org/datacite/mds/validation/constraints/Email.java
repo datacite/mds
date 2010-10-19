@@ -13,13 +13,14 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
- * This annotation is used for a String containing a DOI. It checks if the DOI
+ * This annotation is used for email addresses. It checks if the email address
  * is well-formed.
  */
 @Documented
 @Constraint(validatedBy = {})
 @Size(max = 255)
-@Pattern(regexp = ".+@.+\\.[^.]{2,}") // dot required in domain part, tld at least 2 chars.
+@Pattern(regexp = ".+@.+\\.[^.]{2,}")
+// dot required in domain part, tld at least 2 chars.
 @org.hibernate.validator.constraints.Email
 @ReportAsSingleViolation
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
