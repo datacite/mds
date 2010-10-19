@@ -31,6 +31,29 @@ body {
 
 /* header and footer elements */
 
+#title a {
+    font-size: 50px;
+    color: #0084B9;
+    text-decoration: none;
+}
+
+#title small {
+    color: #77C9EA;
+}
+
+#title img
+{
+    vertical-align: middle;
+}
+
+#title {
+    float:left;
+}
+
+#topmenu {
+    text-align: right;
+}
+
 #main {
 	overflow:hidden;
 	display:box;
