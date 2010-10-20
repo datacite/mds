@@ -1,6 +1,9 @@
 package org.datacite.mds.domain;
 
 import javax.persistence.Entity;
+
+import org.datacite.mds.validation.constraints.Symbol;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.roo.addon.entity.RooEntity;
@@ -18,11 +21,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class OaiSources {
 
     @NotNull
-    @Size(min = 5, max = 255)
+    @URL
     private String url;
 
     @NotNull
-    @Size(min = 2, max = 17)
+    @Symbol(hasToExist=true, value={Symbol.Type.DATACENTRE, Symbol.Type.ALLOCATOR})
     private String owner;
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -10,6 +10,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.validation.constraints.Email;
+import org.datacite.mds.validation.constraints.ListOfDomains;
+import org.datacite.mds.validation.constraints.Symbol;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import java.util.Set;
@@ -23,8 +27,7 @@ import javax.persistence.CascadeType;
 public class Datacentre {
 
     @NotNull
-    @Size(min = 5, max = 17)
-    @Pattern(regexp = "[A-Z]+.[A-Z].")
+    @Symbol(Symbol.Type.DATACENTRE)
     private String symbol;
 
     @NotNull
@@ -40,7 +43,7 @@ public class Datacentre {
     private String contactName;
 
     @NotNull
-    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+(?:[A-Z]{2}|com|org|net|edu|gov|mil|biz|info|mobi|name|aero|asia|jobs|museum)\\b")
+    @Email
     private String contactEmail;
 
     @NotNull
@@ -57,7 +60,8 @@ public class Datacentre {
     
     private String roleName;
 
-    @Size(min = 3, max = 255)
+    @Size(min = 0, max = 255)
+    @ListOfDomains
     private String domains;
 
     @Size(max = 4000)

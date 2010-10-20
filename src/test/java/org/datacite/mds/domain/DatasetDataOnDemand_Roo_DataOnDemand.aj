@@ -26,11 +26,7 @@ privileged aspect DatasetDataOnDemand_Roo_DataOnDemand {
     public Dataset DatasetDataOnDemand.getNewTransientDataset(int index) {
         org.datacite.mds.domain.Dataset obj = new org.datacite.mds.domain.Dataset();
         obj.setDatacentre(datacentreDataOnDemand.getRandomDatacentre());
-        java.lang.String doi = "doixxxx_" + index;
-        if (doi.length() > 255) {
-            doi  = doi.substring(0, 255);
-        }
-        obj.setDoi(doi);
+        obj.setDoi("doi_" + index);
         obj.setIsActive(new Boolean(true));
         obj.setIsRefQuality(new Boolean(true));
         java.lang.Integer lastLandingPageStatus = new Integer(index);
