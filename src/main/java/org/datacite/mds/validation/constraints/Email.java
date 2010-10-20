@@ -12,16 +12,14 @@ import javax.validation.ReportAsSingleViolation;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.datacite.mds.validation.constraints.impl.EmailValidator;
+
 /**
  * This annotation is used for email addresses. It checks if the email address
  * is well-formed.
  */
 @Documented
-@Constraint(validatedBy = {})
-@Size(max = 255)
-@Pattern(regexp = ".+@.+\\.[^.]{2,}")
-// dot required in domain part, tld at least 2 chars.
-@org.hibernate.validator.constraints.Email
+@Constraint(validatedBy = {EmailValidator.class})
 @ReportAsSingleViolation
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
