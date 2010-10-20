@@ -41,7 +41,7 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
             Source xml = new StreamSource(inputStream);
             validator.validate(xml);
         } catch (Exception e) {
-            Utils.addConstraintViolation(context, e.getMessage());
+            Utils.addConstraintViolation(context, "xml error: " + e.getMessage());
             return false;
         }
 
