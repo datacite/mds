@@ -60,7 +60,10 @@
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="dataSource" ref="dataSource"/>
     </bean>
-<bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender">
+    <bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender">
         <property name="host" value="${email.host}"/>
+    </bean>
+    <bean class="org.datacite.mds.validation.constraints.impl.ValidXMLValidator" scope="prototype">
+        <property name="xsd" value="${xml.schema.default}"/>
     </bean>
 </beans>
