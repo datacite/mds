@@ -29,7 +29,7 @@ public class Metadata {
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(style = "S-")
-    private Date Lastupdated;
+    private Date lastUpdated;
 
     @NotNull
     @ManyToOne(targetEntity = Dataset.class)
