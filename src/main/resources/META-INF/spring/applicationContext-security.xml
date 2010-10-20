@@ -11,12 +11,12 @@
         <logout logout-url="/resources/j_spring_security_logout"/>
                 
         <!-- UI -->
-        <intercept-url pattern="/allocators/**" access="hasRole('ROLE_ADMIN')" requires-channel="https" />
-        <intercept-url pattern="/datacentres/**" access="hasRole('ROLE_ALLOCATOR')" requires-channel="https" />        
-        <intercept-url pattern="/datasets/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />
-        <intercept-url pattern="/metadatas/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />
-        <intercept-url pattern="/prefixes/**" access="hasRole('ROLE_ADMIN')" requires-channel="https" />
-        <intercept-url pattern="/oaisourceses/**" access="hasRole('ROLE_ADMIN')" requires-channel="https" />
+        <intercept-url pattern="/allocators/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
+        <intercept-url pattern="/datacentres/**" access="hasAnyRole('ROLE_ALLOCATOR','ROLE_DEV')" requires-channel="https" />        
+        <intercept-url pattern="/datasets/**" access="hasAnyRole('ROLE_DATACENTRE','ROLE_DEV')" requires-channel="https" />
+        <intercept-url pattern="/metadatas/**" access="hasAnyRole('ROLE_DATACENTRE','ROLE_DEV')" requires-channel="https" />
+        <intercept-url pattern="/prefixes/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
+        <intercept-url pattern="/oaisourceses/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
         
         <!-- static content -->
         <intercept-url pattern="/resources/**" access="permitAll" requires-channel="https" />

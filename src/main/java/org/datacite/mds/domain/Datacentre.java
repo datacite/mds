@@ -10,9 +10,9 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.ListOfDomains;
 import org.datacite.mds.validation.constraints.Symbol;
-import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;

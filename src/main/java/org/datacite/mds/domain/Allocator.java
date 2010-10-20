@@ -2,8 +2,8 @@ package org.datacite.mds.domain;
 
 import javax.persistence.Entity;
 
+import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.Symbol;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.roo.addon.entity.RooEntity;

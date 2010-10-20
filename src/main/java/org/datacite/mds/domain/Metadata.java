@@ -24,7 +24,7 @@ public class Metadata {
     @Lob
     // @Basic(fetch=LAZY)
     @Column(name = "xml", columnDefinition = "BLOB NOT NULL")
-    @ValidXML(xsd = "http://www.tib.uni-hannover.de/doi/std-doi.xsd")
+    @ValidXML
     private byte[] xml;
 
     @Min(0L)

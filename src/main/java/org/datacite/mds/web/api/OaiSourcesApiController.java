@@ -1,4 +1,4 @@
-package org.datacite.mds.web;
+package org.datacite.mds.web.api;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@RequestMapping("/metadataapi/**")
+@RequestMapping("/oaisourcesapi/**")
 @Controller
-public class MetadataApiController {
+public class OaiSourcesApiController {
 
     @RequestMapping
     public void get(ModelMap modelMap, HttpServletRequest request, HttpServletResponse response) {
@@ -22,6 +22,6 @@ public class MetadataApiController {
 
     @RequestMapping
     public String index() {
-        return "metadataapi/index";
+        return "oaisourcesapi/index";
     }
 }

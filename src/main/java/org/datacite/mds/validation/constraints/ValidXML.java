@@ -13,15 +13,15 @@ import javax.validation.ReportAsSingleViolation;
 import org.datacite.mds.validation.constraints.impl.ValidXMLValidator;
 
 /**
- * This annotation is used for XML content (byte[]) that should be validate to
- * an xml schema. The xsd parameter have a be a ULR pointing to the xsd used for
- * validation
+ * This annotation is used for XML content (byte[]) that should be validate to a
+ * xml schema. The optional xsd parameter have a be a URL pointing to the xsd
+ * used for validation.
  * 
  * Example usage:
  * 
  * <pre>
- *   &#064;ValidXML(xsd = "http://datacite.org/metadata.xsd")
- *   private byte[] xml;
+ * &#064;ValidXML(xsd = &quot;http://datacite.org/metadata.xsd&quot;)
+ * private byte[] xml;
  * </pre>
  */
 @Documented
@@ -36,7 +36,7 @@ public @interface ValidXML {
      * 
      * @return
      */
-    public abstract String xsd();
+    public abstract String xsd() default "";
 
     public abstract String message() default "{org.datacite.mds.validation.constraints.ValidXML.message}";
 
