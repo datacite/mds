@@ -12,14 +12,22 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.apache.log4j.Logger;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.ValidXML;
+import org.springframework.beans.factory.annotation.Configurable;
 
+@Configurable
 public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> {
+    Logger log = Logger.getLogger(ValidXMLValidator.class);
+    
     String xsd;
 
     public void initialize(ValidXML constraintAnnotation) {
-        this.xsd = constraintAnnotation.xsd();
+        if (!constraintAnnotation.xsd().isEmpty()) {
+            this.xsd = constraintAnnotation.xsd();
+        }
+        log.debug("init: xsd=" + getXsd());
     }
 
     public boolean isValid(byte[] xmlBytes, ConstraintValidatorContext context) {
@@ -38,5 +46,13 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
         }
 
         return true;
+    }
+
+    public String getXsd() {
+        return xsd;
+    }
+
+    public void setXsd(String xsd) {
+        this.xsd = xsd;
     }
 }

@@ -36,7 +36,7 @@ public @interface ValidXML {
      * 
      * @return
      */
-    public abstract String xsd();
+    public abstract String xsd() default "";
 
     public abstract String message() default "{org.datacite.mds.validation.constraints.ValidXML.message}";
 
