@@ -5,9 +5,7 @@ package org.datacite.mds.web;
 
 import java.lang.Long;
 import java.lang.String;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -36,18 +34,6 @@ privileged aspect DatasetController_Roo_Controller {
         }
         dataset.persist();
         return "redirect:/datasets/" + dataset.getId();
-    }
-    
-    @RequestMapping(params = "form", method = RequestMethod.GET)
-    public String DatasetController.createForm(Model model) {
-        model.addAttribute("dataset", new Dataset());
-        addDateTimeFormatPatterns(model);
-        List dependencies = new ArrayList();
-        if (Datacentre.countDatacentres() == 0) {
-            dependencies.add(new String[]{"datacentre", "datacentres"});
-        }
-        model.addAttribute("dependencies", dependencies);
-        return "datasets/create";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
