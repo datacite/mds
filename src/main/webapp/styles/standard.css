@@ -1,3 +1,8 @@
+/* DataCite color:
+  dark blue:  #0084B9
+  light blue: #77C9EA
+*/
+
 /* main elements */
 
 body,div,td {
@@ -87,9 +92,8 @@ body {
 }
 
 #menu h2 {
-	color: #fff;
-	background: #0072CC;
-	text-transform: uppercase;
+	color: #0084B9;
+    text-transform: capitalize;
 	font-weight:bold;
 	font-size: 12px;
 }
@@ -103,7 +107,7 @@ body {
 
 #menu a:hover {
 	color: #0072CC;;
-	background: #fff;
+	background: #77C9EA;
 }
 
 #footer {
@@ -172,7 +176,7 @@ a.menu, a.menu:link, a.menu:visited {display:block; width:150px; height:25px;}
 
 h1,h2,h3 {
 	font-family: Helvetica, sans-serif;
-	color: #0072CC;
+	color: #0084B9;
 }
 
 h1 {
@@ -222,19 +226,19 @@ tr:nth-child(even) {
 }
 
 a:link {
-	color: #0072CC;
-}
-
-a:hover {
-	color: #0072CC;;
+	color: #0084B8;
 }
 
 a:active {
-	color: #0072CC;;
+	color: #0084B8;
 }
 
 a:visited {
-	color: #0072CC;;
+	color: #0084B8;
+}
+
+a:hover {
+	color: #77C9EA;
 }
 
 li {
