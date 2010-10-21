@@ -4,7 +4,7 @@
     <form:update id="fu_org_datacite_mds_domain_OaiSources" modelAttribute="oaiSources" path="/oaisourceses" z="Dzo/Ewb+GGK6Ik5DsrJvLhLjQgE=">
         <field:input field="url" id="c_org_datacite_mds_domain_OaiSources_url" required="true" z="rsEckkJZp6r7Qrzqk0auffzIDIY="/>
         <field:input field="owner" id="c_org_datacite_mds_domain_OaiSources_owner" required="true" z="NgaCV9ylRl+hDUQeQLuDTEUTU84="/>
-        <field:datetime dateTimePattern="${oaiSources_lastharvest_date_format}" field="lastHarvest" id="c_org_datacite_mds_domain_OaiSources_lastHarvest" z="g1zwllJkHpsXkHFFdDaIpzpgTKI="/>
-        <field:input field="lastStatus" id="c_org_datacite_mds_domain_OaiSources_lastStatus" z="qWrVXsZ8ex0iCfr1LpI6ah0otco="/>
+        <field:datetime dateTimePattern="${oaiSources_lastharvest_date_format}" disabled="true" field="lastHarvest" id="c_org_datacite_mds_domain_OaiSources_lastHarvest" z="user-managed"/>
+        <field:input disabled="true" field="lastStatus" id="c_org_datacite_mds_domain_OaiSources_lastStatus" z="user-managed"/>
     </form:update>
 </div>

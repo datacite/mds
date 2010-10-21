@@ -4,8 +4,8 @@
     <form:create id="fc_org_datacite_mds_domain_OaiSources" modelAttribute="oaiSources" path="/oaisourceses" render="${empty dependencies}" z="4HMXVX/tYI034VOs2jeB71UNL28=">
         <field:input field="url" id="c_org_datacite_mds_domain_OaiSources_url" required="true" z="rsEckkJZp6r7Qrzqk0auffzIDIY="/>
         <field:input field="owner" id="c_org_datacite_mds_domain_OaiSources_owner" required="true" z="NgaCV9ylRl+hDUQeQLuDTEUTU84="/>
-        <field:datetime dateTimePattern="${oaiSources_lastharvest_date_format}" field="lastHarvest" id="c_org_datacite_mds_domain_OaiSources_lastHarvest" z="g1zwllJkHpsXkHFFdDaIpzpgTKI="/>
-        <field:input field="lastStatus" id="c_org_datacite_mds_domain_OaiSources_lastStatus" z="qWrVXsZ8ex0iCfr1LpI6ah0otco="/>
+        <field:datetime dateTimePattern="${oaiSources_lastharvest_date_format}" field="lastHarvest" id="c_org_datacite_mds_domain_OaiSources_lastHarvest" render="false" z="user-managed"/>
+        <field:input field="lastStatus" id="c_org_datacite_mds_domain_OaiSources_lastStatus" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_OaiSources" render="${not empty dependencies}" z="YPMEFIecifFz489Ak0bydtqkJ08="/>
 </div>
