@@ -8,7 +8,9 @@
         <field:input field="lastLandingPageStatus" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" max="510" min="100" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
         <field:datetime dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" render="false" z="user-managed"/>
         <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" render="false" z="user-managed"/>
-        <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="QizQtkpuvEV1I+dvhbiwy8QSkKU="/>
+        <div style="display:none">
+          <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="QizQtkpuvEV1I+dvhbiwy8QSkKU="/>
+        </div>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Dataset" render="${not empty dependencies}" z="LWdyQ83dcuGqnymb9lRlQ6rNsFA="/>
 </div>
