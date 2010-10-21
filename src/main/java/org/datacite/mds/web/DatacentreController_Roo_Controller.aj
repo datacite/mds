@@ -5,9 +5,7 @@ package org.datacite.mds.web;
 
 import java.lang.Long;
 import java.lang.String;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
@@ -34,17 +32,6 @@ privileged aspect DatacentreController_Roo_Controller {
         }
         datacentre.persist();
         return "redirect:/datacentres/" + datacentre.getId();
-    }
-    
-    @RequestMapping(params = "form", method = RequestMethod.GET)
-    public String DatacentreController.createForm(Model model) {
-        model.addAttribute("datacentre", new Datacentre());
-        List dependencies = new ArrayList();
-        if (Allocator.countAllocators() == 0) {
-            dependencies.add(new String[]{"allocator", "allocators"});
-        }
-        model.addAttribute("dependencies", dependencies);
-        return "datacentres/create";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
