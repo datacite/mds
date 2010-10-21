@@ -3,6 +3,8 @@ package org.datacite.mds.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.util.Converters;
@@ -31,8 +33,8 @@ public class DatacentreController {
     }
 
     @RequestMapping(params = "form", method = RequestMethod.GET)
-    public String createForm(Model model) {
-        String symbol = SecurityContextHolder.getContext().getAuthentication().getName();
+    public String createForm(Model model, HttpServletRequest request) {
+        String symbol = request.getUserPrincipal().getName();
         Allocator allocator = (Allocator) Allocator.findAllocatorsBySymbolEquals(symbol).getSingleResult();
         Datacentre datacentre = new Datacentre();
         datacentre.setAllocator(allocator);
