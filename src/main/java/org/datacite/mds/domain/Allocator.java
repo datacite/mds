@@ -56,5 +56,5 @@ public class Allocator {
     
     private Boolean isActive;
     
-    private String roleName;
+    private String roleName = "ROLE_ALLOCATOR";
 }

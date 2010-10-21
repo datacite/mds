@@ -58,7 +58,7 @@ public class Datacentre {
 
     private Boolean isActive;
     
-    private String roleName;
+    private String roleName = "ROLE_DATACENTRE";
 
     @Size(min = 0, max = 255)
     @ListOfDomains
