@@ -50,6 +50,9 @@ public class Utils {
      * @return List of Strings
      */
     public static List<String> csvToList(String csv) {
+        if (csv == null) {
+            csv = "";
+        }
         return Arrays.asList(csv.split(","));
     }
 
