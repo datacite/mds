@@ -32,6 +32,5 @@ public class OaiSources {
     @DateTimeFormat(style = "S-")
     private Date lastHarvest;
 
-    @Size(min = 2, max = 30)
     private String lastStatus;
 }

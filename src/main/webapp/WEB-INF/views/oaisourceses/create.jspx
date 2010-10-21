@@ -5,7 +5,7 @@
         <field:input field="url" id="c_org_datacite_mds_domain_OaiSources_url" required="true" z="rsEckkJZp6r7Qrzqk0auffzIDIY="/>
         <field:input field="owner" id="c_org_datacite_mds_domain_OaiSources_owner" required="true" z="NgaCV9ylRl+hDUQeQLuDTEUTU84="/>
         <field:datetime dateTimePattern="${oaiSources_lastharvest_date_format}" field="lastHarvest" id="c_org_datacite_mds_domain_OaiSources_lastHarvest" z="g1zwllJkHpsXkHFFdDaIpzpgTKI="/>
-        <field:input field="lastStatus" id="c_org_datacite_mds_domain_OaiSources_lastStatus" max="30" min="2" z="Q8zn/djFgaO3n1vtdH4+OXrShas="/>
+        <field:input field="lastStatus" id="c_org_datacite_mds_domain_OaiSources_lastStatus" z="qWrVXsZ8ex0iCfr1LpI6ah0otco="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_OaiSources" render="${not empty dependencies}" z="YPMEFIecifFz489Ak0bydtqkJ08="/>
 </div>

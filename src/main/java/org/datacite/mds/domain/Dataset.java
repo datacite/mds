@@ -44,7 +44,6 @@ public class Dataset {
     @DateTimeFormat(style = "S-")
     private Date lastLandingPageStatusCheck;
 
-    @Size(min = 2, max = 30)
     private String lastMetadataStatus;
 
     @NotNull

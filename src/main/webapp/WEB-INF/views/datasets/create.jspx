@@ -7,7 +7,7 @@
         <field:checkbox field="isRefQuality" id="c_org_datacite_mds_domain_Dataset_isRefQuality" z="nzS9Eet3kyELg9PcZ4W4wz9xwWc="/>
         <field:input field="lastLandingPageStatus" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" max="510" min="100" validationMessageCode="field_invalid_integer" z="uhT1EjJduYKJ22JgT48ee0KWuZo="/>
         <field:datetime dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" z="OGZALCClZa6iGRYEOHgLp59FXxI="/>
-        <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" max="30" min="2" z="JcTTnkoDWJcaAOVi8/KWyLR6LfY="/>
+        <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" z="Zmn9wqjjR5ToS2K5IStpgxAgDac="/>
         <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="QizQtkpuvEV1I+dvhbiwy8QSkKU="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Dataset" render="${not empty dependencies}" z="LWdyQ83dcuGqnymb9lRlQ6rNsFA="/>
