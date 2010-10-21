@@ -38,6 +38,7 @@ public class DatacentreController {
         Allocator allocator = (Allocator) Allocator.findAllocatorsBySymbolEquals(symbol).getSingleResult();
         Datacentre datacentre = new Datacentre();
         datacentre.setAllocator(allocator);
+        datacentre.setSymbol(allocator.getSymbol()+".");
         model.addAttribute("datacentre", datacentre);
         List dependencies = new ArrayList();
         if (Allocator.countAllocators() == 0) {
