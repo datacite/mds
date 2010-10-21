@@ -12,6 +12,7 @@ import javax.validation.constraints.Max;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.ListOfDomains;
+import org.datacite.mds.validation.constraints.MatchSymbolPrefix;
 import org.datacite.mds.validation.constraints.Symbol;
 
 import javax.persistence.ManyToOne;
@@ -24,6 +25,7 @@ import javax.persistence.CascadeType;
 @RooJavaBean
 @RooToString
 @RooEntity(finders = { "findDatacentresBySymbolEquals", "findDatacentresByNameLike" })
+@MatchSymbolPrefix
 public class Datacentre {
 
     @NotNull
