@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-@RooWebScaffold(path = "metadatas", formBackingObject = Metadata.class, delete = false)
+@RooWebScaffold(path = "metadatas", formBackingObject = Metadata.class, delete = false, update = false)
 @RequestMapping("/metadatas")
 @Controller
 public class MetadataController {

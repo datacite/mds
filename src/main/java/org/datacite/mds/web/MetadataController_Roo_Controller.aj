@@ -72,24 +72,6 @@ privileged aspect MetadataController_Roo_Controller {
         return "metadatas/list";
     }
     
-    @RequestMapping(method = RequestMethod.PUT)
-    public String MetadataController.update(@Valid Metadata metadata, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            model.addAttribute("metadata", metadata);
-            addDateTimeFormatPatterns(model);
-            return "metadatas/update";
-        }
-        metadata.merge();
-        return "redirect:/metadatas/" + metadata.getId();
-    }
-    
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String MetadataController.updateForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("metadata", Metadata.findMetadata(id));
-        addDateTimeFormatPatterns(model);
-        return "metadatas/update";
-    }
-    
     @ModelAttribute("datasets")
     public Collection<Dataset> MetadataController.populateDatasets() {
         return Dataset.findAllDatasets();
