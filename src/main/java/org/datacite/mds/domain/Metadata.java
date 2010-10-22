@@ -1,19 +1,17 @@
 package org.datacite.mds.domain;
 
+import java.util.Date;
+
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.datacite.mds.validation.constraints.ValidXML;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
-import org.springframework.roo.addon.entity.RooEntity;
-import javax.validation.constraints.Min;
-import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.datacite.mds.domain.Dataset;
-import org.datacite.mds.validation.constraints.ValidXML;
-import javax.validation.constraints.NotNull;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @RooJavaBean
@@ -37,4 +35,24 @@ public class Metadata {
     @ManyToOne(targetEntity = Dataset.class)
     @JoinColumn
     private Dataset dataset;
+
+    public static Integer findMaxMetadataVersionByDataset(Dataset dataset) {
+        if (dataset == null)
+            throw new IllegalArgumentException("The dataset argument is required");
+        EntityManager em = entityManager();
+        Query q = em.createQuery("SELECT MAX(metadataVersion) FROM Metadata WHERE dataset = :dataset");
+        q.setParameter("dataset", dataset);
+        Integer max = (Integer) q.getSingleResult();
+        return max == null ? -1 : max;
+    }
+
+    @Transactional
+    public void persist() {
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
+        Integer maxVersion = findMaxMetadataVersionByDataset(getDataset());
+        setMetadataVersion(maxVersion + 1);
+        setLastUpdated(new Date());
+        this.entityManager.persist(this);
+    }
 }

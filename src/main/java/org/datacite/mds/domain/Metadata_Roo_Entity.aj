@@ -48,12 +48,6 @@ privileged aspect Metadata_Roo_Entity {
     }
     
     @Transactional
-    public void Metadata.persist() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        this.entityManager.persist(this);
-    }
-    
-    @Transactional
     public void Metadata.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
