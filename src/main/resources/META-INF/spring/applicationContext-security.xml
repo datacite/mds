@@ -19,10 +19,13 @@
         <intercept-url pattern="/oaisourceses/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
         
         <!-- static content -->
+        <intercept-url pattern="/resources/j_spring_security_switch_user" access="hasRole('ROLE_DEV')" requires-channel="https" />
         <intercept-url pattern="/resources/**" access="permitAll" requires-channel="https" />
         <intercept-url pattern="/static/**" access="permitAll" requires-channel="https" />
         <intercept-url pattern="/**" access="permitAll" requires-channel="https" />
-         
+        
+
+    	<custom-filter ref="switchUserProcessingFilter" after="FILTER_SECURITY_INTERCEPTOR" />
     </http>
 
     <authentication-manager alias="authenticationManager">
@@ -30,5 +33,13 @@
     </authentication-manager>
     
     <beans:bean id="myUserDetailsService" class="org.datacite.mds.service.impl.UserDetailsServiceImpl" />
+    
+    <beans:bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">
+        <beans:property name="userDetailsService" ref="myUserDetailsService" />
+        <beans:property name="switchUserUrl" value="/resources/j_spring_security_switch_user" />
+        <beans:property name="exitUserUrl" value="/resources/j_spring_security_exit_user" />
+        <beans:property name="targetUrl" value="/" />
+    </beans:bean>
+    
 
 </beans:beans>
