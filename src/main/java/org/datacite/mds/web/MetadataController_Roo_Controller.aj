@@ -72,6 +72,18 @@ privileged aspect MetadataController_Roo_Controller {
         return "metadatas/list";
     }
     
+    @RequestMapping(params = { "find=ByDataset", "form" }, method = RequestMethod.GET)
+    public String MetadataController.findMetadatasByDatasetForm(Model model) {
+        model.addAttribute("datasets", Dataset.findAllDatasets());
+        return "metadatas/findMetadatasByDataset";
+    }
+    
+    @RequestMapping(params = "find=ByDataset", method = RequestMethod.GET)
+    public String MetadataController.findMetadatasByDataset(@RequestParam("dataset") Dataset dataset, Model model) {
+        model.addAttribute("metadatas", Metadata.findMetadatasByDataset(dataset).getResultList());
+        return "metadatas/list";
+    }
+    
     @ModelAttribute("datasets")
     public Collection<Dataset> MetadataController.populateDatasets() {
         return Dataset.findAllDatasets();

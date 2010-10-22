@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:find finderName="ByDataset" id="ff_org_datacite_mds_domain_Metadata" path="/metadatas" z="fCCPM7BddIsNCWOzVPitM5qWkLE=">
+        <field:select disableFormBinding="true" field="dataset" id="f_org_datacite_mds_domain_Metadata_dataset" itemValue="id" items="${datasets}" path="/datasets" required="true" z="VVgxCP5uquAGh7TbTqj+7ljzwoU="/>
+    </form:find>
+</div>

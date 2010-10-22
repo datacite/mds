@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:sec="http://www.springframework.org/security/tags" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0">
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:sec="http://www.springframework.org/security/tags" id="menu" version="2.0">
 	<jsp:output omit-xml-declaration="yes"/>
 
 <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
@@ -41,7 +41,8 @@
     <menu:category id="c_metadata" z="eDjrEVWwDTlv9Pe+izrD6GfEWCU=">
             <menu:item id="i_metadata_new" messageCode="global_menu_new" url="/metadatas?form" z="t7Y7EyYeymOIiWS/6t44dCQDHc4="/>
         <menu:item id="i_metadata_list" messageCode="global_menu_list" url="/metadatas?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="K4pK5x1uMsZjgh/1lKJNcc+9A68="/>
-        </menu:category>
+        <menu:item id="fi_metadata_dataset" messageCode="global_menu_find" url="/metadatas?find=ByDataset&amp;form" z="rDENoolIzdk+ecuM9Ust7uJX64Y="/>
+            </menu:category>
     </sec:authorize>
 
     <menu:category id="c_view" z="HjmI4Chx/kBYfS/6HjBLbCA+XpU=">

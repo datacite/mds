@@ -13,4 +13,7 @@
 <definition extends="default" name="metadatas/update">
         <put-attribute name="body" value="/WEB-INF/views/metadatas/update.jspx"/>
     </definition>
+<definition extends="default" name="metadatas/findMetadatasByDataset">
+        <put-attribute name="body" value="/WEB-INF/views/metadatas/findMetadatasByDataset.jspx"/>
+    </definition>
 </tiles-definitions>

@@ -11,7 +11,6 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.validation.constraints.ValidXML;
-
 import javax.validation.constraints.NotNull;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
@@ -19,10 +18,10 @@ import javax.persistence.JoinColumn;
 @Entity
 @RooJavaBean
 @RooToString
-@RooEntity
+@RooEntity(finders = { "findMetadatasByDataset" })
 public class Metadata {
+
     @Lob
-    // @Basic(fetch=LAZY)
     @Column(name = "xml", columnDefinition = "BLOB NOT NULL")
     @ValidXML
     private byte[] xml;
