@@ -13,12 +13,21 @@
   </div>
   
   <div id="topmenu">
+    <sec:authorize ifAllGranted="ROLE_DEV">
+      <spring:url value="/resources/j_spring_security_switch_user" var="switch"/>
+      <form action="${switch}">
+        <label><spring:message code="security_switch_user"/></label>
+        <input name="j_username" />
+      </form>
+      <c:out value=" | "/>
+    </sec:authorize>
+  
   <c:if test="${pageContext['request'].userPrincipal != null}">
     <sec:authentication property="principal.username" var="username"/>
     <spring:message code="security_logged_in_as" arguments="${username}"/>
     <c:out value=" | "/>
     <span>
-      <spring:url value="/resources/j_spring_security_logout" var="logout"/>
+      <spring:url value="/resources/logout_or_exit" var="logout"/>
       <a href="${logout}">
         <spring:message code="security_logout"/>
       </a>

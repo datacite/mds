@@ -59,6 +59,21 @@ body {
     text-align: right;
 }
 
+#topmenu form {
+    display: inline;
+    padding: 0px;
+}
+
+#topmenu label {
+    float:none;
+    margin-right:5px;
+}
+
+#topmenu input {
+    width:50px;
+    height: 15px;
+}
+
 #main {
 	overflow:hidden;
 	display:box;
