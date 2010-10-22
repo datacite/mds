@@ -97,11 +97,7 @@ privileged aspect DatacentreController_Roo_Controller {
         return Allocator.findAllAllocators();
     }
     
-    @ModelAttribute("prefixes")
-    public Collection<Prefix> DatacentreController.populatePrefixes() {
-        return Prefix.findAllPrefixes();
-    }
-    
+        
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
     @ResponseBody
     public String DatacentreController.showJson(@PathVariable("id") Long id) {
