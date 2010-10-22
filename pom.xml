@@ -426,6 +426,11 @@
             <artifactId>commons-lang</artifactId>
             <version>2.1</version>
         </dependency>
+    <dependency>
+            <groupId>handle.net</groupId>
+            <artifactId>hcj</artifactId>
+            <version>6</version>
+        </dependency>        
     </dependencies>
 	<build>
 		<plugins>

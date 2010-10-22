@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.roo.addon.entity.RooEntity;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.validation.constraints.Pattern;
@@ -76,4 +78,10 @@ public class Datacentre {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
+    
+    @Transactional
+    public void incQuotaUsed() {
+        String qlString = "update Datacentre a set a.doiQuotaUsed = a.doiQuotaUsed + 1 where a.symbol = :symbol";
+        entityManager.createQuery(qlString).setParameter("symbol", getSymbol()).executeUpdate();
+    }
 }
