@@ -5,8 +5,6 @@ package org.datacite.mds.domain;
 
 import java.lang.Integer;
 import java.lang.Long;
-import java.lang.SuppressWarnings;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
@@ -88,19 +86,9 @@ privileged aspect Allocator_Roo_Entity {
         return ((Number) entityManager().createQuery("select count(o) from Allocator o").getSingleResult()).longValue();
     }
     
-    @SuppressWarnings("unchecked")
-    public static List<Allocator> Allocator.findAllAllocators() {
-        return entityManager().createQuery("select o from Allocator o").getResultList();
-    }
-    
     public static Allocator Allocator.findAllocator(Long id) {
         if (id == null) return null;
         return entityManager().find(Allocator.class, id);
-    }
-    
-    @SuppressWarnings("unchecked")
-    public static List<Allocator> Allocator.findAllocatorEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Allocator o").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

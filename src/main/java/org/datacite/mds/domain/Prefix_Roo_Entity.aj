@@ -5,8 +5,6 @@ package org.datacite.mds.domain;
 
 import java.lang.Integer;
 import java.lang.Long;
-import java.lang.SuppressWarnings;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
@@ -88,19 +86,9 @@ privileged aspect Prefix_Roo_Entity {
         return ((Number) entityManager().createQuery("select count(o) from Prefix o").getSingleResult()).longValue();
     }
     
-    @SuppressWarnings("unchecked")
-    public static List<Prefix> Prefix.findAllPrefixes() {
-        return entityManager().createQuery("select o from Prefix o").getResultList();
-    }
-    
     public static Prefix Prefix.findPrefix(Long id) {
         if (id == null) return null;
         return entityManager().find(Prefix.class, id);
-    }
-    
-    @SuppressWarnings("unchecked")
-    public static List<Prefix> Prefix.findPrefixEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Prefix o").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }
