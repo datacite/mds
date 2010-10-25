@@ -17,6 +17,8 @@ privileged aspect PrefixIntegrationTest_Roo_IntegrationTest {
     
     declare @type: PrefixIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
     
+    declare @type: PrefixIntegrationTest: @Transactional;
+    
     @Autowired
     private PrefixDataOnDemand PrefixIntegrationTest.dod;
     
@@ -59,7 +61,6 @@ privileged aspect PrefixIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void PrefixIntegrationTest.testFlush() {
         org.datacite.mds.domain.Prefix obj = dod.getRandomPrefix();
         org.junit.Assert.assertNotNull("Data on demand for 'Prefix' failed to initialize correctly", obj);
@@ -70,11 +71,10 @@ privileged aspect PrefixIntegrationTest_Roo_IntegrationTest {
         boolean modified =  dod.modifyPrefix(obj);
         java.lang.Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Prefix' failed to increment on flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertTrue("Version for 'Prefix' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void PrefixIntegrationTest.testMerge() {
         org.datacite.mds.domain.Prefix obj = dod.getRandomPrefix();
         org.junit.Assert.assertNotNull("Data on demand for 'Prefix' failed to initialize correctly", obj);
@@ -83,13 +83,13 @@ privileged aspect PrefixIntegrationTest_Roo_IntegrationTest {
         obj = org.datacite.mds.domain.Prefix.findPrefix(id);
         boolean modified =  dod.modifyPrefix(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        obj.merge();
+        org.datacite.mds.domain.Prefix merged = (org.datacite.mds.domain.Prefix) obj.merge();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Prefix' failed to increment on merge and flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        org.junit.Assert.assertTrue("Version for 'Prefix' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void PrefixIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'Prefix' failed to initialize correctly", dod.getRandomPrefix());
         org.datacite.mds.domain.Prefix obj = dod.getNewTransientPrefix(Integer.MAX_VALUE);
@@ -101,7 +101,6 @@ privileged aspect PrefixIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void PrefixIntegrationTest.testRemove() {
         org.datacite.mds.domain.Prefix obj = dod.getRandomPrefix();
         org.junit.Assert.assertNotNull("Data on demand for 'Prefix' failed to initialize correctly", obj);

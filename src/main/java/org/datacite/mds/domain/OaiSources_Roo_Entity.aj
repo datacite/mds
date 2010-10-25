@@ -5,7 +5,6 @@ package org.datacite.mds.domain;
 
 import java.lang.Integer;
 import java.lang.Long;
-import java.lang.SuppressWarnings;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
@@ -85,12 +84,11 @@ privileged aspect OaiSources_Roo_Entity {
     }
     
     public static long OaiSources.countOaiSourceses() {
-        return ((Number) entityManager().createQuery("select count(o) from OaiSources o").getSingleResult()).longValue();
+        return entityManager().createQuery("select count(o) from OaiSources o", Long.class).getSingleResult();
     }
     
-    @SuppressWarnings("unchecked")
     public static List<OaiSources> OaiSources.findAllOaiSourceses() {
-        return entityManager().createQuery("select o from OaiSources o").getResultList();
+        return entityManager().createQuery("select o from OaiSources o", OaiSources.class).getResultList();
     }
     
     public static OaiSources OaiSources.findOaiSources(Long id) {
@@ -98,9 +96,8 @@ privileged aspect OaiSources_Roo_Entity {
         return entityManager().find(OaiSources.class, id);
     }
     
-    @SuppressWarnings("unchecked")
     public static List<OaiSources> OaiSources.findOaiSourcesEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from OaiSources o").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("select o from OaiSources o", OaiSources.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

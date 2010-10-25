@@ -3,39 +3,44 @@
 
 package org.datacite.mds.web;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 privileged aspect MetadataController_Roo_Controller {
     
+    @Autowired
+    private GenericConversionService MetadataController.conversionService;
+    
     @RequestMapping(method = RequestMethod.POST)
-    public String MetadataController.create(@Valid Metadata metadata, BindingResult result, Model model) {
+    public String MetadataController.create(@Valid Metadata metadata, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("metadata", metadata);
             addDateTimeFormatPatterns(model);
             return "metadatas/create";
         }
         metadata.persist();
-        return "redirect:/metadatas/" + metadata.getId();
+        return "redirect:/metadatas/" + encodeUrlPathSegment(metadata.getId().toString(), request);
     }
     
     @RequestMapping(params = "form", method = RequestMethod.GET)
@@ -93,30 +98,16 @@ privileged aspect MetadataController_Roo_Controller {
         model.addAttribute("metadata_lastupdated_date_format", DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @ResponseBody
-    public String MetadataController.showJson(@PathVariable("id") Long id) {
-        return Metadata.findMetadata(id).toJson();
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> MetadataController.createFromJson(@RequestBody String json) {
-        Metadata.fromJsonToMetadata(json).persist();
-        return new ResponseEntity<String>("Metadata created", HttpStatus.CREATED);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json")
-    @ResponseBody
-    public String MetadataController.listJson() {
-        return Metadata.toJsonArray(Metadata.findAllMetadatas());
-    }
-    
-    @RequestMapping(value = "/jsonArray", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> MetadataController.createFromJsonArray(@RequestBody String json) {
-        for (Metadata metadata: Metadata.fromJsonArrayToMetadatas(json)) {
-            metadata.persist();
+    private String MetadataController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
+        String enc = request.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
         }
-        return new ResponseEntity<String>("Metadata created", HttpStatus.CREATED);
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
+        }
+        catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
     }
     
 }

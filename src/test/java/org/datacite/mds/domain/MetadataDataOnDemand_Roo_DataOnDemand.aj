@@ -5,12 +5,8 @@ package org.datacite.mds.domain;
 
 import java.util.List;
 import java.util.Random;
-import org.datacite.mds.domain.DatasetDataOnDemand;
 import org.datacite.mds.domain.Metadata;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect MetadataDataOnDemand_Roo_DataOnDemand {
     
@@ -20,12 +16,9 @@ privileged aspect MetadataDataOnDemand_Roo_DataOnDemand {
     
     private List<Metadata> MetadataDataOnDemand.data;
     
-    @Autowired
-    private DatasetDataOnDemand MetadataDataOnDemand.datasetDataOnDemand;
-    
     public Metadata MetadataDataOnDemand.getNewTransientMetadata(int index) {
         org.datacite.mds.domain.Metadata obj = new org.datacite.mds.domain.Metadata();
-        obj.setDataset(datasetDataOnDemand.getRandomDataset());
+        obj.setDataset(null);
         obj.setLastUpdated(new java.util.Date());
         java.lang.Integer metadataVersion = new Integer(index);
         if (metadataVersion < 0) {
@@ -54,18 +47,7 @@ privileged aspect MetadataDataOnDemand_Roo_DataOnDemand {
         return false;
     }
     
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void MetadataDataOnDemand.init() {
-        if (data != null && !data.isEmpty()) {
-            return;
-        }
-        
-        data = org.datacite.mds.domain.Metadata.findMetadataEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Metadata' illegally returned null");
-        if (!data.isEmpty()) {
-            return;
-        }
-        
         data = new java.util.ArrayList<org.datacite.mds.domain.Metadata>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Metadata obj = getNewTransientMetadata(i);

@@ -17,6 +17,8 @@ privileged aspect DatasetIntegrationTest_Roo_IntegrationTest {
     
     declare @type: DatasetIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
     
+    declare @type: DatasetIntegrationTest: @Transactional;
+    
     @Autowired
     private DatasetDataOnDemand DatasetIntegrationTest.dod;
     
@@ -59,7 +61,6 @@ privileged aspect DatasetIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void DatasetIntegrationTest.testFlush() {
         org.datacite.mds.domain.Dataset obj = dod.getRandomDataset();
         org.junit.Assert.assertNotNull("Data on demand for 'Dataset' failed to initialize correctly", obj);
@@ -70,11 +71,10 @@ privileged aspect DatasetIntegrationTest_Roo_IntegrationTest {
         boolean modified =  dod.modifyDataset(obj);
         java.lang.Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Dataset' failed to increment on flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertTrue("Version for 'Dataset' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void DatasetIntegrationTest.testMerge() {
         org.datacite.mds.domain.Dataset obj = dod.getRandomDataset();
         org.junit.Assert.assertNotNull("Data on demand for 'Dataset' failed to initialize correctly", obj);
@@ -83,13 +83,13 @@ privileged aspect DatasetIntegrationTest_Roo_IntegrationTest {
         obj = org.datacite.mds.domain.Dataset.findDataset(id);
         boolean modified =  dod.modifyDataset(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        obj.merge();
+        org.datacite.mds.domain.Dataset merged = (org.datacite.mds.domain.Dataset) obj.merge();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Dataset' failed to increment on merge and flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        org.junit.Assert.assertTrue("Version for 'Dataset' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void DatasetIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'Dataset' failed to initialize correctly", dod.getRandomDataset());
         org.datacite.mds.domain.Dataset obj = dod.getNewTransientDataset(Integer.MAX_VALUE);
@@ -101,7 +101,6 @@ privileged aspect DatasetIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void DatasetIntegrationTest.testRemove() {
         org.datacite.mds.domain.Dataset obj = dod.getRandomDataset();
         org.junit.Assert.assertNotNull("Data on demand for 'Dataset' failed to initialize correctly", obj);

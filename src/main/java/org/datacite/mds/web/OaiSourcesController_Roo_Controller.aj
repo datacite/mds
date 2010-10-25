@@ -3,38 +3,41 @@
 
 package org.datacite.mds.web;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.OaiSources;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 privileged aspect OaiSourcesController_Roo_Controller {
     
+    @Autowired
+    private GenericConversionService OaiSourcesController.conversionService;
+    
     @RequestMapping(method = RequestMethod.POST)
-    public String OaiSourcesController.create(@Valid OaiSources oaiSources, BindingResult result, Model model) {
+    public String OaiSourcesController.create(@Valid OaiSources oaiSources, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("oaiSources", oaiSources);
             addDateTimeFormatPatterns(model);
             return "oaisourceses/create";
         }
         oaiSources.persist();
-        return "redirect:/oaisourceses/" + oaiSources.getId();
+        return "redirect:/oaisourceses/" + encodeUrlPathSegment(oaiSources.getId().toString(), request);
     }
     
     @RequestMapping(params = "form", method = RequestMethod.GET)
@@ -67,14 +70,14 @@ privileged aspect OaiSourcesController_Roo_Controller {
     }
     
     @RequestMapping(method = RequestMethod.PUT)
-    public String OaiSourcesController.update(@Valid OaiSources oaiSources, BindingResult result, Model model) {
+    public String OaiSourcesController.update(@Valid OaiSources oaiSources, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("oaiSources", oaiSources);
             addDateTimeFormatPatterns(model);
             return "oaisourceses/update";
         }
         oaiSources.merge();
-        return "redirect:/oaisourceses/" + oaiSources.getId();
+        return "redirect:/oaisourceses/" + encodeUrlPathSegment(oaiSources.getId().toString(), request);
     }
     
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
@@ -92,42 +95,25 @@ privileged aspect OaiSourcesController_Roo_Controller {
         };
     }
     
-    @InitBinder
-    void OaiSourcesController.registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(getOaiSourcesConverter());
-        }
+    @PostConstruct
+    void OaiSourcesController.registerConverters() {
+        conversionService.addConverter(getOaiSourcesConverter());
     }
     
     void OaiSourcesController.addDateTimeFormatPatterns(Model model) {
         model.addAttribute("oaiSources_lastharvest_date_format", DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @ResponseBody
-    public String OaiSourcesController.showJson(@PathVariable("id") Long id) {
-        return OaiSources.findOaiSources(id).toJson();
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> OaiSourcesController.createFromJson(@RequestBody String json) {
-        OaiSources.fromJsonToOaiSources(json).persist();
-        return new ResponseEntity<String>("OaiSources created", HttpStatus.CREATED);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json")
-    @ResponseBody
-    public String OaiSourcesController.listJson() {
-        return OaiSources.toJsonArray(OaiSources.findAllOaiSourceses());
-    }
-    
-    @RequestMapping(value = "/jsonArray", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> OaiSourcesController.createFromJsonArray(@RequestBody String json) {
-        for (OaiSources oaisources: OaiSources.fromJsonArrayToOaiSourceses(json)) {
-            oaisources.persist();
+    private String OaiSourcesController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
+        String enc = request.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
         }
-        return new ResponseEntity<String>("OaiSources created", HttpStatus.CREATED);
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
+        }
+        catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
     }
     
 }

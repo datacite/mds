@@ -3,35 +3,38 @@
 
 package org.datacite.mds.web;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Prefix;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 privileged aspect PrefixController_Roo_Controller {
     
+    @Autowired
+    private GenericConversionService PrefixController.conversionService;
+    
     @RequestMapping(method = RequestMethod.POST)
-    public String PrefixController.create(@Valid Prefix prefix, BindingResult result, Model model) {
+    public String PrefixController.create(@Valid Prefix prefix, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("prefix", prefix);
             return "prefixes/create";
         }
         prefix.persist();
-        return "redirect:/prefixes/" + prefix.getId();
+        return "redirect:/prefixes/" + encodeUrlPathSegment(prefix.getId().toString(), request);
     }
     
     @RequestMapping(params = "form", method = RequestMethod.GET)
@@ -61,13 +64,13 @@ privileged aspect PrefixController_Roo_Controller {
     }
     
     @RequestMapping(method = RequestMethod.PUT)
-    public String PrefixController.update(@Valid Prefix prefix, BindingResult result, Model model) {
+    public String PrefixController.update(@Valid Prefix prefix, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("prefix", prefix);
             return "prefixes/update";
         }
         prefix.merge();
-        return "redirect:/prefixes/" + prefix.getId();
+        return "redirect:/prefixes/" + encodeUrlPathSegment(prefix.getId().toString(), request);
     }
     
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
@@ -95,38 +98,21 @@ privileged aspect PrefixController_Roo_Controller {
         };
     }
     
-    @InitBinder
-    void PrefixController.registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(getPrefixConverter());
+    @PostConstruct
+    void PrefixController.registerConverters() {
+        conversionService.addConverter(getPrefixConverter());
+    }
+    
+    private String PrefixController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
+        String enc = request.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
         }
-    }
-    
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @ResponseBody
-    public String PrefixController.showJson(@PathVariable("id") Long id) {
-        return Prefix.findPrefix(id).toJson();
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> PrefixController.createFromJson(@RequestBody String json) {
-        Prefix.fromJsonToPrefix(json).persist();
-        return new ResponseEntity<String>("Prefix created", HttpStatus.CREATED);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json")
-    @ResponseBody
-    public String PrefixController.listJson() {
-        return Prefix.toJsonArray(Prefix.findAllPrefixes());
-    }
-    
-    @RequestMapping(value = "/jsonArray", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> PrefixController.createFromJsonArray(@RequestBody String json) {
-        for (Prefix prefix: Prefix.fromJsonArrayToPrefixes(json)) {
-            prefix.persist();
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
         }
-        return new ResponseEntity<String>("Prefix created", HttpStatus.CREATED);
+        catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
     }
     
 }

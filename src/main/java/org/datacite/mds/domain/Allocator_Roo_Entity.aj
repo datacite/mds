@@ -83,7 +83,7 @@ privileged aspect Allocator_Roo_Entity {
     }
     
     public static long Allocator.countAllocators() {
-        return ((Number) entityManager().createQuery("select count(o) from Allocator o").getSingleResult()).longValue();
+        return entityManager().createQuery("select count(o) from Allocator o", Long.class).getSingleResult();
     }
     
     public static Allocator Allocator.findAllocator(Long id) {

@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Random;
 import org.datacite.mds.domain.Allocator;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect AllocatorDataOnDemand_Roo_DataOnDemand {
     
@@ -70,18 +68,7 @@ privileged aspect AllocatorDataOnDemand_Roo_DataOnDemand {
         return false;
     }
     
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void AllocatorDataOnDemand.init() {
-        if (data != null && !data.isEmpty()) {
-            return;
-        }
-        
-        data = org.datacite.mds.domain.Allocator.findAllocatorEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Allocator' illegally returned null");
-        if (!data.isEmpty()) {
-            return;
-        }
-        
         data = new java.util.ArrayList<org.datacite.mds.domain.Allocator>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Allocator obj = getNewTransientAllocator(i);

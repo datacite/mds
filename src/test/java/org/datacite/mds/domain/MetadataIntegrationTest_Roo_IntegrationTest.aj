@@ -17,6 +17,8 @@ privileged aspect MetadataIntegrationTest_Roo_IntegrationTest {
     
     declare @type: MetadataIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
     
+    declare @type: MetadataIntegrationTest: @Transactional;
+    
     @Autowired
     private MetadataDataOnDemand MetadataIntegrationTest.dod;
     
@@ -59,7 +61,6 @@ privileged aspect MetadataIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void MetadataIntegrationTest.testFlush() {
         org.datacite.mds.domain.Metadata obj = dod.getRandomMetadata();
         org.junit.Assert.assertNotNull("Data on demand for 'Metadata' failed to initialize correctly", obj);
@@ -70,11 +71,10 @@ privileged aspect MetadataIntegrationTest_Roo_IntegrationTest {
         boolean modified =  dod.modifyMetadata(obj);
         java.lang.Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Metadata' failed to increment on flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertTrue("Version for 'Metadata' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void MetadataIntegrationTest.testMerge() {
         org.datacite.mds.domain.Metadata obj = dod.getRandomMetadata();
         org.junit.Assert.assertNotNull("Data on demand for 'Metadata' failed to initialize correctly", obj);
@@ -83,13 +83,13 @@ privileged aspect MetadataIntegrationTest_Roo_IntegrationTest {
         obj = org.datacite.mds.domain.Metadata.findMetadata(id);
         boolean modified =  dod.modifyMetadata(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        obj.merge();
+        org.datacite.mds.domain.Metadata merged = (org.datacite.mds.domain.Metadata) obj.merge();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Metadata' failed to increment on merge and flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        org.junit.Assert.assertTrue("Version for 'Metadata' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void MetadataIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'Metadata' failed to initialize correctly", dod.getRandomMetadata());
         org.datacite.mds.domain.Metadata obj = dod.getNewTransientMetadata(Integer.MAX_VALUE);
@@ -101,7 +101,6 @@ privileged aspect MetadataIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void MetadataIntegrationTest.testRemove() {
         org.datacite.mds.domain.Metadata obj = dod.getRandomMetadata();
         org.junit.Assert.assertNotNull("Data on demand for 'Metadata' failed to initialize correctly", obj);

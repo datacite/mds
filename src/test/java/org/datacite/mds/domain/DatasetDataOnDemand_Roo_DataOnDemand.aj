@@ -9,8 +9,6 @@ import org.datacite.mds.domain.DatacentreDataOnDemand;
 import org.datacite.mds.domain.Dataset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect DatasetDataOnDemand_Roo_DataOnDemand {
     
@@ -57,18 +55,7 @@ privileged aspect DatasetDataOnDemand_Roo_DataOnDemand {
         return false;
     }
     
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void DatasetDataOnDemand.init() {
-        if (data != null && !data.isEmpty()) {
-            return;
-        }
-        
-        data = org.datacite.mds.domain.Dataset.findDatasetEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Dataset' illegally returned null");
-        if (!data.isEmpty()) {
-            return;
-        }
-        
         data = new java.util.ArrayList<org.datacite.mds.domain.Dataset>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Dataset obj = getNewTransientDataset(i);

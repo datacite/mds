@@ -83,7 +83,7 @@ privileged aspect Datacentre_Roo_Entity {
     }
     
     public static long Datacentre.countDatacentres() {
-        return ((Number) entityManager().createQuery("select count(o) from Datacentre o").getSingleResult()).longValue();
+        return entityManager().createQuery("select count(o) from Datacentre o", Long.class).getSingleResult();
     }
     
     public static Datacentre Datacentre.findDatacentre(Long id) {

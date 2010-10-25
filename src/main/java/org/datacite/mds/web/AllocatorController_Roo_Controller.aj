@@ -3,38 +3,41 @@
 
 package org.datacite.mds.web;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Collection;
+import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Prefix;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 privileged aspect AllocatorController_Roo_Controller {
     
+    @Autowired
+    private GenericConversionService AllocatorController.conversionService;
+    
     @RequestMapping(method = RequestMethod.POST)
-    public String AllocatorController.create(@Valid Allocator allocator, BindingResult result, Model model) {
+    public String AllocatorController.create(@Valid Allocator allocator, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
             return "allocators/create";
         }
         allocator.persist();
-        return "redirect:/allocators/" + allocator.getId();
+        return "redirect:/allocators/" + encodeUrlPathSegment(allocator.getId().toString(), request);
     }
     
     @RequestMapping(params = "form", method = RequestMethod.GET)
@@ -64,13 +67,13 @@ privileged aspect AllocatorController_Roo_Controller {
     }
     
     @RequestMapping(method = RequestMethod.PUT)
-    public String AllocatorController.update(@Valid Allocator allocator, BindingResult result, Model model) {
+    public String AllocatorController.update(@Valid Allocator allocator, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
             return "allocators/update";
         }
         allocator.merge();
-        return "redirect:/allocators/" + allocator.getId();
+        return "redirect:/allocators/" + encodeUrlPathSegment(allocator.getId().toString(), request);
     }
     
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
@@ -122,39 +125,22 @@ privileged aspect AllocatorController_Roo_Controller {
         };
     }
     
-    @InitBinder
-    void AllocatorController.registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(getAllocatorConverter());
-            conversionService.addConverter(getPrefixConverter());
+    @PostConstruct
+    void AllocatorController.registerConverters() {
+        conversionService.addConverter(getAllocatorConverter());
+        conversionService.addConverter(getPrefixConverter());
+    }
+    
+    private String AllocatorController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
+        String enc = request.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
         }
-    }
-    
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @ResponseBody
-    public String AllocatorController.showJson(@PathVariable("id") Long id) {
-        return Allocator.findAllocator(id).toJson();
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> AllocatorController.createFromJson(@RequestBody String json) {
-        Allocator.fromJsonToAllocator(json).persist();
-        return new ResponseEntity<String>("Allocator created", HttpStatus.CREATED);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json")
-    @ResponseBody
-    public String AllocatorController.listJson() {
-        return Allocator.toJsonArray(Allocator.findAllAllocators());
-    }
-    
-    @RequestMapping(value = "/jsonArray", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> AllocatorController.createFromJsonArray(@RequestBody String json) {
-        for (Allocator allocator: Allocator.fromJsonArrayToAllocators(json)) {
-            allocator.persist();
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
         }
-        return new ResponseEntity<String>("Allocator created", HttpStatus.CREATED);
+        catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
     }
     
 }

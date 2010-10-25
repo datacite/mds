@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Random;
 import org.datacite.mds.domain.Prefix;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect PrefixDataOnDemand_Roo_DataOnDemand {
     
@@ -42,18 +40,7 @@ privileged aspect PrefixDataOnDemand_Roo_DataOnDemand {
         return false;
     }
     
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void PrefixDataOnDemand.init() {
-        if (data != null && !data.isEmpty()) {
-            return;
-        }
-        
-        data = org.datacite.mds.domain.Prefix.findPrefixEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Prefix' illegally returned null");
-        if (!data.isEmpty()) {
-            return;
-        }
-        
         data = new java.util.ArrayList<org.datacite.mds.domain.Prefix>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Prefix obj = getNewTransientPrefix(i);

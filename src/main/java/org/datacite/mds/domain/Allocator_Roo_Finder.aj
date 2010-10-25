@@ -5,19 +5,20 @@ package org.datacite.mds.domain;
 
 import java.lang.String;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import org.datacite.mds.domain.Allocator;
 
 privileged aspect Allocator_Roo_Finder {
     
-    public static Query Allocator.findAllocatorsBySymbolEquals(String symbol) {
+    public static TypedQuery<Allocator> Allocator.findAllocatorsBySymbolEquals(String symbol) {
         if (symbol == null || symbol.length() == 0) throw new IllegalArgumentException("The symbol argument is required");
         EntityManager em = Allocator.entityManager();
-        Query q = em.createQuery("SELECT Allocator FROM Allocator AS allocator WHERE allocator.symbol = :symbol");
+        TypedQuery<Allocator> q = em.createQuery("SELECT Allocator FROM Allocator AS allocator WHERE allocator.symbol = :symbol", Allocator.class);
         q.setParameter("symbol", symbol);
         return q;
     }
     
-    public static Query Allocator.findAllocatorsByNameLike(String name) {
+    public static TypedQuery<Allocator> Allocator.findAllocatorsByNameLike(String name) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         name = name.replace('*', '%');
         if (name.charAt(0) != '%') {
@@ -27,7 +28,7 @@ privileged aspect Allocator_Roo_Finder {
             name = name + "%";
         }
         EntityManager em = Allocator.entityManager();
-        Query q = em.createQuery("SELECT Allocator FROM Allocator AS allocator WHERE LOWER(allocator.name) LIKE LOWER(:name)");
+        TypedQuery<Allocator> q = em.createQuery("SELECT Allocator FROM Allocator AS allocator WHERE LOWER(allocator.name) LIKE LOWER(:name)", Allocator.class);
         q.setParameter("name", name);
         return q;
     }

@@ -3,35 +3,40 @@
 
 package org.datacite.mds.web;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Collection;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.UriUtils;
+import org.springframework.web.util.WebUtils;
 
 privileged aspect DatacentreController_Roo_Controller {
     
+    @Autowired
+    private GenericConversionService DatacentreController.conversionService;
+    
     @RequestMapping(method = RequestMethod.POST)
-    public String DatacentreController.create(@Valid Datacentre datacentre, BindingResult result, Model model) {
+    public String DatacentreController.create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
             return "datacentres/create";
         }
         datacentre.persist();
-        return "redirect:/datacentres/" + datacentre.getId();
+        return "redirect:/datacentres/" + encodeUrlPathSegment(datacentre.getId().toString(), request);
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -55,13 +60,13 @@ privileged aspect DatacentreController_Roo_Controller {
     }
     
     @RequestMapping(method = RequestMethod.PUT)
-    public String DatacentreController.update(@Valid Datacentre datacentre, BindingResult result, Model model) {
+    public String DatacentreController.update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
             return "datacentres/update";
         }
         datacentre.merge();
-        return "redirect:/datacentres/" + datacentre.getId();
+        return "redirect:/datacentres/" + encodeUrlPathSegment(datacentre.getId().toString(), request);
     }
     
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
@@ -97,31 +102,16 @@ privileged aspect DatacentreController_Roo_Controller {
         return Allocator.findAllAllocators();
     }
     
-        
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, headers = "Accept=application/json")
-    @ResponseBody
-    public String DatacentreController.showJson(@PathVariable("id") Long id) {
-        return Datacentre.findDatacentre(id).toJson();
-    }
-    
-    @RequestMapping(method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> DatacentreController.createFromJson(@RequestBody String json) {
-        Datacentre.fromJsonToDatacentre(json).persist();
-        return new ResponseEntity<String>("Datacentre created", HttpStatus.CREATED);
-    }
-    
-    @RequestMapping(headers = "Accept=application/json")
-    @ResponseBody
-    public String DatacentreController.listJson() {
-        return Datacentre.toJsonArray(Datacentre.findAllDatacentres());
-    }
-    
-    @RequestMapping(value = "/jsonArray", method = RequestMethod.POST, headers = "Accept=application/json")
-    public ResponseEntity<String> DatacentreController.createFromJsonArray(@RequestBody String json) {
-        for (Datacentre datacentre: Datacentre.fromJsonArrayToDatacentres(json)) {
-            datacentre.persist();
+    private String DatacentreController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
+        String enc = request.getCharacterEncoding();
+        if (enc == null) {
+            enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
         }
-        return new ResponseEntity<String>("Datacentre created", HttpStatus.CREATED);
+        try {
+            pathSegment = UriUtils.encodePathSegment(pathSegment, enc);
+        }
+        catch (UnsupportedEncodingException uee) {}
+        return pathSegment;
     }
     
 }

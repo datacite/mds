@@ -5,14 +5,15 @@ package org.datacite.mds.domain;
 
 import java.lang.String;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import org.datacite.mds.domain.Prefix;
 
 privileged aspect Prefix_Roo_Finder {
     
-    public static Query Prefix.findPrefixesByPrefixLike(String prefix) {
+    public static TypedQuery<Prefix> Prefix.findPrefixesByPrefixLike(String prefix) {
         if (prefix == null || prefix.length() == 0) throw new IllegalArgumentException("The prefix argument is required");
         EntityManager em = Prefix.entityManager();
-        Query q = em.createQuery("SELECT Prefix FROM Prefix AS prefix WHERE LOWER(prefix.prefix) LIKE LOWER(:prefix)");
+        TypedQuery<Prefix> q = em.createQuery("SELECT Prefix FROM Prefix AS prefix WHERE LOWER(prefix.prefix) LIKE LOWER(:prefix)", Prefix.class);
         q.setParameter("prefix", prefix);
         return q;
     }

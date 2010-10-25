@@ -4,15 +4,16 @@
 package org.datacite.mds.domain;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Metadata;
 
 privileged aspect Metadata_Roo_Finder {
     
-    public static Query Metadata.findMetadatasByDataset(Dataset dataset) {
+    public static TypedQuery<Metadata> Metadata.findMetadatasByDataset(Dataset dataset) {
         if (dataset == null) throw new IllegalArgumentException("The dataset argument is required");
         EntityManager em = Metadata.entityManager();
-        Query q = em.createQuery("SELECT Metadata FROM Metadata AS metadata WHERE metadata.dataset = :dataset");
+        TypedQuery<Metadata> q = em.createQuery("SELECT Metadata FROM Metadata AS metadata WHERE metadata.dataset = :dataset", Metadata.class);
         q.setParameter("dataset", dataset);
         return q;
     }

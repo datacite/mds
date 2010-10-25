@@ -17,6 +17,8 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     
     declare @type: OaiSourcesIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
     
+    declare @type: OaiSourcesIntegrationTest: @Transactional;
+    
     @Autowired
     private OaiSourcesDataOnDemand OaiSourcesIntegrationTest.dod;
     
@@ -59,7 +61,6 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void OaiSourcesIntegrationTest.testFlush() {
         org.datacite.mds.domain.OaiSources obj = dod.getRandomOaiSources();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", obj);
@@ -70,11 +71,10 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
         boolean modified =  dod.modifyOaiSources(obj);
         java.lang.Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'OaiSources' failed to increment on flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertTrue("Version for 'OaiSources' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void OaiSourcesIntegrationTest.testMerge() {
         org.datacite.mds.domain.OaiSources obj = dod.getRandomOaiSources();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", obj);
@@ -83,13 +83,13 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
         obj = org.datacite.mds.domain.OaiSources.findOaiSources(id);
         boolean modified =  dod.modifyOaiSources(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        obj.merge();
+        org.datacite.mds.domain.OaiSources merged = (org.datacite.mds.domain.OaiSources) obj.merge();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'OaiSources' failed to increment on merge and flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        org.junit.Assert.assertTrue("Version for 'OaiSources' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void OaiSourcesIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", dod.getRandomOaiSources());
         org.datacite.mds.domain.OaiSources obj = dod.getNewTransientOaiSources(Integer.MAX_VALUE);
@@ -101,7 +101,6 @@ privileged aspect OaiSourcesIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void OaiSourcesIntegrationTest.testRemove() {
         org.datacite.mds.domain.OaiSources obj = dod.getRandomOaiSources();
         org.junit.Assert.assertNotNull("Data on demand for 'OaiSources' failed to initialize correctly", obj);

@@ -5,19 +5,20 @@ package org.datacite.mds.domain;
 
 import java.lang.String;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import org.datacite.mds.domain.Datacentre;
 
 privileged aspect Datacentre_Roo_Finder {
     
-    public static Query Datacentre.findDatacentresBySymbolEquals(String symbol) {
+    public static TypedQuery<Datacentre> Datacentre.findDatacentresBySymbolEquals(String symbol) {
         if (symbol == null || symbol.length() == 0) throw new IllegalArgumentException("The symbol argument is required");
         EntityManager em = Datacentre.entityManager();
-        Query q = em.createQuery("SELECT Datacentre FROM Datacentre AS datacentre WHERE datacentre.symbol = :symbol");
+        TypedQuery<Datacentre> q = em.createQuery("SELECT Datacentre FROM Datacentre AS datacentre WHERE datacentre.symbol = :symbol", Datacentre.class);
         q.setParameter("symbol", symbol);
         return q;
     }
     
-    public static Query Datacentre.findDatacentresByNameLike(String name) {
+    public static TypedQuery<Datacentre> Datacentre.findDatacentresByNameLike(String name) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         name = name.replace('*', '%');
         if (name.charAt(0) != '%') {
@@ -27,7 +28,7 @@ privileged aspect Datacentre_Roo_Finder {
             name = name + "%";
         }
         EntityManager em = Datacentre.entityManager();
-        Query q = em.createQuery("SELECT Datacentre FROM Datacentre AS datacentre WHERE LOWER(datacentre.name) LIKE LOWER(:name)");
+        TypedQuery<Datacentre> q = em.createQuery("SELECT Datacentre FROM Datacentre AS datacentre WHERE LOWER(datacentre.name) LIKE LOWER(:name)", Datacentre.class);
         q.setParameter("name", name);
         return q;
     }

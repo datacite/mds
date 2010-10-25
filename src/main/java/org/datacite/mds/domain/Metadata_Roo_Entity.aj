@@ -5,7 +5,6 @@ package org.datacite.mds.domain;
 
 import java.lang.Integer;
 import java.lang.Long;
-import java.lang.SuppressWarnings;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
@@ -79,12 +78,11 @@ privileged aspect Metadata_Roo_Entity {
     }
     
     public static long Metadata.countMetadatas() {
-        return ((Number) entityManager().createQuery("select count(o) from Metadata o").getSingleResult()).longValue();
+        return entityManager().createQuery("select count(o) from Metadata o", Long.class).getSingleResult();
     }
     
-    @SuppressWarnings("unchecked")
     public static List<Metadata> Metadata.findAllMetadatas() {
-        return entityManager().createQuery("select o from Metadata o").getResultList();
+        return entityManager().createQuery("select o from Metadata o", Metadata.class).getResultList();
     }
     
     public static Metadata Metadata.findMetadata(Long id) {
@@ -92,9 +90,8 @@ privileged aspect Metadata_Roo_Entity {
         return entityManager().find(Metadata.class, id);
     }
     
-    @SuppressWarnings("unchecked")
     public static List<Metadata> Metadata.findMetadataEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Metadata o").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("select o from Metadata o", Metadata.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

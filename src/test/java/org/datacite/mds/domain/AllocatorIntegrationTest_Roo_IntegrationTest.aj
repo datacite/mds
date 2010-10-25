@@ -17,6 +17,8 @@ privileged aspect AllocatorIntegrationTest_Roo_IntegrationTest {
     
     declare @type: AllocatorIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
     
+    declare @type: AllocatorIntegrationTest: @Transactional;
+    
     @Autowired
     private AllocatorDataOnDemand AllocatorIntegrationTest.dod;
     
@@ -59,7 +61,6 @@ privileged aspect AllocatorIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void AllocatorIntegrationTest.testFlush() {
         org.datacite.mds.domain.Allocator obj = dod.getRandomAllocator();
         org.junit.Assert.assertNotNull("Data on demand for 'Allocator' failed to initialize correctly", obj);
@@ -70,11 +71,10 @@ privileged aspect AllocatorIntegrationTest_Roo_IntegrationTest {
         boolean modified =  dod.modifyAllocator(obj);
         java.lang.Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Allocator' failed to increment on flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertTrue("Version for 'Allocator' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void AllocatorIntegrationTest.testMerge() {
         org.datacite.mds.domain.Allocator obj = dod.getRandomAllocator();
         org.junit.Assert.assertNotNull("Data on demand for 'Allocator' failed to initialize correctly", obj);
@@ -83,13 +83,13 @@ privileged aspect AllocatorIntegrationTest_Roo_IntegrationTest {
         obj = org.datacite.mds.domain.Allocator.findAllocator(id);
         boolean modified =  dod.modifyAllocator(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        obj.merge();
+        org.datacite.mds.domain.Allocator merged = (org.datacite.mds.domain.Allocator) obj.merge();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Allocator' failed to increment on merge and flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        org.junit.Assert.assertTrue("Version for 'Allocator' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void AllocatorIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'Allocator' failed to initialize correctly", dod.getRandomAllocator());
         org.datacite.mds.domain.Allocator obj = dod.getNewTransientAllocator(Integer.MAX_VALUE);
@@ -101,7 +101,6 @@ privileged aspect AllocatorIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void AllocatorIntegrationTest.testRemove() {
         org.datacite.mds.domain.Allocator obj = dod.getRandomAllocator();
         org.junit.Assert.assertNotNull("Data on demand for 'Allocator' failed to initialize correctly", obj);

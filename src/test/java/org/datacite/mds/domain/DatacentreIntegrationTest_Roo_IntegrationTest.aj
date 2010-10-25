@@ -17,6 +17,8 @@ privileged aspect DatacentreIntegrationTest_Roo_IntegrationTest {
     
     declare @type: DatacentreIntegrationTest: @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext.xml");
     
+    declare @type: DatacentreIntegrationTest: @Transactional;
+    
     @Autowired
     private DatacentreDataOnDemand DatacentreIntegrationTest.dod;
     
@@ -59,7 +61,6 @@ privileged aspect DatacentreIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void DatacentreIntegrationTest.testFlush() {
         org.datacite.mds.domain.Datacentre obj = dod.getRandomDatacentre();
         org.junit.Assert.assertNotNull("Data on demand for 'Datacentre' failed to initialize correctly", obj);
@@ -70,11 +71,10 @@ privileged aspect DatacentreIntegrationTest_Roo_IntegrationTest {
         boolean modified =  dod.modifyDatacentre(obj);
         java.lang.Integer currentVersion = obj.getVersion();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Datacentre' failed to increment on flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertTrue("Version for 'Datacentre' failed to increment on flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void DatacentreIntegrationTest.testMerge() {
         org.datacite.mds.domain.Datacentre obj = dod.getRandomDatacentre();
         org.junit.Assert.assertNotNull("Data on demand for 'Datacentre' failed to initialize correctly", obj);
@@ -83,13 +83,13 @@ privileged aspect DatacentreIntegrationTest_Roo_IntegrationTest {
         obj = org.datacite.mds.domain.Datacentre.findDatacentre(id);
         boolean modified =  dod.modifyDatacentre(obj);
         java.lang.Integer currentVersion = obj.getVersion();
-        obj.merge();
+        org.datacite.mds.domain.Datacentre merged = (org.datacite.mds.domain.Datacentre) obj.merge();
         obj.flush();
-        org.junit.Assert.assertTrue("Version for 'Datacentre' failed to increment on merge and flush directive", obj.getVersion() > currentVersion || !modified);
+        org.junit.Assert.assertEquals("Identifier of merged object not the same as identifier of original object", merged.getId(), id);
+        org.junit.Assert.assertTrue("Version for 'Datacentre' failed to increment on merge and flush directive", (currentVersion != null && obj.getVersion() > currentVersion) || !modified);
     }
     
     @Test
-    @Transactional
     public void DatacentreIntegrationTest.testPersist() {
         org.junit.Assert.assertNotNull("Data on demand for 'Datacentre' failed to initialize correctly", dod.getRandomDatacentre());
         org.datacite.mds.domain.Datacentre obj = dod.getNewTransientDatacentre(Integer.MAX_VALUE);
@@ -101,7 +101,6 @@ privileged aspect DatacentreIntegrationTest_Roo_IntegrationTest {
     }
     
     @Test
-    @Transactional
     public void DatacentreIntegrationTest.testRemove() {
         org.datacite.mds.domain.Datacentre obj = dod.getRandomDatacentre();
         org.junit.Assert.assertNotNull("Data on demand for 'Datacentre' failed to initialize correctly", obj);

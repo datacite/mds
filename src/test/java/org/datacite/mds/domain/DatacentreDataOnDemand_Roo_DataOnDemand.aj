@@ -9,8 +9,6 @@ import org.datacite.mds.domain.AllocatorDataOnDemand;
 import org.datacite.mds.domain.Datacentre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect DatacentreDataOnDemand_Roo_DataOnDemand {
     
@@ -26,7 +24,11 @@ privileged aspect DatacentreDataOnDemand_Roo_DataOnDemand {
     public Datacentre DatacentreDataOnDemand.getNewTransientDatacentre(int index) {
         org.datacite.mds.domain.Datacentre obj = new org.datacite.mds.domain.Datacentre();
         obj.setAllocator(allocatorDataOnDemand.getRandomAllocator());
-        obj.setComments("comments_" + index);
+        java.lang.String comments = "comments_" + index;
+        if (comments.length() > 4000) {
+            comments  = comments.substring(0, 4000);
+        }
+        obj.setComments(comments);
         obj.setContactEmail("contactEmail_" + index);
         java.lang.String contactName = "contactName_" + index;
         if (contactName.length() > 80) {
@@ -43,7 +45,11 @@ privileged aspect DatacentreDataOnDemand_Roo_DataOnDemand {
             doiQuotaUsed = 999999999;
         }
         obj.setDoiQuotaUsed(doiQuotaUsed);
-        obj.setDomains("domains_" + index);
+        java.lang.String domains = "domains_" + index;
+        if (domains.length() > 255) {
+            domains  = domains.substring(0, 255);
+        }
+        obj.setDomains(domains);
         obj.setIsActive(new Boolean(true));
         java.lang.String name = "name_" + index;
         if (name.length() > 255) {
@@ -78,18 +84,7 @@ privileged aspect DatacentreDataOnDemand_Roo_DataOnDemand {
         return false;
     }
     
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void DatacentreDataOnDemand.init() {
-        if (data != null && !data.isEmpty()) {
-            return;
-        }
-        
-        data = org.datacite.mds.domain.Datacentre.findDatacentreEntries(0, 10);
-        if (data == null) throw new IllegalStateException("Find entries implementation for 'Datacentre' illegally returned null");
-        if (!data.isEmpty()) {
-            return;
-        }
-        
         data = new java.util.ArrayList<org.datacite.mds.domain.Datacentre>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Datacentre obj = getNewTransientDatacentre(i);

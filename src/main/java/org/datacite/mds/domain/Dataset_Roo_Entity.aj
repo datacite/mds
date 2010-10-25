@@ -5,7 +5,6 @@ package org.datacite.mds.domain;
 
 import java.lang.Integer;
 import java.lang.Long;
-import java.lang.SuppressWarnings;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
@@ -85,12 +84,11 @@ privileged aspect Dataset_Roo_Entity {
     }
     
     public static long Dataset.countDatasets() {
-        return ((Number) entityManager().createQuery("select count(o) from Dataset o").getSingleResult()).longValue();
+        return entityManager().createQuery("select count(o) from Dataset o", Long.class).getSingleResult();
     }
     
-    @SuppressWarnings("unchecked")
     public static List<Dataset> Dataset.findAllDatasets() {
-        return entityManager().createQuery("select o from Dataset o").getResultList();
+        return entityManager().createQuery("select o from Dataset o", Dataset.class).getResultList();
     }
     
     public static Dataset Dataset.findDataset(Long id) {
@@ -98,9 +96,8 @@ privileged aspect Dataset_Roo_Entity {
         return entityManager().find(Dataset.class, id);
     }
     
-    @SuppressWarnings("unchecked")
     public static List<Dataset> Dataset.findDatasetEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Dataset o").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("select o from Dataset o", Dataset.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

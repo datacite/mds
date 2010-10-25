@@ -83,7 +83,7 @@ privileged aspect Prefix_Roo_Entity {
     }
     
     public static long Prefix.countPrefixes() {
-        return ((Number) entityManager().createQuery("select count(o) from Prefix o").getSingleResult()).longValue();
+        return entityManager().createQuery("select count(o) from Prefix o", Long.class).getSingleResult();
     }
     
     public static Prefix Prefix.findPrefix(Long id) {

@@ -5,14 +5,15 @@ package org.datacite.mds.domain;
 
 import java.lang.String;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import org.datacite.mds.domain.Dataset;
 
 privileged aspect Dataset_Roo_Finder {
     
-    public static Query Dataset.findDatasetsByDoiEquals(String doi) {
+    public static TypedQuery<Dataset> Dataset.findDatasetsByDoiEquals(String doi) {
         if (doi == null || doi.length() == 0) throw new IllegalArgumentException("The doi argument is required");
         EntityManager em = Dataset.entityManager();
-        Query q = em.createQuery("SELECT Dataset FROM Dataset AS dataset WHERE dataset.doi = :doi");
+        TypedQuery<Dataset> q = em.createQuery("SELECT Dataset FROM Dataset AS dataset WHERE dataset.doi = :doi", Dataset.class);
         q.setParameter("doi", doi);
         return q;
     }
