@@ -3,7 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_org_datacite_mds_domain_Metadata" modelAttribute="metadata" path="/metadatas" render="${empty dependencies}" upload="true" z="user-managed">
         <field:datetime dateTimePattern="${metadata_lastupdated_date_format}" field="lastUpdated" id="c_org_datacite_mds_domain_Metadata_lastUpdated" render="false" z="user-managed"/>
-        <field:select field="dataset" id="c_org_datacite_mds_domain_Metadata_dataset" itemValue="id" items="${datasets}" path="/datasets" required="true" z="/80V3uLXRRQ6UsBXbY6Gg5FG+9Y="/>
+        <field:select field="dataset" id="c_org_datacite_mds_domain_Metadata_dataset" itemValue="id" items="${datasets}" path="/datasets" required="true" z="user-managed"/>
         <field:input field="metadataVersion" id="c_org_datacite_mds_domain_Metadata_metadataVersion" min="0" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
         <field:upload field="xml" id="c_org_datacite_mds_domain_Metadata_xml" z="user-managed"/>
     </form:create>
