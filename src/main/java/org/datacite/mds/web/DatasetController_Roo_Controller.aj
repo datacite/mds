@@ -26,10 +26,7 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 privileged aspect DatasetController_Roo_Controller {
-    
-    @Autowired
-    private GenericConversionService DatasetController.conversionService;
-    
+        
     @RequestMapping(method = RequestMethod.POST)
     public String DatasetController.create(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {

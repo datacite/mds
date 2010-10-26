@@ -3,11 +3,13 @@ package org.datacite.mds.web;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.util.Converters;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
@@ -22,12 +24,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class DatasetController {
 
-    @InitBinder
-    void registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(Converters.getSimpleDatacentreConverter());
-        }
+    @Autowired
+    private GenericConversionService conversionService;
+
+    @PostConstruct
+    void registerConverters() {
+        conversionService.addConverter(Converters.getSimpleDatacentreConverter());
+        conversionService.addConverter(Converters.getSimpleDatasetConverter());
     }
 
     @RequestMapping(params = "form", method = RequestMethod.GET)

@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.annotation.PostConstruct;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.util.Converters;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.security.core.Authentication;
@@ -28,13 +29,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class DatacentreController {
 
-    @InitBinder
-    void registerConverters(WebDataBinder binder) {
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(Converters.getSimpleAllocatorConverter());
-            conversionService.addConverter(Converters.getSimplePrefixConverter());
-        }
+    @Autowired
+    private GenericConversionService conversionService;
+
+    @PostConstruct
+    void registerConverters() {
+        conversionService.addConverter(Converters.getSimpleAllocatorConverter());
+        conversionService.addConverter(Converters.getSimplePrefixConverter());
     }
 
     @Transactional

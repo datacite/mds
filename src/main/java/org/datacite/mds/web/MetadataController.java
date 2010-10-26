@@ -1,7 +1,10 @@
 package org.datacite.mds.web;
 
+import javax.annotation.PostConstruct;
+
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.util.Converters;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
@@ -15,13 +18,17 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 @Controller
 public class MetadataController {
 
+    @Autowired
+    private GenericConversionService conversionService;
+
     @InitBinder
-    void registerConverters(WebDataBinder binder) {
+    void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-        if (binder.getConversionService() instanceof GenericConversionService) {
-            GenericConversionService conversionService = (GenericConversionService) binder.getConversionService();
-            conversionService.addConverter(Converters.getByteArrayConverter());
-            conversionService.addConverter(Converters.getSimpleDatasetConverter());
-        }
+    }
+
+    @PostConstruct
+    void registerConverters() {
+        conversionService.addConverter(Converters.getByteArrayConverter());
+        conversionService.addConverter(Converters.getSimpleDatasetConverter());
     }
 }

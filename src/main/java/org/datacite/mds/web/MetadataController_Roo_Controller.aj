@@ -29,9 +29,6 @@ import org.springframework.web.util.WebUtils;
 
 privileged aspect MetadataController_Roo_Controller {
     
-    @Autowired
-    private GenericConversionService MetadataController.conversionService;
-    
     @RequestMapping(method = RequestMethod.POST)
     public String MetadataController.create(@Valid Metadata metadata, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
