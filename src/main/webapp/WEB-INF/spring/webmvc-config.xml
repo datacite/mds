@@ -11,10 +11,7 @@
 	<mvc:annotation-driven/>
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources -->
-	<mvc:resources location="classpath:/META-INF/dojo/" mapping="/resources/dojo/**"/>
-	<mvc:resources location="classpath:/META-INF/dijit/" mapping="/resources/dijit/**"/>
-	<mvc:resources location="classpath:/META-INF/spring/" mapping="/resources/spring/**"/>
-	<mvc:resources location="/" mapping="/resources/**"/>
+	<mvc:resources location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
 	
 	<!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource requests to the container's default Servlet -->
 	<mvc:default-servlet-handler/>
@@ -27,8 +24,8 @@
 	
 	<!-- selects a static view for rendering without the need for an explicit controller -->
 	<mvc:view-controller path="/login"/>
-    <mvc:view-controller path="/apidoc/apidoc"/>
-    <mvc:view-controller path="/" view-name="index"/>
+	<mvc:view-controller path="/apidoc/apidoc"/>
+	<mvc:view-controller path="/" view-name="index"/>
 	<mvc:view-controller path="/uncaughtException"/>
 	<mvc:view-controller path="/resourceNotFound"/>
 	<mvc:view-controller path="/dataAccessFailure"/>
