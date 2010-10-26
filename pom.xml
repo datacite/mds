@@ -9,7 +9,7 @@
 	<properties>
 		<roo.version>1.1.0.RC1</roo.version>
 		<spring.version>3.0.4.RELEASE</spring.version>
-		<aspectj.version>1.6.10.M1</aspectj.version>
+		<aspectj.version>1.6.10.RC1</aspectj.version>
 		<slf4j.version>1.6.1</slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<spring-security.version>3.0.2.RELEASE</spring-security.version>
@@ -311,30 +311,8 @@
         </dependency>
     <dependency>
             <groupId>org.springframework.webflow</groupId>
-            <artifactId>spring-js</artifactId>
-            <version>2.1.1.RELEASE</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-beans</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context-support</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>spring-js-resources</artifactId>
+            <version>2.2.0.RC1</version>
         </dependency>
     <dependency>
             <groupId>commons-digester</groupId>
