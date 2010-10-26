@@ -38,14 +38,7 @@ privileged aspect DatasetController_Roo_Controller {
         return "redirect:/datasets/" + encodeUrlPathSegment(dataset.getId().toString(), request);
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String DatasetController.show(@PathVariable("id") Long id, Model model) {
-        addDateTimeFormatPatterns(model);
-        model.addAttribute("dataset", Dataset.findDataset(id));
-        model.addAttribute("itemId", id);
-        return "datasets/show";
-    }
-    
+        
     @RequestMapping(method = RequestMethod.GET)
     public String DatasetController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
         if (page != null || size != null) {

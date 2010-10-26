@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.util.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -47,5 +49,15 @@ public class DatasetController {
         }
         model.addAttribute("dependencies", dependencies);
         return "datasets/create";
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String show(@PathVariable("id") Long id, Model model) {
+        addDateTimeFormatPatterns(model);
+        Dataset dataset = Dataset.findDataset(id);
+        model.addAttribute("dataset", dataset);
+        model.addAttribute("metadatas", Metadata.findMetadatasByDataset(dataset).getResultList());
+        model.addAttribute("itemId", id);
+        return "datasets/show";
     }
 }
