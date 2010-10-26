@@ -72,12 +72,13 @@ public class HandleServiceImpl implements HandleService {
             if (response.responseCode != AbstractMessage.RC_SUCCESS) {
                 throw new HandleException(msg);
             }
-        } catch (UnsupportedEncodingException e1) {
-            log4j.error("UnsupportedEncodingException", e1);
-            throw new RuntimeException("UnsupportedEncodingException", e1);
-        } catch (net.handle.hdllib.HandleException e2) {
-            log4j.error(e2.toString(), e2);
-            throw new HandleException(e2.toString(), e2);
+        } catch (UnsupportedEncodingException e) {
+            log4j.error("UnsupportedEncodingException", e);
+            throw new RuntimeException("UnsupportedEncodingException", e);
+        } catch (net.handle.hdllib.HandleException e) {
+        	String message = "tried to register handle " + doi + " but failed: " + e.getMessage();
+            log4j.error(message, e);
+            throw new HandleException(message, e);
         }
     }
 
@@ -116,12 +117,13 @@ public class HandleServiceImpl implements HandleService {
             if (response.responseCode != AbstractMessage.RC_SUCCESS) {
                 throw new HandleException(msg);
             }
-        } catch (net.handle.hdllib.HandleException e1) {
-            log4j.error(e1.toString(), e1);
-            throw new HandleException(e1.toString(), e1);
-        } catch (UnsupportedEncodingException e2) {
-            log4j.error("UnsupportedEncodingException", e2);
-            throw new RuntimeException("UnsupportedEncodigException", e2);
+        } catch (net.handle.hdllib.HandleException e) {
+        	String message = "tried to update handle " + doi + " but failed: " + e.getMessage();
+            log4j.warn(message, e);
+            throw new HandleException(message, e);
+        } catch (UnsupportedEncodingException e) {
+            log4j.error("UnsupportedEncodingException", e);
+            throw new RuntimeException("UnsupportedEncodigException", e);
         }
     }
 }

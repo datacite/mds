@@ -8,7 +8,7 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
-import org.datacite.mds.web.ForbiddenException;
+import org.datacite.mds.service.SecurityException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -24,18 +24,18 @@ public class SecurityUtils {
      * application with Datacentre's symbol
      * 
      * @return Datacentre object
-     * @throws ForbiddenException
+     * @throws SecurityException
      *             when no login info, no Datacentre with such symbol or
      *             Datacentre not active
      */
-    public static Datacentre getDatacentre() throws ForbiddenException {
+    public static Datacentre getDatacentre() throws SecurityException {
         log4j.debug("retrieving user from security context");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String datacentreSymbol;
         if (auth != null)
             datacentreSymbol = auth.getName();
         else
-            throw new ForbiddenException("please log in");
+            throw new SecurityException("please log in");
 
         log4j.debug("retrieving datacentre from database");
         List datacentres = (List) Datacentre.findDatacentresBySymbolEquals(datacentreSymbol).getResultList();
@@ -47,11 +47,11 @@ public class SecurityUtils {
 
             if (!datacentre.getIsActive()) {
                 log4j.warn("datacentre is inactive: " + datacentreSymbol);
-                throw new ForbiddenException("datacentre not activated");
+                throw new SecurityException("datacentre not activated");
             }
         } else {
             log4j.warn("datacentre not found in database: " + datacentreSymbol);
-            throw new ForbiddenException("datacentre not registered");
+            throw new SecurityException("datacentre not registered");
         }
 
         return datacentre;
@@ -62,11 +62,11 @@ public class SecurityUtils {
      * @param datacentre
      * @throws ForbiddenException Datacentre run out of quota
      */
-    public static void checkQuota(Datacentre datacentre) throws ForbiddenException {
+    public static void checkQuota(Datacentre datacentre) throws SecurityException {
 		if (datacentre.getDoiQuotaAllowed() <= datacentre.getDoiQuotaUsed()) {
 			String message = "datacentre quota exceeded: " + datacentre.getSymbol();
 			log4j.info(message);
-			throw new ForbiddenException(message);
+			throw new SecurityException(message);
 		}
 	}
     
@@ -80,7 +80,7 @@ public class SecurityUtils {
      * @param datacentre
      * @throws ForbiddenException if any condition not met
      */
-    public static void checkRestrictions(String doi, String urlString, Datacentre datacentre) throws ForbiddenException {
+    public static void checkRestrictions(String doi, String urlString, Datacentre datacentre) throws SecurityException {
 		log4j.debug("checking restrictions for " + doi);
 		// prefix test
 		if (doi != null && !doi.equals("")) {
@@ -97,7 +97,7 @@ public class SecurityUtils {
 				String message = "DOI's prefix not assigned to this datacentre: " + doi + ", "
 						+ datacentre.getSymbol();
 				log4j.info(message);
-				throw new ForbiddenException(message);
+				throw new SecurityException(message);
 			}
 		}
 		log4j.debug("DOI prefix: OK");
@@ -106,7 +106,7 @@ public class SecurityUtils {
 		if (urlString == null || urlString.equals("") || urlString.length() < 10) {
 			String message = "Empty or bad URL: " + urlString;
 			log4j.warn(message);
-			throw new ForbiddenException(message);
+			throw new SecurityException(message);
 		}
 
 		URL url = null;
@@ -115,7 +115,7 @@ public class SecurityUtils {
 		} catch (MalformedURLException e) {
 			String message = "Malformed URL: " + url;
 			log4j.warn(message);
-			throw new ForbiddenException(message);
+			throw new SecurityException(message);
 		}
 		log4j.debug("URL: OK");
 
@@ -131,9 +131,9 @@ public class SecurityUtils {
 		}
 		
 		if (!didMatchedSome) {
-			String message = "URL with domain not assigned to this agent: " + host;
+			String message = "URL with domain not assigned to this datacentre: " + host;
 			log4j.warn(message);
-			throw new ForbiddenException(message);
+			throw new SecurityException(message);
 		}
 		log4j.debug("Domain: OK");
 
