@@ -123,5 +123,17 @@ public class Utils {
         }
         return true;
     }
+    
+    public static String getHostname(String urlStr) {
+        URL url;
+        try {
+            url = new URL(urlStr);
+            String hostname = url.getHost();
+            return hostname;
+        } catch (MalformedURLException e) {
+            return null;
+        }
+        
+    }
 
 }

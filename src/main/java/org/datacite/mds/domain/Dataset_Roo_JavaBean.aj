@@ -67,4 +67,12 @@ privileged aspect Dataset_Roo_JavaBean {
         this.datacentre = datacentre;
     }
     
+    public String Dataset.getUrl() {
+        return this.url;
+    }
+    
+    public void Dataset.setUrl(String url) {
+        this.url = url;
+    }
+    
 }

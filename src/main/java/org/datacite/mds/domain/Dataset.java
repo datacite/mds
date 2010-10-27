@@ -1,30 +1,36 @@
 package org.datacite.mds.domain;
 
-import javax.persistence.Entity;
-import org.springframework.roo.addon.javabean.RooJavaBean;
-import org.springframework.roo.addon.tostring.RooToString;
-import org.springframework.roo.addon.entity.RooEntity;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Max;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Query;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.datacite.mds.domain.Datacentre;
+import javax.persistence.Transient;
+import javax.persistence.TypedQuery;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.datacite.mds.validation.constraints.Doi;
 import org.datacite.mds.validation.constraints.MatchDoiPrefix;
-
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
+import org.datacite.mds.validation.constraints.MatchDomain;
+import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.roo.addon.entity.RooEntity;
+import org.springframework.roo.addon.javabean.RooJavaBean;
+import org.springframework.roo.addon.tostring.RooToString;
 
 @Entity
 @RooJavaBean
 @RooToString
 @RooEntity(finders = { "findDatasetsByDoiEquals" })
 @MatchDoiPrefix
+@MatchDomain
 public class Dataset {
 
     @NotNull
@@ -50,4 +56,34 @@ public class Dataset {
     @ManyToOne(targetEntity = Datacentre.class)
     @JoinColumn
     private Datacentre datacentre;
+    
+    @Transient
+    @URL
+    private String url;
+    
+    private static TypedQuery<Dataset> queryDatasetsByDatacentre(Datacentre datacentre) {
+        EntityManager em = entityManager();
+        TypedQuery<Dataset> q = em.createQuery("SELECT Dataset FROM Dataset AS dataset WHERE dataset.datacentre = :datacentre", Dataset.class);
+        q.setParameter("datacentre", datacentre);
+        return q;
+    }
+    
+    public static List<Dataset> findDatasetEntriesByDatacentres(Datacentre datacentre, int firstResult, int maxResults) {
+        TypedQuery<Dataset> q = queryDatasetsByDatacentre(datacentre);
+        return q.setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+
+    public static List<Dataset> findDatasetsByDatacentres(Datacentre datacentre) {
+        TypedQuery<Dataset> q = queryDatasetsByDatacentre(datacentre);
+        return q.getResultList();
+    }
+    
+    public static long countDatasetsByDatacentre(Datacentre datacentre) {
+        EntityManager em = entityManager();
+        TypedQuery<Long> q = em.createQuery("SELECT COUNT(*) FROM Dataset AS dataset WHERE dataset.datacentre = :datacentre", Long.class);
+        q.setParameter("datacentre", datacentre);
+        return q.getSingleResult();
+    }
+    
+
 }
