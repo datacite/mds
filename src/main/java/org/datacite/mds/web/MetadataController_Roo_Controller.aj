@@ -86,11 +86,7 @@ privileged aspect MetadataController_Roo_Controller {
         return "metadatas/list";
     }
     
-    @ModelAttribute("datasets")
-    public Collection<Dataset> MetadataController.populateDatasets() {
-        return Dataset.findAllDatasets();
-    }
-    
+        
     void MetadataController.addDateTimeFormatPatterns(Model model) {
         model.addAttribute("metadata_lastupdated_date_format", DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
     }
