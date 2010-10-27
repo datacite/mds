@@ -6,7 +6,8 @@ package org.datacite.mds.web;
 import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Datacentre;
@@ -17,7 +18,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +39,18 @@ privileged aspect DatasetController_Roo_Controller {
         }
         dataset.persist();
         return "redirect:/datasets/" + encodeUrlPathSegment(dataset.getId().toString(), request);
+    }
+    
+    @RequestMapping(params = "form", method = RequestMethod.GET)
+    public String DatasetController.createForm(Model model) {
+        model.addAttribute("dataset", new Dataset());
+        addDateTimeFormatPatterns(model);
+        List dependencies = new ArrayList();
+        if (Datacentre.countDatacentres() == 0) {
+            dependencies.add(new String[]{"datacentre", "datacentres"});
+        }
+        model.addAttribute("dependencies", dependencies);
+        return "datasets/create";
     }
     
     @RequestMapping(method = RequestMethod.GET)
@@ -82,11 +94,6 @@ privileged aspect DatasetController_Roo_Controller {
     public String DatasetController.findDatasetsByDoiEquals(@RequestParam("doi") String doi, Model model) {
         model.addAttribute("datasets", Dataset.findDatasetsByDoiEquals(doi).getResultList());
         return "datasets/list";
-    }
-    
-    @ModelAttribute("datacentres")
-    public Collection<Datacentre> DatasetController.populateDatacentres() {
-        return Datacentre.findAllDatacentres();
     }
     
     void DatasetController.addDateTimeFormatPatterns(Model model) {
