@@ -18,12 +18,12 @@ public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Da
     }
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
-        if (dataset.getUrl().isEmpty() || dataset.getDatacentre() == null || !Utils.isValid(dataset, "url")) {
+        if (dataset.getUrl() == null || dataset.getDatacentre() == null || !Utils.isValid(dataset, "url")) {
             // don't check until a datacentre is selected and valid url is given
             return true;
         }
 
-        // check each allowed prefix of the datacentre against the used one
+        // check each allowed domain of the datacentre against the used one
         String hostname = Utils.getHostname(dataset.getUrl());
         
         for (String domain : Utils.csvToList(dataset.getDatacentre().getDomains())) {
