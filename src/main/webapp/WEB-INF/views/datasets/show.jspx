@@ -8,7 +8,7 @@
         <field:display field="lastLandingPageStatus" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatus" object="${dataset}" z="7qyzkqnseKzwOGknAcd9LKcUfgQ="/>
         <field:display date="true" dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" object="${dataset}" z="RjT/GCkZDucN6TyaWGcAEzIq6jM="/>
         <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
-        <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="false" z="gBopUKvIxXIOAMRj3UxppxZyQVc="/>
+        <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="false" z="user-managed"/>
         <field:display field="url" id="s_org_datacite_mds_domain_Dataset_url" object="${dataset}" render="false" z="user-managed"/>
     </page:show>
     <page:list create="true" createParam="dataset" createParamValue="${dataset.id}" createPath="/metadatas" id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" z="user-managed">

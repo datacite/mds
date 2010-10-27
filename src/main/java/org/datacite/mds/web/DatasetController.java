@@ -66,7 +66,7 @@ public class DatasetController {
             model.addAttribute("datasets", Dataset.findDatasetEntriesByDatacentres(datacentre, page == null ? 0 : (page
                     .intValue() - 1)
                     * sizeNo, sizeNo));
-            float nrOfPages = (float) Dataset.countDatasets() / sizeNo;
+            float nrOfPages = (float) Dataset.countDatasetsByDatacentre(datacentre) / sizeNo;
             model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
                     : nrOfPages));
         } else {

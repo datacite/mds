@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Query;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -76,5 +77,13 @@ public class Dataset {
         TypedQuery<Dataset> q = queryDatasetsByDatacentre(datacentre);
         return q.getResultList();
     }
+    
+    public static long countDatasetsByDatacentre(Datacentre datacentre) {
+        EntityManager em = entityManager();
+        TypedQuery<Long> q = em.createQuery("SELECT COUNT(*) FROM Dataset AS dataset WHERE dataset.datacentre = :datacentre", Long.class);
+        q.setParameter("datacentre", datacentre);
+        return q.getSingleResult();
+    }
+    
 
 }
