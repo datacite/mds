@@ -11,7 +11,7 @@
         <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" z="gBopUKvIxXIOAMRj3UxppxZyQVc="/>
     </page:show>
     <page:list id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" z="user-managed">
-        <table:table data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadatas" update="false" z="IVwdf38ikOX7P8JcLaQCNBEqdTE=">
+        <table:table createParam="dataset=${dataset.id}" data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadatas" update="false" z="IVwdf38ikOX7P8JcLaQCNBEqdTE=">
             <table:column id="c_org_datacite_mds_domain_Metadata_dataset" property="dataset" z="JH7VlPj7IaFLuCHhAnyMgkik3rc="/>
             <table:column id="c_org_datacite_mds_domain_Metadata_xml" property="xml" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Metadata_metadataVersion" property="metadataVersion" z="H/GGYlZBJrZWWq2e7VIZaUn+1ck="/>

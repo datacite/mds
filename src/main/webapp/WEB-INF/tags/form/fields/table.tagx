@@ -7,6 +7,7 @@
   <jsp:directive.attribute name="path" type="java.lang.String" required="true" description="Specify the URL path" />
   <jsp:directive.attribute name="typeIdFieldName" type="java.lang.String" required="false" description="The identifier field name for the type (defaults to 'id')" />
   <jsp:directive.attribute name="create" type="java.lang.Boolean" required="false" description="Include 'create' link into table (default true)" />
+  <jsp:directive.attribute name="createParam" type="java.lang.String" required="false" description="additional parameter for the 'create' link" />
   <jsp:directive.attribute name="update" type="java.lang.Boolean" required="false" description="Include 'update' link into table (default true)" />
   <jsp:directive.attribute name="delete" type="java.lang.Boolean" required="false" description="Include 'delete' link into table (default true)" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
@@ -117,6 +118,9 @@
             <span class="new">
               <spring:url value="/${path}" var="create_url">
                 <spring:param name="form" />
+                <c:if test="${not empty createParam}">
+                  <spring:param name="${createParam}" />
+                </c:if>
               </spring:url>
               <a href="${fn:escapeXml(create_url)}">
                 <spring:url value="/resources/images/add.png" var="create_img_url" />
