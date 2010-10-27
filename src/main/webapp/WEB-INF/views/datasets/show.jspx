@@ -10,7 +10,7 @@
         <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
         <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" z="gBopUKvIxXIOAMRj3UxppxZyQVc="/>
     </page:show>
-    <page:list id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" z="user-managed">
+    <page:list create="true" createParam="dataset" createParamValue="${dataset.id}" id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" createPath="/metadatas" z="user-managed">
         <table:table createParam="dataset" createParamValue="${dataset.id}" data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadatas" update="false" z="user-managed">
             <table:column id="c_org_datacite_mds_domain_Metadata_dataset" property="dataset" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Metadata_xml" property="xml" render="false" z="user-managed"/>
