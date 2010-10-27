@@ -27,12 +27,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DatasetController {
 
     @Autowired
-    private GenericConversionService conversionService;
+    private GenericConversionService myConversionService;
 
     @PostConstruct
     void registerConverters() {
-        conversionService.addConverter(Converters.getSimpleDatacentreConverter());
-        conversionService.addConverter(Converters.getSimpleDatasetConverter());
+        myConversionService.addConverter(Converters.getSimpleDatacentreConverter());
+        myConversionService.addConverter(Converters.getSimpleDatasetConverter());
     }
 
     @RequestMapping(params = "form", method = RequestMethod.GET)

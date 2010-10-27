@@ -25,7 +25,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 public class MetadataController {
 
     @Autowired
-    private GenericConversionService conversionService;
+    private GenericConversionService myConversionService;
 
     @InitBinder
     void initBinder(WebDataBinder binder) {
@@ -34,8 +34,8 @@ public class MetadataController {
 
     @PostConstruct
     void registerConverters() {
-        conversionService.addConverter(Converters.getByteArrayConverter());
-        conversionService.addConverter(Converters.getSimpleDatasetConverter());
+        myConversionService.addConverter(Converters.getByteArrayConverter());
+        myConversionService.addConverter(Converters.getSimpleDatasetConverter());
     }
 
     @ModelAttribute("datasets")
