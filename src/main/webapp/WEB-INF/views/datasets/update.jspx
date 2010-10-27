@@ -9,5 +9,6 @@
         <field:datetime dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" render="false" z="user-managed"/>
         <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" render="false" z="user-managed"/>
         <field:select disabled="true" field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
+        <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
     </form:update>
 </div>

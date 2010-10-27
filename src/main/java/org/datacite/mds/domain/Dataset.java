@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -51,6 +52,9 @@ public class Dataset {
     @ManyToOne(targetEntity = Datacentre.class)
     @JoinColumn
     private Datacentre datacentre;
+    
+    @Transient
+    private String url;
     
     private static TypedQuery<Dataset> queryDatasetsByDatacentre(Datacentre datacentre) {
         EntityManager em = entityManager();
