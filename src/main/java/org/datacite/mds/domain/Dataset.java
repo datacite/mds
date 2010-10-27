@@ -17,6 +17,8 @@ import javax.validation.constraints.NotNull;
 
 import org.datacite.mds.validation.constraints.Doi;
 import org.datacite.mds.validation.constraints.MatchDoiPrefix;
+import org.datacite.mds.validation.constraints.MatchDomain;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -27,6 +29,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooEntity(finders = { "findDatasetsByDoiEquals" })
 @MatchDoiPrefix
+@MatchDomain
 public class Dataset {
 
     @NotNull
@@ -54,6 +57,7 @@ public class Dataset {
     private Datacentre datacentre;
     
     @Transient
+    @URL
     private String url;
     
     private static TypedQuery<Dataset> queryDatasetsByDatacentre(Datacentre datacentre) {
