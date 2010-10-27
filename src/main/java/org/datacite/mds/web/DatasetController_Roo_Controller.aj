@@ -53,20 +53,6 @@ privileged aspect DatasetController_Roo_Controller {
         return "datasets/create";
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public String DatasetController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
-        if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            model.addAttribute("datasets", Dataset.findDatasetEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
-            float nrOfPages = (float) Dataset.countDatasets() / sizeNo;
-            model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
-        } else {
-            model.addAttribute("datasets", Dataset.findAllDatasets());
-        }
-        addDateTimeFormatPatterns(model);
-        return "datasets/list";
-    }
-    
     @RequestMapping(method = RequestMethod.PUT)
     public String DatasetController.update(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
