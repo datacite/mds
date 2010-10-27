@@ -26,7 +26,10 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 privileged aspect DatasetController_Roo_Controller {
-        
+    
+    @Autowired
+    private GenericConversionService DatasetController.conversionService;
+    
     @RequestMapping(method = RequestMethod.POST)
     public String DatasetController.create(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
@@ -38,7 +41,6 @@ privileged aspect DatasetController_Roo_Controller {
         return "redirect:/datasets/" + encodeUrlPathSegment(dataset.getId().toString(), request);
     }
     
-        
     @RequestMapping(method = RequestMethod.GET)
     public String DatasetController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
         if (page != null || size != null) {

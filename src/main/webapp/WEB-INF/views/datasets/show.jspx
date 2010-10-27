@@ -11,11 +11,11 @@
         <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" z="gBopUKvIxXIOAMRj3UxppxZyQVc="/>
     </page:show>
     <page:list id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" z="user-managed">
-        <table:table createParam="dataset" createParamValue="${dataset.id}" data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadatas" update="false" z="IVwdf38ikOX7P8JcLaQCNBEqdTE=">
-            <table:column id="c_org_datacite_mds_domain_Metadata_dataset" property="dataset" z="JH7VlPj7IaFLuCHhAnyMgkik3rc="/>
+        <table:table createParam="dataset" createParamValue="${dataset.id}" data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadatas" update="false" z="user-managed">
+            <table:column id="c_org_datacite_mds_domain_Metadata_dataset" property="dataset" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Metadata_xml" property="xml" render="false" z="user-managed"/>
-            <table:column id="c_org_datacite_mds_domain_Metadata_metadataVersion" property="metadataVersion" z="H/GGYlZBJrZWWq2e7VIZaUn+1ck="/>
-            <table:column id="c_org_datacite_mds_domain_Metadata_lastUpdated" property="lastUpdated" z="xpWdPsuT/G30qfA7HTN2EdSJOhs="/>
+            <table:column id="c_org_datacite_mds_domain_Metadata_metadataVersion" property="metadataVersion" z="user-managed"/>
+            <table:column id="c_org_datacite_mds_domain_Metadata_lastUpdated" property="lastUpdated" z="user-managed"/>
         </table:table>
     </page:list>
     

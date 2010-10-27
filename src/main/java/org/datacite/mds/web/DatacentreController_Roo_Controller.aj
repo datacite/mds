@@ -26,6 +26,9 @@ import org.springframework.web.util.WebUtils;
 
 privileged aspect DatacentreController_Roo_Controller {
     
+    @Autowired
+    private GenericConversionService DatacentreController.conversionService;
+    
     @RequestMapping(method = RequestMethod.POST)
     public String DatacentreController.create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
