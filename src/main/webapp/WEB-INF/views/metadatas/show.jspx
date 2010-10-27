@@ -5,6 +5,6 @@
         <field:display field="xml" id="s_org_datacite_mds_domain_Metadata_xml" object="${metadata}" z="tXosv/jZLASJlD+skqVDl9RX8qs="/>
         <field:display field="metadataVersion" id="s_org_datacite_mds_domain_Metadata_metadataVersion" object="${metadata}" z="q359QhWy75D/X5wHZIYOA/OW5TA="/>
         <field:display date="true" dateTimePattern="${metadata_lastupdated_date_format}" field="lastUpdated" id="s_org_datacite_mds_domain_Metadata_lastUpdated" object="${metadata}" z="rFkvdVizCdWCRpt11PeCdXymZ94="/>
-        <field:display field="dataset" id="s_org_datacite_mds_domain_Metadata_dataset" object="${metadata}" z="aBilICR5LiwlZu4F16q8j4WrShY="/>
+        <field:display field="dataset" id="s_org_datacite_mds_domain_Metadata_dataset" object="${metadata}" link="true" linkPath="/datasets" z="aBilICR5LiwlZu4F16q8j4WrShY="/>
     </page:show>
 </div>
