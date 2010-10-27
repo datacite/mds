@@ -2,13 +2,15 @@
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_datacite_mds_domain_Dataset" modelAttribute="dataset" path="/datasets" z="HBOwCYp6Yo6cFOcgr4ELuyHv6b0=">
-        <field:input disabled="true" field="doi" id="c_org_datacite_mds_domain_Dataset_doi" required="true" z="user-managed"/>
+        <field:input readonly="true" field="doi" id="c_org_datacite_mds_domain_Dataset_doi" required="true" z="user-managed"/>
+        <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Dataset_isActive" z="VG6i4E8PwnhnMZKA2+UzVJ+59M4="/>
         <field:checkbox field="isRefQuality" id="c_org_datacite_mds_domain_Dataset_isRefQuality" z="nzS9Eet3kyELg9PcZ4W4wz9xwWc="/>
         <field:input field="lastLandingPageStatus" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" max="510" min="100" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
         <field:datetime dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" render="false" z="user-managed"/>
         <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" render="false" z="user-managed"/>
-        <field:select disabled="true" field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
-        <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
+        <div style="display:none">
+          <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
+        </div>
     </form:update>
 </div>
