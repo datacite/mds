@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.NoResultException;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -14,11 +15,19 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 import org.apache.commons.validator.UrlValidator;
+import org.apache.log4j.Logger;
+import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.Datacentre;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Class with several static util methods
  */
 public class Utils {
+
+    static Logger log = Logger.getLogger(Utils.class);
 
     /**
      * returns the prefix of a doi
@@ -103,7 +112,7 @@ public class Utils {
     public static void addConstraintViolation(ConstraintValidatorContext context, String message) {
         context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
     }
-    
+
     public static boolean isHostname(String str) {
         try {
             URL url = new URL("http://" + str);
@@ -111,10 +120,10 @@ public class Utils {
                 // domain should only consists of the pure host name
                 return false;
             }
-            
+
             UrlValidator urlValidator = new UrlValidator();
             if (!urlValidator.isValid(url.toString())) {
-                // url should be valid, e.g. "test.t" or "com" should be fail  
+                // url should be valid, e.g. "test.t" or "com" should be fail
                 return false;
             }
         } catch (MalformedURLException ex) {
@@ -123,7 +132,7 @@ public class Utils {
         }
         return true;
     }
-    
+
     public static String getHostname(String urlStr) {
         URL url;
         try {
@@ -133,7 +142,31 @@ public class Utils {
         } catch (MalformedURLException e) {
             return null;
         }
-        
+
+    }
+
+    public static Object getCurrentUser() {
+        log.debug("get current auth");
+        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+        String symbol = currentAuth.getName();
+        log.debug("search for '" + symbol + "'");
+        try {
+            Allocator al = Allocator.findAllocatorsBySymbolEquals(symbol).getSingleResult();
+            log.debug("found allocator '" + symbol + "'");
+            return al;
+        } catch (Exception e) {
+        }
+
+        try {
+            Datacentre dc = Datacentre.findDatacentresBySymbolEquals(symbol).getSingleResult();
+            log.debug("found datacentre '" + symbol + "'");
+            return dc;
+        } catch (Exception e) {
+        }
+
+        log.debug("no allocator or datacentre found");
+
+        return null;
     }
 
 }
