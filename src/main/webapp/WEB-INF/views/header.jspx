@@ -27,6 +27,13 @@
     <spring:message code="security_logged_in_as" arguments="${username}"/>
     <c:out value=" | "/>
     <span>
+      <spring:url value="/userinfo" var="userinfo"/>
+      <a href="${userinfo}">
+        <spring:message code="userinfo"/>
+      </a>
+    </span>
+    <c:out value=" | "/>
+    <span>
       <spring:url value="/resources/logout_or_exit" var="logout"/>
       <a href="${logout}">
         <spring:message code="security_logout"/>
