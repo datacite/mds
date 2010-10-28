@@ -55,4 +55,14 @@ public class Metadata {
         setLastUpdated(new Date());
         this.entityManager.persist(this);
     }
+
+    public static TypedQuery<Metadata> findMetadatasByDataset(Dataset dataset) {
+        if (dataset == null)
+            throw new IllegalArgumentException("The dataset argument is required");
+        EntityManager em = Metadata.entityManager();
+        TypedQuery<Metadata> q = em.createQuery(
+                "SELECT Metadata FROM Metadata AS metadata WHERE metadata.dataset = :dataset ORDER BY metadataVersion DESC", Metadata.class);
+        q.setParameter("dataset", dataset);
+        return q;
+    }
 }

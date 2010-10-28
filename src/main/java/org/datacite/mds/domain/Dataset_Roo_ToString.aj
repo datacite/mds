@@ -17,7 +17,8 @@ privileged aspect Dataset_Roo_ToString {
         sb.append("LastLandingPageStatus: ").append(getLastLandingPageStatus()).append(", ");
         sb.append("LastLandingPageStatusCheck: ").append(getLastLandingPageStatusCheck()).append(", ");
         sb.append("LastMetadataStatus: ").append(getLastMetadataStatus()).append(", ");
-        sb.append("Datacentre: ").append(getDatacentre());
+        sb.append("Datacentre: ").append(getDatacentre()).append(", ");
+        sb.append("Url: ").append(getUrl());
         return sb.toString();
     }
     

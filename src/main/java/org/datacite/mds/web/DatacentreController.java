@@ -30,12 +30,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class DatacentreController {
 
     @Autowired
-    private GenericConversionService conversionService;
+    private GenericConversionService myConversionService;
 
     @PostConstruct
     void registerConverters() {
-        conversionService.addConverter(Converters.getSimpleAllocatorConverter());
-        conversionService.addConverter(Converters.getSimplePrefixConverter());
+        myConversionService.addConverter(Converters.getSimpleAllocatorConverter());
+        myConversionService.addConverter(Converters.getSimplePrefixConverter());
     }
 
     @Transactional

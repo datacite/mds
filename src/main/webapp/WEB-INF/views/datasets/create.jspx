@@ -3,6 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_org_datacite_mds_domain_Dataset" modelAttribute="dataset" path="/datasets" render="${empty dependencies}" z="7UpLdx3vSk2srmFT5Tq5y2s1Q6U=">
         <field:input field="doi" id="c_org_datacite_mds_domain_Dataset_doi" required="true" z="2YK33GaLRLqqB09eKq6CwSYlfY0="/>
+        <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Dataset_isActive" z="VG6i4E8PwnhnMZKA2+UzVJ+59M4="/>
         <field:checkbox field="isRefQuality" id="c_org_datacite_mds_domain_Dataset_isRefQuality" z="nzS9Eet3kyELg9PcZ4W4wz9xwWc="/>
         <field:input field="lastLandingPageStatus" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" max="510" min="100" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>

@@ -8,6 +8,8 @@
   <jsp:directive.attribute name="date" type="java.lang.Boolean" required="false" description="Indicate that this field is of type java.util.Date" />
   <jsp:directive.attribute name="calendar" type="java.lang.Boolean" required="false" description="Indicate that this field is of type java.util.Calendar" />
   <jsp:directive.attribute name="dateTimePattern" type="java.lang.String" required="false" description="The date / time pattern to use if the field is a date or calendar type" />
+  <jsp:directive.attribute name="link" type="java.lang.Boolean" required="false" description="Indicate if there should be a show button (defaults to false)" />
+  <jsp:directive.attribute name="linkPath" type="java.lang.String" required="false" description="path to the reference entity" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
@@ -22,6 +24,8 @@
     
     <c:set var="sec_object" value="${fn:escapeXml(object)}" />
     <c:set var="sec_field" value="${fn:escapeXml(field)}" />
+
+    <c:set var="typeName" value="${fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1]}" />
 
     <div id="_${fn:escapeXml(id)}_id">
       <label for="_${fn:escapeXml(field)}_id">
@@ -42,6 +46,15 @@
           </c:when>
           <c:otherwise>
             <spring:eval expression="object[field]" />
+            <c:if test="${not empty link and link}">
+              <c:out value=" "/>
+              <spring:url value="${linkPath}/${object[field].id}" var="show_form_url" />
+              <spring:url value="/resources/images/show.png" var="show_image_url" />
+              <spring:message arguments="${typeName}" code="entity_show" var="show_label" />
+              <a href="${fn:escapeXml(show_form_url)}" alt="${fn:escapeXml(show_label)}" title="${fn:escapeXml(show_label)}">
+                <img alt="${fn:escapeXml(show_label)}" class="image" src="${fn:escapeXml(show_image_url)}" title="${fn:escapeXml(show_label)}" />
+              </a>
+            </c:if>
           </c:otherwise>
         </c:choose>
       </div>

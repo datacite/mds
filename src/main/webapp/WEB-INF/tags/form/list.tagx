@@ -7,9 +7,16 @@
   <jsp:directive.attribute name="labelPlural" type="java.lang.String" required="false" description="The label used for this object, will default to a message bundle if not supplied" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" description="Control if the title pane is opened or closed by default (default: true)" />
+  <jsp:directive.attribute name="create" type="java.lang.Boolean" required="false" description="render create button if items empty (default: false)" />
+  <jsp:directive.attribute name="createPath" type="java.lang.String" required="false" description="Specify the URL path" />
+  <jsp:directive.attribute name="createParam" type="java.lang.String" required="false" description="additional parameter for the 'create' link" />
+  <jsp:directive.attribute name="createParamValue" type="java.lang.String" required="false" description="additional parameter value for the 'create' link" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
+
   <c:if test="${empty render or render}">
+    <c:set var="typeName" value="${fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1]}" />
+
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
     </c:if>
@@ -24,6 +31,21 @@
         </c:when>
         <c:otherwise>
           <spring:message arguments="${label}" code="entity_not_found" />
+          <c:if test="${not empty create and create and not empty createPath}">
+            <span class="new">
+              <spring:url htmlEscape="false" value="/${createPath}" var="create_url">
+                <spring:param name="form" />
+                <c:if test="${not empty createParam and not empty createParamValue}">
+                  <spring:param name="${createParam}" value="${createParamValue}" />
+                </c:if>
+              </spring:url>
+              <a href="${fn:escapeXml(create_url)}">
+                <spring:url value="/resources/images/add.png" var="create_img_url" />
+                <spring:message arguments="${typeName}" code="global_menu_new" var="add_message" />
+                <img alt="${fn:escapeXml(add_message)}" src="${fn:escapeXml(create_img_url)}" title="${fn:escapeXml(add_message)}" />
+              </a>
+            </span>
+          </c:if>
         </c:otherwise>
       </c:choose>
     </util:panel>

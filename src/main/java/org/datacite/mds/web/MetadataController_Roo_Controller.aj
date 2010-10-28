@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -19,7 +18,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,6 +26,9 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 privileged aspect MetadataController_Roo_Controller {
+    
+    @Autowired
+    private GenericConversionService MetadataController.conversionService;
     
     @RequestMapping(method = RequestMethod.POST)
     public String MetadataController.create(@Valid Metadata metadata, BindingResult result, Model model, HttpServletRequest request) {
@@ -84,11 +85,6 @@ privileged aspect MetadataController_Roo_Controller {
     public String MetadataController.findMetadatasByDataset(@RequestParam("dataset") Dataset dataset, Model model) {
         model.addAttribute("metadatas", Metadata.findMetadatasByDataset(dataset).getResultList());
         return "metadatas/list";
-    }
-    
-    @ModelAttribute("datasets")
-    public Collection<Dataset> MetadataController.populateDatasets() {
-        return Dataset.findAllDatasets();
     }
     
     void MetadataController.addDateTimeFormatPatterns(Model model) {

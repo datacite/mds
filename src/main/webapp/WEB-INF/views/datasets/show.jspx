@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <page:show delete="false" id="ps_org_datacite_mds_domain_Dataset" object="${dataset}" path="/datasets" z="GTOIDp28o0CtA9jRRKQT81aO7fc=">
         <field:display field="doi" id="s_org_datacite_mds_domain_Dataset_doi" object="${dataset}" z="ZjWcdtyu1F2Rrx514a5y2aLj0yg="/>
@@ -8,6 +8,16 @@
         <field:display field="lastLandingPageStatus" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatus" object="${dataset}" z="7qyzkqnseKzwOGknAcd9LKcUfgQ="/>
         <field:display date="true" dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" object="${dataset}" z="RjT/GCkZDucN6TyaWGcAEzIq6jM="/>
         <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
-        <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" z="gBopUKvIxXIOAMRj3UxppxZyQVc="/>
+        <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="false" z="user-managed"/>
+        <field:display field="url" id="s_org_datacite_mds_domain_Dataset_url" object="${dataset}" render="false" z="user-managed"/>
     </page:show>
+    <page:list create="true" createParam="dataset" createParamValue="${dataset.id}" createPath="/metadatas" id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" z="user-managed">
+        <table:table createParam="dataset" createParamValue="${dataset.id}" data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadatas" update="false" z="user-managed">
+            <table:column id="c_org_datacite_mds_domain_Metadata_dataset" property="dataset" render="false" z="user-managed"/>
+            <table:column id="c_org_datacite_mds_domain_Metadata_xml" property="xml" render="false" z="user-managed"/>
+            <table:column id="c_org_datacite_mds_domain_Metadata_metadataVersion" property="metadataVersion" z="user-managed"/>
+            <table:column id="c_org_datacite_mds_domain_Metadata_lastUpdated" property="lastUpdated" z="user-managed"/>
+        </table:table>
+    </page:list>
+    
 </div>
