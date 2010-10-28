@@ -20,7 +20,7 @@ public class MatchDomainTest {
     public void init() {
         // create simple datacentre with two allowed domains
         Datacentre datacentre = new Datacentre();
-        datacentre.setDomains("test.org,sub.domain.net");
+        datacentre.setDomains("test.ORG,sub.domain.net");
         dataset = new Dataset();
         dataset.setDatacentre(datacentre);
     }
@@ -28,14 +28,15 @@ public class MatchDomainTest {
     @Test
     public void test() {
         assertFalse(isValid("http://wrong.org"));
+        assertFalse(isValid("http://org"));
         assertTrue(isValid("http://test.org"));
-        assertTrue(isValid("http://test.org/"));
+        assertTrue(isValid("http://TEst.org/"));
         assertTrue(isValid("http://test.org/path"));
-        assertFalse(isValid("http://sub.test.org/path"));
+        assertTrue(isValid("http://sub.test.org/path"));
         assertFalse(isValid("http://wrong.net/path"));
         assertTrue(isValid("http://sub.domain.net/path"));
         assertFalse(isValid("http://subsub.domain.net/path"));
-        assertFalse(isValid("http://sub.sub.domain.net/path"));
+        assertTrue(isValid("http://sub.SUB.domain.net/path"));
     }
 
     boolean isValid(String url) {
