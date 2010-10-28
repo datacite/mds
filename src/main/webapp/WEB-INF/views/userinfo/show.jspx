@@ -10,6 +10,7 @@
         <field:display field="contactEmail" id="s_org_datacite_mds_domain_Datacentre_contactEmail" object="${datacentre}" z="user-managed"/>
         <field:display field="doiQuotaAllowed" id="s_org_datacite_mds_domain_Datacentre_doiQuotaAllowed" object="${datacentre}" z="user-managed"/>
         <field:display field="doiQuotaUsed" id="s_org_datacite_mds_domain_Datacentre_doiQuotaUsed" object="${datacentre}" z="user-managed"/>
+        <field:simple id="dummy" label="count" field="count" text="${countDatasets}" z="user-managed"/>
         <field:display field="domains" id="s_org_datacite_mds_domain_Datacentre_domains" object="${datacentre}" z="user-managed"/>
         <field:display field="prefixes" id="s_org_datacite_mds_domain_Datacentre_prefixes" object="${datacentre}" z="user-managed"/>
       </page:show>

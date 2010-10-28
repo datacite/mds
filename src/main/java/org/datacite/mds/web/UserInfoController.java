@@ -3,6 +3,7 @@ package org.datacite.mds.web;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.util.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +34,7 @@ public class UserInfoController {
         if (datacentre != null) {
             log.debug("userinfo for datacentre '" + datacentre.getSymbol() + "'");
             model.addAttribute("datacentre", datacentre);
+            model.addAttribute("countDatasets", Dataset.countDatasetsByDatacentre(datacentre));
         }
 
         return "userinfo";
