@@ -48,10 +48,17 @@ privileged aspect MetadataDataOnDemand_Roo_DataOnDemand {
     }
     
     public void MetadataDataOnDemand.init() {
+        data = org.datacite.mds.domain.Metadata.findMetadataEntries(0, 10);
+        if (data == null) throw new IllegalStateException("Find entries implementation for 'Metadata' illegally returned null");
+        if (!data.isEmpty()) {
+            return;
+        }
+        
         data = new java.util.ArrayList<org.datacite.mds.domain.Metadata>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Metadata obj = getNewTransientMetadata(i);
             obj.persist();
+            obj.flush();
             data.add(obj);
         }
     }

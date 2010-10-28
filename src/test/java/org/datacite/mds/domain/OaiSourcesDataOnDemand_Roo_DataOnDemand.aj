@@ -44,10 +44,17 @@ privileged aspect OaiSourcesDataOnDemand_Roo_DataOnDemand {
     }
     
     public void OaiSourcesDataOnDemand.init() {
+        data = org.datacite.mds.domain.OaiSources.findOaiSourcesEntries(0, 10);
+        if (data == null) throw new IllegalStateException("Find entries implementation for 'OaiSources' illegally returned null");
+        if (!data.isEmpty()) {
+            return;
+        }
+        
         data = new java.util.ArrayList<org.datacite.mds.domain.OaiSources>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.OaiSources obj = getNewTransientOaiSources(i);
             obj.persist();
+            obj.flush();
             data.add(obj);
         }
     }

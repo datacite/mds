@@ -7,6 +7,7 @@ import java.lang.Integer;
 import java.lang.Long;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,8 @@ import org.datacite.mds.domain.OaiSources;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect OaiSources_Roo_Entity {
+    
+    declare @type: OaiSources: @Entity;
     
     @PersistenceContext
     transient EntityManager OaiSources.entityManager;

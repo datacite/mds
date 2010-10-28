@@ -34,7 +34,7 @@ privileged aspect AllocatorDataOnDemand_Roo_DataOnDemand {
             doiQuotaUsed = 999999999;
         }
         obj.setDoiQuotaUsed(doiQuotaUsed);
-        obj.setIsActive(new Boolean(true));
+        obj.setIsActive(Boolean.TRUE);
         java.lang.String name = "name_" + index;
         if (name.length() > 255) {
             name  = name.substring(0, 255);
@@ -69,10 +69,17 @@ privileged aspect AllocatorDataOnDemand_Roo_DataOnDemand {
     }
     
     public void AllocatorDataOnDemand.init() {
+        data = org.datacite.mds.domain.Allocator.findAllocatorEntries(0, 10);
+        if (data == null) throw new IllegalStateException("Find entries implementation for 'Allocator' illegally returned null");
+        if (!data.isEmpty()) {
+            return;
+        }
+        
         data = new java.util.ArrayList<org.datacite.mds.domain.Allocator>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Allocator obj = getNewTransientAllocator(i);
             obj.persist();
+            obj.flush();
             data.add(obj);
         }
     }

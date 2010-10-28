@@ -50,7 +50,7 @@ privileged aspect DatacentreDataOnDemand_Roo_DataOnDemand {
             domains  = domains.substring(0, 255);
         }
         obj.setDomains(domains);
-        obj.setIsActive(new Boolean(true));
+        obj.setIsActive(Boolean.TRUE);
         java.lang.String name = "name_" + index;
         if (name.length() > 255) {
             name  = name.substring(0, 255);
@@ -85,10 +85,17 @@ privileged aspect DatacentreDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DatacentreDataOnDemand.init() {
+        data = org.datacite.mds.domain.Datacentre.findDatacentreEntries(0, 10);
+        if (data == null) throw new IllegalStateException("Find entries implementation for 'Datacentre' illegally returned null");
+        if (!data.isEmpty()) {
+            return;
+        }
+        
         data = new java.util.ArrayList<org.datacite.mds.domain.Datacentre>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Datacentre obj = getNewTransientDatacentre(i);
             obj.persist();
+            obj.flush();
             data.add(obj);
         }
     }

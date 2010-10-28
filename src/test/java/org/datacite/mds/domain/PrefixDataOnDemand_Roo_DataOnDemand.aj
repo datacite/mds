@@ -41,10 +41,17 @@ privileged aspect PrefixDataOnDemand_Roo_DataOnDemand {
     }
     
     public void PrefixDataOnDemand.init() {
+        data = org.datacite.mds.domain.Prefix.findPrefixEntries(0, 10);
+        if (data == null) throw new IllegalStateException("Find entries implementation for 'Prefix' illegally returned null");
+        if (!data.isEmpty()) {
+            return;
+        }
+        
         data = new java.util.ArrayList<org.datacite.mds.domain.Prefix>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Prefix obj = getNewTransientPrefix(i);
             obj.persist();
+            obj.flush();
             data.add(obj);
         }
     }

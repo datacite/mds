@@ -6,6 +6,7 @@ package org.datacite.mds.domain;
 import java.lang.Integer;
 import java.lang.Long;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +17,8 @@ import org.datacite.mds.domain.Allocator;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Allocator_Roo_Entity {
+    
+    declare @type: Allocator: @Entity;
     
     @PersistenceContext
     transient EntityManager Allocator.entityManager;

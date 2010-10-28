@@ -25,8 +25,8 @@ privileged aspect DatasetDataOnDemand_Roo_DataOnDemand {
         org.datacite.mds.domain.Dataset obj = new org.datacite.mds.domain.Dataset();
         obj.setDatacentre(datacentreDataOnDemand.getRandomDatacentre());
         obj.setDoi("doi_" + index);
-        obj.setIsActive(new Boolean(true));
-        obj.setIsRefQuality(new Boolean(true));
+        obj.setIsActive(Boolean.TRUE);
+        obj.setIsRefQuality(Boolean.TRUE);
         java.lang.Integer lastLandingPageStatus = new Integer(index);
         if (lastLandingPageStatus < 100 || lastLandingPageStatus > 510) {
             lastLandingPageStatus = 510;
@@ -56,10 +56,17 @@ privileged aspect DatasetDataOnDemand_Roo_DataOnDemand {
     }
     
     public void DatasetDataOnDemand.init() {
+        data = org.datacite.mds.domain.Dataset.findDatasetEntries(0, 10);
+        if (data == null) throw new IllegalStateException("Find entries implementation for 'Dataset' illegally returned null");
+        if (!data.isEmpty()) {
+            return;
+        }
+        
         data = new java.util.ArrayList<org.datacite.mds.domain.Dataset>();
         for (int i = 0; i < 10; i++) {
             org.datacite.mds.domain.Dataset obj = getNewTransientDataset(i);
             obj.persist();
+            obj.flush();
             data.add(obj);
         }
     }

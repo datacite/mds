@@ -7,6 +7,7 @@ import java.lang.Integer;
 import java.lang.Long;
 import java.util.List;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,8 @@ import org.datacite.mds.domain.Metadata;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Metadata_Roo_Entity {
+    
+    declare @type: Metadata: @Entity;
     
     @PersistenceContext
     transient EntityManager Metadata.entityManager;
