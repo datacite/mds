@@ -27,9 +27,9 @@
         </menu:category>
     </sec:authorize>
     <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_DEV">
-    <menu:category id="c_oaisources" z="ez5c+rl2h4racFvE24tCqxTjaiM=">
-            <menu:item id="i_oaisources_new" messageCode="global_menu_new" url="/oaisourceses?form" z="0qFYp4rCDv+XBbIG017UBwqARJU="/>
-        <menu:item id="i_oaisources_list" messageCode="global_menu_list" url="/oaisourceses?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="cxqnKCjkoEZt2oStEPCBtFt8DtE="/>
+    <menu:category id="c_oaisource" z="mhpHhheWIbUJ6Qr7mkCEQ6WBCM4=">
+            <menu:item id="i_oaisource_new" messageCode="global_menu_new" url="/oaisources?form" z="rgHK7MmAFcbJfCCIaUBO9Tz83vc="/>
+        <menu:item id="i_oaisource_list" messageCode="global_menu_list" url="/oaisources?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="cVIEE+TYKqffTYxz8J+2rUXTlrc="/>
         </menu:category>
     </sec:authorize>
     <sec:authorize ifAnyGranted="ROLE_DATACENTRE,ROLE_DEV">
@@ -48,9 +48,6 @@
     <menu:category id="c_view" z="HjmI4Chx/kBYfS/6HjBLbCA+XpU=">
             <menu:item id="i_view__apidocapidoc_id" messageCode="global_generic" url="/apidoc/apidoc" z="/MThF8RCKEL6s/iifI2ugn8ir3I="/>
         </menu:category>
-    <menu:category id="c_oaisource" z="mhpHhheWIbUJ6Qr7mkCEQ6WBCM4=">
-            <menu:item id="i_oaisource_new" messageCode="global_menu_new" url="/oaisources?form" z="rgHK7MmAFcbJfCCIaUBO9Tz83vc="/>
-        <menu:item id="i_oaisource_list" messageCode="global_menu_list" url="/oaisources?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="cVIEE+TYKqffTYxz8J+2rUXTlrc="/>
-        </menu:category>
+    
     </menu:menu>
 </div>
