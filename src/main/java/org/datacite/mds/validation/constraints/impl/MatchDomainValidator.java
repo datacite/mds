@@ -25,10 +25,11 @@ public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Da
         }
 
         // check each allowed domain of the datacentre against the used one
-        String hostname = Utils.getHostname(dataset.getUrl());
+        String hostname = Utils.getHostname(dataset.getUrl()).toLowerCase();
 
         for (String domain : Utils.csvToList(dataset.getDatacentre().getDomains())) {
-            if (domain.equals(hostname)) {
+            domain = domain.toLowerCase();
+            if (hostname.equals(domain) || hostname.endsWith("." + domain)) {
                 return true;
             }
         }
