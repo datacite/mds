@@ -29,7 +29,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooEntity(finders = { "findDatasetsByDoiEquals" })
 @MatchDoiPrefix
 @MatchDomain
-@Unique(entity = Dataset.class, field = "doi")
+@Unique(field = "doi")
 public class Dataset {
 
     @NotNull

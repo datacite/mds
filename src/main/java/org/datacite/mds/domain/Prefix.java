@@ -13,7 +13,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooEntity(finders = { "findPrefixesByPrefixLike" })
-@Unique(entity=Prefix.class, field="prefix")
+@Unique(field="prefix")
 public class Prefix {
 
     @NotNull

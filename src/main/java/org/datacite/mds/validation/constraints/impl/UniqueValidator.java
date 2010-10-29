@@ -20,17 +20,15 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
     @PersistenceContext
     transient EntityManager entityManager;
 
-    Class<?> entity;
     String field;
     String idField;
 
     public void initialize(Unique constraintAnnotation) {
-        this.entity = constraintAnnotation.entity();
         this.field = constraintAnnotation.field();
         this.idField = constraintAnnotation.idField();
     }
 
-    public boolean isValid(Object object, ConstraintValidatorContext context) {
+    public boolean isValid(Object entity, ConstraintValidatorContext context) {
         // if hibernate persists the object the entityManager is not injected,
         // so we always return true.
         if (entityManager == null)
@@ -38,15 +36,15 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
         Serializable id, value;
         try {
-            id = (Serializable) PropertyUtils.getProperty(object, idField);
-            value = (Serializable) PropertyUtils.getProperty(object, field);
+            id = (Serializable) PropertyUtils.getProperty(entity, idField);
+            value = (Serializable) PropertyUtils.getProperty(entity, field);
         } catch (Exception e) {
             log.debug("error getting property:" + e.getMessage());
             return false;
         }
-        log.debug("entity=" + entity.getName() + ", id: " + idField + "=" + id + ", field: " + field + "=" + value);
+        log.debug("entity=" + entity.getClass().getName() + ", id: " + idField + "=" + id + ", field: " + field + "=" + value);
 
-        String qstr = "SELECT " + idField + " FROM " + entity.getName() + " WHERE " + field + " = :value";
+        String qstr = "SELECT " + idField + " FROM " + entity.getClass().getName() + " WHERE " + field + " = :value";
         TypedQuery<Serializable> q = entityManager.createQuery(qstr, Serializable.class);
         q.setParameter("value", value);
         List<Serializable> results = q.getResultList();

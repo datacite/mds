@@ -19,8 +19,6 @@ import org.datacite.mds.validation.constraints.impl.UniqueValidator;
 @ReportAsSingleViolation
 public @interface Unique {
 
-    public Class<?> entity();
-    
     public String field();
     
     public String idField() default "id"; 
