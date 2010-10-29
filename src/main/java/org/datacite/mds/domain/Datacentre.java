@@ -16,6 +16,7 @@ import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.ListOfDomains;
 import org.datacite.mds.validation.constraints.MatchSymbolPrefix;
 import org.datacite.mds.validation.constraints.Symbol;
+import org.datacite.mds.validation.constraints.Unique;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RooToString
 @RooEntity(finders = { "findDatacentresBySymbolEquals", "findDatacentresByNameLike" })
 @MatchSymbolPrefix
+@Unique(field = "symbol")
 public class Datacentre {
 
     @NotNull

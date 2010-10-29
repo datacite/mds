@@ -13,7 +13,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooEntity(finders = { "findPrefixesByPrefixLike" })
-@Unique(field="prefix")
+@Unique(field = "prefix")
 public class Prefix {
 
     @NotNull
@@ -27,7 +27,7 @@ public class Prefix {
 
     @SuppressWarnings("unchecked")
     public static List<Prefix> findPrefixEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Prefix o order by prefix").setFirstResult(firstResult).setMaxResults(
-                maxResults).getResultList();
+        return entityManager().createQuery("select o from Prefix o order by prefix").setFirstResult(firstResult)
+                .setMaxResults(maxResults).getResultList();
     }
 }

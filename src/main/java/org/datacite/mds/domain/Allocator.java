@@ -12,6 +12,7 @@ import javax.validation.constraints.Size;
 
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.Symbol;
+import org.datacite.mds.validation.constraints.Unique;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -19,6 +20,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJavaBean
 @RooToString
 @RooEntity(finders = { "findAllocatorsBySymbolEquals", "findAllocatorsByNameLike" })
+@Unique(field = "symbol")
 public class Allocator {
 
     @NotNull
@@ -65,7 +67,7 @@ public class Allocator {
 
     @SuppressWarnings("unchecked")
     public static List<Allocator> findAllocatorEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Allocator o order by symbol").setFirstResult(firstResult).setMaxResults(
-                maxResults).getResultList();
+        return entityManager().createQuery("select o from Allocator o order by symbol").setFirstResult(firstResult)
+                .setMaxResults(maxResults).getResultList();
     }
 }
