@@ -12,6 +12,35 @@ import javax.validation.ReportAsSingleViolation;
 
 import org.datacite.mds.validation.constraints.impl.UniqueValidator;
 
+/**
+ * <p>
+ * This annotation checks an entity field for uniqueness. It has to be placed on
+ * type level.
+ * </p>
+ * 
+ * <p>
+ * It looks up for objects with the same field value in the persistence backend. If
+ * there is none the constraint is valid. If there is exactly one matching
+ * object we check for id field ("id" by default) matching. If so this indicates
+ * an update operation and the constraint is valid. Otherwise it fails.
+ * </p>
+ * 
+ * <p>
+ * Example:
+ * 
+ * <pre>
+ * &#064;Entity
+ * &#064;Unique(field="myfield")
+ * public class Domain {
+ *   Long id;
+ *   String myField;
+ * }
+ * 
+ * </p>
+ * 
+ * 
+ * </pre>
+ */
 @Documented
 @Constraint(validatedBy = UniqueValidator.class)
 @Target( { ElementType.TYPE, ElementType.ANNOTATION_TYPE })
@@ -19,9 +48,15 @@ import org.datacite.mds.validation.constraints.impl.UniqueValidator;
 @ReportAsSingleViolation
 public @interface Unique {
 
+    /**
+     * @return name of the field which should be unique
+     */
     public String field();
-    
-    public String idField() default "id"; 
+
+    /**
+     * @return name of entity's id field (defaults to "id")
+     */
+    public String idField() default "id";
 
     public abstract String message() default "{org.datacite.mds.validation.constraints.Unique.message}";
 
