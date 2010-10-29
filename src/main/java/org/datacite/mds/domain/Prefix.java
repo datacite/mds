@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.datacite.mds.validation.constraints.DoiPrefix;
+import org.datacite.mds.validation.constraints.Unique;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -16,6 +17,7 @@ public class Prefix {
 
     @NotNull
     @DoiPrefix
+    @Unique(entity=Prefix.class, field="prefix")
     private String prefix;
 
     @SuppressWarnings("unchecked")
