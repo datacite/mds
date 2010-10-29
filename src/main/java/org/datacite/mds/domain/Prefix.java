@@ -2,6 +2,7 @@ package org.datacite.mds.domain;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
 import org.datacite.mds.validation.constraints.DoiPrefix;
@@ -18,6 +19,7 @@ public class Prefix {
 
     @NotNull
     @DoiPrefix
+    @Column(unique = true)
     private String prefix;
 
     @SuppressWarnings("unchecked")

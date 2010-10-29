@@ -15,12 +15,13 @@ import org.datacite.mds.validation.constraints.impl.UniqueValidator;
 /**
  * <p>
  * This annotation checks an entity field for uniqueness. It has to be placed on
- * type level.
+ * type level. It does <i>not</i> insert a constraint on database level. You have it do
+ * it on your own (see example) and it is strongly recommended.
  * </p>
  * 
  * <p>
- * It looks up for objects with the same field value in the persistence backend. If
- * there is none the constraint is valid. If there is exactly one matching
+ * It looks up for objects with the same field value in the persistence backend.
+ * If there is none the constraint is valid. If there is exactly one matching
  * object we check for id field ("id" by default) matching. If so this indicates
  * an update operation and the constraint is valid. Otherwise it fails.
  * </p>
@@ -32,7 +33,10 @@ import org.datacite.mds.validation.constraints.impl.UniqueValidator;
  * &#064;Entity
  * &#064;Unique(field="myfield")
  * public class Domain {
+ *   &#064;Id
  *   Long id;
+ *   
+ *   &#064;Column(unique = true)
  *   String myField;
  * }
  * 

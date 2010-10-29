@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -31,6 +32,7 @@ public class Datacentre {
 
     @NotNull
     @Symbol(Symbol.Type.DATACENTRE)
+    @Column(unique = true)
     private String symbol;
 
     @NotNull

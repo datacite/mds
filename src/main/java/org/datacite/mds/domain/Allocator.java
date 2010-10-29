@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -25,6 +26,7 @@ public class Allocator {
 
     @NotNull
     @Symbol(Symbol.Type.ALLOCATOR)
+    @Column(unique = true)
     private String symbol;
 
     @NotNull

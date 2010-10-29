@@ -3,6 +3,7 @@ package org.datacite.mds.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,6 +35,7 @@ public class Dataset {
 
     @NotNull
     @Doi
+    @Column(unique = true)
     private String doi;
 
     @NotNull
