@@ -11,6 +11,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Unique;
 
 public class UniqueValidator implements ConstraintValidator<Unique, Object> {
@@ -22,10 +23,12 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
     String field;
     String idField;
+    String defaultMessage;
 
     public void initialize(Unique constraintAnnotation) {
         this.field = constraintAnnotation.field();
         this.idField = constraintAnnotation.idField();
+        this.defaultMessage = constraintAnnotation.message();
     }
 
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
@@ -59,6 +62,12 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
             isUnique = results.size() == 0;
         }
         log.debug("isUnique=" + isUnique);
+        
+        if (!isUnique) {
+          context.disableDefaultConstraintViolation();
+          Utils.addConstraintViolation(context, defaultMessage, field);
+        }
+        
         return isUnique;
     }
 
