@@ -14,7 +14,7 @@ import org.datacite.mds.validation.constraints.impl.UniqueValidator;
 
 @Documented
 @Constraint(validatedBy = UniqueValidator.class)
-@Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Target( { ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @ReportAsSingleViolation
 public @interface Unique {
@@ -22,6 +22,8 @@ public @interface Unique {
     public Class<?> entity();
     
     public String field();
+    
+    public String idField() default "id"; 
 
     public abstract String message() default "{org.datacite.mds.validation.constraints.Unique.message}";
 
