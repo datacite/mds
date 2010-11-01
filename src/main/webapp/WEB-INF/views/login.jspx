@@ -46,6 +46,13 @@
         </script>
       </div>
       <br />
+      <div>
+        <label for="j_remember_me">
+          <spring:message code="security_login_form_remember_me" />
+        </label>
+        <input id="j_remember_me" type='checkbox' name='_spring_security_remember_me'/> 
+      </div>
+      <br />
       <div class="submit">
         <script type="text/javascript">Spring.addDecoration(new Spring.ValidateAllDecoration({elementId:'proceed', event:'onclick'}));</script>
         <spring:message code="button_submit" var="submit_label" />

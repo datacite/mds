@@ -36,6 +36,7 @@
         <intercept-url pattern="/static/**" access="permitAll" requires-channel="https" />
         <intercept-url pattern="/**" access="permitAll" requires-channel="https" />
         
+        <remember-me key="MDS"/>
 
     	<custom-filter ref="switchUserProcessingFilter" after="FILTER_SECURITY_INTERCEPTOR" />
     </http>
