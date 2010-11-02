@@ -75,4 +75,20 @@ privileged aspect Dataset_Roo_JavaBean {
         this.url = url;
     }
     
+    public Date Dataset.getCreated() {
+        return this.created;
+    }
+    
+    public void Dataset.setCreated(Date created) {
+        this.created = created;
+    }
+    
+    public Date Dataset.getUpdated() {
+        return this.updated;
+    }
+    
+    public void Dataset.setUpdated(Date updated) {
+        this.updated = updated;
+    }
+    
 }

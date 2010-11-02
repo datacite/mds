@@ -49,12 +49,6 @@ privileged aspect Prefix_Roo_Entity {
     }
     
     @Transactional
-    public void Prefix.persist() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        this.entityManager.persist(this);
-    }
-    
-    @Transactional
     public void Prefix.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {

@@ -12,7 +12,9 @@ import javax.validation.Valid;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,6 +35,7 @@ privileged aspect DatacentreController_Roo_Controller {
     public String DatacentreController.create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
+            addDateTimeFormatPatterns(model);
             return "datacentres/create";
         }
         datacentre.persist();
@@ -41,6 +44,7 @@ privileged aspect DatacentreController_Roo_Controller {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String DatacentreController.show(@PathVariable("id") Long id, Model model) {
+        addDateTimeFormatPatterns(model);
         model.addAttribute("datacentre", Datacentre.findDatacentre(id));
         model.addAttribute("itemId", id);
         return "datacentres/show";
@@ -56,6 +60,7 @@ privileged aspect DatacentreController_Roo_Controller {
         } else {
             model.addAttribute("datacentres", Datacentre.findAllDatacentres());
         }
+        addDateTimeFormatPatterns(model);
         return "datacentres/list";
     }
     
@@ -63,6 +68,7 @@ privileged aspect DatacentreController_Roo_Controller {
     public String DatacentreController.update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
+            addDateTimeFormatPatterns(model);
             return "datacentres/update";
         }
         datacentre.merge();
@@ -72,6 +78,7 @@ privileged aspect DatacentreController_Roo_Controller {
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String DatacentreController.updateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("datacentre", Datacentre.findDatacentre(id));
+        addDateTimeFormatPatterns(model);
         return "datacentres/update";
     }
     
@@ -100,6 +107,11 @@ privileged aspect DatacentreController_Roo_Controller {
     @ModelAttribute("allocators")
     public Collection<Allocator> DatacentreController.populateAllocators() {
         return Allocator.findAllAllocators();
+    }
+    
+    void DatacentreController.addDateTimeFormatPatterns(Model model) {
+        model.addAttribute("datacentre_created_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
+        model.addAttribute("datacentre_updated_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
     }
     
     private String DatacentreController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {

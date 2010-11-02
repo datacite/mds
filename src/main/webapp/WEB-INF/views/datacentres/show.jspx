@@ -15,5 +15,7 @@
         <field:display field="allocator" id="s_org_datacite_mds_domain_Datacentre_allocator" object="${datacentre}" z="1ATRi/EPpyKgQn8iyCd414S8yAw="/>
         <field:display field="prefixes" id="s_org_datacite_mds_domain_Datacentre_prefixes" object="${datacentre}" z="Tupqob8sQAftvqvD8SKu9zKixuQ="/>
         <field:display field="roleName" id="s_org_datacite_mds_domain_Datacentre_roleName" object="${datacentre}" render="false" z="user-managed"/>
+    <field:display date="true" dateTimePattern="${datacentre_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Datacentre_updated" object="${datacentre}" z="ycquI8H7Amr7/EyAfc8eqavsQHo="/>
+    <field:display date="true" dateTimePattern="${datacentre_created_date_format}" field="created" id="s_org_datacite_mds_domain_Datacentre_created" object="${datacentre}" z="Rq5vul7Cq5z/WcpmDBl1ehChCsA="/>
     </page:show>
 </div>

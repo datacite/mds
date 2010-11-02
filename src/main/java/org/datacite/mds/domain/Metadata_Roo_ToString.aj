@@ -13,7 +13,7 @@ privileged aspect Metadata_Roo_ToString {
         sb.append("Version: ").append(getVersion()).append(", ");
         sb.append("Xml: ").append(java.util.Arrays.toString(getXml())).append(", ");
         sb.append("MetadataVersion: ").append(getMetadataVersion()).append(", ");
-        sb.append("LastUpdated: ").append(getLastUpdated()).append(", ");
+        sb.append("Created: ").append(getCreated()).append(", ");
         sb.append("Dataset: ").append(getDataset());
         return sb.toString();
     }

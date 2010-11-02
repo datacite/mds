@@ -88,7 +88,7 @@ privileged aspect MetadataController_Roo_Controller {
     }
     
     void MetadataController.addDateTimeFormatPatterns(Model model) {
-        model.addAttribute("metadata_lastupdated_date_format", DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
+        model.addAttribute("metadata_created_date_format", DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
     }
     
     private String MetadataController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {

@@ -6,6 +6,7 @@
         <field:select field="dataset" id="c_org_datacite_mds_domain_Metadata_dataset" itemValue="id" items="${datasets}" path="/datasets" required="true" z="user-managed"/>
         <field:input field="metadataVersion" id="c_org_datacite_mds_domain_Metadata_metadataVersion" min="0" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
         <field:upload field="xml" id="c_org_datacite_mds_domain_Metadata_xml" z="user-managed"/>
+        <field:datetime dateTimePattern="${metadata_created_date_format}" field="created" id="c_org_datacite_mds_domain_Metadata_created" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Metadata" render="${not empty dependencies}" z="/BeB2uLyPmZHab3U5/roD986PXs="/>
 </div>

@@ -25,12 +25,12 @@ privileged aspect Metadata_Roo_JavaBean {
         this.metadataVersion = metadataVersion;
     }
     
-    public Date Metadata.getLastUpdated() {
-        return this.lastUpdated;
+    public Date Metadata.getCreated() {
+        return this.created;
     }
     
-    public void Metadata.setLastUpdated(Date lastUpdated) {
-        this.lastUpdated = lastUpdated;
+    public void Metadata.setCreated(Date created) {
+        this.created = created;
     }
     
     public Dataset Metadata.getDataset() {

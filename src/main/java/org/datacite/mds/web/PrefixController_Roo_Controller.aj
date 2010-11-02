@@ -10,7 +10,9 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Prefix;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
@@ -31,6 +33,7 @@ privileged aspect PrefixController_Roo_Controller {
     public String PrefixController.create(@Valid Prefix prefix, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("prefix", prefix);
+            addDateTimeFormatPatterns(model);
             return "prefixes/create";
         }
         prefix.persist();
@@ -40,11 +43,13 @@ privileged aspect PrefixController_Roo_Controller {
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String PrefixController.createForm(Model model) {
         model.addAttribute("prefix", new Prefix());
+        addDateTimeFormatPatterns(model);
         return "prefixes/create";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String PrefixController.show(@PathVariable("id") Long id, Model model) {
+        addDateTimeFormatPatterns(model);
         model.addAttribute("prefix", Prefix.findPrefix(id));
         model.addAttribute("itemId", id);
         return "prefixes/show";
@@ -60,6 +65,7 @@ privileged aspect PrefixController_Roo_Controller {
         } else {
             model.addAttribute("prefixes", Prefix.findAllPrefixes());
         }
+        addDateTimeFormatPatterns(model);
         return "prefixes/list";
     }
     
@@ -67,6 +73,7 @@ privileged aspect PrefixController_Roo_Controller {
     public String PrefixController.update(@Valid Prefix prefix, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("prefix", prefix);
+            addDateTimeFormatPatterns(model);
             return "prefixes/update";
         }
         prefix.merge();
@@ -76,6 +83,7 @@ privileged aspect PrefixController_Roo_Controller {
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String PrefixController.updateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("prefix", Prefix.findPrefix(id));
+        addDateTimeFormatPatterns(model);
         return "prefixes/update";
     }
     
@@ -93,7 +101,7 @@ privileged aspect PrefixController_Roo_Controller {
     Converter<Prefix, String> PrefixController.getPrefixConverter() {
         return new Converter<Prefix, String>() {
             public String convert(Prefix prefix) {
-                return new StringBuilder().append(prefix.getPrefix()).toString();
+                return new StringBuilder().append(prefix.getPrefix()).append(" ").append(prefix.getCreated()).toString();
             }
         };
     }
@@ -101,6 +109,10 @@ privileged aspect PrefixController_Roo_Controller {
     @PostConstruct
     void PrefixController.registerConverters() {
         conversionService.addConverter(getPrefixConverter());
+    }
+    
+    void PrefixController.addDateTimeFormatPatterns(Model model) {
+        model.addAttribute("prefix_created_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
     }
     
     private String PrefixController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {

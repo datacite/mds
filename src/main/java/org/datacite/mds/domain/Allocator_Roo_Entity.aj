@@ -49,12 +49,6 @@ privileged aspect Allocator_Roo_Entity {
     }
     
     @Transactional
-    public void Allocator.persist() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        this.entityManager.persist(this);
-    }
-    
-    @Transactional
     public void Allocator.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
@@ -69,14 +63,6 @@ privileged aspect Allocator_Roo_Entity {
     public void Allocator.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
-    }
-    
-    @Transactional
-    public Allocator Allocator.merge() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        Allocator merged = this.entityManager.merge(this);
-        this.entityManager.flush();
-        return merged;
     }
     
     public static final EntityManager Allocator.entityManager() {

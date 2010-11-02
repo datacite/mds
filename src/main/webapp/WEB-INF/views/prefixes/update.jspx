@@ -3,5 +3,6 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_datacite_mds_domain_Prefix" modelAttribute="prefix" path="/prefixes" z="VWDOry8tlQoVwlTIGGet1bClcno=">
         <field:input field="prefix" id="c_org_datacite_mds_domain_Prefix_prefix" required="true" z="MMIRHc0PqzsvbZh/V8rhWbjmVzc="/>
+        <field:datetime dateTimePattern="${prefix_created_date_format}" field="created" id="c_org_datacite_mds_domain_Prefix_created" render="false" z="user-managed"/>
     </form:update>
 </div>

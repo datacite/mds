@@ -2,7 +2,6 @@ package org.datacite.mds.domain;
 
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
@@ -10,13 +9,17 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Unique;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
 @RooToString
@@ -62,6 +65,14 @@ public class Allocator {
 
     private String roleName = "ROLE_ALLOCATOR";
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "FF")
+    private Date created;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(style = "FF")
+    private Date updated;
+
     @SuppressWarnings("unchecked")
     public static List<Allocator> findAllAllocators() {
         return entityManager().createQuery("select o from Allocator o order by symbol").getResultList();
@@ -69,7 +80,23 @@ public class Allocator {
 
     @SuppressWarnings("unchecked")
     public static List<Allocator> findAllocatorEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Allocator o order by symbol").setFirstResult(firstResult)
-                .setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("select o from Allocator o order by symbol").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
+
+    @Transactional
+    public void persist() {
+        setCreated(new Date());
+        if (this.entityManager == null) this.entityManager = entityManager();
+        this.entityManager.persist(this);
+    }
+
+    @Transactional
+    public Allocator merge() {
+        setUpdated(new Date());
+        if (this.entityManager == null) this.entityManager = entityManager();
+        Allocator merged = this.entityManager.merge(this);
+        this.entityManager.flush();
+        return merged;
+    }
+
 }

@@ -6,6 +6,7 @@ package org.datacite.mds.domain;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
+import java.util.Date;
 import java.util.Set;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Prefix;
@@ -114,6 +115,22 @@ privileged aspect Datacentre_Roo_JavaBean {
     
     public void Datacentre.setPrefixes(Set<Prefix> prefixes) {
         this.prefixes = prefixes;
+    }
+    
+    public Date Datacentre.getUpdated() {
+        return this.updated;
+    }
+    
+    public void Datacentre.setUpdated(Date updated) {
+        this.updated = updated;
+    }
+    
+    public Date Datacentre.getCreated() {
+        return this.created;
+    }
+    
+    public void Datacentre.setCreated(Date created) {
+        this.created = created;
     }
     
 }

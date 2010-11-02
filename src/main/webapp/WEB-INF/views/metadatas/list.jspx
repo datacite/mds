@@ -6,7 +6,8 @@
             <table:column id="c_org_datacite_mds_domain_Metadata_dataset" property="dataset" z="JH7VlPj7IaFLuCHhAnyMgkik3rc="/>
             <table:column id="c_org_datacite_mds_domain_Metadata_xml" property="xml" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Metadata_metadataVersion" property="metadataVersion" z="H/GGYlZBJrZWWq2e7VIZaUn+1ck="/>
-            <table:column id="c_org_datacite_mds_domain_Metadata_lastUpdated" property="lastUpdated" z="xpWdPsuT/G30qfA7HTN2EdSJOhs="/>
+            
+        <table:column id="c_org_datacite_mds_domain_Metadata_created" property="created" z="V0bjRNVRb9x3NdYpesasBJy7Uh8="/>
         </table:table>
     </page:list>
 </div>

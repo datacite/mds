@@ -49,12 +49,6 @@ privileged aspect Datacentre_Roo_Entity {
     }
     
     @Transactional
-    public void Datacentre.persist() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        this.entityManager.persist(this);
-    }
-    
-    @Transactional
     public void Datacentre.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
@@ -69,14 +63,6 @@ privileged aspect Datacentre_Roo_Entity {
     public void Datacentre.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
-    }
-    
-    @Transactional
-    public Datacentre Datacentre.merge() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        Datacentre merged = this.entityManager.merge(this);
-        this.entityManager.flush();
-        return merged;
     }
     
     public static final EntityManager Datacentre.entityManager() {

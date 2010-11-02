@@ -3,6 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_org_datacite_mds_domain_Prefix" modelAttribute="prefix" path="/prefixes" render="${empty dependencies}" z="bdGHOZiYzSA26hJ29i96cOyw2iY=">
         <field:input field="prefix" id="c_org_datacite_mds_domain_Prefix_prefix" required="true" z="MMIRHc0PqzsvbZh/V8rhWbjmVzc="/>
+    <field:datetime dateTimePattern="${prefix_created_date_format}" field="created" id="c_org_datacite_mds_domain_Prefix_created" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Prefix" render="${not empty dependencies}" z="EIN0axc8tLi/QpNB/NiWO3YJqDE="/>
 </div>

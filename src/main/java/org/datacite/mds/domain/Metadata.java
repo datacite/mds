@@ -27,8 +27,8 @@ public class Metadata {
     private Integer metadataVersion;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "S-")
-    private Date lastUpdated;
+    @DateTimeFormat(style = "FF")
+    private Date created;
 
     @NotNull
     @ManyToOne(targetEntity = Dataset.class)
@@ -51,7 +51,8 @@ public class Metadata {
             this.entityManager = entityManager();
         Integer maxVersion = findMaxMetadataVersionByDataset(getDataset());
         setMetadataVersion(maxVersion + 1);
-        setLastUpdated(new Date());
+        setCreated(new Date());
+        getDataset().setUpdated(new Date());
         this.entityManager.persist(this);
     }
 

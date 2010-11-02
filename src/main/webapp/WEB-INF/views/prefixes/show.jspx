@@ -3,5 +3,6 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:show delete="false" id="ps_org_datacite_mds_domain_Prefix" object="${prefix}" path="/prefixes" z="ffXyZBItHLO4sotNiQrv17HuwZM=">
         <field:display field="prefix" id="s_org_datacite_mds_domain_Prefix_prefix" object="${prefix}" z="2rRK9cqFYwuwHM3YBvuDtaaQsaQ="/>
+    <field:display date="true" dateTimePattern="${prefix_created_date_format}" field="created" id="s_org_datacite_mds_domain_Prefix_created" object="${prefix}" z="u2wF8rsTNfWMInIvVt3fztMxqyA="/>
     </page:show>
 </div>

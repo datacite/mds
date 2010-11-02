@@ -10,6 +10,8 @@
         <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
         <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="false" z="user-managed"/>
         <field:display field="url" id="s_org_datacite_mds_domain_Dataset_url" object="${dataset}" render="false" z="user-managed"/>
+    <field:display date="true" dateTimePattern="${dataset_created_date_format}" field="created" id="s_org_datacite_mds_domain_Dataset_created" object="${dataset}" z="d0NVtjb9qN+UTT5MHEFzN9SMDzU="/>
+    <field:display date="true" dateTimePattern="${dataset_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Dataset_updated" object="${dataset}" z="0xOiEJrTlBixi8pKrahDtV0iGhs="/>
     </page:show>
     <page:list create="true" createParam="dataset" createParamValue="${dataset.id}" createPath="/metadatas" id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" z="user-managed">
         <table:table createParam="dataset" createParamValue="${dataset.id}" data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadatas" update="false" z="user-managed">

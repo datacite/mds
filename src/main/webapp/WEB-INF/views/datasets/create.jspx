@@ -12,6 +12,8 @@
         <div style="display:none">
           <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="QizQtkpuvEV1I+dvhbiwy8QSkKU="/>
         </div>
+        <field:datetime dateTimePattern="${dataset_created_date_format}" field="created" id="c_org_datacite_mds_domain_Dataset_created" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${dataset_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Dataset_updated" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Dataset" render="${not empty dependencies}" z="LWdyQ83dcuGqnymb9lRlQ6rNsFA="/>
 </div>

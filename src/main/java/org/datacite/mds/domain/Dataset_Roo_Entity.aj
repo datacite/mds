@@ -50,12 +50,6 @@ privileged aspect Dataset_Roo_Entity {
     }
     
     @Transactional
-    public void Dataset.persist() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        this.entityManager.persist(this);
-    }
-    
-    @Transactional
     public void Dataset.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
@@ -70,14 +64,6 @@ privileged aspect Dataset_Roo_Entity {
     public void Dataset.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
-    }
-    
-    @Transactional
-    public Dataset Dataset.merge() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        Dataset merged = this.entityManager.merge(this);
-        this.entityManager.flush();
-        return merged;
     }
     
     public static final EntityManager Dataset.entityManager() {

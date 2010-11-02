@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Prefix;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
@@ -34,6 +36,7 @@ privileged aspect AllocatorController_Roo_Controller {
     public String AllocatorController.create(@Valid Allocator allocator, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
+            addDateTimeFormatPatterns(model);
             return "allocators/create";
         }
         allocator.persist();
@@ -43,11 +46,13 @@ privileged aspect AllocatorController_Roo_Controller {
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String AllocatorController.createForm(Model model) {
         model.addAttribute("allocator", new Allocator());
+        addDateTimeFormatPatterns(model);
         return "allocators/create";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String AllocatorController.show(@PathVariable("id") Long id, Model model) {
+        addDateTimeFormatPatterns(model);
         model.addAttribute("allocator", Allocator.findAllocator(id));
         model.addAttribute("itemId", id);
         return "allocators/show";
@@ -63,6 +68,7 @@ privileged aspect AllocatorController_Roo_Controller {
         } else {
             model.addAttribute("allocators", Allocator.findAllAllocators());
         }
+        addDateTimeFormatPatterns(model);
         return "allocators/list";
     }
     
@@ -70,6 +76,7 @@ privileged aspect AllocatorController_Roo_Controller {
     public String AllocatorController.update(@Valid Allocator allocator, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
+            addDateTimeFormatPatterns(model);
             return "allocators/update";
         }
         allocator.merge();
@@ -79,6 +86,7 @@ privileged aspect AllocatorController_Roo_Controller {
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String AllocatorController.updateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("allocator", Allocator.findAllocator(id));
+        addDateTimeFormatPatterns(model);
         return "allocators/update";
     }
     
@@ -120,7 +128,7 @@ privileged aspect AllocatorController_Roo_Controller {
     Converter<Prefix, String> AllocatorController.getPrefixConverter() {
         return new Converter<Prefix, String>() {
             public String convert(Prefix prefix) {
-                return new StringBuilder().append(prefix.getPrefix()).toString();
+                return new StringBuilder().append(prefix.getPrefix()).append(" ").append(prefix.getCreated()).toString();
             }
         };
     }
@@ -129,6 +137,11 @@ privileged aspect AllocatorController_Roo_Controller {
     void AllocatorController.registerConverters() {
         conversionService.addConverter(getAllocatorConverter());
         conversionService.addConverter(getPrefixConverter());
+    }
+    
+    void AllocatorController.addDateTimeFormatPatterns(Model model) {
+        model.addAttribute("allocator_updated_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
+        model.addAttribute("allocator_created_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
     }
     
     private String AllocatorController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {

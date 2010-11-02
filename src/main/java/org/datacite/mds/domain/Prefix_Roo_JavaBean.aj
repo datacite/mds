@@ -4,6 +4,7 @@
 package org.datacite.mds.domain;
 
 import java.lang.String;
+import java.util.Date;
 
 privileged aspect Prefix_Roo_JavaBean {
     
@@ -13,6 +14,14 @@ privileged aspect Prefix_Roo_JavaBean {
     
     public void Prefix.setPrefix(String prefix) {
         this.prefix = prefix;
+    }
+    
+    public Date Prefix.getCreated() {
+        return this.created;
+    }
+    
+    public void Prefix.setCreated(Date created) {
+        this.created = created;
     }
     
 }

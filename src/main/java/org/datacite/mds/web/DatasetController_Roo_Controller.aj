@@ -83,6 +83,8 @@ privileged aspect DatasetController_Roo_Controller {
     }
     
     void DatasetController.addDateTimeFormatPatterns(Model model) {
+        model.addAttribute("dataset_updated_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
+        model.addAttribute("dataset_created_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
         model.addAttribute("dataset_lastlandingpagestatuscheck_date_format", DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
     }
     

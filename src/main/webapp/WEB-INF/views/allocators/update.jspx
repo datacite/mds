@@ -12,5 +12,7 @@
         <field:select field="prefixes" id="c_org_datacite_mds_domain_Allocator_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" z="CwzHCpQlv6T6Sd6wbQUQLSo2DJ0="/>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Allocator_isActive" z="6POWfZXasELSKoxz5mDZYIPVjkc="/>
         <field:input field="roleName" id="c_org_datacite_mds_domain_Allocator_roleName" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${allocator_created_date_format}" field="created" id="c_org_datacite_mds_domain_Allocator_created" disabled="true" z="user-managed"/>
+        <field:datetime dateTimePattern="${allocator_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Allocator_updated" disabled="true" z="user-managed"/>
     </form:update>
 </div>

@@ -12,5 +12,7 @@
         <field:display field="prefixes" id="s_org_datacite_mds_domain_Allocator_prefixes" object="${allocator}" z="4+e4MC+wxWb7HbLBHDqD++b4Ka8="/>
         <field:display field="isActive" id="s_org_datacite_mds_domain_Allocator_isActive" object="${allocator}" z="74aOaR8T1OanckzBBVV9t9Icnq8="/>
         <field:display field="roleName" id="s_org_datacite_mds_domain_Allocator_roleName" object="${allocator}" render="false" z="user-managed"/>
+    <field:display date="true" dateTimePattern="${allocator_created_date_format}" field="created" id="s_org_datacite_mds_domain_Allocator_created" object="${allocator}" z="0e/rwOMZEsUv+ltjyPbWyhX+q6E="/>
+    <field:display date="true" dateTimePattern="${allocator_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Allocator_updated" object="${allocator}" z="JWYXjmiWZS49d0nv0XJuoiYuR1w="/>
     </page:show>
 </div>

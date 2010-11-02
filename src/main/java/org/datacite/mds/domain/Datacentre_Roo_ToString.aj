@@ -23,7 +23,9 @@ privileged aspect Datacentre_Roo_ToString {
         sb.append("Domains: ").append(getDomains()).append(", ");
         sb.append("Comments: ").append(getComments()).append(", ");
         sb.append("Allocator: ").append(getAllocator()).append(", ");
-        sb.append("Prefixes: ").append(getPrefixes() == null ? "null" : getPrefixes().size());
+        sb.append("Prefixes: ").append(getPrefixes() == null ? "null" : getPrefixes().size()).append(", ");
+        sb.append("Updated: ").append(getUpdated()).append(", ");
+        sb.append("Created: ").append(getCreated());
         return sb.toString();
     }
     

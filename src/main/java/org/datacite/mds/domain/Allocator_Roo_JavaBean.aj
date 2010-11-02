@@ -6,6 +6,7 @@ package org.datacite.mds.domain;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
+import java.util.Date;
 import java.util.Set;
 import org.datacite.mds.domain.Prefix;
 
@@ -89,6 +90,22 @@ privileged aspect Allocator_Roo_JavaBean {
     
     public void Allocator.setRoleName(String roleName) {
         this.roleName = roleName;
+    }
+    
+    public Date Allocator.getCreated() {
+        return this.created;
+    }
+    
+    public void Allocator.setCreated(Date created) {
+        this.created = created;
+    }
+    
+    public Date Allocator.getUpdated() {
+        return this.updated;
+    }
+    
+    public void Allocator.setUpdated(Date updated) {
+        this.updated = updated;
     }
     
 }

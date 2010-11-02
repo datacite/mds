@@ -17,6 +17,8 @@
         <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" z="SnpZnnN5j8t3Meta9tj1IlCGOIU="/>
         <field:textarea field="comments" id="c_org_datacite_mds_domain_Datacentre_comments" z="7scBOc9Lbz9U32Wucy+zXfwQRSM="/>
         <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${datacentre_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${datacentre_created_date_format}" field="created" id="c_org_datacite_mds_domain_Datacentre_created" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Datacentre" render="${not empty dependencies}" z="2mOyhvEGqo+B/6PwSRFZpMQcTJ4="/>
 </div>
