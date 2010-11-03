@@ -19,6 +19,7 @@ import org.datacite.mds.validation.constraints.MatchDomain;
 import org.datacite.mds.validation.constraints.Unique;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -47,7 +48,7 @@ public class Dataset {
     private Integer lastLandingPageStatus;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "S-")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date lastLandingPageStatusCheck;
 
     private String lastMetadataStatus;
@@ -62,11 +63,11 @@ public class Dataset {
     private String url;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date updated;
 
     private static TypedQuery<Dataset> queryDatasetsByDatacentre(Datacentre datacentre) {

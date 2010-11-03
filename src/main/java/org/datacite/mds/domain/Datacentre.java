@@ -26,6 +26,7 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
@@ -88,11 +89,12 @@ public class Datacentre {
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
+
     private Date updated;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date created;
 
     @Transactional

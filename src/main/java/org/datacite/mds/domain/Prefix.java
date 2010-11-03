@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
@@ -26,7 +27,7 @@ public class Prefix {
     private String prefix;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date created;
 
     @SuppressWarnings("unchecked")

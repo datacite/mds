@@ -41,7 +41,6 @@ public class DatasetController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {
-        addDateTimeFormatPatterns(model);
         Dataset dataset = Dataset.findDataset(id);
         model.addAttribute("dataset", dataset);
         model.addAttribute("metadatas", Metadata.findMetadatasByDataset(dataset).getResultList());
@@ -72,7 +71,6 @@ public class DatasetController {
         } else {
             model.addAttribute("datasets", Dataset.findDatasetsByDatacentres(datacentre));
         }
-        addDateTimeFormatPatterns(model);
         return "datasets/list";
     }
 }

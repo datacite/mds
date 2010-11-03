@@ -81,7 +81,6 @@ public class DatacentreController {
         } else {
             model.addAttribute("datacentres", Datacentre.findAllDatacentresByAllocator(allocator));
         }
-        addDateTimeFormatPatterns(model);
         return "datacentres/list";
     }
 }

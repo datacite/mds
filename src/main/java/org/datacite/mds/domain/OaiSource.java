@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
@@ -27,7 +28,7 @@ public class OaiSource {
     private String owner;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "S-")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date lastHarvest;
 
     private String lastStatus;
