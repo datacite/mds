@@ -63,7 +63,7 @@ public class Allocator {
     @OrderBy("prefix")
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
 
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     private String roleName = "ROLE_ALLOCATOR";
 

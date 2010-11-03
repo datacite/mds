@@ -66,7 +66,7 @@ public class Datacentre {
     @Max(999999999L)
     private Integer doiQuotaUsed;
 
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     private String roleName = "ROLE_DATACENTRE";
 

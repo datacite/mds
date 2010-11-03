@@ -38,7 +38,7 @@ public class Dataset {
     private String doi;
 
     @NotNull
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     private Boolean isRefQuality;
 
