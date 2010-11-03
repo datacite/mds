@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -24,6 +26,7 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
@@ -64,7 +67,7 @@ public class Datacentre {
     @Max(999999999L)
     private Integer doiQuotaUsed;
 
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     private String roleName = "ROLE_DATACENTRE";
 
@@ -81,14 +84,17 @@ public class Datacentre {
     private Allocator allocator;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @OrderBy("prefix")
+    @NotNull
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
+
     private Date updated;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date created;
 
     @Transactional
@@ -98,26 +104,39 @@ public class Datacentre {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Datacentre> findAllDatacentres() {
-        return entityManager().createQuery("select o from Datacentre o order by symbol").getResultList();
+    public static List<Datacentre> findAllDatacentresByAllocator(Allocator allocator) {
+        String qlString = "select o from Datacentre o where allocator = :allocator order by symbol";
+        return entityManager().createQuery(qlString).setParameter("allocator", allocator).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Datacentre> findDatacentreEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Datacentre o order by symbol").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    public static List<Datacentre> findDatacentreEntriesByAllocator(Allocator allocator, int firstResult, int maxResults) {
+        String qlString = "select o from Datacentre o where allocator = :allocator order by symbol";
+        return entityManager().createQuery(qlString).setParameter("allocator", allocator).setFirstResult(firstResult)
+                .setMaxResults(maxResults).getResultList();
+    }
+    
+    public static long countDatacentresByAllocator(Allocator allocator) {
+        TypedQuery<Long> q = entityManager().createQuery("SELECT COUNT(*) FROM Datacentre WHERE allocator = :allocator", Long.class);
+        q.setParameter("allocator", allocator);
+        return q.getSingleResult();
     }
 
     @Transactional
     public void persist() {
-        setCreated(new Date());
-        if (this.entityManager == null) this.entityManager = entityManager();
+        Date date = new Date();
+        setCreated(date);
+        setUpdated(date);
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
 
     @Transactional
     public Datacentre merge() {
         setUpdated(new Date());
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         Datacentre merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;

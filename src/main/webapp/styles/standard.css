@@ -70,7 +70,7 @@ body {
 }
 
 #topmenu input {
-    width:50px;
+    width:150px;
     height: 15px;
 }
 
@@ -417,4 +417,8 @@ fieldset th {
 
 table th.icon_column {
 	width: 20px;
+}
+
+.formUpload div {
+    border: 0px !important;
 }

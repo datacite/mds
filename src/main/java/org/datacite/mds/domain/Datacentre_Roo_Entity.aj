@@ -5,6 +5,7 @@ package org.datacite.mds.domain;
 
 import java.lang.Integer;
 import java.lang.Long;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -75,9 +76,17 @@ privileged aspect Datacentre_Roo_Entity {
         return entityManager().createQuery("select count(o) from Datacentre o", Long.class).getSingleResult();
     }
     
+    public static List<Datacentre> Datacentre.findAllDatacentres() {
+        return entityManager().createQuery("select o from Datacentre o", Datacentre.class).getResultList();
+    }
+    
     public static Datacentre Datacentre.findDatacentre(Long id) {
         if (id == null) return null;
         return entityManager().find(Datacentre.class, id);
+    }
+    
+    public static List<Datacentre> Datacentre.findDatacentreEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("select o from Datacentre o", Datacentre.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

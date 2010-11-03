@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
-import org.datacite.mds.util.Converters;
+import org.datacite.mds.web.util.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
@@ -41,7 +41,6 @@ public class DatasetController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {
-        addDateTimeFormatPatterns(model);
         Dataset dataset = Dataset.findDataset(id);
         model.addAttribute("dataset", dataset);
         model.addAttribute("metadatas", Metadata.findMetadatasByDataset(dataset).getResultList());
@@ -72,7 +71,6 @@ public class DatasetController {
         } else {
             model.addAttribute("datasets", Dataset.findDatasetsByDatacentres(datacentre));
         }
-        addDateTimeFormatPatterns(model);
         return "datasets/list";
     }
 }

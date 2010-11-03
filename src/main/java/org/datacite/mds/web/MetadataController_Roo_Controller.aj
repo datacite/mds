@@ -14,7 +14,6 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,7 +33,6 @@ privileged aspect MetadataController_Roo_Controller {
     public String MetadataController.create(@Valid Metadata metadata, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("metadata", metadata);
-            addDateTimeFormatPatterns(model);
             return "metadatas/create";
         }
         metadata.persist();
@@ -44,7 +42,6 @@ privileged aspect MetadataController_Roo_Controller {
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String MetadataController.createForm(Model model) {
         model.addAttribute("metadata", new Metadata());
-        addDateTimeFormatPatterns(model);
         List dependencies = new ArrayList();
         if (Dataset.countDatasets() == 0) {
             dependencies.add(new String[]{"dataset", "datasets"});
@@ -55,7 +52,6 @@ privileged aspect MetadataController_Roo_Controller {
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String MetadataController.show(@PathVariable("id") Long id, Model model) {
-        addDateTimeFormatPatterns(model);
         model.addAttribute("metadata", Metadata.findMetadata(id));
         model.addAttribute("itemId", id);
         return "metadatas/show";
@@ -71,7 +67,6 @@ privileged aspect MetadataController_Roo_Controller {
         } else {
             model.addAttribute("metadatas", Metadata.findAllMetadatas());
         }
-        addDateTimeFormatPatterns(model);
         return "metadatas/list";
     }
     
@@ -85,10 +80,6 @@ privileged aspect MetadataController_Roo_Controller {
     public String MetadataController.findMetadatasByDataset(@RequestParam("dataset") Dataset dataset, Model model) {
         model.addAttribute("metadatas", Metadata.findMetadatasByDataset(dataset).getResultList());
         return "metadatas/list";
-    }
-    
-    void MetadataController.addDateTimeFormatPatterns(Model model) {
-        model.addAttribute("metadata_created_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
     }
     
     private String MetadataController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {

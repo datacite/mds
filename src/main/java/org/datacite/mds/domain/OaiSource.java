@@ -68,7 +68,7 @@ public class OaiSource {
     private String owner;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(iso=ISO.DATE_TIME)
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date lastHarvest;
 
     private String lastStatus = "NONE";

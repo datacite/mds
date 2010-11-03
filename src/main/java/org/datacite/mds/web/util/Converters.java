@@ -1,4 +1,4 @@
-package org.datacite.mds.util;
+package org.datacite.mds.web.util;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;

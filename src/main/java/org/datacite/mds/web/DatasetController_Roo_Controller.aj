@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
-import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,7 +32,6 @@ privileged aspect DatasetController_Roo_Controller {
     public String DatasetController.create(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("dataset", dataset);
-            addDateTimeFormatPatterns(model);
             return "datasets/create";
         }
         dataset.persist();
@@ -44,7 +41,6 @@ privileged aspect DatasetController_Roo_Controller {
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String DatasetController.createForm(Model model) {
         model.addAttribute("dataset", new Dataset());
-        addDateTimeFormatPatterns(model);
         List dependencies = new ArrayList();
         if (Datacentre.countDatacentres() == 0) {
             dependencies.add(new String[]{"datacentre", "datacentres"});
@@ -57,7 +53,6 @@ privileged aspect DatasetController_Roo_Controller {
     public String DatasetController.update(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("dataset", dataset);
-            addDateTimeFormatPatterns(model);
             return "datasets/update";
         }
         dataset.merge();
@@ -67,7 +62,6 @@ privileged aspect DatasetController_Roo_Controller {
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String DatasetController.updateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("dataset", Dataset.findDataset(id));
-        addDateTimeFormatPatterns(model);
         return "datasets/update";
     }
     
@@ -80,12 +74,6 @@ privileged aspect DatasetController_Roo_Controller {
     public String DatasetController.findDatasetsByDoiEquals(@RequestParam("doi") String doi, Model model) {
         model.addAttribute("datasets", Dataset.findDatasetsByDoiEquals(doi).getResultList());
         return "datasets/list";
-    }
-    
-    void DatasetController.addDateTimeFormatPatterns(Model model) {
-        model.addAttribute("dataset_updated_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
-        model.addAttribute("dataset_created_date_format", DateTimeFormat.patternForStyle("FF", LocaleContextHolder.getLocale()));
-        model.addAttribute("dataset_lastlandingpagestatuscheck_date_format", DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
     }
     
     private String DatasetController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {

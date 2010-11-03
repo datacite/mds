@@ -5,6 +5,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderBy;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -19,6 +20,7 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
@@ -59,18 +61,21 @@ public class Allocator {
     private Integer doiQuotaUsed;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @OrderBy("prefix")
+    @NotNull
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
 
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     private String roleName = "ROLE_ALLOCATOR";
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
+    
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @DateTimeFormat(style = "FF")
+     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date updated;
 
     @SuppressWarnings("unchecked")
@@ -85,7 +90,9 @@ public class Allocator {
 
     @Transactional
     public void persist() {
-        setCreated(new Date());
+        Date date = new Date();
+        setCreated(date);
+        setUpdated(date);
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
