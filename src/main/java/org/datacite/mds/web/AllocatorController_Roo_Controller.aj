@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Collection;
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Allocator;
@@ -15,7 +14,6 @@ import org.datacite.mds.domain.Prefix;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -115,28 +113,6 @@ privileged aspect AllocatorController_Roo_Controller {
     @ModelAttribute("prefixes")
     public Collection<Prefix> AllocatorController.populatePrefixes() {
         return Prefix.findAllPrefixes();
-    }
-    
-    Converter<Allocator, String> AllocatorController.getAllocatorConverter() {
-        return new Converter<Allocator, String>() {
-            public String convert(Allocator allocator) {
-                return new StringBuilder().append(allocator.getSymbol()).append(" ").append(allocator.getPassword()).append(" ").append(allocator.getName()).toString();
-            }
-        };
-    }
-    
-    Converter<Prefix, String> AllocatorController.getPrefixConverter() {
-        return new Converter<Prefix, String>() {
-            public String convert(Prefix prefix) {
-                return new StringBuilder().append(prefix.getPrefix()).append(" ").append(prefix.getCreated()).toString();
-            }
-        };
-    }
-    
-    @PostConstruct
-    void AllocatorController.registerConverters() {
-        conversionService.addConverter(getAllocatorConverter());
-        conversionService.addConverter(getPrefixConverter());
     }
     
     void AllocatorController.addDateTimeFormatPatterns(Model model) {
