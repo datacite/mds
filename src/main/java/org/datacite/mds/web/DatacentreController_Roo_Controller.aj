@@ -50,20 +50,6 @@ privileged aspect DatacentreController_Roo_Controller {
         return "datacentres/show";
     }
     
-    @RequestMapping(method = RequestMethod.GET)
-    public String DatacentreController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
-        if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            model.addAttribute("datacentres", Datacentre.findDatacentreEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
-            float nrOfPages = (float) Datacentre.countDatacentres() / sizeNo;
-            model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
-        } else {
-            model.addAttribute("datacentres", Datacentre.findAllDatacentres());
-        }
-        addDateTimeFormatPatterns(model);
-        return "datacentres/list";
-    }
-    
     @RequestMapping(method = RequestMethod.PUT)
     public String DatacentreController.update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {

@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -98,26 +99,37 @@ public class Datacentre {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Datacentre> findAllDatacentres() {
-        return entityManager().createQuery("select o from Datacentre o order by symbol").getResultList();
+    public static List<Datacentre> findAllDatacentresByAllocator(Allocator allocator) {
+        String qlString = "select o from Datacentre o where allocator = :allocator order by symbol";
+        return entityManager().createQuery(qlString).setParameter("allocator", allocator).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public static List<Datacentre> findDatacentreEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Datacentre o order by symbol").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    public static List<Datacentre> findDatacentreEntriesByAllocator(Allocator allocator, int firstResult, int maxResults) {
+        String qlString = "select o from Datacentre o where allocator = :allocator order by symbol";
+        return entityManager().createQuery(qlString).setParameter("allocator", allocator).setFirstResult(firstResult)
+                .setMaxResults(maxResults).getResultList();
+    }
+    
+    public static long countDatacentresByAllocator(Allocator allocator) {
+        TypedQuery<Long> q = entityManager().createQuery("SELECT COUNT(*) FROM Datacentre WHERE allocator = :allocator", Long.class);
+        q.setParameter("allocator", allocator);
+        return q.getSingleResult();
     }
 
     @Transactional
     public void persist() {
         setCreated(new Date());
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
 
     @Transactional
     public Datacentre merge() {
         setUpdated(new Date());
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         Datacentre merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
