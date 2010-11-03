@@ -9,10 +9,10 @@
         <field:input field="contactEmail" id="c_org_datacite_mds_domain_Allocator_contactEmail" required="true" z="JBlmrLGQu/6+nUPzjpsfz9Pg+SE="/>
         <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Allocator_doiQuotaAllowed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="mwhrNgVG7ii5iZCJe/Ceu4ZQ8N0="/>
         <field:input field="doiQuotaUsed" id="c_org_datacite_mds_domain_Allocator_doiQuotaUsed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="VVgrfTiLLFf7e5K9oBobk8R/ayM="/>
-        <field:select field="prefixes" id="c_org_datacite_mds_domain_Allocator_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" z="CwzHCpQlv6T6Sd6wbQUQLSo2DJ0="/>
+        <field:select field="prefixes" id="c_org_datacite_mds_domain_Allocator_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="FQ1ywpuPotm8KjihTVV4VBcv51A="/>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Allocator_isActive" z="6POWfZXasELSKoxz5mDZYIPVjkc="/>
         <field:input field="roleName" id="c_org_datacite_mds_domain_Allocator_roleName" render="false" z="user-managed"/>
-        <field:datetime dateTimePattern="${allocator_created_date_format}" field="created" id="c_org_datacite_mds_domain_Allocator_created" disabled="true" z="user-managed"/>
-        <field:datetime dateTimePattern="${allocator_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Allocator_updated" disabled="true" z="user-managed"/>
+        <field:datetime dateTimePattern="${allocator_created_date_format}" disabled="true" field="created" id="c_org_datacite_mds_domain_Allocator_created" z="user-managed"/>
+        <field:datetime dateTimePattern="${allocator_updated_date_format}" disabled="true" field="updated" id="c_org_datacite_mds_domain_Allocator_updated" z="user-managed"/>
     </form:update>
 </div>

@@ -14,7 +14,7 @@
         <div style="display:none">
           <field:select field="allocator" id="c_org_datacite_mds_domain_Datacentre_allocator" itemValue="id" items="${allocators}" path="/allocators" required="true" z="Q9xGvmtIB6OgOU1WwA/0MeAzLEw="/>
         </div>  
-        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" z="SnpZnnN5j8t3Meta9tj1IlCGOIU="/>
+        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="YXD3DzvfBDzGUHMu/5vRcgJuiIU="/>
         <field:textarea field="comments" id="c_org_datacite_mds_domain_Datacentre_comments" z="7scBOc9Lbz9U32Wucy+zXfwQRSM="/>
         <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${datacentre_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" render="false" z="user-managed"/>
