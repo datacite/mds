@@ -18,8 +18,8 @@
         <intercept-url method="GET" pattern="/metadata/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />
         <intercept-url method="PUT" pattern="/metadata/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />        
         <intercept-url method="DELETE" pattern="/metadata/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https"/>
-        <intercept-url method="GET" pattern="/oaisource/**" access="hasRole('ROLE_ALLOCATOR')" requires-channel="https" />
-        <intercept-url method="PUT" pattern="/oaisource/**" access="hasRole('ROLE_ALLOCATOR')" requires-channel="https" />
+        <intercept-url method="GET" pattern="/oaisource/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
+        <intercept-url method="PUT" pattern="/oaisource/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
                 
         <!-- UI -->
         <intercept-url pattern="/allocators/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />

@@ -6,6 +6,8 @@
         <field:input field="owner" id="c_org_datacite_mds_domain_OaiSource_owner" required="true" z="N3w4wu1/7Lz/nqycc8mfAQTuRQA="/>
         <field:datetime dateTimePattern="${oaiSource_lastharvest_date_format}" field="lastHarvest" id="c_org_datacite_mds_domain_OaiSource_lastHarvest" render="false" z="user-managed"/>
         <field:input field="lastStatus" id="c_org_datacite_mds_domain_OaiSource_lastStatus" render="false" z="user-managed"/>
+    
+        
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_OaiSource" render="${not empty dependencies}" z="Izip5BcYqFQmCSjuEj9HM5+E4Qo="/>
 </div>

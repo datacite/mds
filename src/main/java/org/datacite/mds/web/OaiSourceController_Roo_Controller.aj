@@ -10,9 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.OaiSource;
-import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
@@ -33,7 +31,6 @@ privileged aspect OaiSourceController_Roo_Controller {
     public String OaiSourceController.create(@Valid OaiSource oaiSource, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("oaiSource", oaiSource);
-            addDateTimeFormatPatterns(model);
             return "oaisources/create";
         }
         oaiSource.persist();
@@ -43,13 +40,11 @@ privileged aspect OaiSourceController_Roo_Controller {
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String OaiSourceController.createForm(Model model) {
         model.addAttribute("oaiSource", new OaiSource());
-        addDateTimeFormatPatterns(model);
         return "oaisources/create";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String OaiSourceController.show(@PathVariable("id") Long id, Model model) {
-        addDateTimeFormatPatterns(model);
         model.addAttribute("oaisource", OaiSource.findOaiSource(id));
         model.addAttribute("itemId", id);
         return "oaisources/show";
@@ -65,7 +60,6 @@ privileged aspect OaiSourceController_Roo_Controller {
         } else {
             model.addAttribute("oaisources", OaiSource.findAllOaiSources());
         }
-        addDateTimeFormatPatterns(model);
         return "oaisources/list";
     }
     
@@ -73,7 +67,6 @@ privileged aspect OaiSourceController_Roo_Controller {
     public String OaiSourceController.update(@Valid OaiSource oaiSource, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("oaiSource", oaiSource);
-            addDateTimeFormatPatterns(model);
             return "oaisources/update";
         }
         oaiSource.merge();
@@ -83,8 +76,18 @@ privileged aspect OaiSourceController_Roo_Controller {
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String OaiSourceController.updateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("oaiSource", OaiSource.findOaiSource(id));
-        addDateTimeFormatPatterns(model);
         return "oaisources/update";
+    }
+    
+    @RequestMapping(params = { "find=ByUrl", "form" }, method = RequestMethod.GET)
+    public String OaiSourceController.findOaiSourcesByUrlForm(Model model) {
+        return "oaisources/findOaiSourcesByUrl";
+    }
+    
+    @RequestMapping(params = "find=ByUrl", method = RequestMethod.GET)
+    public String OaiSourceController.findOaiSourcesByUrl(@RequestParam("url") String url, Model model) {
+        model.addAttribute("oaisources", OaiSource.findOaiSourcesByUrl(url).getResultList());
+        return "oaisources/list";
     }
     
     Converter<OaiSource, String> OaiSourceController.getOaiSourceConverter() {
@@ -98,10 +101,6 @@ privileged aspect OaiSourceController_Roo_Controller {
     @PostConstruct
     void OaiSourceController.registerConverters() {
         conversionService.addConverter(getOaiSourceConverter());
-    }
-    
-    void OaiSourceController.addDateTimeFormatPatterns(Model model) {
-        model.addAttribute("oaiSource_lastharvest_date_format", DateTimeFormat.patternForStyle("S-", LocaleContextHolder.getLocale()));
     }
     
     private String OaiSourceController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {

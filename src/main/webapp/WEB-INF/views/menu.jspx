@@ -30,7 +30,8 @@
     <menu:category id="c_oaisource" z="mhpHhheWIbUJ6Qr7mkCEQ6WBCM4=">
             <menu:item id="i_oaisource_new" messageCode="global_menu_new" url="/oaisources?form" z="rgHK7MmAFcbJfCCIaUBO9Tz83vc="/>
         <menu:item id="i_oaisource_list" messageCode="global_menu_list" url="/oaisources?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 10 : param.size}" z="cVIEE+TYKqffTYxz8J+2rUXTlrc="/>
-        </menu:category>
+        <menu:item id="fi_oaisource_url" messageCode="global_menu_find" url="/oaisources?find=ByUrl&amp;form" z="cGiZ2vSXbu2D3ccda8i2PJC/afU="/>
+            </menu:category>
     </sec:authorize>
     <sec:authorize ifAnyGranted="ROLE_DATACENTRE,ROLE_DEV">
     <menu:category id="c_dataset" z="8v6u2JQw6ua8kbT2zW1sFUNGceU=">

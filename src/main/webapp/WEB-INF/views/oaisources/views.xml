@@ -13,4 +13,7 @@
 <definition extends="default" name="oaisources/update">
         <put-attribute name="body" value="/WEB-INF/views/oaisources/update.jspx"/>
     </definition>
+<definition extends="default" name="oaisources/findOaiSourcesByUrl">
+        <put-attribute name="body" value="/WEB-INF/views/oaisources/findOaiSourcesByUrl.jspx"/>
+    </definition>
 </tiles-definitions>

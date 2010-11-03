@@ -6,5 +6,7 @@
         <field:display field="owner" id="s_org_datacite_mds_domain_OaiSource_owner" object="${oaisource}" z="54tbjvneKkFsqLQxPHzgNPUwL4g="/>
         <field:display date="true" dateTimePattern="${oaiSource_lastharvest_date_format}" field="lastHarvest" id="s_org_datacite_mds_domain_OaiSource_lastHarvest" object="${oaisource}" z="y+LKS9p67p6HRY2eXtUGH1ZDvck="/>
         <field:display field="lastStatus" id="s_org_datacite_mds_domain_OaiSource_lastStatus" object="${oaisource}" z="CMsb2XNymIVw51PcC7aMEFHrpbs="/>
+    
+        
     </page:show>
 </div>

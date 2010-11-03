@@ -3,51 +3,17 @@
 
 package org.datacite.mds.domain;
 
-import java.lang.Integer;
 import java.lang.Long;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Version;
 import org.datacite.mds.domain.OaiSource;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect OaiSource_Roo_Entity {
     
-    declare @type: OaiSource: @Entity;
-    
     @PersistenceContext
     transient EntityManager OaiSource.entityManager;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long OaiSource.id;
-    
-    @Version
-    @Column(name = "version")
-    private Integer OaiSource.version;
-    
-    public Long OaiSource.getId() {
-        return this.id;
-    }
-    
-    public void OaiSource.setId(Long id) {
-        this.id = id;
-    }
-    
-    public Integer OaiSource.getVersion() {
-        return this.version;
-    }
-    
-    public void OaiSource.setVersion(Integer version) {
-        this.version = version;
-    }
     
     @Transactional
     public void OaiSource.persist() {
