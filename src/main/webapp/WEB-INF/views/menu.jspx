@@ -46,7 +46,7 @@
     </sec:authorize>
 
     <menu:category id="c_view" z="HjmI4Chx/kBYfS/6HjBLbCA+XpU=">
-            <menu:item id="i_view_static_apidoc_id" messageCode="global_generic" url="/static/apidoc" z="/MThF8RCKEL6s/iifI2ugn8ir3I="/>
+            <menu:item id="i_view_static_apidoc_id" messageCode="global_generic" url="/static/apidoc" z="user-managed"/>
         </menu:category>
     
     </menu:menu>
