@@ -418,3 +418,7 @@ fieldset th {
 table th.icon_column {
 	width: 20px;
 }
+
+.formUpload div {
+    border: 0px !important;
+}
