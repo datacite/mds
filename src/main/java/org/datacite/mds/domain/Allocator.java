@@ -61,6 +61,7 @@ public class Allocator {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @OrderBy("prefix")
+    @NotNull
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
 
     private Boolean isActive = true;
