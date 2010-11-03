@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -82,6 +83,7 @@ public class Datacentre {
     private Allocator allocator;
 
     @ManyToMany(cascade = CascadeType.ALL)
+    @OrderBy("prefix")
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
 
     @Temporal(TemporalType.TIMESTAMP)
