@@ -24,7 +24,7 @@
 	
 	<!-- selects a static view for rendering without the need for an explicit controller -->
 	<mvc:view-controller path="/login"/>
-	<mvc:view-controller path="/apidoc/apidoc"/>
+	<mvc:view-controller path="/static/apidoc"/>
 	<mvc:view-controller path="/" view-name="index"/>
 	<mvc:view-controller path="/uncaughtException"/>
 	<mvc:view-controller path="/resourceNotFound"/>
