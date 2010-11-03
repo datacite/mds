@@ -19,7 +19,6 @@ public class AllocatorController {
 
     @PostConstruct
     void registerConverters() {
-        System.out.println("Datacentre registerConverters");
         myConversionService.addConverter(Converters.getSimpleAllocatorConverter());
         myConversionService.addConverter(Converters.getSimplePrefixConverter());
     }

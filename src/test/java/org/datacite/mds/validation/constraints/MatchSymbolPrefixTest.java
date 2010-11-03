@@ -30,7 +30,6 @@ public class MatchSymbolPrefixTest {
 
     boolean isValid(String symbol) {
         datacentre.setSymbol(symbol);
-        System.out.println(datacentre);
         return Utils.isConstraintValid(datacentre, MatchSymbolPrefix.class);
     }
 }

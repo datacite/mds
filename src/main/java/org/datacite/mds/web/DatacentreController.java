@@ -48,7 +48,6 @@ public class DatacentreController {
 
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model model) {
-        System.out.println("createForm");
         Allocator allocator = getCurrentAllocator();
         Datacentre datacentre = new Datacentre();
         datacentre.setAllocator(allocator);
