@@ -96,7 +96,9 @@ public class Dataset {
 
     @Transactional
     public void persist() {
-        setCreated(new Date());
+        Date date = new Date();
+        setCreated(date);
+        setUpdated(date);
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
