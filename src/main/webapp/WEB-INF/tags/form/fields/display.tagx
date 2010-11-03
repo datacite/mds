@@ -19,7 +19,7 @@
     </c:if>
 
     <c:if test="${empty dateTimePattern}">
-      <c:set value="yyyy-MM-dd hh:mm z" var="dateTimePattern" />
+      <c:set value="yyyy-MM-dd HH:mm z" var="dateTimePattern" />
     </c:if>
     
     <c:set var="sec_object" value="${fn:escapeXml(object)}" />
