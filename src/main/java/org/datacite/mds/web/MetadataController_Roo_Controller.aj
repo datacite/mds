@@ -4,7 +4,6 @@
 package org.datacite.mds.web;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.Long;
 import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,7 +47,6 @@ privileged aspect MetadataController_Roo_Controller {
         return "metadatas/create";
     }
     
-        
     @RequestMapping(method = RequestMethod.GET)
     public String MetadataController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
         if (page != null || size != null) {
