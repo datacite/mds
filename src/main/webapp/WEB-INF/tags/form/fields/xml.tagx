@@ -15,6 +15,11 @@
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
     </c:if>
+    
+    <script language="JavaScript" type="text/javascript">
+      dojo.require("dojox.highlight");
+      dojo.require("dojox.highlight.languages.pygments.xml");
+    </script>
 
     <div id="_${fn:escapeXml(id)}_id">
       <label for="_${fn:escapeXml(field)}_id">
@@ -26,9 +31,16 @@
           <spring:message code="${messageCode}" arguments="${messageCodeAttribute}" />
         </c:when>
         <c:otherwise>
-          <pre class="box">
-            <spring:eval expression="text" />
-          </pre>
+          <div class="box">
+            <pre>
+              <code>
+                <spring:eval expression="text" />
+              </code>
+            </pre>
+          </div>
+          <script language="JavaScript" type="text/javascript">
+            dojo.query("code").forEach(dojox.highlight.init);
+          </script>
         </c:otherwise>
       </c:choose>
     </div>
