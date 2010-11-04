@@ -3,51 +3,17 @@
 
 package org.datacite.mds.domain;
 
-import java.lang.Integer;
 import java.lang.Long;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Version;
 import org.datacite.mds.domain.Datacentre;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Datacentre_Roo_Entity {
     
-    declare @type: Datacentre: @Entity;
-    
     @PersistenceContext
     transient EntityManager Datacentre.entityManager;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long Datacentre.id;
-    
-    @Version
-    @Column(name = "version")
-    private Integer Datacentre.version;
-    
-    public Long Datacentre.getId() {
-        return this.id;
-    }
-    
-    public void Datacentre.setId(Long id) {
-        this.id = id;
-    }
-    
-    public Integer Datacentre.getVersion() {
-        return this.version;
-    }
-    
-    public void Datacentre.setVersion(Integer version) {
-        this.version = version;
-    }
     
     @Transactional
     public void Datacentre.remove() {
