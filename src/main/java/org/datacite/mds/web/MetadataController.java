@@ -7,15 +7,19 @@ import javax.annotation.PostConstruct;
 
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.util.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
@@ -42,5 +46,21 @@ public class MetadataController {
     public Collection<Dataset> populateDatasets(@RequestParam(value = "dataset", required = false) Long dataset_id) {
         Dataset dataset = Dataset.findDataset(dataset_id);
         return Arrays.asList(dataset);
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String show(@PathVariable("id") Long id, Model model) {
+        Metadata metadata = Metadata.findMetadata(id);
+        model.addAttribute("metadata", metadata);
+        String prettyXml;
+        try {
+            String xml = new String(metadata.getXml());
+            prettyXml = Utils.formatXML(xml);
+        } catch (Exception e) {
+            prettyXml = "error formatting xml: " + e.getMessage();
+        }
+        model.addAttribute("prettyxml", prettyXml);
+        model.addAttribute("itemId", id);
+        return "metadatas/show";
     }
 }

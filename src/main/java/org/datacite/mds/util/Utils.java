@@ -1,5 +1,6 @@
 package org.datacite.mds.util;
 
+import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -7,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.NoResultException;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -18,9 +18,13 @@ import org.apache.commons.validator.UrlValidator;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
 
 /**
  * Class with several static util methods
@@ -167,6 +171,16 @@ public class Utils {
         log.debug("no allocator or datacentre found");
 
         return null;
+    }
+
+    public static String formatXML(String xml) throws Exception {
+        Document doc = DocumentHelper.parseText(xml);
+        StringWriter sw = new StringWriter();
+        OutputFormat format = OutputFormat.createPrettyPrint();
+        XMLWriter xw = new XMLWriter(sw, format);
+        xw.write(doc);
+        String result = sw.toString();
+        return result;
     }
 
 }
