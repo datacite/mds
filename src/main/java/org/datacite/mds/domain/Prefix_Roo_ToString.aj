@@ -11,8 +11,8 @@ privileged aspect Prefix_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Version: ").append(getVersion()).append(", ");
-        sb.append("Prefix: ").append(getPrefix()).append(", ");
-        sb.append("Created: ").append(getCreated());
+        sb.append("Created: ").append(getCreated()).append(", ");
+        sb.append("Prefix: ").append(getPrefix());
         return sb.toString();
     }
     

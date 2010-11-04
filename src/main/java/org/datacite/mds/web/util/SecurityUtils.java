@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SecurityException;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,46 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class SecurityUtils {
 
     private static Logger log4j = Logger.getLogger(SecurityUtils.class);
+
+    /**
+     * retrieves Allocator object matching symbol used for logging into
+     * application
+     * 
+     * @return Allocator object
+     * @throws SecurityException
+     *             when no login info, no Allocator with such symbol or
+     *             Allocator not active
+     */
+    public static Allocator getAllocator() throws SecurityException {
+        log4j.debug("retrieving user from security context");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String symbol;
+        if (auth != null)
+            symbol = auth.getName();
+        else
+            throw new SecurityException("please log in");
+
+        log4j.debug("retrieving allocator from database");
+        List all = (List) Allocator.findAllocatorsBySymbolEquals(symbol).getResultList();
+        
+        Allocator allocator;
+
+        if (all.size() != 0) {
+            allocator = (Allocator) all.get(0);
+            log4j.debug("found allocator based on login: " + allocator.getSymbol());
+
+            if (!allocator.getIsActive()) {
+                log4j.warn("allocator is inactive: " + symbol);
+                throw new SecurityException("allocator not activated");
+            }
+        } else {
+            log4j.warn("allocator not found in database: " + symbol);
+            throw new SecurityException("allocator not registered");
+        }
+
+        return allocator;
+    }
+
 
     /**
      * retrieves Datacentre object matching symbol used for logging into

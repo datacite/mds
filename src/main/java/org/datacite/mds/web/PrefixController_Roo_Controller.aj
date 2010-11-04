@@ -93,7 +93,7 @@ privileged aspect PrefixController_Roo_Controller {
     Converter<Prefix, String> PrefixController.getPrefixConverter() {
         return new Converter<Prefix, String>() {
             public String convert(Prefix prefix) {
-                return new StringBuilder().append(prefix.getPrefix()).append(" ").append(prefix.getCreated()).toString();
+                return new StringBuilder().append(prefix.getCreated()).append(" ").append(prefix.getPrefix()).toString();
             }
         };
     }

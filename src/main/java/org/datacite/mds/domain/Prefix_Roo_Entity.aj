@@ -3,50 +3,16 @@
 
 package org.datacite.mds.domain;
 
-import java.lang.Integer;
 import java.lang.Long;
-import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Version;
 import org.datacite.mds.domain.Prefix;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Prefix_Roo_Entity {
     
-    declare @type: Prefix: @Entity;
-    
     @PersistenceContext
     transient EntityManager Prefix.entityManager;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    private Long Prefix.id;
-    
-    @Version
-    @Column(name = "version")
-    private Integer Prefix.version;
-    
-    public Long Prefix.getId() {
-        return this.id;
-    }
-    
-    public void Prefix.setId(Long id) {
-        this.id = id;
-    }
-    
-    public Integer Prefix.getVersion() {
-        return this.version;
-    }
-    
-    public void Prefix.setVersion(Integer version) {
-        this.version = version;
-    }
     
     @Transactional
     public void Prefix.remove() {

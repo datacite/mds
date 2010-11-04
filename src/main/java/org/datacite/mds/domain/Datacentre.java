@@ -110,6 +110,15 @@ public class Datacentre {
 
     private String roleName = "ROLE_DATACENTRE";
 
+    @XmlTransient
+    public String getRoleName() {
+        return this.roleName;
+    }
+    
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
     @Size(min = 0, max = 255)
     @ListOfDomains
     private String domains;

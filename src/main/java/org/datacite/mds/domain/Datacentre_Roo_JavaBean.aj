@@ -76,14 +76,6 @@ privileged aspect Datacentre_Roo_JavaBean {
         this.isActive = isActive;
     }
     
-    public String Datacentre.getRoleName() {
-        return this.roleName;
-    }
-    
-    public void Datacentre.setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-    
     public String Datacentre.getDomains() {
         return this.domains;
     }

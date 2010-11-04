@@ -10,6 +10,7 @@
             <table:column id="c_org_datacite_mds_domain_Datacentre_contactEmail" property="contactEmail" render="false" z="user-managed"/>
             
         <table:column id="c_org_datacite_mds_domain_Datacentre_allocator" property="allocator" z="X4vMFxhphXNZV9jyG43aI2JwcGY="/>
+        <table:column id="c_org_datacite_mds_domain_Datacentre_roleName" property="roleName" z="Td9+dAc0aW5edKzc+lAa7rrJxqw="/>
         </table:table>
     </page:list>
 </div>
