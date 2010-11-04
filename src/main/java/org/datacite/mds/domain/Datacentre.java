@@ -122,6 +122,15 @@ public class Datacentre {
     @JoinColumn
     private Allocator allocator;
 
+    @XmlTransient 
+    public Allocator getAllocator() {
+        return this.allocator;
+    }
+    
+    public void setAllocator(Allocator allocator) {
+        this.allocator = allocator;
+    }
+
     @ManyToMany(cascade = CascadeType.ALL)
     @OrderBy("prefix")
     @NotNull

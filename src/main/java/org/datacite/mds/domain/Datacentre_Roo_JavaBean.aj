@@ -8,7 +8,6 @@ import java.lang.Integer;
 import java.lang.String;
 import java.util.Date;
 import java.util.Set;
-import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Prefix;
 
 privileged aspect Datacentre_Roo_JavaBean {
@@ -99,14 +98,6 @@ privileged aspect Datacentre_Roo_JavaBean {
     
     public void Datacentre.setComments(String comments) {
         this.comments = comments;
-    }
-    
-    public Allocator Datacentre.getAllocator() {
-        return this.allocator;
-    }
-    
-    public void Datacentre.setAllocator(Allocator allocator) {
-        this.allocator = allocator;
     }
     
     public Set<Prefix> Datacentre.getPrefixes() {

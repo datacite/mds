@@ -11,6 +11,7 @@ privileged aspect Datacentre_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Version: ").append(getVersion()).append(", ");
+        sb.append("Allocator: ").append(getAllocator()).append(", ");
         sb.append("Symbol: ").append(getSymbol()).append(", ");
         sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
@@ -22,7 +23,6 @@ privileged aspect Datacentre_Roo_ToString {
         sb.append("RoleName: ").append(getRoleName()).append(", ");
         sb.append("Domains: ").append(getDomains()).append(", ");
         sb.append("Comments: ").append(getComments()).append(", ");
-        sb.append("Allocator: ").append(getAllocator()).append(", ");
         sb.append("Prefixes: ").append(getPrefixes() == null ? "null" : getPrefixes().size()).append(", ");
         sb.append("Updated: ").append(getUpdated()).append(", ");
         sb.append("Created: ").append(getCreated());
