@@ -50,13 +50,7 @@ privileged aspect MetadataController_Roo_Controller {
         return "metadatas/create";
     }
     
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String MetadataController.show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("metadata", Metadata.findMetadata(id));
-        model.addAttribute("itemId", id);
-        return "metadatas/show";
-    }
-    
+        
     @RequestMapping(method = RequestMethod.GET)
     public String MetadataController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
         if (page != null || size != null) {
