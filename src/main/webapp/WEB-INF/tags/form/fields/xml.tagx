@@ -16,9 +16,11 @@
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
     </c:if>
     
+    <spring:url value="/resources/js/dojox.highlight.languages.pygments.xmlfix.js" var="xmlfix_url" />
+    <script src="${xmlfix_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
     <script language="JavaScript" type="text/javascript">
       dojo.require("dojox.highlight");
-      dojo.require("dojox.highlight.languages.pygments.xml");
+      dojo.require("dojox.highlight.languages.pygments.xmlfix");
     </script>
 
     <div id="_${fn:escapeXml(id)}_id">
