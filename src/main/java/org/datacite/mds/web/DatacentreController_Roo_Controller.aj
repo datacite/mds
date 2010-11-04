@@ -84,11 +84,7 @@ privileged aspect DatacentreController_Roo_Controller {
         return "datacentres/list";
     }
     
-    @ModelAttribute("allocators")
-    public Collection<Allocator> DatacentreController.populateAllocators() {
-        return Allocator.findAllAllocators();
-    }
-    
+        
     private String DatacentreController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
         String enc = request.getCharacterEncoding();
         if (enc == null) {

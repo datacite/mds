@@ -1,6 +1,7 @@
 package org.datacite.mds.web;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -62,11 +63,6 @@ public class DatacentreController {
         return "datacentres/create";
     }
 
-    @ModelAttribute("prefixes")
-    public Collection<Prefix> populatePrefixes() {
-        return getCurrentAllocator().getPrefixes();
-    }
-
     @RequestMapping(method = RequestMethod.GET)
     public String list(@RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size, Model model) {
@@ -82,5 +78,15 @@ public class DatacentreController {
             model.addAttribute("datacentres", Datacentre.findAllDatacentresByAllocator(allocator));
         }
         return "datacentres/list";
+    }
+
+    @ModelAttribute("prefixes")
+    public Collection<Prefix> populatePrefixes() {
+        return getCurrentAllocator().getPrefixes();
+    }
+
+    @ModelAttribute("allocators")
+    public Collection<Allocator> populateAllocators() {
+        return Arrays.asList(getCurrentAllocator());
     }
 }
