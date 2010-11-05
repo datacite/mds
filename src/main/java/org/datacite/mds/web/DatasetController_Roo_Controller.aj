@@ -28,16 +28,7 @@ privileged aspect DatasetController_Roo_Controller {
     @Autowired
     private GenericConversionService DatasetController.conversionService;
     
-    @RequestMapping(method = RequestMethod.POST)
-    public String DatasetController.create(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            model.addAttribute("dataset", dataset);
-            return "datasets/create";
-        }
-        dataset.persist();
-        return "redirect:/datasets/" + encodeUrlPathSegment(dataset.getId().toString(), request);
-    }
-    
+        
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String DatasetController.createForm(Model model) {
         model.addAttribute("dataset", new Dataset());

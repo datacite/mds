@@ -7,16 +7,24 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
+import org.datacite.mds.service.DoiService;
+import org.datacite.mds.service.HandleException;
+import org.datacite.mds.service.HandleService;
+import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.web.util.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,8 +38,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class DatasetController {
 
+    private static Logger log = Logger.getLogger(DatasetController.class);
+
     @Autowired
     private GenericConversionService myConversionService;
+
+    @Autowired
+    HandleService handleService;
 
     @PostConstruct
     void registerConverters() {
@@ -72,5 +85,26 @@ public class DatasetController {
             model.addAttribute("datasets", Dataset.findDatasetsByDatacentres(datacentre));
         }
         return "datasets/list";
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public String create(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
+        if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
+            log.info("URL is set; try to mint the DOI");
+            try {
+                handleService.create(dataset.getDoi(), dataset.getUrl());
+            } catch (HandleException e) {
+                ObjectError error = new ObjectError("", "HandleService: " + e.getMessage());
+                result.addError(error);
+            }
+        }
+
+        if (result.hasErrors()) {
+            model.addAttribute("dataset", dataset);
+            return "datasets/create";
+        }
+
+        dataset.persist();
+        return "redirect:/datasets/" + dataset.getId().toString();
     }
 }
