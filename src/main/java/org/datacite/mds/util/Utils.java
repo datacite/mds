@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
@@ -24,7 +26,6 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 
 /**
  * Class with several static util methods
@@ -181,6 +182,17 @@ public class Utils {
         xw.write(doc);
         String result = sw.toString();
         return result;
+    }
+
+    public static SortedSet<String> getAllSymbols() {
+        SortedSet<String> symbols = new TreeSet<String>();
+        for (Datacentre datacentre : Datacentre.findAllDatacentres()) {
+            symbols.add(datacentre.getSymbol());
+        }
+        for (Allocator allocator : Allocator.findAllAllocators()) {
+            symbols.add(allocator.getSymbol());
+        }
+        return symbols;
     }
 
 }
