@@ -64,7 +64,8 @@ public class OaiSource {
     private String url;
 
     @NotNull
-    //@Symbol(hasToExist = true, value = { Symbol.Type.DATACENTRE, Symbol.Type.ALLOCATOR })
+    //hasToExists=true is not possible (MDS-129)
+    @Symbol(hasToExist = false, value = { Symbol.Type.DATACENTRE, Symbol.Type.ALLOCATOR })
     private String owner;
 
     @Temporal(TemporalType.TIMESTAMP)
