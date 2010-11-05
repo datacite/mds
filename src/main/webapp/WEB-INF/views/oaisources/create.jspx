@@ -3,11 +3,9 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_org_datacite_mds_domain_OaiSource" modelAttribute="oaiSource" path="/oaisources" render="${empty dependencies}" z="43akkjOTNUTsl40ra3/05HV6nWI=">
         <field:input field="url" id="c_org_datacite_mds_domain_OaiSource_url" required="true" z="LHRyuFVt8yxUiQcFXy0CM2HMuK0="/>
-        <field:input field="owner" id="c_org_datacite_mds_domain_OaiSource_owner" required="true" z="N3w4wu1/7Lz/nqycc8mfAQTuRQA="/>
+        <field:select field="owner" id="c_org_datacite_mds_domain_OaiSource_owner" items="${owners}" path="" required="true" z="user-managed"/>
         <field:datetime dateTimePattern="${oaiSource_lastharvest_date_format}" field="lastHarvest" id="c_org_datacite_mds_domain_OaiSource_lastHarvest" render="false" z="user-managed"/>
         <field:input field="lastStatus" id="c_org_datacite_mds_domain_OaiSource_lastStatus" render="false" z="user-managed"/>
-    
-        
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_OaiSource" render="${not empty dependencies}" z="Izip5BcYqFQmCSjuEj9HM5+E4Qo="/>
 </div>
