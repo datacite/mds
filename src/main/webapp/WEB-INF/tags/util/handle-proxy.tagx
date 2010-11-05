@@ -1,0 +1,36 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+  
+  <jsp:directive.attribute name="doi" type="java.lang.String" required="true" description="doi to be resolved" />
+  <jsp:directive.attribute name="redirect" type="java.lang.Boolean" required="false" description="Indicates to redirect to the resolved URL (defaults to true)" />
+  <jsp:directive.attribute name="types" type="java.lang.String" required="false" description="comma separated list of handle types" />
+  
+  <c:set value="http://api.datacite.org:8000" var="proxy_url"/>
+  
+  <c:choose>
+    <c:when test="${empty redirect or redirect}">
+      <script type="text/javascript">
+        function resolveDoi() { 
+          window.location.href = "${proxy_url}/${doi}";
+        }
+      </script>
+    </c:when>
+    <c:otherwise>
+      <form id="handle_proxy" method="POST" action="${proxy_url}">
+        <input type="hidden" value="${doi}" name="hdl" />
+        <input type="hidden" value="true" name="noredirect" />
+        <c:if test="${not empty types}">
+        <c:forTokens items="${types}" delims="," var="type">
+          <input type="hidden" value="${type}" name="type" />
+        </c:forTokens>
+        </c:if>
+      </form>
+      <script type="text/javascript">
+        function resolveDoi() { 
+          document.forms['handle_proxy'].submit();
+        }
+      </script>
+    </c:otherwise>
+  </c:choose>
+  
+</jsp:root>
