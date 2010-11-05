@@ -9,6 +9,7 @@
   <jsp:directive.attribute name="calendar" type="java.lang.Boolean" required="false" description="Indicate that this field is of type java.util.Calendar" />
   <jsp:directive.attribute name="dateTimePattern" type="java.lang.String" required="false" description="The date / time pattern to use if the field is a date or calendar type" />
   <jsp:directive.attribute name="link" type="java.lang.String" required="false" description="link to the given URL" />
+  <jsp:directive.attribute name="linkTitle" type="java.lang.String" required="false" description="title param for the link" />
   <jsp:directive.attribute name="showPath" type="java.lang.String" required="false" description="path to show the reference entity" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
@@ -48,7 +49,10 @@
             <spring:eval expression="object[field]" var="text" />
             <c:choose>
               <c:when test="${not empty link}">
-                <a href="${link}">
+                <c:if test="${empty linkTitle}">
+                   <spring:message code="title_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="linkTitle" arguments="${text}" />
+                </c:if>
+                <a href="${link}" title="${linkTitle}">
                   <c:out value="${text}"/>
                 </a>
               </c:when>
