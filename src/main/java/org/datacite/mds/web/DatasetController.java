@@ -107,4 +107,24 @@ public class DatasetController {
         dataset.persist();
         return "redirect:/datasets/" + dataset.getId().toString();
     }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public String update(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
+        if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
+            log.info("URL is set; try to update the DOI");
+            try {
+                handleService.update(dataset.getDoi(), dataset.getUrl());
+            } catch (HandleException e) {
+                ObjectError error = new ObjectError("", "HandleService: " + e.getMessage());
+                result.addError(error);
+            }
+        }
+        
+        if (result.hasErrors()) {
+            model.addAttribute("dataset", dataset);
+            return "datasets/update";
+        }
+        dataset.merge();
+        return "redirect:/datasets/" + dataset.getId().toString();
+    }
 }

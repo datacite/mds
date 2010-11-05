@@ -40,16 +40,7 @@ privileged aspect DatasetController_Roo_Controller {
         return "datasets/create";
     }
     
-    @RequestMapping(method = RequestMethod.PUT)
-    public String DatasetController.update(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            model.addAttribute("dataset", dataset);
-            return "datasets/update";
-        }
-        dataset.merge();
-        return "redirect:/datasets/" + encodeUrlPathSegment(dataset.getId().toString(), request);
-    }
-    
+        
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
     public String DatasetController.updateForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("dataset", Dataset.findDataset(id));
