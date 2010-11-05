@@ -69,9 +69,8 @@ body {
     margin-right:5px;
 }
 
-#topmenu input {
-    width:150px;
-    height: 15px;
+#widget_form_switch_user_select {
+    width:150px !important;
 }
 
 #main {

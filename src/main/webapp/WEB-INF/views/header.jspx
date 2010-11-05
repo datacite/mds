@@ -15,12 +15,23 @@
   <div id="topmenu">
     <sec:authorize ifAllGranted="ROLE_DEV">
       <spring:url value="/resources/j_spring_security_switch_user" var="switch"/>
-      <form action="${switch}">
+      <form id="form_switch_user" action="${switch}">
         <label><spring:message code="security_switch_user"/></label>
-        <input name="j_username" />
+        <select id="form_switch_user_select" name="j_username">
+           <c:forEach items="${symbols}" var="symbol">
+              <option value="${symbol}">
+                <spring:eval expression="symbol" />
+              </option>
+           </c:forEach>
+        </select>
+        <script type="text/javascript">
+            Spring.addDecoration(new Spring.ElementDecoration({elementId : 'form_switch_user_select', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : { onChange: function(state) { document.forms["form_switch_user"].submit();}}}));
+        </script>
       </form>
       <c:out value=" | "/>
     </sec:authorize>
+    
+    
   
   <c:if test="${pageContext['request'].userPrincipal != null}">
     <sec:authentication property="principal.username" var="username"/>
