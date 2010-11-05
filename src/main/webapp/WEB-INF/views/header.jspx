@@ -25,7 +25,15 @@
            </c:forEach>
         </select>
         <script type="text/javascript">
-            Spring.addDecoration(new Spring.ElementDecoration({elementId : 'form_switch_user_select', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : { onChange: function(state) { document.forms["form_switch_user"].submit();}}}));
+           Spring.addDecoration(new Spring.ElementDecoration({elementId : 'form_switch_user_select', widgetType: 'dijit.form.FilteringSelect',
+             widgetAttrs : { onChange:
+               function(state) {
+                 form = document.forms["form_switch_user"];
+                 if (form.j_username.value != "") {
+                   form.submit();
+                 }
+               }
+           }}));
         </script>
       </form>
       <c:out value=" | "/>
