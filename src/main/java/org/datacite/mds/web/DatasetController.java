@@ -18,6 +18,7 @@ import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.web.util.Converters;
+import org.datacite.mds.web.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
@@ -98,6 +99,13 @@ public class DatasetController {
                 result.addError(error);
             }
         }
+        
+        try {
+            SecurityUtils.checkQuota(dataset.getDatacentre());
+        } catch (SecurityException e) {
+            ObjectError error = new ObjectError("", e.getMessage());
+            result.addError(error);
+        }
 
         if (result.hasErrors()) {
             model.addAttribute("dataset", dataset);
@@ -105,6 +113,7 @@ public class DatasetController {
         }
 
         dataset.persist();
+        dataset.getDatacentre().incQuotaUsed();
         return "redirect:/datasets/" + dataset.getId().toString();
     }
 
