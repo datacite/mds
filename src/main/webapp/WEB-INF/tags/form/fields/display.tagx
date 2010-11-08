@@ -46,7 +46,9 @@
             </spring:escapeBody>
           </c:when>
           <c:otherwise>
-            <spring:eval expression="object[field]" var="text" />
+            <c:set var="text">
+              <spring:eval expression="object[field]"/>
+            </c:set>
             <c:choose>
               <c:when test="${not empty link}">
                 <c:if test="${empty linkTitle}">
