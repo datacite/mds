@@ -19,7 +19,7 @@
     <spring:message code="list_size" var="list_size" />
     <c:out value="${list_size} " />
 
-    <c:forEach var="i" begin="5" end="25" step="5">
+    <c:forEach var="i" items="20,50,100">
       <c:choose>
         <c:when test="${size == i}">
           <c:out value="${i}" />
