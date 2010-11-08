@@ -32,8 +32,10 @@
                  if (form.j_username.value != "") {
                    form.submit();
                  }
-               }
-           }}));
+               },
+               required : false
+             }
+           }));
         </script>
       </form>
       <c:out value=" | "/>
