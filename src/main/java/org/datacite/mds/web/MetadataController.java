@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.util.Utils;
+import org.datacite.mds.validation.constraints.impl.ValidXMLValidator;
 import org.datacite.mds.web.util.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -47,7 +48,13 @@ public class MetadataController {
         Dataset dataset = Dataset.findDataset(dataset_id);
         return Arrays.asList(dataset);
     }
-
+    
+    @ModelAttribute("xsd")
+    public String getXsd() {
+        //ugly; I was not able to use Springs @Value annotation
+        return new ValidXMLValidator().getXsd();
+    }
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {
         Metadata metadata = Metadata.findMetadata(id);

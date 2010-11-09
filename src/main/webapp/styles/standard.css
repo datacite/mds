@@ -434,3 +434,9 @@ table th.icon_column {
 br {
     clear: both;
 }
+
+.comment {
+    width: 440px;
+    margin-left: 20px;
+    margin-top: -10px;
+}
