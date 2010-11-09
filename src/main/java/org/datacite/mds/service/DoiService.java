@@ -43,7 +43,7 @@ public interface DoiService {
      * @param doi
      *            handle to be updated
      * @param newUrl
-     *            a new location
+     *            a new location, if null or empty - no updating
      * @param testMode
      *            if true, checks will be conducted but no handle will be
      *            updated
@@ -52,6 +52,6 @@ public interface DoiService {
      * @throws SecurityException
      *             when any of above conditions not met
      */
-    void update(String doi, String newUrl, boolean testMode) throws HandleException, SecurityException;
+    Dataset update(String doi, String newUrl, boolean testMode) throws HandleException, SecurityException;
 
 }

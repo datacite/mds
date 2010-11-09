@@ -70,7 +70,7 @@ public class DoiApiController {
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
-        	return new ResponseEntity<String>("internal error - please contact admin", headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
         } catch (HandleException e) {
         	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);        	
         }

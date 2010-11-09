@@ -63,14 +63,46 @@ public class MetadataApiController {
 
     @RequestMapping(value = "metadata", method = RequestMethod.PUT, headers = { "Content-Type=text/plain;charset=UTF-8" })
         public ResponseEntity<String> update(@RequestBody String body, 
-                                                       @RequestParam String doi,
-                                                       @RequestParam(required = false) String url, 
-                                                       @RequestParam(required = false) Boolean testMode) {
+                                             @RequestParam String doi,
+                                             @RequestParam(required = false) String url, 
+                                             @RequestParam(required = false) Boolean testMode) {
 
+        if (testMode == null)
+            testMode = false;
+        HttpHeaders headers = new HttpHeaders();
+
+        log4j.debug("*****PUT metadata: " + doi + ", url: " + url + " \ntestMode = " + testMode);
+
+        Metadata metadata = new Metadata();
+        try {
+            metadata.setXml(body.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        // TODO if not XML valid:
+        //	return new ResponseEntity<String>("request body must contain exactly two lines: DOI and URL", headers, 
+        //	        HttpStatus.BAD_REQUEST);
         
+        Dataset dataset;
 
-        return null;
+        try {
+            dataset = doiService.update(doi, url, testMode);
+        } catch (SecurityException e) {
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
+        } catch (RuntimeException e) {
+        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
+        } catch (HandleException e) {
+        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);        	
+        }
 
+        log4j.debug("*****PUT metadata: dataset found, id = " + dataset.getId());
+        metadata.setDataset(dataset);
+        if (!testMode) {
+            log4j.debug("*****PUT metadata: persisting XML");
+            metadata.persist();
+        }
+
+        return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "metadata", method = RequestMethod.POST, headers = { "Content-Type=text/plain;charset=UTF-8" })
@@ -95,7 +127,6 @@ public class MetadataApiController {
         //	return new ResponseEntity<String>("request body must contain exactly two lines: DOI and URL", headers, 
         //	        HttpStatus.BAD_REQUEST);
         
-    
         Dataset dataset;
         try {
             dataset = doiService.create(doi, url, testMode);

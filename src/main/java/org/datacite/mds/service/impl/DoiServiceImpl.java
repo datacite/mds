@@ -28,9 +28,11 @@ public class DoiServiceImpl implements DoiService {
         Dataset dataset = null;
         log4j.debug("trying handle registration: " + doi);
         
-        if (url != null || "".equals(url)){
+        if (!testMode && url != null && !"".equals(url)){
             handleService.create(doi, url);
-        }
+        } else
+            log4j.debug("TEST MODE or empty URL- minting skipped");
+
         datacentre.incQuotaUsed();
 
         dataset = new Dataset();
@@ -49,7 +51,7 @@ public class DoiServiceImpl implements DoiService {
         return dataset;
     }
 
-    public void update(String doi, String url, boolean testMode) throws HandleException, SecurityException {
+    public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException {
         Datacentre datacentre = preliminaryCheck(doi, url);
         Dataset dataset = null;
         try {
@@ -68,13 +70,14 @@ public class DoiServiceImpl implements DoiService {
             throw new SecurityException(message);
         }
 
-        if (!testMode) {
+        if (!testMode && url != null && !"".equals(url)){
             handleService.update(doi, url);
-
             log4j.debug("doi update: " + doi + " successful");
         } else {
-            log4j.debug("TEST MODE - update skipped");
+            log4j.debug("TEST MODE or empty URL- update skipped");
         }
+
+        return dataset;
     }
 
     private Datacentre preliminaryCheck(String doi, String url) throws SecurityException {
@@ -82,7 +85,7 @@ public class DoiServiceImpl implements DoiService {
 
         datacentre = SecurityUtils.getDatacentre();
         SecurityUtils.checkQuota(datacentre);
-        if (url != null || "".equals(url)) {
+        if (url != null && !"".equals(url)) {
             SecurityUtils.checkRestrictions(doi, url, datacentre);
         }
         return datacentre;
