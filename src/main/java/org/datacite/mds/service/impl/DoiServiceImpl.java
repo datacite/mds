@@ -22,26 +22,31 @@ public class DoiServiceImpl implements DoiService {
     @Autowired
     HandleService handleService;
 
-    public void create(String doi, String url, boolean testMode) throws HandleException, SecurityException {
+    public Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException {
         Datacentre datacentre = preliminaryCheck(doi, url);
 
-        if (!testMode) {
-            log4j.debug("trying handle registration: " + doi);
-
+        Dataset dataset = null;
+        log4j.debug("trying handle registration: " + doi);
+        
+        if (url != null || "".equals(url)){
             handleService.create(doi, url);
-            datacentre.incQuotaUsed();
+        }
+        datacentre.incQuotaUsed();
 
-            Dataset dataset = new Dataset();
-            dataset.setDatacentre(datacentre);
-            dataset.setDoi(doi);
-            dataset.setIsActive(true);
-            dataset.setLastMetadataStatus("ABSENT"); // TODO refactor - use enum
+        dataset = new Dataset();
+        dataset.setDatacentre(datacentre);
+        dataset.setDoi(doi);
+        dataset.setIsActive(true);
+        dataset.setLastMetadataStatus("ABSENT"); // TODO refactor - use enum
+
+        if (!testMode) {
             dataset.persist();
-
             log4j.debug("doi registartion: " + dataset.getDoi() + " successful");
         } else {
             log4j.debug("TEST MODE - registration skipped");
         }
+        
+        return dataset;
     }
 
     public void update(String doi, String url, boolean testMode) throws HandleException, SecurityException {
@@ -77,8 +82,9 @@ public class DoiServiceImpl implements DoiService {
 
         datacentre = SecurityUtils.getDatacentre();
         SecurityUtils.checkQuota(datacentre);
-        SecurityUtils.checkRestrictions(doi, url, datacentre);
-
+        if (url != null || "".equals(url)) {
+            SecurityUtils.checkRestrictions(doi, url, datacentre);
+        }
         return datacentre;
     }
 }

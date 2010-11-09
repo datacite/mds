@@ -1,5 +1,7 @@
 package org.datacite.mds.service;
 
+import org.datacite.mds.domain.Dataset;
+
 /**
  * An interface to create and update DOIs
  */
@@ -18,7 +20,7 @@ public interface DoiService {
      * @param doi
      *            handle to be created
      * @param url
-     *            location to be resolved
+     *            location to be resolved, if null or empty - no minting
      * @param testMode
      *            if true, checks will be conducted but neither record in DB
      *            will be created nor handle minted
@@ -27,7 +29,7 @@ public interface DoiService {
      * @throws SecurityException
      *             when any of above conditions not met
      */
-    void create(String doi, String url, boolean testMode) throws HandleException, SecurityException;
+    Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException;
 
     /**
      * Updates DOI. Checks if the following conditions are met:
