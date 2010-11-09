@@ -66,4 +66,29 @@ public class Metadata {
         q.setParameter("dataset", dataset);
         return q;
     }
+
+    public static Metadata findLatestMetadatasByDataset(Dataset dataset) {
+        if (dataset == null)
+            throw new IllegalArgumentException("The dataset argument is required");
+
+        Integer maxVersion = findMaxMetadataVersionByDataset(dataset);
+        
+        EntityManager em = Metadata.entityManager();
+        TypedQuery<Metadata> q = em.createQuery(
+                "SELECT Metadata FROM Metadata AS metadata WHERE metadata.dataset = :dataset "+
+                "AND metadata.metadataVersion = :metadataVersion", 
+                Metadata.class);
+        q.setParameter("dataset", dataset);
+        q.setParameter("metadataVersion", maxVersion);
+        
+        Metadata result;
+        try {
+            result = q.getSingleResult();
+        } catch (Exception e) {
+            result = null;
+        }
+
+        return result;
+    }
+
 }

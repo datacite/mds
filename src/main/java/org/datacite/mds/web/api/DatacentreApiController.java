@@ -52,6 +52,7 @@ public class DatacentreApiController {
                                               new HttpHeaders(), HttpStatus.FORBIDDEN);
         }
 
+        //TODO refactor HttpHeaders into local variable and set headers.setContentType(MediaType.APPLICATION_XML);
 	    return new ResponseEntity<Datacentre>(datacentre, new HttpHeaders(), HttpStatus.OK);	    
 	}
 	
