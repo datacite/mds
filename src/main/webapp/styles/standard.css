@@ -154,6 +154,7 @@ label {
 	float:left;
 	margin-left: 5px;
 	margin-top: 0px;
+	margin-bottom: 10px;
 }
 
 input {
@@ -420,4 +421,8 @@ table th.icon_column {
 
 .formUpload div {
     border: 0px !important;
+}
+
+br {
+    clear: both;
 }
