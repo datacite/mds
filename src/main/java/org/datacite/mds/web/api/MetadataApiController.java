@@ -79,9 +79,9 @@ public class MetadataApiController {
         } catch (UnsupportedEncodingException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        // TODO if not XML valid:
-        //	return new ResponseEntity<String>("request body must contain exactly two lines: DOI and URL", headers, 
-        //	        HttpStatus.BAD_REQUEST);
+   
+        if (!org.datacite.mds.util.Utils.isConstraintValid(metadata, org.datacite.mds.validation.constraints.ValidXML.class))
+            return new ResponseEntity<String>("XML is not valid", headers, HttpStatus.BAD_REQUEST);
         
         Dataset dataset;
 
@@ -123,9 +123,9 @@ public class MetadataApiController {
         } catch (UnsupportedEncodingException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        // TODO if not XML valid:
-        //	return new ResponseEntity<String>("request body must contain exactly two lines: DOI and URL", headers, 
-        //	        HttpStatus.BAD_REQUEST);
+
+        if (!org.datacite.mds.util.Utils.isConstraintValid(metadata, org.datacite.mds.validation.constraints.ValidXML.class))
+            return new ResponseEntity<String>("XML is not valid", headers, HttpStatus.BAD_REQUEST);
         
         Dataset dataset;
         try {
