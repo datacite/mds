@@ -5,9 +5,9 @@
   <util:panel id="title" title="${title}">
     <spring:message code="application_name" var="app_name"/>
     <h3>
-      TODO
+      Work in progress... please come back after 2nd December 2010.
     </h3>
-    
+<!--    
     <h2>XML Example</h2>
     
     <util:highlight lang="xml">
@@ -28,5 +28,7 @@
 def f(a,b):
   a+b;
 	</util:highlight>
+
+-->
   </util:panel>
 </div>
