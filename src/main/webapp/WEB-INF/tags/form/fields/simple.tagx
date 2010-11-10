@@ -3,7 +3,7 @@
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" description="The identifier for this tag (do not change!)" />
   <jsp:directive.attribute name="field" type="java.lang.String" required="true" description="The field exposed from the form backing object" />
-  <jsp:directive.attribute name="text" type="java.lang.String" required="false" description="The text to be presented" />
+  <jsp:directive.attribute name="text" type="java.lang.String" required="false" description="The text to be presented; if empty insert the tag's body" />
   <jsp:directive.attribute name="messageCode" type="java.lang.String" required="false" description="The code for the message to be presented" />
   <jsp:directive.attribute name="messageCodeAttribute" type="java.lang.String" required="false" description="The attribute for the message code sto be presented" />
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" description="The label used for this field, will default to a message bundle if not supplied" />
@@ -24,8 +24,13 @@
         <c:when test="${not empty messageCode}">
           <spring:message code="${messageCode}" arguments="${messageCodeAttribute}" />
         </c:when>
-        <c:otherwise>
+        <c:when test="${not empty text}">
           <spring:eval expression="text" />
+        </c:when>
+        <c:otherwise>
+          <div class="box">
+            <jsp:doBody />
+          </div>
         </c:otherwise>
       </c:choose>
     </div>

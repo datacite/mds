@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <page:show create="false" delete="false" id="ps_org_datacite_mds_domain_Metadata" list="false" object="${metadata}" path="/metadatas" update="false" z="user-managed">
         <field:display field="dataset" id="s_org_datacite_mds_domain_Metadata_dataset" showPath="/datasets" object="${metadata}" z="user-managed"/>
-        <field:xml field="prettyxml" id="s_org_datacite_mds_domain_Metadata_xml" text="${prettyxml}" z="user-managed"/>
+        <field:simple field="prettyxml" id="s_org_datacite_mds_domain_Metadata_xml" z="user-managed" >
+           <util:highlight lang="xml">
+              ${prettyxml}
+           </util:highlight>
+        </field:simple>
         <field:display field="xml" id="s_org_datacite_mds_domain_Metadata_xml" object="${metadata}" render="false" z="tXosv/jZLASJlD+skqVDl9RX8qs="/>
         <field:display field="metadataVersion" id="s_org_datacite_mds_domain_Metadata_metadataVersion" object="${metadata}" z="q359QhWy75D/X5wHZIYOA/OW5TA="/>
         <field:display date="true" dateTimePattern="${metadata_created_date_format}" field="created" id="s_org_datacite_mds_domain_Metadata_created" object="${metadata}" z="BKwXT4mdovYE+1rLwhIVk/fN+3U="/>
