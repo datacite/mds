@@ -11,7 +11,7 @@
     <c:when test="${empty redirect or redirect}">
       <script type="text/javascript">
         function resolveDoi() { 
-          window.location.href = "${proxy_url}/${doi}";
+          window.open("${proxy_url}/${doi}");
         }
       </script>
     </c:when>
