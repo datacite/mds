@@ -1,4 +1,4 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
   <jsp:output omit-xml-declaration="yes" />
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" description="The identifier for this tag (do not change!)" />
@@ -16,13 +16,6 @@
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
     </c:if>
     
-    <spring:url value="/resources/js/dojox.highlight.languages.pygments.xmlfix.js" var="xmlfix_url" />
-    <script src="${xmlfix_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
-    <script language="JavaScript" type="text/javascript">
-      dojo.require("dojox.highlight");
-      dojo.require("dojox.highlight.languages.pygments.xmlfix");
-    </script>
-
     <div id="_${fn:escapeXml(id)}_id">
       <label for="_${fn:escapeXml(field)}_id">
         <c:out value="${label}" />:
@@ -33,15 +26,10 @@
         </c:when>
         <c:otherwise>
           <div class="box">
-            <pre>
-              <code>
-                <spring:eval expression="text" />
-              </code>
-            </pre>
+            <util:highlight lang="xml">
+              ${text}
+            </util:highlight>
           </div>
-          <script language="JavaScript" type="text/javascript">
-            dojo.query("code").forEach(dojox.highlight.init);
-          </script>
         </c:otherwise>
       </c:choose>
     </div>

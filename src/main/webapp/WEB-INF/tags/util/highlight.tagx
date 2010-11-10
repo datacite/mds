@@ -1,0 +1,32 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+ 
+  <jsp:directive.attribute name="lang" type="java.lang.String" required="true" description="programming language to be highlighted" />
+
+  <c:set value="${lang}" var="dojo_class" />
+  
+  <c:if test="${lang eq 'xml'}">
+    <c:set value="xmlfix" var="lang" />
+    <c:set value="pygments.xmlfix" var="dojo_class" />
+    <spring:url value="/resources/js/dojox.highlight.languages.pygments.xmlfix.js" var="xmlfix_url" />
+    <script src="${xmlfix_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+  </c:if>
+
+  <script language="JavaScript" type="text/javascript">
+    dojo.require("dojox.highlight");
+    dojo.require("dojox.highlight.languages.${dojo_class}");
+  </script>
+
+  <c:set var="text"><jsp:doBody /></c:set>
+
+  <pre>
+    <code class="${lang}">
+       <c:out value="${text}" />
+    </code>
+  </pre>
+  
+  <script language="JavaScript" type="text/javascript">
+    dojo.query("code").forEach(dojox.highlight.init);
+  </script>
+    
+</jsp:root>
