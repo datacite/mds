@@ -61,7 +61,7 @@ public class MetadataApiController {
         return new ResponseEntity<String>(prettyXml, headers, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "metadata", method = RequestMethod.PUT, headers = { "Content-Type=text/plain;charset=UTF-8" })
+    @RequestMapping(value = "metadata", method = RequestMethod.PUT, headers = { "Content-Type=application/xml;charset=UTF-8" })
         public ResponseEntity<String> update(@RequestBody String body, 
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 
@@ -105,7 +105,7 @@ public class MetadataApiController {
         return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "metadata", method = RequestMethod.POST, headers = { "Content-Type=text/plain;charset=UTF-8" })
+    @RequestMapping(value = "metadata", method = RequestMethod.POST, headers = { "Content-Type=application/xml;charset=UTF-8" })
         public ResponseEntity<String> create(@RequestBody String body, 
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 
