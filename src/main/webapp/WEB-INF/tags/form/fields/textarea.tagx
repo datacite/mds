@@ -33,8 +33,7 @@
     <script type="text/javascript">dojo.require("dijit.form.SimpleTextarea");</script>
     <div id="_${fn:escapeXml(id)}_id">
       <label for="_${sec_field}_id">
-        <c:out value="${fn:escapeXml(label)}" />
-        :
+        <c:out value="${fn:escapeXml(label)}" />:
       </label>
       <form:textarea id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" />
       <br />

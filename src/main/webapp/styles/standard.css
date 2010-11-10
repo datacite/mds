@@ -154,6 +154,7 @@ label {
 	float:left;
 	margin-left: 5px;
 	margin-top: 0px;
+	margin-bottom: 10px;
 }
 
 input {
@@ -406,8 +407,16 @@ fieldset th {
 	width: 16px;
 }
 
-.dijitTextBox, .dijitComboBox, .dijitSpinner {
+.dijitTextBox, .dijitComboBox, .dijitSpinner, .dijitTextArea {
     width: 300px  !important;
+    max-width: 300px !important;
+    padding: 0px !important;
+}
+
+.dijitTextBox, .dijitComboBox, .dijitSpinner, .dijitTextArea, select {
+    font-family: monospace !important;
+    font-size: 12px;
+    color: #666666;
 }
 
 .dijitDateTextBox {
@@ -420,4 +429,14 @@ table th.icon_column {
 
 .formUpload div {
     border: 0px !important;
+}
+
+br {
+    clear: both;
+}
+
+.comment {
+    width: 440px;
+    margin-left: 20px;
+    margin-top: -10px;
 }

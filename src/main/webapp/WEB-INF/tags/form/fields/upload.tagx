@@ -37,8 +37,7 @@
 
     <div id="_${fn:escapeXml(id)}_id" class="formUpload">
       <label for="_${sec_field}_id">
-        <c:out value="${fn:escapeXml(label)}" />
-        :
+        <c:out value="${fn:escapeXml(label)}" />:
       </label>
       <c:choose>
         <c:when test="${disableFormBinding}">
