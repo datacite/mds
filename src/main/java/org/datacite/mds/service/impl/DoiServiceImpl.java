@@ -43,7 +43,7 @@ public class DoiServiceImpl implements DoiService {
 
         if (!testMode) {
             dataset.persist();
-            log4j.debug("doi registartion: " + dataset.getDoi() + " successful");
+            log4j.debug("doi registration: " + dataset.getDoi() + " successful");
         } else {
             log4j.debug("TEST MODE - registration skipped");
         }
