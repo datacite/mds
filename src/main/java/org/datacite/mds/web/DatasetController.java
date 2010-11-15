@@ -99,7 +99,7 @@ public class DatasetController {
                 result.addError(error);
             }
         }
-        
+
         try {
             SecurityUtils.checkQuota(dataset.getDatacentre());
         } catch (SecurityException e) {
@@ -124,11 +124,16 @@ public class DatasetController {
             try {
                 handleService.update(dataset.getDoi(), dataset.getUrl());
             } catch (HandleException e) {
-                ObjectError error = new ObjectError("", "HandleService: " + e.getMessage());
-                result.addError(error);
+                log.info("updating DOI failed; try to mint it");
+                try {
+                    handleService.create(dataset.getDoi(), dataset.getUrl());
+                } catch (HandleException e1) {
+                    ObjectError error = new ObjectError("", "HandleService: " + e.getMessage());
+                    result.addError(error);
+                }
             }
         }
-        
+
         if (result.hasErrors()) {
             model.addAttribute("dataset", dataset);
             return "datasets/update";
