@@ -35,7 +35,7 @@
     </sec:authorize>
     <sec:authorize ifAnyGranted="ROLE_DATACENTRE,ROLE_DEV">
     <menu:category id="c_dataset" z="8v6u2JQw6ua8kbT2zW1sFUNGceU=">
-            <menu:item id="i_dataset_new" messageCode="global_menu_new" url="/datasets?form" z="IkOAVp6qsKlvJ7TI906mWO6PP2I="/>
+            <menu:item id="i_dataset_new" messageCode="global_menu_register" url="/datasets?form" z="user-managed"/>
         <menu:item id="i_dataset_list" messageCode="global_menu_list" url="/datasets?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 20 : param.size}" z="user-managed"/>
         <menu:item id="fi_dataset_doiequals" messageCode="global_menu_find" url="/datasets?find=ByDoiEquals&amp;form" z="QG8NTZw9ek/kLlzpa5Q+qDN+FZA="/>
         </menu:category>    
