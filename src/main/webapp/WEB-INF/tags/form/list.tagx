@@ -11,6 +11,7 @@
   <jsp:directive.attribute name="createPath" type="java.lang.String" required="false" description="Specify the URL path" />
   <jsp:directive.attribute name="createParam" type="java.lang.String" required="false" description="additional parameter for the 'create' link" />
   <jsp:directive.attribute name="createParamValue" type="java.lang.String" required="false" description="additional parameter value for the 'create' link" />
+  <jsp:directive.attribute name="createMessageCode" type="java.lang.String" required="false" description="The message code of the create label"/>
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
 
@@ -19,6 +20,9 @@
 
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
+    </c:if>
+    <c:if test="${empty createMessageCode}">
+      <c:set var="createMessageCode" value="entity_new" />
     </c:if>
     <c:if test="${empty labelPlural}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_plural" var="labelPlural" />
@@ -41,7 +45,7 @@
               </spring:url>
               <a href="${fn:escapeXml(create_url)}">
                 <spring:url value="/resources/images/add.png" var="create_img_url" />
-                <spring:message arguments="${typeName}" code="global_menu_new" var="add_message" />
+                <spring:message arguments="${typeName}" code="${createMessageCode}" var="add_message" />
                 <img alt="${fn:escapeXml(add_message)}" src="${fn:escapeXml(create_img_url)}" title="${fn:escapeXml(add_message)}" />
               </a>
             </span>
