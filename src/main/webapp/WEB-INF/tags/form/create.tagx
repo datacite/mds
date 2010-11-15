@@ -2,6 +2,7 @@
   <jsp:output omit-xml-declaration="yes"/>
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" description="The identifier for this tag (do not change!)"/>
   <jsp:directive.attribute name="modelAttribute" type="java.lang.String" required="true" description="The name of the model attribute for form binding"/>
+  <jsp:directive.attribute name="messageCode" type="java.lang.String" required="false" description="The message code of the label"/>
   <jsp:directive.attribute name="path" type="java.lang.String" required="true" description="Specify the relative URL path (wit leading /)" />
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" description="The label used for this object, will default to a message bundle if not supplied"/>
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
@@ -13,11 +14,14 @@
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label"/>
     </c:if>
+    <c:if test="${empty messageCode}">
+      <c:set var="messageCode" value="entity_create"/>
+    </c:if>
     <c:set var="enctype" value="application/x-www-form-urlencoded"/>
     <c:if test="${upload}">
       <c:set var="enctype" value="multipart/form-data"/>
     </c:if>
-    <spring:message arguments="${label}" code="entity_create" var="title_msg"/>
+    <spring:message arguments="${label}" code="${messageCode}" var="title_msg"/>
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <spring:url value="${path}" var="form_url"/>
       <form:form action="${fn:escapeXml(form_url)}" method="POST" modelAttribute="${modelAttribute}"  enctype="${enctype}">
