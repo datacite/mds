@@ -1,8 +1,6 @@
 src/main/resources/META-INF/persistence.xml
-src/main/resources/META-INF/spring/database.properties
-src/main/resources/META-INF/spring/email.properties
+src/main/resources/META-INF/spring/*.properties
 src/main/resources/log4j.properties
-src/main/resources/META-INF/spring/handle.properties
 *.log
 *.roo
 mds_*.zip
