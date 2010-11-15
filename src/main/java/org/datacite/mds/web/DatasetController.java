@@ -90,6 +90,13 @@ public class DatasetController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
+        try {
+            SecurityUtils.checkQuota(dataset.getDatacentre());
+        } catch (SecurityException e) {
+            ObjectError error = new ObjectError("", e.getMessage());
+            result.addError(error);
+        }
+        
         if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
             log.info("URL is set; try to mint the DOI");
             try {
@@ -98,13 +105,6 @@ public class DatasetController {
                 ObjectError error = new ObjectError("", "HandleService: " + e.getMessage());
                 result.addError(error);
             }
-        }
-
-        try {
-            SecurityUtils.checkQuota(dataset.getDatacentre());
-        } catch (SecurityException e) {
-            ObjectError error = new ObjectError("", e.getMessage());
-            result.addError(error);
         }
 
         if (result.hasErrors()) {
