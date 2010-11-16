@@ -9,24 +9,18 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-
 import org.apache.commons.validator.UrlValidator;
-import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Class with several static util methods
  */
 public class Utils {
-
-    static Logger log = Logger.getLogger(Utils.class);
 
     /**
      * returns the prefix of a doi
@@ -94,30 +88,6 @@ public class Utils {
             return null;
         }
 
-    }
-
-    public static Object getCurrentUser() {
-        log.debug("get current auth");
-        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
-        String symbol = currentAuth.getName();
-        log.debug("search for '" + symbol + "'");
-        try {
-            Allocator al = Allocator.findAllocatorsBySymbolEquals(symbol).getSingleResult();
-            log.debug("found allocator '" + symbol + "'");
-            return al;
-        } catch (Exception e) {
-        }
-
-        try {
-            Datacentre dc = Datacentre.findDatacentresBySymbolEquals(symbol).getSingleResult();
-            log.debug("found datacentre '" + symbol + "'");
-            return dc;
-        } catch (Exception e) {
-        }
-
-        log.debug("no allocator or datacentre found");
-
-        return null;
     }
 
     public static String formatXML(String xml) throws Exception {

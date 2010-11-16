@@ -180,4 +180,29 @@ public class SecurityUtils {
 
 		log4j.debug("All checks are OK");
 	}
+
+
+    public static Object getCurrentUser() {
+        log4j.debug("get current auth");
+        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+        String symbol = currentAuth.getName();
+        log4j.debug("search for '" + symbol + "'");
+        try {
+            Allocator al = Allocator.findAllocatorsBySymbolEquals(symbol).getSingleResult();
+            log4j.debug("found allocator '" + symbol + "'");
+            return al;
+        } catch (Exception e) {
+        }
+    
+        try {
+            Datacentre dc = Datacentre.findDatacentresBySymbolEquals(symbol).getSingleResult();
+            log4j.debug("found datacentre '" + symbol + "'");
+            return dc;
+        } catch (Exception e) {
+        }
+    
+        log4j.debug("no allocator or datacentre found");
+    
+        return null;
+    }
 }
