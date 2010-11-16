@@ -21,6 +21,13 @@ import org.dom4j.io.XMLWriter;
  */
 public class Utils {
 
+    private static String splitDoi(String doi, int index) {
+        if (doi == null || !doi.contains("/"))
+            return null;
+        String[] split = doi.split("/", -1);
+        return split[index];
+    }
+
     /**
      * returns the prefix of a doi
      * 
@@ -29,7 +36,7 @@ public class Utils {
      * @return doi prefix (e.g. "10.5072")
      */
     public static String getDoiPrefix(String doi) {
-        return doi.split("/")[0];
+        return splitDoi(doi, 0);
     }
 
     /**
@@ -40,7 +47,7 @@ public class Utils {
      * @return doi prefix (e.g. "foobar")
      */
     public static String getDoiSuffix(String doi) {
-        return doi.split("/")[1];
+        return splitDoi(doi, 1);
     }
 
     /**
@@ -54,7 +61,7 @@ public class Utils {
         if (csv == null) {
             return new ArrayList<String>();
         }
-        return Arrays.asList(csv.split(","));
+        return Arrays.asList(csv.split(",", -1));
     }
 
     /**
@@ -79,9 +86,11 @@ public class Utils {
     /**
      * pretty print an xml string
      * 
-     * @param xml String containing a xml document
+     * @param xml
+     *            String containing a xml document
      * @return
-     * @throws Exception if the xml cannot be parsed 
+     * @throws Exception
+     *             if the xml cannot be parsed
      */
     public static String formatXML(String xml) throws Exception {
         Document doc = DocumentHelper.parseText(xml);
