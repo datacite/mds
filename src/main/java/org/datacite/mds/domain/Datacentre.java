@@ -198,4 +198,22 @@ public class Datacentre {
         this.entityManager.flush();
         return merged;
     }
+    
+    /**
+     * retrieve a datacentre by symbol
+     * @param symbol of an datacentre
+     * @return datacentre with the given symbol or null if no such datacentre exists
+     */
+    public static Datacentre findDatacentreBySymbol(String symbol) {
+        if (symbol == null) {
+            return null;
+        }
+        try {
+            Datacentre dc = findDatacentresBySymbolEquals(symbol).getSingleResult();
+            return dc;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 }

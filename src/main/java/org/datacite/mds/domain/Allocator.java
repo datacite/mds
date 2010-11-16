@@ -71,11 +71,10 @@ public class Allocator {
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = ISO.DATE_TIME)
-    
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
-     @DateTimeFormat(iso = ISO.DATE_TIME)
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date updated;
 
     @SuppressWarnings("unchecked")
@@ -85,7 +84,8 @@ public class Allocator {
 
     @SuppressWarnings("unchecked")
     public static List<Allocator> findAllocatorEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Allocator o order by symbol").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("select o from Allocator o order by symbol").setFirstResult(firstResult)
+                .setMaxResults(maxResults).getResultList();
     }
 
     @Transactional
@@ -93,17 +93,36 @@ public class Allocator {
         Date date = new Date();
         setCreated(date);
         setUpdated(date);
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
 
     @Transactional
     public Allocator merge() {
         setUpdated(new Date());
-        if (this.entityManager == null) this.entityManager = entityManager();
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
         Allocator merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
+    }
+
+    /**
+     * retrieve a allocator by symbol
+     * @param symbol of an allocator
+     * @return allocator with the given symbol or null if no such allocator exists
+     */
+    public static Allocator findAllocatorBySymbol(String symbol) {
+        if (symbol == null) {
+            return null;
+        }
+        try {
+            Allocator al = findAllocatorsBySymbolEquals(symbol).getSingleResult();
+            return al;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

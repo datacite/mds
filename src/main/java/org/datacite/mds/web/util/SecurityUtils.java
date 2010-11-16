@@ -181,25 +181,40 @@ public class SecurityUtils {
 		log4j.debug("All checks are OK");
 	}
 
-
-    public static Object getCurrentUser() {
+    /**
+     * get the current logged in symbol
+     * @return login symbol or null if not logged in
+     */
+    public static String getCurrentSymbol() {
         log4j.debug("get current auth");
         Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
-        String symbol = currentAuth.getName();
+        if (currentAuth == null) {
+            log4j.debug("not logged in");
+            return null;
+        } else {
+            return currentAuth.getName();
+        }
+    }
+        
+    public static Object getCurrentUser() {
+        String symbol = getCurrentSymbol();
+        if (symbol == null) {
+            return null;
+        }
+
         log4j.debug("search for '" + symbol + "'");
-        try {
-            Allocator al = Allocator.findAllocatorsBySymbolEquals(symbol).getSingleResult();
+        
+        Allocator al = Allocator.findAllocatorBySymbol(symbol);
+        if (al != null) {
             log4j.debug("found allocator '" + symbol + "'");
             return al;
-        } catch (Exception e) {
         }
     
-        try {
-            Datacentre dc = Datacentre.findDatacentresBySymbolEquals(symbol).getSingleResult();
+        Datacentre dc = Datacentre.findDatacentreBySymbol(symbol);
+        if (dc != null) {
             log4j.debug("found datacentre '" + symbol + "'");
             return dc;
-        } catch (Exception e) {
-        }
+        };
     
         log4j.debug("no allocator or datacentre found");
     
