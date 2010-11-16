@@ -8,7 +8,7 @@ import java.util.Set;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.validation.utils.ValidationUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,6 +43,6 @@ public class MatchDoiPrefixTest {
 
     boolean isValid(String doi) {
         dataset.setDoi(doi);
-        return Utils.isConstraintValid(dataset, MatchDoiPrefix.class);
+        return ValidationUtils.isConstraintValid(dataset, MatchDoiPrefix.class);
     }
 }

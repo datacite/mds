@@ -13,8 +13,8 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.apache.log4j.Logger;
-import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.ValidXML;
+import org.datacite.mds.validation.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Configurable;
 
 @Configurable
@@ -41,7 +41,7 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
             Source xml = new StreamSource(inputStream);
             validator.validate(xml);
         } catch (Exception e) {
-            Utils.addConstraintViolation(context, "xml error: " + e.getMessage());
+            ValidationUtils.addConstraintViolation(context, "xml error: " + e.getMessage());
             return false;
         }
 

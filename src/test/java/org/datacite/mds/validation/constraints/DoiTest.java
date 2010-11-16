@@ -2,7 +2,7 @@ package org.datacite.mds.validation.constraints;
 
 import static org.junit.Assert.*;
 
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.validation.utils.ValidationUtils;
 import org.junit.Test;
 
 public class DoiTest {
@@ -22,7 +22,7 @@ public class DoiTest {
 
     boolean isValid(String doi) {
         this.doi = doi;
-        return Utils.isValid(this, "doi");
+        return ValidationUtils.isValid(this, "doi");
     }
 
 }

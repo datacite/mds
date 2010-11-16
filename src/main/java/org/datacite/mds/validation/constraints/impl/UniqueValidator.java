@@ -11,8 +11,8 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
-import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Unique;
+import org.datacite.mds.validation.utils.ValidationUtils;
 
 public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
@@ -65,7 +65,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
         
         if (!isUnique) {
           context.disableDefaultConstraintViolation();
-          Utils.addConstraintViolation(context, defaultMessage, field);
+          ValidationUtils.addConstraintViolation(context, defaultMessage, field);
         }
         
         return isUnique;
