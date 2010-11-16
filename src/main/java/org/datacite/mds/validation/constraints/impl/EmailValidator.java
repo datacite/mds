@@ -12,6 +12,6 @@ public class EmailValidator implements ConstraintValidator<Email, String> {
     }
     
     public boolean isValid(String email, ConstraintValidatorContext context) {
-        return org.apache.commons.validator.EmailValidator.getInstance().isValid(email);
+        return email == null || org.apache.commons.validator.EmailValidator.getInstance().isValid(email);
     }
 }

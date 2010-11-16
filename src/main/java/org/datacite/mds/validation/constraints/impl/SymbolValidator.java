@@ -24,6 +24,9 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
     public boolean isValid(String symbol, ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
+        if (symbol == null) {
+            return true;
+        }
         if (hasToExist) {
             // do database lookup only
             return exists(symbol, context);

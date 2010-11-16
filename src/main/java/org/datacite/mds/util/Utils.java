@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.lang.annotation.Annotation;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +66,7 @@ public class Utils {
      */
     public static List<String> csvToList(String csv) {
         if (csv == null) {
-            csv = "";
+            return new ArrayList<String>();
         }
         return Arrays.asList(csv.split(","));
     }
