@@ -12,8 +12,8 @@ import org.junit.Test;
 
 public class SymbolTest {
 
-    String[] allowAllocator = { null, "AB", "ABCDEFGH" };
-    String[] allowDatacentre = { null, "ABC.DE", "ABCDEF.AAA" };
+    String[] allowAllocator = { "AB", "ABCDEFGH" };
+    String[] allowDatacentre = { "ABC.DE", "ABCDEF.AAA" };
     String[] disallow = { "A", "ABCDEFGHI", "AB.C", "AB.CDEFHIJKL", "abcde", "abc.def" };
 
     @Symbol(Symbol.Type.ALLOCATOR)
@@ -21,6 +21,8 @@ public class SymbolTest {
 
     @Test
     public void testAllocator() {
+        symbolAllocator = null;
+        assertTrue(Utils.isValid(this, "symbolAllocator"));
         for (String symbol : allowAllocator) {
             symbolAllocator = symbol;
             assertTrue(Utils.isValid(this, "symbolAllocator"));
@@ -36,6 +38,8 @@ public class SymbolTest {
 
     @Test
     public void testDatacentre() {
+        symbolDatacentre = null;
+        assertTrue(Utils.isValid(this, "symbolDatacentre"));
         for (String symbol : allowDatacentre) {
             symbolDatacentre = symbol;
             assertTrue(Utils.isValid(this, "symbolDatacentre"));
@@ -51,6 +55,8 @@ public class SymbolTest {
 
     @Test
     public void testBoth() {
+        symbolBoth = null;
+        assertTrue(Utils.isValid(this, "symbolBoth"));
         for (String symbol : (String[]) ArrayUtils.addAll(allowDatacentre, allowAllocator)) {
             symbolBoth = symbol;
             assertTrue(Utils.isValid(this, "symbolBoth"));
