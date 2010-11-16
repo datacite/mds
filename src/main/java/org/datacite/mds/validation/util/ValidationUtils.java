@@ -1,6 +1,8 @@
 package org.datacite.mds.validation.util;
 
 import java.lang.annotation.Annotation;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Set;
 
 import javax.validation.ConstraintValidatorContext;
@@ -8,6 +10,8 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+
+import org.apache.commons.validator.UrlValidator;
 
 public class ValidationUtils {
     
@@ -72,6 +76,26 @@ public class ValidationUtils {
 
     public static void addConstraintViolation(ConstraintValidatorContext context, String message) {
         context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+    }
+
+    public static boolean isHostname(String str) {
+        try {
+            URL url = new URL("http://" + str);
+            if (!url.getHost().equals(str)) {
+                // domain should only consists of the pure host name
+                return false;
+            }
+    
+            UrlValidator urlValidator = new UrlValidator();
+            if (!urlValidator.isValid(url.toString())) {
+                // url should be valid, e.g. "test.t" or "com" should be fail
+                return false;
+            }
+        } catch (MalformedURLException ex) {
+            // url should be well formed
+            return false;
+        }
+        return true;
     }
 
 }

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.validator.UrlValidator;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.dom4j.Document;
@@ -56,26 +55,6 @@ public class Utils {
             return new ArrayList<String>();
         }
         return Arrays.asList(csv.split(","));
-    }
-
-    public static boolean isHostname(String str) {
-        try {
-            URL url = new URL("http://" + str);
-            if (!url.getHost().equals(str)) {
-                // domain should only consists of the pure host name
-                return false;
-            }
-
-            UrlValidator urlValidator = new UrlValidator();
-            if (!urlValidator.isValid(url.toString())) {
-                // url should be valid, e.g. "test.t" or "com" should be fail
-                return false;
-            }
-        } catch (MalformedURLException ex) {
-            // url should be well formed
-            return false;
-        }
-        return true;
     }
 
     public static String getHostname(String urlStr) {
