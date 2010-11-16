@@ -35,6 +35,7 @@ public class MatchDoiPrefixTest {
 
     @Test
     public void test() {
+        assertTrue(isValid(null)); 
         assertTrue(isValid("10.4711/test"));
         assertTrue(isValid("10.5072/test"));
         assertFalse(isValid("10.1234/test"));

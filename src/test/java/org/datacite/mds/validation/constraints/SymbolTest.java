@@ -12,8 +12,8 @@ import org.junit.Test;
 
 public class SymbolTest {
 
-    String[] allowAllocator = { "AB", "ABCDEFGH" };
-    String[] allowDatacentre = { "ABC.DE", "ABCDEF.AAA" };
+    String[] allowAllocator = { null, "AB", "ABCDEFGH" };
+    String[] allowDatacentre = { null, "ABC.DE", "ABCDEF.AAA" };
     String[] disallow = { "A", "ABCDEFGHI", "AB.C", "AB.CDEFHIJKL", "abcde", "abc.def" };
 
     @Symbol(Symbol.Type.ALLOCATOR)

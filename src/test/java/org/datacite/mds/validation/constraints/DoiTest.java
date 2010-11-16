@@ -11,6 +11,7 @@ public class DoiTest {
 
     @Test
     public void test() {
+        assertTrue(isValid(null)); 
         assertFalse(isValid(""));
         assertFalse(isValid("a/b"));
         assertFalse(isValid("10.a/test"));

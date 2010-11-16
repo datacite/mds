@@ -11,6 +11,7 @@ public class ListOfDomainsTest {
 
     @Test
     public void test() {
+        assertTrue(isValid(null)); 
         assertFalse(isValid("com"));
         assertFalse(isValid("example.o"));
         assertFalse(isValid("com,example.com"));

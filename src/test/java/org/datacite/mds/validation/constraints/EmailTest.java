@@ -11,6 +11,7 @@ public class EmailTest {
 
     @Test
     public void test() {
+        assertTrue(isValid(null)); 
         assertFalse(isValid(""));
         assertFalse(isValid("@"));
         assertFalse(isValid("a@b"));

@@ -27,6 +27,7 @@ public class MatchDomainTest {
 
     @Test
     public void test() {
+        assertTrue(isValid(null)); 
         assertFalse(isValid("http://wrong.org"));
         assertFalse(isValid("http://org"));
         assertTrue(isValid("http://test.org"));

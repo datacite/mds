@@ -24,6 +24,7 @@ public class MatchSymbolPrefixTest {
 
     @Test
     public void test() {
+        assertTrue(isValid(null)); 
         assertTrue(isValid("AL.DC"));
         assertFalse(isValid("OTHER.DC"));
     }

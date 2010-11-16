@@ -11,6 +11,7 @@ public class DoiPrefixTest {
 
     @Test
     public void test() {
+        assertTrue(isValid(null)); 
         assertFalse(isValid(""));
         assertFalse(isValid("abc"));
         assertFalse(isValid("10"));
