@@ -10,6 +10,12 @@ import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
 public class ValidationUtils {
+    
+    private static Validator getValidator() {
+        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+        Validator validator = validatorFactory.getValidator();
+        return validator;
+    }
 
     /**
      * Wrapper to simply validate a property of an object.
@@ -21,10 +27,21 @@ public class ValidationUtils {
      * @return true if property validates
      * @see javax.validation.Validator.validateProperty
      */
-    public static boolean isValid(Object object, String propertyName) {
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set violations = validator.validateProperty(object, propertyName);
+    public static <T> boolean isValid(T object, String propertyName) {
+        Set<?> violations = getValidator().validateProperty(object, propertyName);
+        return violations.isEmpty();
+    }
+
+    /**
+     * Wrapper to validate a an object.
+     * 
+     * @param object
+     *            object to validate
+     * @return true if object validates
+     * @see javax.validation.Validator.validateProperty
+     */
+    public static <T> boolean isValid(T object) {
+        Set<?> violations = getValidator().validate(object);
         return violations.isEmpty();
     }
 
@@ -37,10 +54,8 @@ public class ValidationUtils {
      *            constraint annotation to be checked
      * @return true if the given constraint is not violated
      */
-    public static <T> boolean isConstraintValid(T object, Class<? extends Annotation> constraint) {
-        ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
-        Validator validator = validatorFactory.getValidator();
-        Set<ConstraintViolation<T>> violations = validator.validate(object);
+    public static <T> boolean isValid(T object, Class<? extends Annotation> constraint) {
+        Set<ConstraintViolation<T>> violations = getValidator().validate(object);
     
         for (ConstraintViolation<T> violation : violations) {
             if (violation.getConstraintDescriptor().getAnnotation().annotationType().equals(constraint)) {

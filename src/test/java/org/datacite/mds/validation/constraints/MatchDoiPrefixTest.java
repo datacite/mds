@@ -43,6 +43,6 @@ public class MatchDoiPrefixTest {
 
     boolean isValid(String doi) {
         dataset.setDoi(doi);
-        return ValidationUtils.isConstraintValid(dataset, MatchDoiPrefix.class);
+        return ValidationUtils.isValid(dataset, MatchDoiPrefix.class);
     }
 }

@@ -31,6 +31,6 @@ public class MatchSymbolPrefixTest {
 
     boolean isValid(String symbol) {
         datacentre.setSymbol(symbol);
-        return ValidationUtils.isConstraintValid(datacentre, MatchSymbolPrefix.class);
+        return ValidationUtils.isValid(datacentre, MatchSymbolPrefix.class);
     }
 }

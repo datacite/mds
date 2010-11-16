@@ -42,6 +42,6 @@ public class MatchDomainTest {
 
     boolean isValid(String url) {
         dataset.setUrl(url);
-        return ValidationUtils.isConstraintValid(dataset, MatchDomain.class);
+        return ValidationUtils.isValid(dataset, MatchDomain.class);
     }
 }
