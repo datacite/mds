@@ -57,6 +57,13 @@ public class Utils {
         return Arrays.asList(csv.split(","));
     }
 
+    /**
+     * returns the hostname of the given URL
+     * 
+     * @param urlStr
+     *            URL
+     * @return hostname; null if the url is malformed
+     */
     public static String getHostname(String urlStr) {
         URL url;
         try {
@@ -69,6 +76,13 @@ public class Utils {
 
     }
 
+    /**
+     * pretty print an xml string
+     * 
+     * @param xml String containing a xml document
+     * @return
+     * @throws Exception if the xml cannot be parsed 
+     */
     public static String formatXML(String xml) throws Exception {
         Document doc = DocumentHelper.parseText(xml);
         StringWriter sw = new StringWriter();
@@ -79,6 +93,9 @@ public class Utils {
         return result;
     }
 
+    /**
+     * @return joined list of allocator and datacentre symbols
+     */
     public static SortedSet<String> getAllSymbols() {
         SortedSet<String> symbols = new TreeSet<String>();
         for (Datacentre datacentre : Datacentre.findAllDatacentres()) {
