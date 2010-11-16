@@ -7,7 +7,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.datacite.mds.validation.utils.ValidationUtils;
+import org.datacite.mds.validation.util.ValidationUtils;
 import org.junit.Test;
 
 public class SymbolTest {

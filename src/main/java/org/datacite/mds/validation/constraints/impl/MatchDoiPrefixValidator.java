@@ -7,7 +7,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.MatchDoiPrefix;
-import org.datacite.mds.validation.utils.ValidationUtils;
+import org.datacite.mds.validation.util.ValidationUtils;
 
 public class MatchDoiPrefixValidator implements ConstraintValidator<MatchDoiPrefix, Dataset> {
     String defaultMessage;

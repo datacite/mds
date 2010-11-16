@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.validation.constraints.MatchSymbolPrefix;
-import org.datacite.mds.validation.utils.ValidationUtils;
+import org.datacite.mds.validation.util.ValidationUtils;
 
 public class MatchSymbolPrefixValidator implements ConstraintValidator<MatchSymbolPrefix, Datacentre> {
     String defaultMessage;

@@ -1,4 +1,4 @@
-package org.datacite.mds.validation.utils;
+package org.datacite.mds.validation.util;
 
 import java.lang.annotation.Annotation;
 import java.util.Set;

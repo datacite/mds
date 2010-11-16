@@ -80,7 +80,7 @@ public class MetadataApiController {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
    
-        if (!org.datacite.mds.validation.utils.ValidationUtils.isValid(metadata, org.datacite.mds.validation.constraints.ValidXML.class))
+        if (!org.datacite.mds.validation.util.ValidationUtils.isValid(metadata, org.datacite.mds.validation.constraints.ValidXML.class))
             return new ResponseEntity<String>("XML is not valid", headers, HttpStatus.BAD_REQUEST);
         
         Dataset dataset;
@@ -124,7 +124,7 @@ public class MetadataApiController {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if (!org.datacite.mds.validation.utils.ValidationUtils.isValid(metadata, org.datacite.mds.validation.constraints.ValidXML.class))
+        if (!org.datacite.mds.validation.util.ValidationUtils.isValid(metadata, org.datacite.mds.validation.constraints.ValidXML.class))
             return new ResponseEntity<String>("XML is not valid", headers, HttpStatus.BAD_REQUEST);
         
         Dataset dataset;

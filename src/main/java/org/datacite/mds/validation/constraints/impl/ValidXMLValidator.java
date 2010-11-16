@@ -14,7 +14,7 @@ import javax.xml.validation.Validator;
 
 import org.apache.log4j.Logger;
 import org.datacite.mds.validation.constraints.ValidXML;
-import org.datacite.mds.validation.utils.ValidationUtils;
+import org.datacite.mds.validation.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Configurable;
 
 @Configurable
