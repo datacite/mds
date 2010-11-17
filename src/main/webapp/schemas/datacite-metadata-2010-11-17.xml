@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Revision history
+     2010-08-26   Complete revision according to new common specification by the metadata work group after review. AJH, DTIC
+	 2010-11-17 Revised to current state of kernel review, FZ, TIB 
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xml:lang="EN">
+	<xs:element name="resource">
+		<xs:annotation>
+			<xs:documentation>
+	Root element of a single record. This wrapper element is for XML implementation only and is not defined in the DataCite DOI standard.
+        Note: This is the case for any wrapper element within this schema!</xs:documentation>
+			<xs:documentation>No content in this wrapper element.</xs:documentation>
+			<xs:documentation>Metadata based on DOI Kernel Resource Metadata Version 2.1.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+ <!--REQUIRED FIELDS-->
+        <xs:element name="DOI" type="doiType">
+          <xs:annotation>
+            <xs:documentation>A DOI that identifies a resource.</xs:documentation>
+            <xs:documentation>Any DOI.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="creators">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="creator" type="xs:string" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>The main researchers involved working on the data, or the authors of the publication in order.</xs:documentation>
+                  <xs:documentation>Format TBD.</xs:documentation>
+                </xs:annotation>
+               </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="titles">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="title" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>A name or title by which a resource is known.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="titleType" type="titleType" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="publisher" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Holder of the dataset or institution which submitted the work; part of the citation, so consider the prominence of the role. "Publish" is understood to mean making the data available to the community of researchers.</xs:documentation>
+            <xs:documentation>Examples: World Data Center for Climate (WDCC); GeoForschungsZentrum Potsdam (GFZ); Geological Institute, University of Tokyo </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="publicationYear" type="xs:string">
+          <xs:annotation>
+            <xs:documentation>Year when the data is made publicly available. If an embargo period has been in effect, use the date when the embargo period ends.</xs:documentation>
+            <xs:documentation>YYYY</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <!--OPTIONAL FIELDS-->
+        <xs:element name="disciplines" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="discipline" type="xs:string" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Academic discipline for the primary data.</xs:documentation>
+                  <xs:documentation>Vocabulary TBD</xs:documentation>
+                </xs:annotation>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contributors" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="contributor" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>The institution or person responsible for collecting or otherwise contributing to the developement of the dataset.</xs:documentation>
+                  <xs:documentation></xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="contributorType" type="contributorType" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dates" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="date" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Different dates relevant to the work.</xs:documentation>
+                  <xs:documentation>YYYY or YYYY-MM-DD or any other format described in W3CDTf (http://www.w3.org/TR/NOTE-datetime) </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:date">
+                      <xs:attribute name="dateType" type="dateType" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="language" type="xs:language" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Primary language of the resource.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="resourceType" type="resourceType" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>The general type of a resource.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="resourceIdentifiers" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="resourceIdentifier" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>An identifier other than the DOI applied to a resource. Any alphanumeric string which is unique within its domain of issue.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="resourceIdentifierType" type="resourceIdentifierType" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="relatedIdentifiers" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="relatedIdentifier" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Identifiers of related resources. Use this element to indicate subsets of elements, as appropriate.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="relatedIdentifierType" type="resourceIdentifierType" use="required"/>
+                      <xs:attribute name="relationType" type="relationType" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="sizes" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="size" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>The size element may either have unstructured text in the field itself, or be supplied through the two attributes. A combination ought to be avoided. </xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="sizeValue" type="xs:float" use="optional"/>
+                      <xs:attribute name="sizeUnit" type="sizeUnitType" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="formats" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="format" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>Technical format of the resource.</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="xs:string">
+                      <xs:attribute name="formatType" type="xs:string" use="optional"/>
+                      <xs:attribute name="formatTypeURI" type="xs:string" use="optional"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="version" type="xs:integer" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Version number of the resource. If the primary resource has changed the version number increases.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="rights" type="rightsType" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Any rights information for this resource. Typically, a Rights element will contain a rights management statement for the resource, or reference a service providing such information. This could be at least a standard statement or include embargo information.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="descriptions" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="description" maxOccurs="unbounded">
+                <xs:complexType mixed="true">
+                  <xs:choice>
+                    <xs:element name="br" minOccurs="0" maxOccurs="unbounded">
+                      <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                          <xs:length value="0"/>
+                        </xs:restriction>
+                      </xs:simpleType>
+                    </xs:element>
+                  </xs:choice>
+                  <xs:attribute name="descriptionType" type="descriptionType" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+       </xs:sequence>
+      <!--ADMINISTRATIVE FIELDS-->
+      <xs:attribute name="lastMetadataUpdate" type="xs:date" use="optional"/>
+      <xs:attribute name="metadataVersionNumber" type="xs:integer" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+ <!-- TYPE DECLARATIONS -->
+<xs:simpleType name="doiType">
+  <xs:restriction base="xs:string">
+    <xs:pattern value="doi:10\.[0-9]{4}[/].*"/>
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="contributorType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="ContactPerson"/>
+    <xs:enumeration value="DataCollector"/>
+    <xs:enumeration value="DataManager"/>
+    <xs:enumeration value="Editor"/>
+    <xs:enumeration value="HostingInstitution"/>
+    <xs:enumeration value="ProjectLeader"/>
+    <xs:enumeration value="ProjectMember"/>
+    <xs:enumeration value="RegistrationAgency"/>
+    <xs:enumeration value="RegistrationAuthority"/>
+    <xs:enumeration value="Researcher"/>
+    <xs:enumeration value="WorkPackageLeader"/>
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="titleType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="AlternativeTitle"/>
+    <xs:enumeration value="Subtitle"/>
+    <xs:enumeration value="TranslatedTitle"/>
+  </xs:restriction>
+</xs:simpleType>
+<!--
+<xs:simpleType name="disciplineType">
+  <xs:annotation>
+    <xs:documentation>Allowed values from Dewey Decimal Classification  (The Hundreds Divisions).</xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="000 Computer science, knowledge &amp; systems"/>
+    <xs:enumeration value="010 Bibliographies"/>
+    <xs:enumeration value="020 Library &amp; information sciences"/>
+    <xs:enumeration value="030 Encyclopedias &amp; books of facts"/>
+    <xs:enumeration value="040 [Unassigned]"/>
+    <xs:enumeration value="050 Magazines, journals &amp; serials"/>
+    <xs:enumeration value="060 Associations, organizations &amp; museums"/>
+    <xs:enumeration value="070 News media, journalism &amp; publishing"/>
+    <xs:enumeration value="080 Quotations"/>
+    <xs:enumeration value="090 Manuscripts &amp; rare books"/>
+    <xs:enumeration value="100 Philosophy"/>
+    <xs:enumeration value="110 Metaphysics"/>
+    <xs:enumeration value="120 Epistemology"/>
+    <xs:enumeration value="130 Parapsychology &amp; occultism"/>
+    <xs:enumeration value="140 Philosophical schools of thought"/>
+    <xs:enumeration value="150 Psychology"/>
+    <xs:enumeration value="160 Logic"/>
+    <xs:enumeration value="170 Ethics"/>
+    <xs:enumeration value="180 Ancient, medieval &amp; eastern philosophy"/>
+    <xs:enumeration value="190 Modern western philosophy"/>
+    <xs:enumeration value="200 Religion"/>
+    <xs:enumeration value="210 Philosophy &amp; theory of religion"/>
+    <xs:enumeration value="220 The Bible"/>
+    <xs:enumeration value="230 Christianity &amp; Christian theology"/>
+    <xs:enumeration value="240 Christian practice &amp; observance"/>
+    <xs:enumeration value="250 Christian pastoral practice &amp; religious orders"/>
+    <xs:enumeration value="260 Christian organization, social work &amp; worship"/>
+    <xs:enumeration value="270 History of Christianity"/>
+    <xs:enumeration value="280 Christian denominations"/>
+    <xs:enumeration value="290 Other religions"/>
+    <xs:enumeration value="300 Social sciences, sociology &amp; anthropology"/>
+    <xs:enumeration value="310 Statistics"/>
+    <xs:enumeration value="320 Political science"/>
+    <xs:enumeration value="330 Economics"/>
+    <xs:enumeration value="340 Law"/>
+    <xs:enumeration value="350 Public administration &amp; military science"/>
+    <xs:enumeration value="360 Social problems &amp; social services"/>
+    <xs:enumeration value="370 Education"/>
+    <xs:enumeration value="380 Commerce, communications &amp; transportation"/>
+    <xs:enumeration value="390 Customs, etiquette &amp; folklore"/>
+    <xs:enumeration value="400 Language"/>
+    <xs:enumeration value="410 Linguistics"/>
+    <xs:enumeration value="420 English &amp; Old English languages"/>
+    <xs:enumeration value="430 German &amp; related languages"/>
+    <xs:enumeration value="440 French &amp; related languages"/>
+    <xs:enumeration value="450 Italian, Romanian &amp; related languages"/>
+    <xs:enumeration value="460 Spanish &amp; Portuguese languages"/>
+    <xs:enumeration value="470 Latin &amp; Italic languages"/>
+    <xs:enumeration value="480 Classical &amp; modern Greek languages"/>
+    <xs:enumeration value="490 Other languages"/>
+    <xs:enumeration value="500 Science"/>
+    <xs:enumeration value="510 Mathematics"/>
+    <xs:enumeration value="520 Astronomy"/>
+    <xs:enumeration value="530 Physics"/>
+    <xs:enumeration value="540 Chemistry"/>
+    <xs:enumeration value="550 Earth sciences &amp; geology"/>
+    <xs:enumeration value="560 Fossils &amp; prehistoric life"/>
+    <xs:enumeration value="570 Life sciences; biology"/>
+    <xs:enumeration value="580 Plants (Botany)"/>
+    <xs:enumeration value="590 Animals (Zoology)"/>
+    <xs:enumeration value="600 Technology"/>
+    <xs:enumeration value="610 Medicine &amp; health"/>
+    <xs:enumeration value="620 Engineering"/>
+    <xs:enumeration value="630 Agriculture"/>
+    <xs:enumeration value="640 Home &amp; family management"/>
+    <xs:enumeration value="650 Management &amp; public relations"/>
+    <xs:enumeration value="660 Chemical engineering"/>
+    <xs:enumeration value="670 Manufacturing"/>
+    <xs:enumeration value="680 Manufacture for specific uses"/>
+    <xs:enumeration value="690 Building &amp; construction"/>
+    <xs:enumeration value="700 Arts"/>
+    <xs:enumeration value="710 Landscaping &amp; area planning"/>
+    <xs:enumeration value="720 Architecture"/>
+    <xs:enumeration value="730 Sculpture, ceramics &amp; metalwork"/>
+    <xs:enumeration value="740 Drawing &amp; decorative arts"/>
+    <xs:enumeration value="750 Painting"/>
+    <xs:enumeration value="760 Graphic arts"/>
+    <xs:enumeration value="770 Photography &amp; computer art"/>
+    <xs:enumeration value="780 Music"/>
+    <xs:enumeration value="790 Sports, games &amp; entertainment"/>
+    <xs:enumeration value="800 Literature, rhetoric &amp; criticism"/>
+    <xs:enumeration value="810 American literature in English"/>
+    <xs:enumeration value="820 English &amp; Old English literatures"/>
+    <xs:enumeration value="830 German &amp; related literatures"/>
+    <xs:enumeration value="840 French &amp; related literatures"/>
+    <xs:enumeration value="850 Italian, Romanian &amp; related literatures"/>
+    <xs:enumeration value="860 Spanish &amp; Portuguese literatures"/>
+    <xs:enumeration value="870 Latin &amp; Italic literatures"/>
+    <xs:enumeration value="880 Classical &amp; modern Greek literatures"/>
+    <xs:enumeration value="890 Other literatures"/>
+    <xs:enumeration value="900 History"/>
+    <xs:enumeration value="910 Geography &amp; travel"/>
+    <xs:enumeration value="920 Biography &amp; genealogy"/>
+    <xs:enumeration value="930 History of ancient world (to ca. 499)"/>
+    <xs:enumeration value="940 History of Europe"/>
+    <xs:enumeration value="950 History of Asia"/>
+    <xs:enumeration value="960 History of Africa"/>
+    <xs:enumeration value="970 History of North America"/>
+    <xs:enumeration value="980 History of South America"/>
+    <xs:enumeration value="990 History of other areas"/>
+    <xs:enumeration value=""/>
+  </xs:restriction>
+</xs:simpleType>
+-->
+<xs:simpleType name="dateType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="available"/>
+    <xs:enumeration value="created"/>
+    <xs:enumeration value="dateAccepted"/>
+    <xs:enumeration value="dateCopyrighted"/>
+    <xs:enumeration value="dateSubmitted"/>
+    <xs:enumeration value="endPublicationDate"/>
+    <xs:enumeration value="issued"/>
+    <xs:enumeration value="modified"/>
+    <xs:enumeration value="startPublicationDate"/>
+    <xs:enumeration value="valid"/>
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="relationType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="isCitedBy"/>
+    <xs:enumeration value="cites"/>
+    <xs:enumeration value="isSupplementTo"/>
+    <xs:enumeration value="isSupplementedBy"/>
+    <xs:enumeration value="isContinuedBy"/>
+    <xs:enumeration value="continues"/>
+    <xs:enumeration value="isNewVersionOf"/>
+    <xs:enumeration value="isPreviousVersionOf"/>
+    <xs:enumeration value="isPartOf"/>
+    <xs:enumeration value="hasPart"/>
+    <xs:enumeration value="isReferencedBy"/>
+    <xs:enumeration value="references"/>
+    <xs:enumeration value="isDocumentedBy"/>
+    <xs:enumeration value="documents"/>
+    <xs:enumeration value="isCompiledBy"/>
+    <xs:enumeration value="compiles"/>
+    <xs:enumeration value="isVariantFormOf"/>
+    <xs:enumeration value="isOriginalFormOf"/>
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="sizeUnitType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="Bytes"/>
+    <xs:enumeration value="Datapoints"/>
+    <xs:enumeration value="Datasets"/>
+    <xs:enumeration value="Events"/>
+    <xs:enumeration value="Experiments"/>
+    <xs:enumeration value="KB"/>
+    <xs:enumeration value="Minutes"/>
+    <xs:enumeration value="Numbers"/>
+    <xs:enumeration value="Pages"/>
+    <xs:enumeration value="Traces"/>
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="resourceType">
+  <xs:annotation>
+    <xs:documentation>Types (e.g. Journal Article, Coursepack, AudioRecording) may be registered in iDD by any RA</xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="Animation"/>
+    <xs:enumeration value="Applet"/>
+    <xs:enumeration value="Book"/>
+    <xs:enumeration value="Book chapter"/>
+    <xs:enumeration value="Book preface"/>
+    <xs:enumeration value="Chat service"/>
+    <xs:enumeration value="Conference abstract"/>
+    <xs:enumeration value="Conference paper"/>
+    <xs:enumeration value="Conference poster"/>
+    <xs:enumeration value="Conference talk"/>
+    <xs:enumeration value="Dataset"/>
+    <xs:enumeration value="Demo"/>
+    <xs:enumeration value="Diagram"/>
+    <xs:enumeration value="Encyclopedia"/>
+    <xs:enumeration value="Event"/>
+    <xs:enumeration value="Exhibition catalogue"/>
+    <xs:enumeration value="Graphic Design"/>
+    <xs:enumeration value="Image"/>
+    <xs:enumeration value="Journal article"/>
+    <xs:enumeration value="Journal comment"/>
+    <xs:enumeration value="Journal letter"/>
+    <xs:enumeration value="Journal review"/>
+    <xs:enumeration value="Lecture"/>
+    <xs:enumeration value="Lecture notes"/>
+    <xs:enumeration value="Map"/>
+    <xs:enumeration value="Miscellaneous"/>
+    <xs:enumeration value="Model"/>
+    <xs:enumeration value="Movie"/>
+    <xs:enumeration value="Multimedia Learning Object"/>
+    <xs:enumeration value="Newspaper article"/>
+    <xs:enumeration value="Patent"/>
+    <xs:enumeration value="Plan"/>
+    <xs:enumeration value="Postprint"/>
+    <xs:enumeration value="Preprint"/>
+   <xs:enumeration value="Presentation"/>    
+    <xs:enumeration value="Project"/>
+    <xs:enumeration value="Project PhD"/>
+    <xs:enumeration value="Radio/TV broadcast"/>
+    <xs:enumeration value="Recorded Speech"/>
+    <xs:enumeration value="Report"/>
+    <xs:enumeration value="Report chapter"/>
+    <xs:enumeration value="Simulation"/>
+    <xs:enumeration value="Slide Show"/>
+    <xs:enumeration value="Software"/>
+    <xs:enumeration value="Sound"/>
+    <xs:enumeration value="Student report"/>
+    <xs:enumeration value="Thesis Doctoral"/>
+    <xs:enumeration value="Thesis Master"/>
+    <xs:enumeration value="Thesis PhD"/>
+    <xs:enumeration value="Video"/>
+    <xs:enumeration value="Virtual Reality Environment"/>
+    <xs:enumeration value="Web Page"/>
+    <xs:enumeration value="Working paper"/>
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="resourceIdentifierType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="ARK"/>
+    <xs:enumeration value="DOI"/>
+    <xs:enumeration value="EAN13"/>
+    <xs:enumeration value="EISSN"/>
+    <xs:enumeration value="Handle"/>
+    <xs:enumeration value="ISBN"/>
+    <xs:enumeration value="ISSN"/>
+    <xs:enumeration value="ISTC"/>
+   <xs:enumeration value="LISSN"/>
+    <xs:enumeration value="PURL"/>
+    <xs:enumeration value="UPC"/>
+    <xs:enumeration value="URN"/>
+  </xs:restriction>
+</xs:simpleType>
+<!--
+<xs:simpleType name="mimeType">
+  <xs:annotation>
+    <xs:documentation>See for at list at http://www.w3schools.com/media/media_mimeref.asp</xs:documentation>
+  </xs:annotation>
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="application/msword"/>
+    <xs:enumeration value="application/pdf"/>
+    <xs:enumeration value="application/postscript"/>
+    <xs:enumeration value="application/rtf"/>
+    <xs:enumeration value="application/vnd.ms-excel"/>
+    <xs:enumeration value="application/vnd.ms-outlook"/>
+    <xs:enumeration value="application/vnd.ms-powerpoint"/>
+    <xs:enumeration value="application/vnd.ms-project"/>
+    <xs:enumeration value="application/vnd.ms-works"/>
+    <xs:enumeration value="application/x-dvi"/>
+    <xs:enumeration value="application/x-gtar"/>
+    <xs:enumeration value="application/x-gzip"/>
+    <xs:enumeration value="application/x-javascript"/>
+    <xs:enumeration value="application/x-latex"/>
+    <xs:enumeration value="application/x-msaccess"/>
+    <xs:enumeration value="application/x-msmediaview"/>
+    <xs:enumeration value="application/x-msmetafile"/>
+    <xs:enumeration value="application/x-mspublisher"/>
+    <xs:enumeration value="application/x-mswrite"/>
+    <xs:enumeration value="application/x-sh"/>
+    <xs:enumeration value="application/x-shockwave-flash"/>
+    <xs:enumeration value="application/x-tar"/>
+    <xs:enumeration value="application/x-tcl"/>
+    <xs:enumeration value="application/x-tex"/>
+    <xs:enumeration value="application/x-texinfo"/>
+    <xs:enumeration value="application/zip"/>
+    <xs:enumeration value="audio/basic"/>
+    <xs:enumeration value="audio/mid"/>
+    <xs:enumeration value="audio/mpeg"/>
+    <xs:enumeration value="audio/x-aiff"/>
+    <xs:enumeration value="audio/x-wav"/>
+    <xs:enumeration value="image/bmp"/>
+    <xs:enumeration value="image/gif"/>
+    <xs:enumeration value="image/ief"/>
+    <xs:enumeration value="image/jpeg"/>
+    <xs:enumeration value="image/png"/>
+    <xs:enumeration value="image/svg+xml"/>
+    <xs:enumeration value="image/tiff"/>
+    <xs:enumeration value="text/css"/>
+    <xs:enumeration value="text/html"/>
+    <xs:enumeration value="text/plain"/>
+    <xs:enumeration value="text/richtext"/>
+    <xs:enumeration value="text/scriptlet"/>
+    <xs:enumeration value="video/mpeg"/>
+    <xs:enumeration value="video/quicktime"/>
+    <xs:enumeration value="video/x-msvideo"/>
+    <xs:enumeration value="video/x-sgi-movie"/>
+    <xs:enumeration value="x-world/x-vrml"/>
+<!- From other sources ->
+    <xs:enumeration value="application/atom+xml"/>
+    <xs:enumeration value="application/http image/gif"/>
+    <xs:enumeration value="video/ogg"/>
+  </xs:restriction>
+</xs:simpleType>
+-->
+<xs:simpleType name="rightsType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="Berkeley Software Distribution [BSD]"/>
+    <xs:enumeration value="Creative Commons Berkeley Software Distribution [CC-BSD]"/>
+    <xs:enumeration value="Creative Commons General Public License [CC-GNU GPL]"/>
+    <xs:enumeration value="Creative Commons Lesser General Public License [CC-LGPL]"/>
+    <xs:enumeration value="Creative Commons Public Domain [CC-PD]"/>
+    <xs:enumeration value="Data Commons non-Distribution or Publishing License [DC-NDP]"/>
+    <xs:enumeration value="General Public License [CC-GNU GPL]"/>
+    <xs:enumeration value="Lesser General Public License [CC-LGPL]"/>
+    <xs:enumeration value="Open Data Commons Attribution License [OD-CAL]"/>
+    <xs:enumeration value="Open Database License [ODbL]"/>
+    <xs:enumeration value="Open Directory License [ODL]"/>
+    <xs:enumeration value="Public Domain License [PD]"/>
+   <xs:enumeration value="other"/>
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="descriptionType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="Abstract"/>
+    <xs:enumeration value="FormalDescription"/>
+    <xs:enumeration value="InformalDescription"/>
+    <xs:enumeration value="DataSetSoftware"/>
+    <xs:enumeration value="Keywords"/>
+  </xs:restriction>
+</xs:simpleType>
+<xs:simpleType name="identifierType">
+  <xs:restriction base="xs:string">
+	<xs:enumeration value="ARK"/>
+	<xs:enumeration value="DOI"/>
+	<xs:enumeration value="EAN13"/>
+	<xs:enumeration value="EISSN"/>
+	<xs:enumeration value="Handle"/>
+	<xs:enumeration value="ISBN"/>
+    <xs:enumeration value="ISSN"/>
+    <xs:enumeration value="ISTC"/>
+    <xs:enumeration value="LISSN"/>
+    <xs:enumeration value="PURL"/>
+    <xs:enumeration value="UPC"/>
+    <xs:enumeration value="URN"/>
+  </xs:restriction>
+</xs:simpleType>
+</xs:schema>
+
+
