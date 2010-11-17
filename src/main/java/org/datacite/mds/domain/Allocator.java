@@ -1,26 +1,29 @@
 package org.datacite.mds.domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ManyToMany;
 import javax.persistence.OrderBy;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.apache.log4j.Logger;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Unique;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
-import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
@@ -28,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RooEntity(finders = { "findAllocatorsBySymbolEquals", "findAllocatorsByNameLike" })
 @Unique(field = "symbol")
 public class Allocator {
+    
+    private static Logger log4j = Logger.getLogger(Allocator.class);
 
     @NotNull
     @Symbol(Symbol.Type.ALLOCATOR)
@@ -110,17 +115,23 @@ public class Allocator {
 
     /**
      * retrieve a allocator by symbol
-     * @param symbol of an allocator
-     * @return allocator with the given symbol or null if no such allocator exists
+     * 
+     * @param symbol
+     *            of an allocator
+     * @return allocator with the given symbol or null if no such allocator
+     *         exists
      */
     public static Allocator findAllocatorBySymbol(String symbol) {
         if (symbol == null) {
             return null;
         }
         try {
+            log4j.debug("search for '" + symbol + "'");
             Allocator al = findAllocatorsBySymbolEquals(symbol).getSingleResult();
+            log4j.debug("found '" + symbol + "'");
             return al;
         } catch (Exception e) {
+            log4j.debug("no allocator found");
             return null;
         }
     }

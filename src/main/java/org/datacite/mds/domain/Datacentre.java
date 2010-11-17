@@ -1,42 +1,41 @@
 package org.datacite.mds.domain;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OrderBy;
-import javax.persistence.TypedQuery;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import javax.persistence.Version;
-import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+import org.apache.log4j.Logger;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.ListOfDomains;
 import org.datacite.mds.validation.constraints.MatchSymbolPrefix;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Unique;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.roo.addon.entity.RooEntity;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.tostring.RooToString;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
@@ -47,6 +46,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Entity
 @XmlRootElement
 public class Datacentre {
+
+    private static Logger log4j = Logger.getLogger(Datacentre.class);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -209,9 +210,12 @@ public class Datacentre {
             return null;
         }
         try {
+            log4j.debug("search for '" + symbol + "'");
             Datacentre dc = findDatacentresBySymbolEquals(symbol).getSingleResult();
+            log4j.debug("found '" + symbol + "'");
             return dc;
         } catch (Exception e) {
+            log4j.debug("no datacentre found");
             return null;
         }
     }

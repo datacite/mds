@@ -16,15 +16,8 @@ public class UserInfoController {
 
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
     public String userinfo(Model model) {
-        Object user = SecurityUtils.getCurrentUser();
-        Allocator allocator = null;
-        Datacentre datacentre = null;
-        if (user instanceof Allocator) {
-            allocator = (Allocator) user;
-        } else if (user instanceof Datacentre) {
-            datacentre = (Datacentre) user;
-            allocator = datacentre.getAllocator();
-        }
+        Allocator allocator = SecurityUtils.getCurrentAllocator();
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
 
         if (allocator != null) {
             log.debug("userinfo for allocator '" + allocator.getSymbol() + "'");
