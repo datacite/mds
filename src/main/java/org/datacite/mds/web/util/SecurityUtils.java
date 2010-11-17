@@ -29,7 +29,7 @@ public class SecurityUtils {
      *             when no login info, no Allocator with such symbol or
      *             Allocator not active
      */
-    public static Allocator getAllocator() throws SecurityException {
+    public static Allocator getCurrentAllocatorWithExceptions() throws SecurityException {
         String symbol = getCurrentSymbol();
         if (symbol == null) {
             throw new SecurityException("please log in");
@@ -58,7 +58,7 @@ public class SecurityUtils {
      *             when no login info, no Datacentre with such symbol or
      *             Datacentre not active
      */
-    public static Datacentre getDatacentre() throws SecurityException {
+    public static Datacentre getCurrentDatacentreWithException() throws SecurityException {
         String symbol = SecurityUtils.getCurrentSymbol();
         if (symbol == null) {
             throw new SecurityException("please log in");

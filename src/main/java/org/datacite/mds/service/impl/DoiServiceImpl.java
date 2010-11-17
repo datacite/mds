@@ -83,7 +83,7 @@ public class DoiServiceImpl implements DoiService {
     private Datacentre preliminaryCheck(String doi, String url) throws SecurityException {
         Datacentre datacentre = null;
 
-        datacentre = SecurityUtils.getDatacentre();
+        datacentre = SecurityUtils.getCurrentDatacentreWithException();
         SecurityUtils.checkQuota(datacentre);
         if (url != null && !"".equals(url)) {
             SecurityUtils.checkRestrictions(doi, url, datacentre);
