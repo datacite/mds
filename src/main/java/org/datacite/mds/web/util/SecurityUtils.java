@@ -30,30 +30,20 @@ public class SecurityUtils {
      *             Allocator not active
      */
     public static Allocator getAllocator() throws SecurityException {
-        log4j.debug("retrieving user from security context");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String symbol;
-        if (auth != null)
-            symbol = auth.getName();
-        else
+        String symbol = getCurrentSymbol();
+        if (symbol == null) {
             throw new SecurityException("please log in");
+        }
 
-        log4j.debug("retrieving allocator from database");
-        List all = (List) Allocator.findAllocatorsBySymbolEquals(symbol).getResultList();
+        Allocator allocator = getCurrentAllocator();
 
-        Allocator allocator;
-
-        if (all.size() != 0) {
-            allocator = (Allocator) all.get(0);
-            log4j.debug("found allocator based on login: " + allocator.getSymbol());
-
-            if (!allocator.getIsActive()) {
-                log4j.warn("allocator is inactive: " + symbol);
-                throw new SecurityException("allocator not activated");
-            }
-        } else {
-            log4j.warn("allocator not found in database: " + symbol);
+        if (allocator == null) {
             throw new SecurityException("allocator not registered");
+        }
+
+        if (!allocator.getIsActive()) {
+            log4j.warn("allocator is inactive: " + symbol);
+            throw new SecurityException("allocator not activated");
         }
 
         return allocator;
@@ -69,29 +59,20 @@ public class SecurityUtils {
      *             Datacentre not active
      */
     public static Datacentre getDatacentre() throws SecurityException {
-        log4j.debug("retrieving user from security context");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String datacentreSymbol;
-        if (auth != null)
-            datacentreSymbol = auth.getName();
-        else
+        String symbol = SecurityUtils.getCurrentSymbol();
+        if (symbol == null) {
             throw new SecurityException("please log in");
+        }
 
-        log4j.debug("retrieving datacentre from database");
-        List datacentres = (List) Datacentre.findDatacentresBySymbolEquals(datacentreSymbol).getResultList();
-        Datacentre datacentre;
-
-        if (datacentres.size() != 0) {
-            datacentre = (Datacentre) datacentres.get(0);
-            log4j.debug("found datacentre based on login: " + datacentre.getSymbol());
-
-            if (!datacentre.getIsActive()) {
-                log4j.warn("datacentre is inactive: " + datacentreSymbol);
-                throw new SecurityException("datacentre not activated");
-            }
-        } else {
-            log4j.warn("datacentre not found in database: " + datacentreSymbol);
+        Datacentre datacentre = getCurrentDatacentre();
+        
+        if (datacentre == null) {
             throw new SecurityException("datacentre not registered");
+        }
+
+        if (!datacentre.getIsActive()) {
+            log4j.warn("datacentre is inactive: " + symbol);
+            throw new SecurityException("datacentre not activated");
         }
 
         return datacentre;
