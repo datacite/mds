@@ -11,6 +11,7 @@ import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.web.util.Converters;
+import org.datacite.mds.web.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
@@ -42,10 +43,7 @@ public class DatacentreController {
 
     @Transactional
     private Allocator getCurrentAllocator() {
-        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
-        String symbol = currentAuth.getName();
-        Allocator allocator = (Allocator) Allocator.findAllocatorsBySymbolEquals(symbol).getSingleResult();
-        return allocator;
+        return SecurityUtils.getCurrentAllocator();
     }
 
     @RequestMapping(params = "form", method = RequestMethod.GET)
