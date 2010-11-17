@@ -19,6 +19,7 @@ import javax.persistence.NoResultException;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.web.util.SecurityUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -49,38 +50,25 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String symbol, password, role;
         boolean isActive;
         
-        Allocator allocator = null;
-        try {
-            allocator = (Allocator) Allocator.findAllocatorsBySymbolEquals(username).getSingleResult();
-        } catch (Exception e) {
-            log4j.debug("no allocator found");
-        }
+        Allocator allocator = Allocator.findAllocatorBySymbol(username);
 
         if (allocator != null) {
-            
             log4j.debug("found allocator = " + username);
-
             symbol = allocator.getSymbol(); 
             password = allocator.getPassword();
             role = allocator.getRoleName();
             isActive = allocator.getIsActive() == null ? false : allocator.getIsActive();
-            
         } else {
-
-            Datacentre datacentre;
-            try {
-                datacentre = (Datacentre) Datacentre.findDatacentresBySymbolEquals(username).getSingleResult();
-            } catch (Exception e) {
-                log4j.debug("no datacentre found");
+            Datacentre datacentre = Datacentre.findDatacentreBySymbol(username);
+            if (datacentre == null) {
                 throw new UsernameNotFoundException("user not found");
             }
-
-            log4j.debug("found datacentre " + username);
+            
+            log4j.debug("found datacentre = " + username);
             symbol = datacentre.getSymbol(); 
             password = datacentre.getPassword();
             role = datacentre.getRoleName();
             isActive = datacentre.getIsActive() == null ? false : datacentre.getIsActive();
-            
         }
 
         authorities.add(new GrantedAuthorityImpl(role));

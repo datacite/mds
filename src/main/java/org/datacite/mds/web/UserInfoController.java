@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.web.util.SecurityUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,15 +16,8 @@ public class UserInfoController {
 
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
     public String userinfo(Model model) {
-        Object user = Utils.getCurrentUser();
-        Allocator allocator = null;
-        Datacentre datacentre = null;
-        if (user instanceof Allocator) {
-            allocator = (Allocator) user;
-        } else if (user instanceof Datacentre) {
-            datacentre = (Datacentre) user;
-            allocator = datacentre.getAllocator();
-        }
+        Allocator allocator = SecurityUtils.getCurrentAllocator();
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
 
         if (allocator != null) {
             log.debug("userinfo for allocator '" + allocator.getSymbol() + "'");

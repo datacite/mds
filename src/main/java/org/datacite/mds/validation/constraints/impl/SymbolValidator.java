@@ -8,9 +8,9 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Symbol.Type;
+import org.datacite.mds.validation.util.ValidationUtils;
 
 public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
@@ -42,7 +42,7 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
                 return false;
             } else {
                 String message = "{org.datacite.mds.validation.constraints.Symbol." + t.name() + ".message}";
-                Utils.addConstraintViolation(context, message);
+                ValidationUtils.addConstraintViolation(context, message);
             }
         }
         return true;
@@ -62,7 +62,7 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
             }
         }
 
-        Utils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.Symbol.notfound}");
+        ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.Symbol.notfound}");
         return false;
     }
 }

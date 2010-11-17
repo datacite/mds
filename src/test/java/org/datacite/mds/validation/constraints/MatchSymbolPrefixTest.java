@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.validation.util.ValidationUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +31,6 @@ public class MatchSymbolPrefixTest {
 
     boolean isValid(String symbol) {
         datacentre.setSymbol(symbol);
-        return Utils.isConstraintValid(datacentre, MatchSymbolPrefix.class);
+        return ValidationUtils.isValid(datacentre, MatchSymbolPrefix.class);
     }
 }

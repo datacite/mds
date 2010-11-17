@@ -7,6 +7,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.MatchDoiPrefix;
+import org.datacite.mds.validation.util.ValidationUtils;
 
 public class MatchDoiPrefixValidator implements ConstraintValidator<MatchDoiPrefix, Dataset> {
     String defaultMessage;
@@ -16,7 +17,7 @@ public class MatchDoiPrefixValidator implements ConstraintValidator<MatchDoiPref
     }
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
-        if (dataset.getDatacentre() == null || !Utils.isValid(dataset, "doi")) {
+        if (dataset.getDatacentre() == null || !ValidationUtils.isValid(dataset, "doi")) {
             // don't check until a datacentre is selected and valid doi is given
             return true;
         }
@@ -30,7 +31,7 @@ public class MatchDoiPrefixValidator implements ConstraintValidator<MatchDoiPref
         }
 
         context.disableDefaultConstraintViolation();
-        Utils.addConstraintViolation(context, defaultMessage, "doi");
+        ValidationUtils.addConstraintViolation(context, defaultMessage, "doi");
         return false;
     }
 }

@@ -2,7 +2,7 @@ package org.datacite.mds.validation.constraints;
 
 import static org.junit.Assert.*;
 
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.validation.util.ValidationUtils;
 import org.junit.Test;
 
 public class DoiPrefixTest {
@@ -24,7 +24,7 @@ public class DoiPrefixTest {
 
     boolean isValid(String prefix) {
         this.prefix = prefix;
-        return Utils.isValid(this, "prefix");
+        return ValidationUtils.isValid(this, "prefix");
     }
 
 }

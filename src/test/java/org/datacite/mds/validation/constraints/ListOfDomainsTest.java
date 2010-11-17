@@ -2,7 +2,7 @@ package org.datacite.mds.validation.constraints;
 
 import static org.junit.Assert.*;
 
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.validation.util.ValidationUtils;
 import org.junit.Test;
 
 public class ListOfDomainsTest {
@@ -23,7 +23,7 @@ public class ListOfDomainsTest {
 
     boolean isValid(String domains) {
         this.domains = domains;
-        return Utils.isValid(this, "domains");
+        return ValidationUtils.isValid(this, "domains");
     }
 
 }

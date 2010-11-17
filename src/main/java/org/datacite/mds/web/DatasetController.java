@@ -63,17 +63,15 @@ public class DatasetController {
     }
 
     @ModelAttribute("datacentres")
-    public Collection<Datacentre> populateDatacentres(HttpServletRequest request) {
-        String symbol = request.getUserPrincipal().getName();
-        Datacentre datacentre = Datacentre.findDatacentresBySymbolEquals(symbol).getSingleResult();
+    public Collection<Datacentre> populateDatacentres() {
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
         return Arrays.asList(datacentre);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(@RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size, Model model, HttpServletRequest request) {
-        String symbol = request.getUserPrincipal().getName();
-        Datacentre datacentre = Datacentre.findDatacentresBySymbolEquals(symbol).getSingleResult();
+            @RequestParam(value = "size", required = false) Integer size, Model model) {
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
             model.addAttribute("datasets", Dataset.findDatasetEntriesByDatacentres(datacentre, page == null ? 0 : (page
@@ -89,7 +87,7 @@ public class DatasetController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
+    public String create(@Valid Dataset dataset, BindingResult result, Model model) {
         try {
             SecurityUtils.checkQuota(dataset.getDatacentre());
         } catch (SecurityException e) {
@@ -118,7 +116,7 @@ public class DatasetController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public String update(@Valid Dataset dataset, BindingResult result, Model model, HttpServletRequest request) {
+    public String update(@Valid Dataset dataset, BindingResult result, Model model) {
         if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
             log.info("URL is set; try to update the DOI");
             try {

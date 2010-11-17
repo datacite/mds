@@ -29,36 +29,25 @@ public class SecurityUtils {
      *             when no login info, no Allocator with such symbol or
      *             Allocator not active
      */
-    public static Allocator getAllocator() throws SecurityException {
-        log4j.debug("retrieving user from security context");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String symbol;
-        if (auth != null)
-            symbol = auth.getName();
-        else
+    public static Allocator getCurrentAllocatorWithExceptions() throws SecurityException {
+        String symbol = getCurrentSymbol();
+        if (symbol == null) {
             throw new SecurityException("please log in");
+        }
 
-        log4j.debug("retrieving allocator from database");
-        List all = (List) Allocator.findAllocatorsBySymbolEquals(symbol).getResultList();
-        
-        Allocator allocator;
+        Allocator allocator = getCurrentAllocator();
 
-        if (all.size() != 0) {
-            allocator = (Allocator) all.get(0);
-            log4j.debug("found allocator based on login: " + allocator.getSymbol());
-
-            if (!allocator.getIsActive()) {
-                log4j.warn("allocator is inactive: " + symbol);
-                throw new SecurityException("allocator not activated");
-            }
-        } else {
-            log4j.warn("allocator not found in database: " + symbol);
+        if (allocator == null) {
             throw new SecurityException("allocator not registered");
+        }
+
+        if (!allocator.getIsActive()) {
+            log4j.warn("allocator is inactive: " + symbol);
+            throw new SecurityException("allocator not activated");
         }
 
         return allocator;
     }
-
 
     /**
      * retrieves Datacentre object matching symbol used for logging into
@@ -69,115 +58,145 @@ public class SecurityUtils {
      *             when no login info, no Datacentre with such symbol or
      *             Datacentre not active
      */
-    public static Datacentre getDatacentre() throws SecurityException {
-        log4j.debug("retrieving user from security context");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String datacentreSymbol;
-        if (auth != null)
-            datacentreSymbol = auth.getName();
-        else
+    public static Datacentre getCurrentDatacentreWithException() throws SecurityException {
+        String symbol = SecurityUtils.getCurrentSymbol();
+        if (symbol == null) {
             throw new SecurityException("please log in");
+        }
 
-        log4j.debug("retrieving datacentre from database");
-        List datacentres = (List) Datacentre.findDatacentresBySymbolEquals(datacentreSymbol).getResultList();
-        Datacentre datacentre;
-
-        if (datacentres.size() != 0) {
-            datacentre = (Datacentre) datacentres.get(0);
-            log4j.debug("found datacentre based on login: " + datacentre.getSymbol());
-
-            if (!datacentre.getIsActive()) {
-                log4j.warn("datacentre is inactive: " + datacentreSymbol);
-                throw new SecurityException("datacentre not activated");
-            }
-        } else {
-            log4j.warn("datacentre not found in database: " + datacentreSymbol);
+        Datacentre datacentre = getCurrentDatacentre();
+        
+        if (datacentre == null) {
             throw new SecurityException("datacentre not registered");
+        }
+
+        if (!datacentre.getIsActive()) {
+            log4j.warn("datacentre is inactive: " + symbol);
+            throw new SecurityException("datacentre not activated");
         }
 
         return datacentre;
     }
-    
+
     /**
-     * Checks if a Datacentre still has available DOIs  
+     * Checks if a Datacentre still has available DOIs
+     * 
      * @param datacentre
-     * @throws ForbiddenException Datacentre run out of quota
+     * @throws ForbiddenException
+     *             Datacentre run out of quota
      */
     public static void checkQuota(Datacentre datacentre) throws SecurityException {
-		if (datacentre.getDoiQuotaAllowed() <= datacentre.getDoiQuotaUsed()) {
-			String message = "datacentre quota exceeded: " + datacentre.getSymbol();
-			log4j.info(message);
-			throw new SecurityException(message);
-		}
-	}
-    
+        if (datacentre.getDoiQuotaAllowed() <= datacentre.getDoiQuotaUsed()) {
+            String message = "datacentre quota exceeded: " + datacentre.getSymbol();
+            log4j.info(message);
+            throw new SecurityException(message);
+        }
+    }
+
     /**
-     * Checks if 3 conditions are met:
-     * (1) DOI has prefix belonging to the Datacentre
-     * (2) URL is a valid URL
-     * (3) domain in URL is on Datacentre's allowed list
+     * Checks if 3 conditions are met: (1) DOI has prefix belonging to the
+     * Datacentre (2) URL is a valid URL (3) domain in URL is on Datacentre's
+     * allowed list
+     * 
      * @param doi
      * @param url
      * @param datacentre
-     * @throws ForbiddenException if any condition not met
+     * @throws ForbiddenException
+     *             if any condition not met
      */
     public static void checkRestrictions(String doi, String urlString, Datacentre datacentre) throws SecurityException {
-		log4j.debug("checking restrictions for " + doi);
-		// prefix test
-		if (doi != null && !doi.equals("")) {
-			Set<Prefix> prefixes = datacentre.getPrefixes();
-			boolean didMatchedSome = false;
-			for (Prefix prefix : prefixes) {
-				if (doi.startsWith(prefix.getPrefix())) {
-					didMatchedSome = true;
-					break;
-				}
-			}
-			
-			if (!didMatchedSome) {
-				String message = "DOI's prefix not assigned to this datacentre: " + doi + ", "
-						+ datacentre.getSymbol();
-				log4j.info(message);
-				throw new SecurityException(message);
-			}
-		}
-		log4j.debug("DOI prefix: OK");
+        log4j.debug("checking restrictions for " + doi);
+        // prefix test
+        if (doi != null && !doi.equals("")) {
+            Set<Prefix> prefixes = datacentre.getPrefixes();
+            boolean didMatchedSome = false;
+            for (Prefix prefix : prefixes) {
+                if (doi.startsWith(prefix.getPrefix())) {
+                    didMatchedSome = true;
+                    break;
+                }
+            }
 
-		// URL test
-		if (urlString == null || urlString.equals("") || urlString.length() < 10) {
-			String message = "Empty or bad URL: " + urlString;
-			log4j.warn(message);
-			throw new SecurityException(message);
-		}
+            if (!didMatchedSome) {
+                String message = "DOI's prefix not assigned to this datacentre: " + doi + ", " + datacentre.getSymbol();
+                log4j.info(message);
+                throw new SecurityException(message);
+            }
+        }
+        log4j.debug("DOI prefix: OK");
 
-		URL url = null;
-		try {
-			url = new URL(urlString);
-		} catch (MalformedURLException e) {
-			String message = "Malformed URL: " + url;
-			log4j.warn(message);
-			throw new SecurityException(message);
-		}
-		log4j.debug("URL: OK");
+        // URL test
+        if (urlString == null || urlString.equals("") || urlString.length() < 10) {
+            String message = "Empty or bad URL: " + urlString;
+            log4j.warn(message);
+            throw new SecurityException(message);
+        }
 
-		// domain test
-		String host = url.getHost();
-		String[] domains = datacentre.getDomains().split(";");
-		boolean didMatchedSome = false;
-		for (String domain : domains) {
-			if (host.toUpperCase().endsWith(domain.toUpperCase())) {
-				didMatchedSome = true;
-				break;
-			}
-		}
-		
-		if (!didMatchedSome) {
-			String message = "URL with domain not assigned to this datacentre: " + host;
-			log4j.warn(message);
-			throw new SecurityException(message);
-		}
-		log4j.debug("Domain: OK");
+        URL url = null;
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            String message = "Malformed URL: " + url;
+            log4j.warn(message);
+            throw new SecurityException(message);
+        }
+        log4j.debug("URL: OK");
 
-		log4j.debug("All checks are OK");
-	}
+        // domain test
+        String host = url.getHost();
+        String[] domains = datacentre.getDomains().split(";");
+        boolean didMatchedSome = false;
+        for (String domain : domains) {
+            if (host.toUpperCase().endsWith(domain.toUpperCase())) {
+                didMatchedSome = true;
+                break;
+            }
+        }
+
+        if (!didMatchedSome) {
+            String message = "URL with domain not assigned to this datacentre: " + host;
+            log4j.warn(message);
+            throw new SecurityException(message);
+        }
+        log4j.debug("Domain: OK");
+
+        log4j.debug("All checks are OK");
+    }
+
+    /**
+     * get the current logged in symbol
+     * 
+     * @return login symbol or null if not logged in
+     */
+    public static String getCurrentSymbol() {
+        log4j.debug("get current auth");
+        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+        if (currentAuth == null) {
+            log4j.debug("not logged in");
+            return null;
+        } else {
+            return currentAuth.getName();
+        }
+    }
+
+    /**
+     * get the current logged in allocator
+     * 
+     * @return allocator or null if not logged in (as a allocator)
+     */
+    public static Allocator getCurrentAllocator() {
+        String symbol = getCurrentSymbol();
+        return Allocator.findAllocatorBySymbol(symbol);
+    }
+
+    /**
+     * get the current logged in datacentre
+     * 
+     * @return datacentre or null if not logged in (as a datacentre)
+     */
+    public static Datacentre getCurrentDatacentre() {
+        String symbol = getCurrentSymbol();
+        return Datacentre.findDatacentreBySymbol(symbol);
+    }
+
 }

@@ -5,6 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.ListOfDomains;
+import org.datacite.mds.validation.util.ValidationUtils;
 
 public class ListOfDomainsValidator implements ConstraintValidator<ListOfDomains, String> {
 
@@ -15,7 +16,7 @@ public class ListOfDomainsValidator implements ConstraintValidator<ListOfDomains
     public boolean isValid(String domains, ConstraintValidatorContext context) {
         for (String domain : Utils.csvToList(domains)) {
             // for each comma separated value
-            if (!Utils.isHostname(domain)) {
+            if (!ValidationUtils.isHostname(domain)) {
                 return false;
             }
         }

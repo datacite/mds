@@ -9,6 +9,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.MatchDoiPrefix;
 import org.datacite.mds.validation.constraints.MatchDomain;
+import org.datacite.mds.validation.util.ValidationUtils;
 
 public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Dataset> {
     String defaultMessage;
@@ -19,7 +20,7 @@ public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Da
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
         if (dataset.getUrl() == null || dataset.getUrl().isEmpty() || dataset.getDatacentre() == null
-                || !Utils.isValid(dataset, "url")) {
+                || !ValidationUtils.isValid(dataset, "url")) {
             // don't check until a datacentre is selected and valid url is given
             return true;
         }
@@ -35,7 +36,7 @@ public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Da
         }
 
         context.disableDefaultConstraintViolation();
-        Utils.addConstraintViolation(context, defaultMessage, "url");
+        ValidationUtils.addConstraintViolation(context, defaultMessage, "url");
         return false;
     }
 }

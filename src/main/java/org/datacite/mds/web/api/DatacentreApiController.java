@@ -39,7 +39,7 @@ public class DatacentreApiController {
         Allocator allocator;
 
         try {
-            allocator = SecurityUtils.getAllocator();
+            allocator = SecurityUtils.getCurrentAllocatorWithExceptions();
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
@@ -69,7 +69,7 @@ public class DatacentreApiController {
         Allocator allocator;
 
         try {
-            allocator = SecurityUtils.getAllocator();
+            allocator = SecurityUtils.getCurrentAllocatorWithExceptions();
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {

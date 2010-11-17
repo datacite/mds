@@ -2,7 +2,7 @@ package org.datacite.mds.validation.constraints;
 
 import static org.junit.Assert.*;
 
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.validation.util.ValidationUtils;
 import org.junit.Test;
 
 public class EmailTest {
@@ -32,7 +32,7 @@ public class EmailTest {
 
     boolean isValid(String email) {
         this.email = email;
-        return Utils.isValid(this, "email");
+        return ValidationUtils.isValid(this, "email");
     }
 
 }
