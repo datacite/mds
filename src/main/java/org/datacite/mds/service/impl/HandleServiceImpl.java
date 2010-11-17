@@ -119,7 +119,6 @@ public class HandleServiceImpl implements HandleService {
             }
         } catch (net.handle.hdllib.HandleException e) {
         	String message = "tried to update handle " + doi + " but failed: " + e.getMessage();
-            log4j.warn(message, e);
             throw new HandleException(message, e);
         } catch (UnsupportedEncodingException e) {
             log4j.error("UnsupportedEncodingException", e);
