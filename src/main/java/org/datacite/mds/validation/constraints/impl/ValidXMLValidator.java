@@ -16,6 +16,10 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.validation.constraints.ValidXML;
 import org.datacite.mds.validation.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 @Configurable
 public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> {
@@ -34,17 +38,25 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
     }
 
     public boolean isValid(byte[] xmlBytes, ConstraintValidatorContext context) {
+        InputStream inputStream = new ByteArrayInputStream(xmlBytes);
         if (! isEnabled()) {
-            log.debug("validation skipped");
+            log.debug("validation skipped; checking only for well-formness");
+            try {
+                XMLReader reader = XMLReaderFactory.createXMLReader();
+                reader.parse(new InputSource(inputStream));
+            } catch (Exception e) {
+                ValidationUtils.addConstraintViolation(context, "xml error: " + e.getMessage());
+                return false;
+            }
             return true;
         }
+        
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Source schemaSource = new StreamSource(xsd);
         Schema schema;
         try {
             schema = schemaFactory.newSchema(schemaSource);
             Validator validator = schema.newValidator();
-            InputStream inputStream = new ByteArrayInputStream(xmlBytes);
             Source xml = new StreamSource(inputStream);
             validator.validate(xml);
         } catch (Exception e) {
