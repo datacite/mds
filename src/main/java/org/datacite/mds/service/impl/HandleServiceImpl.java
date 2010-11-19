@@ -93,7 +93,7 @@ public class HandleServiceImpl implements HandleService {
 
         try {
             HandleValue[] val = resolver.resolveHandle(doi, new String[] { "URL" }, null);
-            log4j.debug("found handle: " + val);
+            log4j.debug("found handle: " + val[0]);
 
             if (val.length != 1) {
                 String msg = "Handle not found";

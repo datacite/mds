@@ -20,8 +20,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 
 import org.datacite.mds.util.Utils;
+import org.datacite.mds.web.util.SecurityUtils;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
@@ -38,6 +40,13 @@ public class MetadataApiController {
     @RequestMapping(value = "metadata", method = RequestMethod.GET, headers = { "Accept=application/xml" })
     public ResponseEntity<String> get(@RequestParam String doi) {
         HttpHeaders headers = new HttpHeaders();
+
+        Datacentre datacentre;
+        try {
+            datacentre = SecurityUtils.getCurrentDatacentreWithException();
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
+        } 
         
         Dataset dataset;
         try {
@@ -46,19 +55,25 @@ public class MetadataApiController {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
         }
 
+        if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
+            return new ResponseEntity<String>("cannot retrieve metadata  which belongs to another party", headers, HttpStatus.FORBIDDEN);
+
+        if (!dataset.getIsActive())
+            return new ResponseEntity<String>("dataset inactive", headers, HttpStatus.NOT_FOUND);
+
         Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
         if(metadata == null)
             return new ResponseEntity<String>("no metadata for the DOI", headers, HttpStatus.NOT_FOUND);
 
-        String prettyXml;
+        String metadataXml;
         try {
-            prettyXml = Utils.formatXML(new String(metadata.getXml(), "UTF8"));
+            metadataXml = new String(metadata.getXml(), "UTF8");
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         headers.setContentType(MediaType.APPLICATION_XML);
-        return new ResponseEntity<String>(prettyXml, headers, HttpStatus.OK);
+        return new ResponseEntity<String>(metadataXml, headers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "metadata", method = RequestMethod.PUT, headers = { "Content-Type=application/xml;charset=UTF-8" })
@@ -147,11 +162,40 @@ public class MetadataApiController {
     }
 
     @RequestMapping(value = "metadata", method = RequestMethod.DELETE)
-    public ResponseEntity<? extends Object> delete(@RequestParam String doi,
+    public ResponseEntity<String> delete(@RequestParam String doi,
             @RequestParam(required = false) Boolean testMode) {
+        log4j.debug("*****DELETE metadata: " + doi + " \ntestMode = " + testMode);
 
-        return null;
+        if (testMode == null)
+            testMode = false;
 
+        HttpHeaders headers = new HttpHeaders();
+        Datacentre datacentre;
+        Dataset dataset;
+
+        try {
+            datacentre = SecurityUtils.getCurrentDatacentreWithException();
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
+        } 
+
+        try {
+            dataset = Dataset.findDatasetsByDoiEquals(doi).getSingleResult();
+        } catch (Exception e) {
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
+        }
+
+        if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
+            return new ResponseEntity<String>("cannot delete DOI which belongs to another party", headers, HttpStatus.FORBIDDEN);
+        
+        if (!testMode) {
+            if (dataset.getIsActive() == null)
+                dataset.setIsActive(false);
+            else
+                dataset.setIsActive(!dataset.getIsActive());
+            dataset.merge();
+        }
+
+        return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
     }
-
 }
