@@ -92,20 +92,21 @@ public class DatasetController {
         if (dataset.getUrl().isEmpty()) {
             result.addError(new FieldError("", "url", "must not be empty"));
         }
-        
+
         try {
             SecurityUtils.checkQuota(dataset.getDatacentre());
         } catch (SecurityException e) {
             ObjectError error = new ObjectError("", e.getMessage());
             result.addError(error);
         }
-        
+
         if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
             log.info("URL is set; try to mint the DOI");
             try {
                 handleService.create(dataset.getDoi(), dataset.getUrl());
             } catch (HandleException e) {
-                ObjectError error = new ObjectError("", "HandleService: " + e.getMessage());
+                String message = "HandleService: " + e.getMessage();
+                FieldError error = new FieldError("", "doi", dataset.getDoi(), false, null, null, message);
                 result.addError(error);
             }
         }
