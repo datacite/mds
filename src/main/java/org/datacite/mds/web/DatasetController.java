@@ -25,6 +25,7 @@ import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -88,6 +89,10 @@ public class DatasetController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Dataset dataset, BindingResult result, Model model) {
+        if (dataset.getUrl().isEmpty()) {
+            result.addError(new FieldError("", "url", "must not be empty"));
+        }
+        
         try {
             SecurityUtils.checkQuota(dataset.getDatacentre());
         } catch (SecurityException e) {
