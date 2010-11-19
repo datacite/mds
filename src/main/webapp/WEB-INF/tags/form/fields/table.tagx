@@ -117,7 +117,7 @@
         <td colspan="10">
           <c:if test="${empty create or create}">
             <span class="new">
-              <spring:url htmlEscape="false" value="/${path}" var="create_url">
+              <spring:url htmlEscape="false" value="${path}" var="create_url">
                 <spring:param name="form" />
                 <c:if test="${not empty createParam and not empty createParamValue}">
                   <spring:param name="${createParam}" value="${createParamValue}" />
