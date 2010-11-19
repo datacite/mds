@@ -1,1 +1,2 @@
+xml.validation=false
 xml.schema.default=http://www.tib.uni-hannover.de/doi/std-doi.xsd

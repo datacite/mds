@@ -22,15 +22,22 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
     Logger log = Logger.getLogger(ValidXMLValidator.class);
     
     String xsd;
+     
+    boolean enabled;
 
     public void initialize(ValidXML constraintAnnotation) {
         if (!constraintAnnotation.xsd().isEmpty()) {
             this.xsd = constraintAnnotation.xsd();
         }
         log.debug("init: xsd=" + getXsd());
+        log.debug("init: enabled=" + isEnabled());
     }
 
     public boolean isValid(byte[] xmlBytes, ConstraintValidatorContext context) {
+        if (! isEnabled()) {
+            log.debug("validation skipped");
+            return true;
+        }
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Source schemaSource = new StreamSource(xsd);
         Schema schema;
@@ -55,4 +62,13 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
     public void setXsd(String xsd) {
         this.xsd = xsd;
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
 }
