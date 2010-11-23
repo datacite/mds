@@ -98,7 +98,12 @@
 
 		<property name="authenticationSuccessHandler">
 			<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
-				<property name="defaultTargetUrl" value="/"></property>
+				<property name="defaultTargetUrl" value="/" />
+			</bean>
+		</property>
+		<property name="authenticationFailureHandler">
+			<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+				<property name="defaultFailureUrl" value="/login?login_error=t" />
 			</bean>
 		</property>
 
@@ -114,8 +119,6 @@
 		</constructor-arg>
 		<property name="filterProcessesUrl" value="/resources/j_spring_security_logout"/>
 	</bean>
-	
-<!--        <form-login authentication-failure-url="/login?login_error=t"/>-->
 
 	<bean id="formAuthenticationEntryPoint"
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
