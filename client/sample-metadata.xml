@@ -1,20 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://api.datacite.org/resources/schemas/datacite-metadata-2010-11-17.xml" lastMetadataUpdate="2010-11-17" metadataVersionNumber="1">
 	<DOI>doi:10.5072/12345</DOI>
 	<creators>
 		<creator>tim.blake@data.uni.ac.uk</creator>
 		<creator>john.smiths@data.com</creator>
+        <creator>つまらないものですが@data.jp</creator>
 	</creators>
 	<titles>
-		<title>main title goes here</title>
+		<title>Właściwości rzutowań podprzestrzeniowych</title>
 		<title titleType="Subtitle">a subtitle goes here</title>
 	</titles>
-	<publisher>data publisher name</publisher>
+	<publisher>국립수산과학원</publisher>
 	<publicationYear>2004</publicationYear>
 	<disciplines>
-		<discipline>Earth sciences and geology</discipline>
+		<discipline>使用下列语言</discipline>
 	</disciplines>
 	<contributors>
-		<contributor contributorType="DataManager">datacentre name</contributor>
+		<contributor contributorType="DataManager">Rückgabe und Fristverlängerung</contributor>
 	</contributors>
 	<dates>
 		<date dateType="valid">2005-04-05</date>
