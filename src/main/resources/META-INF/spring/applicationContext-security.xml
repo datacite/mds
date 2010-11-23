@@ -18,6 +18,7 @@
 			<security:filter-chain pattern="/.*" filters=" 
 			   securityContextPersistenceFilterWithASCTrue,
 			   formLoginFilter,
+			   formLogoutFilter,
 			   formExceptionTranslationFilter,
 			   filterSecurityInterceptor" />
 
@@ -103,9 +104,18 @@
 
 		<property name="filterProcessesUrl" value="/resources/j_spring_security_check"/>
 	</bean>  
+	
+	<bean id="formLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg value="/"/> <!-- URL redirected to after logout -->
+		<constructor-arg>
+			<list>
+				<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+			</list>
+		</constructor-arg>
+		<property name="filterProcessesUrl" value="/resources/j_spring_security_logout"/>
+	</bean>
+	
 <!--        <form-login authentication-failure-url="/login?login_error=t"/>-->
-<!--        <logout logout-url="/resources/j_spring_security_logout"/>-->
-
 
 	<bean id="formAuthenticationEntryPoint"
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
