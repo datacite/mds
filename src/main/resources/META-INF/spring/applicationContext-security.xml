@@ -20,13 +20,13 @@
 			   formLoginFilter,
 			   formLogoutFilter,
 			   formExceptionTranslationFilter,
-			   filterSecurityInterceptor" />
+			   filterSecurityInterceptor,
+			   switchUserProcessingFilter" />
 
 		</security:filter-chain-map>
 	</bean> 
 
 <!--        <remember-me key="MDS"/>-->
-<!--    	<custom-filter ref="switchUserProcessingFilter" after="FILTER_SECURITY_INTERCEPTOR" />-->
 	
 	<bean id="filterSecurityInterceptor"
 		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
