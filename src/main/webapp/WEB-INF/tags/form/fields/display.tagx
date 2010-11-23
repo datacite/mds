@@ -49,7 +49,7 @@
           </c:when>
           <c:otherwise>
             <c:set var="text">
-              <spring:eval expression="object[field]"/>
+              <spring:eval expression="object[field]" htmlEscape="false"/>
             </c:set>
             <c:choose>
               <c:when test="${not empty link}">
