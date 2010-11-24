@@ -53,7 +53,6 @@
                 <security:intercept-url pattern="/allocators/**" access="ROLE_ADMIN,ROLE_DEV" />
                 <security:intercept-url pattern="/datacentres/**" access="ROLE_ALLOCATOR,ROLE_DEV" />        
                 <security:intercept-url pattern="/datasets/**" access="ROLE_DATACENTRE,ROLE_DEV" />
-                <security:intercept-url pattern="/datasets/**" access="ROLE_DATACENTRE,ROLE_DEV" />
                 <security:intercept-url pattern="/metadatas/**" access="ROLE_DATACENTRE,ROLE_DEV" />
                 <security:intercept-url pattern="/prefixes/**" access="ROLE_ADMIN,ROLE_DEV" />
                 <security:intercept-url pattern="/oaisourceses/**" access="ROLE_ADMIN,ROLE_DEV" />
