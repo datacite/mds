@@ -1,6 +1,7 @@
 package org.datacite.mds.validation.util;
 
 import java.lang.annotation.Annotation;
+import java.net.IDN;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
@@ -86,12 +87,19 @@ public class ValidationUtils {
                 return false;
             }
     
+            str = IDN.toASCII(str); // convert international domain names (IDN)
+            if (str.matches(".*\\.xn--[^.]*$")) {
+                // UrlValidator doesn't handle top level IDNs
+                // so we add .org if necessary
+                str += ".org";
+            }
+            
             UrlValidator urlValidator = new UrlValidator();
-            if (!urlValidator.isValid(url.toString())) {
+            if (!urlValidator.isValid("http://" + str)) {
                 // url should be valid, e.g. "test.t" or "com" should be fail
                 return false;
             }
-        } catch (MalformedURLException ex) {
+        } catch (Exception ex) {
             // url should be well formed
             return false;
         }
