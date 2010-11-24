@@ -38,7 +38,7 @@ public class MetadataApiController {
     DoiService doiService;
 
     @RequestMapping(value = "metadata", method = RequestMethod.GET, headers = { "Accept=application/xml" })
-    public ResponseEntity<String> get(@RequestParam String doi) {
+    public ResponseEntity<? extends Object> get(@RequestParam String doi) {
         HttpHeaders headers = new HttpHeaders();
 
         Datacentre datacentre;
@@ -65,15 +65,8 @@ public class MetadataApiController {
         if(metadata == null)
             return new ResponseEntity<String>("no metadata for the DOI", headers, HttpStatus.NOT_FOUND);
 
-        String metadataXml;
-        try {
-            metadataXml = new String(metadata.getXml(), "UTF8");
-        } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
         headers.setContentType(MediaType.APPLICATION_XML);
-        return new ResponseEntity<String>(metadataXml, headers, HttpStatus.OK);
+        return new ResponseEntity<Object>(metadata.getXml(), headers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "metadata", method = RequestMethod.PUT, headers = { "Content-Type=application/xml;charset=UTF-8" })
