@@ -6,6 +6,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
+
     <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<security:filter-chain-map path-type="regex">
 
@@ -17,8 +18,10 @@
 
 			<security:filter-chain pattern="/.*" filters=" 
 			   securityContextPersistenceFilterWithASCTrue,
-			   formLoginFilter,
 			   formLogoutFilter,
+			   formLoginFilter,
+			   securityContextHolder,
+			   rememberMeFilter,
 			   formExceptionTranslationFilter,
 			   filterSecurityInterceptor,
 			   switchUserProcessingFilter" />
@@ -26,8 +29,6 @@
 		</security:filter-chain-map>
 	</bean> 
 
-<!--        <remember-me key="MDS"/>-->
-	
 	<bean id="filterSecurityInterceptor"
 		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
 
@@ -69,9 +70,9 @@
 		</property>
 	</bean>	
 
-
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref='myUserDetailsService'/>
+        <security:authentication-provider ref='rememberMeAuthenticationProvider' />
     </security:authentication-manager>
     
     <bean id="myUserDetailsService" class="org.datacite.mds.service.impl.UserDetailsServiceImpl" />
@@ -82,7 +83,6 @@
         <property name="exitUserUrl" value="/resources/j_spring_security_exit_user" />
         <property name="targetUrl" value="/" />
     </bean>
-    
 
 	<!-- Don't seem to be able to create one without session?? -->
 	<bean id="securityContextPersistenceFilterWithASCFalse"
@@ -95,6 +95,7 @@
 
 	<bean id="formLoginFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
 		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="rememberMeServices" ref="rememberMeServices"/>
 
 		<property name="authenticationSuccessHandler">
 			<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
@@ -137,7 +138,6 @@
 <!--		<property name="errorPage" value="/accessDenied.htm"/> -->
 	</bean>		
 
-
 	<bean id="basicAuthenticationFilter" 
 		class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
 		<property name="authenticationManager" ref="authenticationManager"/>
@@ -159,7 +159,6 @@
 		class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
 	</bean>				
 
-
 	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false"/>
 		<property name="decisionVoters">
@@ -169,5 +168,21 @@
 		</property>
 	</bean>
     
+    <bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="rememberMeServices" ref="rememberMeServices"/>
+    </bean>
+
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+		<property name="key" value="MDS"/>
+		<property name="tokenValiditySeconds" value="86400"/> <!-- one day -->
+		<property name="userDetailsService" ref="myUserDetailsService"/>
+	</bean>
+	
+	<bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		<property name="key" value="MDS"/>
+	</bean>
+	
+	<bean id="securityContextHolder" class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter"/>
 
 </beans>
