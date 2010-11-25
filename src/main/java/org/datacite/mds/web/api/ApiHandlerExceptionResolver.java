@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
@@ -37,6 +38,14 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         }
         return mav;
     }
+
+    @Override
+    protected ModelAndView handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
+            HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+        return new ModelAndView();
+    }
+    
 }
 
 class MyResponseWrapper extends HttpServletResponseWrapper {
