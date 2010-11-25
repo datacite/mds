@@ -58,7 +58,7 @@
 	</bean>
 	
 	<!-- set nice exception handling (with correct response codes) for ApiController classes -->
-	<bean class="org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver" p:order="100">
+	<bean class="org.datacite.mds.web.api.ApiHandlerExceptionResolver" p:order="100">
 		<property name="mappedHandlerClasses" value="org.datacite.mds.web.api.ApiController" />
 	</bean>
 	
