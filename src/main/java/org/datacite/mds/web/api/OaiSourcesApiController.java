@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/*")
 @Controller
-public class OaiSourcesApiController {
+public class OaiSourcesApiController implements ApiController{
     
     Logger log4j = Logger.getLogger(OaiSourcesApiController.class);
 

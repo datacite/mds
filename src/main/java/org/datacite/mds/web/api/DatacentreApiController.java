@@ -22,7 +22,7 @@ import javax.persistence.NoResultException;
 
 @RequestMapping("/*")
 @Controller
-public class DatacentreApiController {
+public class DatacentreApiController implements ApiController {
 
     Logger log4j = Logger.getLogger(DatacentreApiController.class);
     

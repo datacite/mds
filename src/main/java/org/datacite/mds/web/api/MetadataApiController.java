@@ -30,7 +30,7 @@ import org.datacite.mds.service.SecurityException;
 
 @RequestMapping("/*")
 @Controller
-public class MetadataApiController {
+public class MetadataApiController implements ApiController {
 
     private static Logger log4j = Logger.getLogger(MetadataApiController.class);
     
