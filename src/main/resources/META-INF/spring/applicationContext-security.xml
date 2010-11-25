@@ -155,8 +155,8 @@
 	</bean>				
 
 	<bean id="basicAccessDeniedHandler"
-		class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
-	</bean>				
+		class="org.datacite.mds.web.api.ApiAccessDeniedHandler">
+	</bean>
 
 	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
 		<property name="allowIfAllAbstainDecisions" value="false"/>
