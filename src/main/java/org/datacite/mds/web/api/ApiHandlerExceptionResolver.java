@@ -7,10 +7,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
+@Component
 public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver {
+    
+    public ApiHandlerExceptionResolver() {
+        super();
+        setOrder(HIGHEST_PRECEDENCE);
+        Class[] handlers = { ApiController.class };
+        setMappedHandlerClasses(handlers);
+    }
 
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
