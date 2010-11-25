@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://api.datacite.org/resources/schemas/datacite-metadata-2010-11-17.xml" lastMetadataUpdate="2010-11-17" metadataVersionNumber="1">
+	<DOI>doi:10.5072/12345</DOI>
+	<creators>
+		<creator>tim.blake@data.uni.ac.uk</creator>
+		<creator>john.smiths@data.com</creator>
+        <creator>つまらないものですが@data.jp</creator>
+	</creators>
+	<titles>
+		<title>Właściwości rzutowań podprzestrzeniowych</title>
+		<title titleType="Subtitle">a subtitle goes here</title>
+	</titles>
+	<publisher>국립수산과학원</publisher>
+	<publicationYear>2004</publicationYear>
+	<disciplines>
+		<discipline>使用下列语言</discipline>
+	</disciplines>
+	<contributors>
+		<contributor contributorType="DataManager">Rückgabe und Fristverlängerung</contributor>
+	</contributors>
+	<dates>
+		<date dateType="valid">2005-04-05</date>
+		<date dateType="dateAccepted">2005-01-01</date>
+	</dates>
+	<language>en</language>
+	<resourceType>Dataset</resourceType>
+	<resourceIdentifiers>
+		<resourceIdentifier resourceIdentifierType="ISBN">1234-56-7</resourceIdentifier>
+	</resourceIdentifiers>
+	<relatedIdentifiers>
+		<relatedIdentifier relatedIdentifierType="DOI" relationType="isCitedBy">doi:10.1234/testpub</relatedIdentifier>
+	</relatedIdentifiers>
+	<sizes>
+		<size sizeValue="285231345" sizeUnit="Bytes"></size>
+	</sizes>
+	<formats>
+		<format formatType="mimeType" formatTypeURI="http://www.iana.org/assignments/media-types/">text/plain</format>
+	</formats>
+	<version>1</version>
+	<rights>Open Database License [ODbL]</rights>
+	<descriptions>
+		<description descriptionType="InformalDescription">
+		The current xml-example for a DataCite record is the official example from the documentation, taken from the DataCite wiki. 
+		<br/>Please look there to find the newest versions of sample data and schemas.
+		</description>
+	</descriptions>
+</resource>
