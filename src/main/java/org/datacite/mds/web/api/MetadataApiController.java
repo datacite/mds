@@ -59,7 +59,7 @@ public class MetadataApiController {
             return new ResponseEntity<String>("cannot retrieve metadata  which belongs to another party", headers, HttpStatus.FORBIDDEN);
 
         if (!dataset.getIsActive())
-            return new ResponseEntity<String>("dataset inactive", headers, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("dataset inactive", headers, HttpStatus.GONE);
 
         Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
         if(metadata == null)
@@ -189,6 +189,6 @@ public class MetadataApiController {
             dataset.merge();
         }
 
-        return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
+        return new ResponseEntity<String>("OK", headers, HttpStatus.OK);
     }
 }
