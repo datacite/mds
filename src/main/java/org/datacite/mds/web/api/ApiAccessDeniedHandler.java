@@ -9,6 +9,13 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
+/**
+ * This class is a simple wrapper for AccessDeniedHandlerImpl to use our
+ * ApiResponseWrapper and therefore put the exception message sole into the
+ * response body
+ * 
+ * @see ApiResponseWrapper
+ */
 public class ApiAccessDeniedHandler extends AccessDeniedHandlerImpl {
 
     @Override
