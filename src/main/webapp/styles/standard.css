@@ -464,7 +464,8 @@ code {
     width: 200px;
     border: 1px solid lightgrey;
     padding: 10px;
-    
+    margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 .toc-heading {
