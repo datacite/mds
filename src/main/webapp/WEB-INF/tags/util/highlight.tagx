@@ -18,12 +18,13 @@
   </script>
 
   <c:set var="text"><jsp:doBody /></c:set>
-
-  <pre>
-    <code class="${lang}" highlight="true">
-       <c:out value="${text}" />
-    </code>
-  </pre>
+  <div class="codebox">
+    <pre>
+      <code class="${lang}" highlight="true" >
+         <c:out value="${text}" />
+      </code>
+    </pre>
+  </div>
   
   <script language="JavaScript" type="text/javascript">
     dojo.query("code[highlight]").forEach(dojox.highlight.init);

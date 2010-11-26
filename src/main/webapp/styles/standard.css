@@ -444,3 +444,13 @@ br {
 .dijitArrowButton {
     height: 20px !important;
 }
+
+code {
+    background: #EEEEEE !important;
+}
+
+.codebox {
+    border: 1px solid gray;
+    background: #EEEEEE;
+    padding-left: 10px;
+}
