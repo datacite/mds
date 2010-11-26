@@ -20,15 +20,15 @@ are going to use is:</p> <p><code>https://api.datacite.org</code></p>
 <p>At the moment there are <b>two resources</b>:</p>
 <p><code>/doi</code></p> <p><code>/metadata</code></p> <p>The URI
 <code>https://api.datacite.org<b>/metadata</b></code> accepts requests
-with 4 HTTP methods: <code>GET, POST, PUT and DELETE</code></p> <p>The
+with 4 HTTP methods: <code>GET</code>, <code>POST</code>, <code>PUT</code> and <code>DELETE</code></p> <p>The
 URI <code>https://api.datacite.org<b>/doi</b></code> accepts requests
-with 2 HTTP methods: <code>POST and PUT</code></p> <p>The meaning of
+with 2 HTTP methods: <code>POST</code> and <code>PUT</code></p> <p>The meaning of
 the HTTP verbs and request parameters/body will be explained in the
-referecene section below.</p>
+reference section below.</p>
 
 <h3>Security</h3> All the traffic goes via HTTPS - please remember we
 do not support bare HTTP. All the requests to this system require HTTP
-Basic authentication header, you will get your username and password
+Basic authentication header. You will get your username and password
 from your allocator. Each account have some constraints associated
 with it:
 <ul>
@@ -37,14 +37,14 @@ you</li>
 <li>you will be allowed to mint DOIs only with URLs in host domains
 assigned to you</li>
 <li>you will <b>not</b> be able to mint unlimited number of DOIS,
-there is a quota assigned to you by your alloctor (the quota can be
-extened)</li>
+there is a quota assigned to you by your allocator (the quota can be
+extended)</li>
 </ul>
 
 <h3>Handle System</h3>
-<p>It's important to understand that the Handle System (the technical
+<p>It is important to understand that the Handle System (the technical
 infrastructure for DOIs) is a distributed network system. The
-consequence of this manifests in its inherent latency. For example, DOIs
+consequence of this manifests is its inherent latency. For example, DOIs
 have TTL (time to live) defaulted to 24 hours, so your changes
 will be visible to the resolution intrastructure only when the TTL expires.
 Also, if you create a DOI with POST and then immediately
@@ -54,7 +54,7 @@ handle for a DOI.</p>
 
 <h3>Metadata</h3>
 
-<p>Metadata about your datasets must conform to the XML schema published by DataCite. At the moment the content of this schema is under development (it will be published soon). For the test purposes you can access <a
+<p>Metadata about your datasets must conform to the XML schema published by DataCite. At the moment the content of this schema is under development (it will be published soon). For test purposes you can access <a
 href="https://api.datacite.org/resources/schemas/datacite-metadata-2010-11-17.xml" target="_">working version of XSD</a>.</p>
 
 <p>Sample XML document describing metadata:</p>
@@ -114,17 +114,17 @@ href="https://api.datacite.org/resources/schemas/datacite-metadata-2010-11-17.xm
 
 <h2>URI: http://api.datacite.org/metadata</h2> 
 <h3>GET</h3> 
-<p>This request returns the most recent version of metadata associted with DOI</p>
+<p>This request returns the most recent version of metadata associated with DOI</p>
 <h4>Request headers</h4> 
 <code>Accept=application/xml</code> 
 <h4>Request parameters</h4> 
-<code>doi</code>=DOI for which metadata is requested
+<code>doi</code> (mandatory) - DOI for which metadata is requested
 <h4>Request body</h4> 
 empty
 <h4>Response headers</h4>
 <code>Content-Type=application/xml</code> 
 <h4>Response body</h4> 
-<p>if response status 200 - XML representing a dataset, otherwise shot explanation for non-200 status</p> 
+<p>if response status 200 - XML representing a dataset, otherwise short explanation for non-200 status</p> 
 <h4>Response statuses</h4> 
 <code>200 OK</code> - operation successful
 <p><code>403 Forbidden</code> - login problem or dataset belongs to another party</p>
@@ -161,16 +161,16 @@ print(content.decode('utf-8'))
 <h4>Request headers</h4> 
 <code>Content-Type=application/xml;charset=UTF-8</code> 
 <h4>Request parameters</h4> 
-<p><code>doi</code>=DOI</p>
-<p><code>url</code>=URL, if present DOI will be minted</p>
+<p><code>doi</code> (mandatory) - DOI</p>
+<p><code>url</code> (optional) - if present DOI will be minted</p>
 <h4>Request body</h4> 
 <p>UFT-8 encoded metadata</p>
 <h4>Response body</h4> 
-<p>shot explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
+<p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
 <p><code>201 Created</code> - operation successful</p>
 <p><code>400 Bad Request</code> - invalid XML</p>
-<p><code>403 Forbidden</code> - login problem, quota excceded, wrong domain, wrong prefix</p>
+<p><code>403 Forbidden</code> - login problem, quota exceeded, wrong domain, wrong prefix</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
 <h4>Python example</h4> 	
@@ -205,12 +205,12 @@ print(content.decode('utf-8'))
 <p>This request adds a new version of metadata for existing dataset. The request body must contain valid XML. There is a request parameter doi. If optional parameter url exists, a DOI will be updated.</p>
 <code>Content-Type=application/xml;charset=UTF-8</code> 
 <h4>Request parameters</h4> 
-<p><code>doi</code>=DOI</p>
-<p><code>url</code>=URL, if present DOI will be updated</p>
+<p><code>doi</code> (mandatory) - DOI</p>
+<p><code>url</code> (optional) - if present DOI's URL will be updated</p>
 <h4>Request body</h4> 
 <p>UFT-8 encoded metadata</p>
 <h4>Response body</h4> 
-<p>shot explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
+<p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
 <p><code>201 Created</code> - operation successful</p>
 <p><code>400 Bad Request</code> - invalid XML</p>
@@ -249,11 +249,11 @@ print(content.decode('utf-8'))
 <h3>DELETE</h3> 
 <p>This request allows mark a dataset as 'inactive'. A parameter 'doi' is required. Subsequent GET for such dataset will return 410. Inactivating already inactive dataset makes it active.</p>
 <h4>Request parameters</h4> 
-<code>doi</code>=DOI
+<code>doi</code> (mandatory) - DOI
 <h4>Request body</h4> 
 empty
 <h4>Response body</h4> 
-<p>if response status 200 - XML representing a dataset, otherwise shot explanation for non-200 status</p> 
+<p>if response status 200 - XML representing a dataset, otherwise short explanation for non-200 status</p> 
 <h4>Response statuses</h4> 
 <p><code>200 OK</code> - operation successful</p>
 <p><code>403 Forbidden</code> - login problem or dataset belongs to another party</p>
@@ -286,13 +286,13 @@ print(content.decode('utf-8'))
 
 <h2>URI: http://api.datacite.org/doi</h2> 
 <h3>POST</h3>
-<p>POST will mint new DOI, checking domains and quota restrictions. A Datacentre's doiQuotaUsed will be increased by 1. A new record in Datasets will be created.</p>
+<p>POST will mint new DOI, check domains and quota restrictions. A Datacentre's doiQuotaUsed will be increased by 1. A new record in Datasets will be created.</p>
 <h4>Request headers</h4> 
 <p><code>Content-Type=text/plain;charset=UTF-8</code></p>
 <h4>Request body</h4> 
 <p>just two lines: doi and url, UFT-8 encoded</p>
 <h4>Response body</h4> 
-<p>shot explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
+<p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
 <p><code>201 Created</code> - operation successful</p>
 <p><code>400 Bad Request</code> - request body must be exactly two lines: DOI and URL</p>
@@ -329,6 +329,8 @@ print(content.decode('utf-8'))
 ]]>
 </util:highlight>
 
+<p><code>doi-url file</code> has to contain the request body, so a file with two lines: doi and url.</p>
+
 <h3>PUT</h3>
 <p>PUT will update URL of DOI without changing the database.</p>
 <h4>Request headers</h4> 
@@ -336,7 +338,7 @@ print(content.decode('utf-8'))
 <h4>Request body</h4> 
 <p>just two lines: doi and url, UFT-8 encoded</p>
 <h4>Response body</h4> 
-<p>shot explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
+<p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
 <p><code>201 Created</code> - operation successful</p>
 <p><code>400 Bad Request</code> - request body must be exactly two lines: DOI and URL</p>
@@ -372,6 +374,8 @@ print(content.decode('utf-8'))
 
 ]]>
 </util:highlight>
+
+<p><code>doi-url file</code> has to contain the request body, so a file with two lines: doi and url.</p>
 
   </util:panel>
 </div>
