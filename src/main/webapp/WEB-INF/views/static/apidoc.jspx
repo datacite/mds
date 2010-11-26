@@ -38,7 +38,7 @@ with it:
 you</li>
 <li>you will be allowed to mint DOIs only with URLs in host domains
 assigned to you</li>
-<li>you will <b>not</b> be able to mint unlimited number of DOIS,
+<li>you will <b>not</b> be able to mint unlimited number of DOIs,
 there is a quota assigned to you by your allocator (the quota can be
 extended)</li>
 </ul>
@@ -114,9 +114,10 @@ href="https://api.datacite.org/resources/schemas/datacite-metadata-2010-11-17.xm
 
 <h1>API reference</h1> 
 
-<h2>URI: http://api.datacite.org/metadata</h2> 
+<h2>Metadata API</h2>
+<p><i>URI: https://api.datacite.org/metadata</i></p> 
 <h3>GET</h3> 
-<p>This request returns the most recent version of metadata associated with DOI</p>
+<p>This request returns the most recent version of metadata associated with a given DOI.</p>
 <h4>Request headers</h4> 
 <code>Accept=application/xml</code> 
 <h4>Request parameters</h4> 
@@ -126,7 +127,7 @@ empty
 <h4>Response headers</h4>
 <code>Content-Type=application/xml</code> 
 <h4>Response body</h4> 
-<p>if response status 200 - XML representing a dataset, otherwise short explanation for non-200 status</p> 
+<p>If response status is 200: XML representing a dataset, otherwise short explanation for non-200 status</p> 
 <h4>Response statuses</h4> 
 <code>200 OK</code> - operation successful
 <p><code>403 Forbidden</code> - login problem or dataset belongs to another party</p>
@@ -286,7 +287,8 @@ print(content.decode('utf-8'))
 ]]>
 </util:highlight>
 
-<h2>URI: http://api.datacite.org/doi</h2> 
+<h2>Doi API</h2>
+<p><i>URI: https://api.datacite.org/doi</i></p> 
 <h3>POST</h3>
 <p>POST will mint new DOI, check domains and quota restrictions. A Datacentre's doiQuotaUsed will be increased by 1. A new record in Datasets will be created.</p>
 <h4>Request headers</h4> 
