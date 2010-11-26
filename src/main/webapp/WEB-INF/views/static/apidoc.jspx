@@ -16,9 +16,9 @@ allocator</a>.</p> <h2>Audience</h2> <p><b>This document and the API
 is meant for use by a technical audience.</b> You will need a working
 knowledge of programming and the HTTP protocol.</p> <h2>Overview</h2>
 <p>The API is implemented in RESTful style. The <b>end point</b> you
-are going to use is:</p> <p><code>https://api.datacite.org</code></p>
+are going to use is:</p> <p class="indent"><code>https://api.datacite.org</code></p>
 <p>At the moment there are <b>two resources</b>:</p>
-<p><code>/doi</code></p> <p><code>/metadata</code></p> <p>The URI
+<p class="indent"><code>/doi</code></p> <p class="indent"><code>/metadata</code></p> <p>The URI
 <code>https://api.datacite.org<b>/metadata</b></code> accepts requests
 with 4 HTTP methods: <code>GET</code>, <code>POST</code>, <code>PUT</code> and <code>DELETE</code></p> <p>The
 URI <code>https://api.datacite.org<b>/doi</b></code> accepts requests

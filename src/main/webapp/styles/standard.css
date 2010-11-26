@@ -454,3 +454,7 @@ code {
     background: #EEEEEE;
     padding-left: 10px;
 }
+
+.indent {
+    padding-left: 20px;
+}
