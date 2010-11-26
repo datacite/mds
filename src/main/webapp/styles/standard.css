@@ -450,11 +450,42 @@ code {
 }
 
 .codebox {
-    border: 1px solid gray;
+    border: 1px solid lightgray;
     background: #EEEEEE;
     padding-left: 10px;
 }
 
 .indent {
     padding-left: 20px;
+}
+
+#toc {
+    float: right;
+    width: 200px;
+    border: 1px solid lightgrey;
+    padding: 10px;
+    
+}
+
+.toc-heading {
+    color: #0084B9;
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+#toc ul {
+    padding-left: 20px;
+    margin: 0px;
+}
+
+.toc-h2 {
+    margin-left: 15px;
+}
+
+.toc-h3 {
+    margin-left: 30px;
+}
+
+.toc-h4 {
+    margin-left: 45px;
 }

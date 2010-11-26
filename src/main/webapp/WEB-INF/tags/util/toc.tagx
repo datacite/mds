@@ -1,0 +1,38 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+ 
+  <jsp:directive.attribute name="id" type="java.lang.String" required="false" description="id of the toc (defaults to 'toc')" />
+  <jsp:directive.attribute name="depth" type="java.lang.String" required="false" description="max level of header to be included (defaults to 3)" />
+  <jsp:directive.attribute name="rootId" type="java.lang.String" required="false" description="id of the element to be searched for headers (defaults to 'main')" />
+  <jsp:directive.attribute name="label" type="java.lang.String" required="false" description="The label used for this object, will default to a message bundle if not supplied" />
+
+  <c:if test="${empty id}">
+    <c:set value="toc" var="id" />
+  </c:if>
+  
+  <c:if test="${empty depth}">
+    <c:set value="3" var="depth" />
+  </c:if>
+  
+  <c:if test="${empty rootId}">
+    <c:set value="main" var="rootId" />
+  </c:if>
+  
+  <c:if test="${empty label}">
+    <spring:message code="table_of_contents" var="label"/>
+  </c:if>
+
+  <spring:url value="/resources/js/autotoc.js" var="autotoc_url" />
+  <script src="${autotoc_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+	  
+  <script language="JavaScript" type="text/javascript" >
+    dojo.addOnLoad(function() {
+      autoTOC("${rootId}", "${id}", "${depth}", "toc", "tocAnchor");
+    });
+  </script>
+  
+  <div id="${id}">
+    <div class="toc-heading"><c:out value="${label}"/></div>
+  </div>
+  
+</jsp:root>

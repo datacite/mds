@@ -5,6 +5,8 @@
   <util:panel id="title" title="${title}">
     <spring:message code="application_name" var="app_name"/>
 
+  <util:toc />
+  
 <h1>DataCite API for datacentres</h1> <h2>Purpose</h2> <p>The purpose
 of this document is to explain how to register datasets via our
 RESTful API. Registration is open for research organisations
