@@ -20,13 +20,13 @@
   <c:set var="text"><jsp:doBody /></c:set>
 
   <pre>
-    <code class="${lang}">
+    <code class="${lang}" highlight="true">
        <c:out value="${text}" />
     </code>
   </pre>
   
   <script language="JavaScript" type="text/javascript">
-    dojo.query("code").forEach(dojox.highlight.init);
+    dojo.query("code[highlight]").forEach(dojox.highlight.init);
   </script>
     
 </jsp:root>
