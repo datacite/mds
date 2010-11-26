@@ -8,9 +8,8 @@
             <table:column id="c_org_datacite_mds_domain_Datacentre_name" property="name" z="B3pk/gga9DpPwGI/a2TNbtjup4w="/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_contactName" property="contactName" z="MrnuTJZ4CkWBFb1Xpz//eRKpaKs="/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_contactEmail" property="contactEmail" render="false" z="user-managed"/>
-            
-        <table:column id="c_org_datacite_mds_domain_Datacentre_allocator" property="allocator" z="X4vMFxhphXNZV9jyG43aI2JwcGY="/>
-        <table:column id="c_org_datacite_mds_domain_Datacentre_roleName" property="roleName" z="Td9+dAc0aW5edKzc+lAa7rrJxqw="/>
+            <table:column id="c_org_datacite_mds_domain_Datacentre_allocator" property="allocator" render="false" z="user-managed"/>
+            <table:column id="c_org_datacite_mds_domain_Datacentre_roleName" property="roleName" render="false" z="user-managed"/>
         </table:table>
     </page:list>
 </div>
