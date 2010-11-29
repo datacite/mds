@@ -144,7 +144,7 @@ public class SecurityUtils {
 
         // domain test
         String host = url.getHost();
-        String[] domains = datacentre.getDomains().split(";");
+        String[] domains = datacentre.getDomains().split(",");
         boolean didMatchedSome = false;
         for (String domain : domains) {
             if (host.toUpperCase().endsWith(domain.toUpperCase())) {
