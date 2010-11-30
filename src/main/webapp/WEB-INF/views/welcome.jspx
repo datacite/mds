@@ -53,8 +53,6 @@ function swapper(d)
 		]]> 
 </script>
 
-<h1><u>Notice: This service is not operational yet. Please visit after 2nd December 2010.</u></h1>
-
 <h1>What is this service?</h1>
 <p>This is the DataCite service. DataCite is an international consortium 
 which aims to enable data citation and facilitate easier access to scientific research 
@@ -69,48 +67,18 @@ are also considered data publishers. This service is aimed at scientific and
 research data publishers.</p>
 <p>Data generators, researchers for example, who wish to obtain DataCite DOIs will 
 first establish the most appropriate data publisher for their data and 
-deposit their datasets there. The publisher can then obtain DOIs from us.</p>
-<h1>What are DOIs and why should I care?</h1>
-<p>A DOI is an identifier which is persistent and it resolves into URL. 
-The primary objective is to provide a stable means for citation of 
-datasets. The DOI can be used to reference online datasets independent 
-of a URL, which can become invalid. Use of DOIs instead of URLs makes 
-finding cited data more successful and will be a cornerstone for giving 
-the appropriate credit to data producers. In the scientific publishing 
-industry, DOIs have been a great success.</p>
-<p>The URL is a location of a landing page. This page is controlled and 
-maintained by the data publisher. A landing page must be an open access 
-web page. Please note this affects only accessibility of metadata (the 
-landing page), not the underlying dataset, which can have restricted 
-access (e.g. medical records, unpublished paper etc). At the very minimum 
-the landing page will contain the mandatory metadata elements required 
-by DataCite - DOI, Creator, Title, Publisher, Publication Date, and 
-Discipline. In addition, and it is highly recommended, the landing 
-page will also contain additional metadata further describing the 
-dataset and a preferred citation style. The landing page must 
-contain either a link that downloads the referenced dataset 
-or a rights/access notification.</p> 
-<p>It is an important duty of the publisher to 
-maintain both the landing page and the URL that is registered with each DOI.</p>
-<h1>How much does it cost?</h1>
-<p>In 2010 we do not intend to charge for issuing or updating DOIs.  
-In the future there will be a cost associated with DOI registration 
-and managing broken links etc.</p>
+deposit their datasets there. The publisher can then obtain DOIs from a DataCite member.</p>
 <h1>I have datasets and want to mint DOIs! How can I use this service?</h1>
-<p>At the moment the service is not operational yet. Please visit after 2nd December 2010. We'll
- welcome established 
-data centres who wish to participate in our test.</p>
 <p>There are two steps. Firstly, you will need to register with our service. 
-Please email to <script>mail("tech","datacite",1,"")</script> and we will 
+Please contact a DataCite member who will 
 get in touch with you to discuss your eligibility, requirements and 
-responsibilities. If you qualify, we will provide you a user name, 
+responsibilities. If you qualify, they will provide you a user name, 
 password and other necessary information.</p>
 <p>Secondly, you will need to use our <a href="${api_doc}">application programming interface (API)</a> 
 to mint DOIs. It is recommended that you integrate minting and updating DOIs with your 
 metadata management infrastructure. So if, for example, a URL changes, automatic 
 notification will be pushed to our service and the updated URL will be used 
-for resolving the DOI. Similarly if metadata changes, we prefer to receive automatic 
-updates.</p>
+for resolving the DOI.</p>
 <h1>How can I contact you?</h1>
-<p>For more information please email us at <script>mail("tech","datacite",1,"")</script></p>
+<p>For membership please contact <script>mail("admin","datacite",1,"")</script>. For technical information please email us at <script>mail("tech","datacite",1,"")</script></p>
 </div>
