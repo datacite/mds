@@ -17,6 +17,7 @@ import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.util.Converters;
 import org.datacite.mds.web.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,15 @@ public class DatasetController {
     public String show(@PathVariable("id") Long id, Model model) {
         Dataset dataset = Dataset.findDataset(id);
         model.addAttribute("dataset", dataset);
-        model.addAttribute("metadatas", Metadata.findMetadatasByDataset(dataset).getResultList());
+        List<Metadata> metadatas = Metadata.findMetadatasByDataset(dataset).getResultList();
+        model.addAttribute("metadatas", metadatas);
+        try {
+            Metadata metadata = metadatas.get(0);
+            model.addAttribute("metadata", metadata);
+            String xml = new String(metadata.getXml());
+            model.addAttribute("prettyxml", Utils.formatXML(xml));
+        } catch (Exception e) {
+        }
         model.addAttribute("itemId", id);
         return "datasets/show";
     }

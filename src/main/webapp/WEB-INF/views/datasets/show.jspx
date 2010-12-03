@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:spring="http://www.springframework.org/tags" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <page:show delete="false" id="ps_org_datacite_mds_domain_Dataset" object="${dataset}" path="/datasets" z="GTOIDp28o0CtA9jRRKQT81aO7fc=">
         <util:handle-proxy doi="${dataset.doi}" redirect="true" types="URL"/>
@@ -14,6 +14,19 @@
         <field:display date="true" dateTimePattern="${dataset_created_date_format}" field="created" id="s_org_datacite_mds_domain_Dataset_created" object="${dataset}" z="d0NVtjb9qN+UTT5MHEFzN9SMDzU="/>
         <field:display date="true" dateTimePattern="${dataset_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Dataset_updated" object="${dataset}" z="0xOiEJrTlBixi8pKrahDtV0iGhs="/>
     </page:show>
+    <c:if test="${not empty metadata}">
+        <page:show create="false" delete="false" id="ps_org_datacite_mds_domain_CurrentMetadata" list="false" object="${metadata}" openPane="false" path="/metadatas" update="false" z="user-managed">
+            <field:display field="metadataVersion" id="s_org_datacite_mds_domain_Metadata_metadataVersion" object="${metadata}" z="q359QhWy75D/X5wHZIYOA/OW5TA="/>
+            <field:display date="true" dateTimePattern="${metadata_created_date_format}" field="created" id="s_org_datacite_mds_domain_Metadata_created" object="${metadata}" z="BKwXT4mdovYE+1rLwhIVk/fN+3U="/>
+            <field:simple field="prettyxml" id="s_org_datacite_mds_domain_Metadata_xml" z="user-managed" >
+                <util:highlight lang="xml">
+                    ${prettyxml}
+                </util:highlight>
+                <spring:url value="/metadatas/${metadata.id}?raw" var="raw_url" />
+               <p><a href="${raw_url}"><spring:message code="metadata_get_raw_xml"/></a></p>
+            </field:simple>
+        </page:show>
+    </c:if>
     <c:if test="${not empty dataset}">
         <page:list create="true" createMessageCode="entity_store" createParam="dataset" createParamValue="${dataset.id}" createPath="/metadatas" id="pl_org_datacite_mds_domain_Metadata" items="${metadatas}" z="user-managed">
             <table:table createParam="dataset" createParamValue="${dataset.id}" data="${metadatas}" delete="false" id="l_org_datacite_mds_domain_Metadata" path="/metadatas" update="false" z="user-managed">
