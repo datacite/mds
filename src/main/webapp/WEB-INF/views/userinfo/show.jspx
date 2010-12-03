@@ -18,13 +18,11 @@
     <page:show create="false" delete="false" id="ps_org_datacite_mds_userinfo_Datacentre" list="false" object="${datacentre}" path="/datacentres" update="false" render="${scopeDatacentre}" z="user-managed">
         <field:display field="symbol" id="s_org_datacite_mds_domain_Datacentre_symbol" object="${datacentre}" z="user-managed"/>
         <field:display field="name" id="s_org_datacite_mds_domain_Datacentre_name" object="${datacentre}" z="user-managed"/>
-        <field:display field="contactName" id="s_org_datacite_mds_domain_Datacentre_contactName" object="${datacentre}" z="user-managed"/>
-        <field:display field="contactEmail" id="s_org_datacite_mds_domain_Datacentre_contactEmail" object="${datacentre}" z="user-managed"/>
+        <field:display field="contactName" id="s_org_datacite_mds_domain_Datacentre_contactName" link="mailto:${datacentre.contactEmail}" linkTitle="${datacentre.contactEmail}" object="${datacentre}" z="user-managed"/>
       </page:show>
     <page:show create="false" delete="false" id="ps_org_datacite_mds_userinfo_Allocator" list="false" object="${allocator}" path="/userinfo" update="false" z="user-managed">
         <field:display field="symbol" id="s_org_datacite_mds_domain_Allocator_symbol" object="${allocator}" render="${scopeAllocator}" z="user-managed"/>
         <field:display field="name" id="s_org_datacite_mds_domain_Allocator_name" object="${allocator}" z="user-managed"/>
-        <field:display field="contactName" id="s_org_datacite_mds_domain_Allocator_contactname" object="${allocator}" z="user-managed"/>
-        <field:display field="contactEmail" id="s_org_datacite_mds_domain_Allocator_contactEmail" object="${allocator}" z="user-managed"/>
+        <field:display field="contactName" id="s_org_datacite_mds_domain_Allocator_contactname" link="mailto:${allocator.contactEmail}" linkTitle="${allocator.contactEmail}" object="${allocator}" z="user-managed"/>
     </page:show>
 </div>
