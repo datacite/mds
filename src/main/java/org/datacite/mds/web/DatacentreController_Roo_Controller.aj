@@ -65,12 +65,7 @@ privileged aspect DatacentreController_Roo_Controller {
         return "datacentres/findDatacentresBySymbolEquals";
     }
     
-    @RequestMapping(params = "find=BySymbolEquals", method = RequestMethod.GET)
-    public String DatacentreController.findDatacentresBySymbolEquals(@RequestParam("symbol") String symbol, Model model) {
-        model.addAttribute("datacentres", Datacentre.findDatacentresBySymbolEquals(symbol).getResultList());
-        return "datacentres/list";
-    }
-    
+        
     @RequestMapping(params = { "find=ByNameLike", "form" }, method = RequestMethod.GET)
     public String DatacentreController.findDatacentresByNameLikeForm(Model model) {
         return "datacentres/findDatacentresByNameLike";

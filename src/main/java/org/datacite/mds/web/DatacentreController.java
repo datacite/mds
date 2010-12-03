@@ -87,4 +87,10 @@ public class DatacentreController {
     public Collection<Allocator> populateAllocators() {
         return Arrays.asList(getCurrentAllocator());
     }
+
+    @RequestMapping(params = "find=BySymbolEquals", method = RequestMethod.GET)
+    public String findDatacentresBySymbolEquals(@RequestParam("symbol") String symbol, Model model) {
+        Datacentre datacentre = Datacentre.findDatacentreBySymbol(symbol);
+        return (datacentre == null) ? "datacentres/show" : "redirect:/datacentres/" + datacentre.getId();
+    }
 }

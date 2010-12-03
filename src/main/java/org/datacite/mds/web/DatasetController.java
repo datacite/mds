@@ -145,4 +145,10 @@ public class DatasetController {
         dataset.merge();
         return "redirect:/datasets/" + dataset.getId().toString();
     }
+
+	@RequestMapping(params = "find=ByDoiEquals", method = RequestMethod.GET)
+    public String findDatasetsByDoiEquals(@RequestParam("doi") String doi, Model model) {
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        return (dataset == null) ? "datasets/show" : "redirect:/datasets/" + dataset.getId();
+    }
 }

@@ -48,12 +48,7 @@ privileged aspect DatasetController_Roo_Controller {
         return "datasets/findDatasetsByDoiEquals";
     }
     
-    @RequestMapping(params = "find=ByDoiEquals", method = RequestMethod.GET)
-    public String DatasetController.findDatasetsByDoiEquals(@RequestParam("doi") String doi, Model model) {
-        model.addAttribute("datasets", Dataset.findDatasetsByDoiEquals(doi).getResultList());
-        return "datasets/list";
-    }
-    
+        
     private String DatasetController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
         String enc = request.getCharacterEncoding();
         if (enc == null) {

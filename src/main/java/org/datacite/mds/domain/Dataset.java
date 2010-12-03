@@ -13,6 +13,8 @@ import javax.persistence.TypedQuery;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.apache.log4j.Logger;
 import org.datacite.mds.validation.constraints.Doi;
 import org.datacite.mds.validation.constraints.MatchDoiPrefix;
 import org.datacite.mds.validation.constraints.MatchDomain;
@@ -32,6 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @MatchDomain
 @Unique(field = "doi")
 public class Dataset {
+    
+    private static Logger log4j = Logger.getLogger(Dataset.class);
 
     @NotNull
     @Doi
@@ -111,4 +115,28 @@ public class Dataset {
         this.entityManager.flush();
         return merged;
     }
+    
+    /**
+     * retrieve a dataset by 
+     * 
+     * @param doi
+     *            of an dataset
+     * @return dataset with the given doi or null if no such dataset
+     *         exists
+     */
+    public static Dataset findDatasetByDoi(String doi) {
+        if (doi == null) {
+            return null;
+        }
+        try {
+            log4j.debug("search for '" + doi + "'");
+            Dataset dataset = findDatasetsByDoiEquals(doi).getSingleResult();
+            log4j.debug("found '" + doi + "'");
+            return dataset;
+        } catch (Exception e) {
+            log4j.debug("no dataset found");
+            return null;
+        }
+    }
+
 }

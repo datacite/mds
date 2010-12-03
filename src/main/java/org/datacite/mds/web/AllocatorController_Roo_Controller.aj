@@ -85,12 +85,7 @@ privileged aspect AllocatorController_Roo_Controller {
         return "allocators/findAllocatorsBySymbolEquals";
     }
     
-    @RequestMapping(params = "find=BySymbolEquals", method = RequestMethod.GET)
-    public String AllocatorController.findAllocatorsBySymbolEquals(@RequestParam("symbol") String symbol, Model model) {
-        model.addAttribute("allocators", Allocator.findAllocatorsBySymbolEquals(symbol).getResultList());
-        return "allocators/list";
-    }
-    
+        
     @RequestMapping(params = { "find=ByNameLike", "form" }, method = RequestMethod.GET)
     public String AllocatorController.findAllocatorsByNameLikeForm(Model model) {
         return "allocators/findAllocatorsByNameLike";
