@@ -16,8 +16,8 @@
     </page:show>
     <c:if test="${not empty metadata}">
         <page:show create="false" delete="false" id="ps_org_datacite_mds_domain_CurrentMetadata" list="false" object="${metadata}" openPane="false" path="/metadatas" update="false" z="user-managed">
-            <field:display field="metadataVersion" id="s_org_datacite_mds_domain_Metadata_metadataVersion" object="${metadata}" z="q359QhWy75D/X5wHZIYOA/OW5TA="/>
-            <field:display date="true" dateTimePattern="${metadata_created_date_format}" field="created" id="s_org_datacite_mds_domain_Metadata_created" object="${metadata}" z="BKwXT4mdovYE+1rLwhIVk/fN+3U="/>
+            <field:display field="metadataVersion" id="s_org_datacite_mds_domain_Metadata_metadataVersion" object="${metadata}" z="user-managed"/>
+            <field:display date="true" dateTimePattern="${metadata_created_date_format}" field="created" id="s_org_datacite_mds_domain_Metadata_created" object="${metadata}" z="user-managed"/>
             <field:simple field="prettyxml" id="s_org_datacite_mds_domain_Metadata_xml" z="user-managed" >
                 <util:highlight lang="xml">
                     ${prettyxml}
