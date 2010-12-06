@@ -4,6 +4,7 @@
     <form:update id="fu_org_datacite_mds_domain_Dataset" modelAttribute="dataset" path="/datasets" z="HBOwCYp6Yo6cFOcgr4ELuyHv6b0=">
         <field:input field="doi" id="c_org_datacite_mds_domain_Dataset_doi" readonly="true" required="true" z="user-managed"/>
         <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
+        <util:comment messageCode="dataset_update_url" />
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Dataset_isActive" z="VG6i4E8PwnhnMZKA2+UzVJ+59M4="/>
         <field:checkbox field="isRefQuality" id="c_org_datacite_mds_domain_Dataset_isRefQuality" z="nzS9Eet3kyELg9PcZ4W4wz9xwWc="/>
         <field:input field="lastLandingPageStatus" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" max="510" min="100" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
