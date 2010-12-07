@@ -1,58 +1,187 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-    xmlns:beans="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:security="http://www.springframework.org/schema/security"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
-	<http auto-config="true" use-expressions="true">
-        <form-login login-processing-url="/resources/j_spring_security_check" login-page="/login" authentication-failure-url="/login?login_error=t"/>
-        <logout logout-url="/resources/j_spring_security_logout"/>
+
+    <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
+		<security:filter-chain-map path-type="regex">
+
+			<security:filter-chain pattern="/(datacentre|doi|metadata|oaisource)(/.*)?" filters="
+			   securityContextPersistenceFilterWithASCFalse,
+			   basicAuthenticationFilter,
+			   basicExceptionTranslationFilter,
+			   filterSecurityInterceptor" />
+
+			<security:filter-chain pattern="/.*" filters=" 
+			   securityContextPersistenceFilterWithASCTrue,
+			   formLogoutFilter,
+			   formLoginFilter,
+			   securityContextHolder,
+			   rememberMeFilter,
+			   formExceptionTranslationFilter,
+			   filterSecurityInterceptor,
+			   switchUserProcessingFilter" />
+
+		</security:filter-chain-map>
+	</bean> 
+
+	<bean id="filterSecurityInterceptor"
+		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="accessDecisionManager" ref="accessDecisionManager"/>
+
+		<property name="securityMetadataSource">
+
+			<security:filter-security-metadata-source>
+                <!-- API -->
+                <security:intercept-url method="GET" pattern="/datacentre/**" access="ROLE_ALLOCATOR" />
+                <security:intercept-url method="PUT" pattern="/datacentre/**" access="ROLE_ALLOCATOR" />
+                <security:intercept-url method="PUT" pattern="/doi/**" access="ROLE_DATACENTRE" />
+                <security:intercept-url method="POST" pattern="/doi/**" access="ROLE_DATACENTRE" />
+                <security:intercept-url method="GET" pattern="/metadata/**" access="ROLE_DATACENTRE" />
+                <security:intercept-url method="PUT" pattern="/metadata/**" access="ROLE_DATACENTRE" />        
+                <security:intercept-url method="DELETE" pattern="/metadata/**" access="ROLE_DATACENTRE" />
+                <security:intercept-url method="GET" pattern="/oaisource/**" access="ROLE_ADMIN,ROLE_DEV" />
+                <security:intercept-url method="PUT" pattern="/oaisource/**" access="ROLE_ADMIN,ROLE_DEV" />
                 
-        <!-- API -->
-        <intercept-url method="GET" pattern="/datacentre/**" access="hasRole('ROLE_ALLOCATOR')" requires-channel="https" />
-        <intercept-url method="PUT" pattern="/datacentre/**" access="hasRole('ROLE_ALLOCATOR')" requires-channel="https" />
-        <intercept-url method="PUT" pattern="/doi/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />
-        <intercept-url method="POST" pattern="/doi/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />
-        <intercept-url method="GET" pattern="/metadata/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />
-        <intercept-url method="PUT" pattern="/metadata/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https" />        
-        <intercept-url method="DELETE" pattern="/metadata/**" access="hasRole('ROLE_DATACENTRE')" requires-channel="https"/>
-        <intercept-url method="GET" pattern="/oaisource/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
-        <intercept-url method="PUT" pattern="/oaisource/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
-                
-        <!-- UI -->
-        <intercept-url pattern="/allocators/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
-        <intercept-url pattern="/datacentres/**" access="hasAnyRole('ROLE_ALLOCATOR','ROLE_DEV')" requires-channel="https" />        
-        <intercept-url pattern="/datasets/**" access="hasAnyRole('ROLE_DATACENTRE','ROLE_DEV')" requires-channel="https" />
-        <intercept-url pattern="/metadatas/**" access="hasAnyRole('ROLE_DATACENTRE','ROLE_DEV')" requires-channel="https" />
-        <intercept-url pattern="/prefixes/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
-        <intercept-url pattern="/oaisourceses/**" access="hasAnyRole('ROLE_ADMIN','ROLE_DEV')" requires-channel="https" />
-        <intercept-url pattern="/userinfo/**" access="isAuthenticated()" requires-channel="https" />
+                <!-- UI -->
+                <security:intercept-url pattern="/allocators/**" access="ROLE_ADMIN,ROLE_DEV" />
+                <security:intercept-url pattern="/datacentres/**" access="ROLE_ALLOCATOR,ROLE_DEV" />        
+                <security:intercept-url pattern="/datasets/**" access="ROLE_DATACENTRE,ROLE_DEV" />
+                <security:intercept-url pattern="/metadatas/**" access="ROLE_DATACENTRE,ROLE_DEV" />
+                <security:intercept-url pattern="/prefixes/**" access="ROLE_ADMIN,ROLE_DEV" />
+                <security:intercept-url pattern="/oaisourceses/**" access="ROLE_ADMIN,ROLE_DEV" />
+                <security:intercept-url pattern="/userinfo/**" access="ROLE_ALLOCATOR,ROLE_DATACENTRE,ROLE_DEV" />
+                                                                        
         
-        <!-- static content -->
-        <intercept-url pattern="/resources/j_spring_security_switch_user" access="hasRole('ROLE_DEV')" requires-channel="https" />
-        <intercept-url pattern="/resources/**" access="permitAll" requires-channel="https" />
-        <intercept-url pattern="/static/**" access="permitAll" requires-channel="https" />
-        <intercept-url pattern="/**" access="permitAll" requires-channel="https" />
-        
-        <remember-me key="MDS"/>
+                <!-- static content -->
+                <security:intercept-url pattern="/resources/j_spring_security_switch_user" access="ROLE_DEV" />
+                <security:intercept-url pattern="/resources/**" />
+                <security:intercept-url pattern="/static/**" />
+		        <security:intercept-url pattern="/**" />
+			</security:filter-security-metadata-source>
 
-    	<custom-filter ref="switchUserProcessingFilter" after="FILTER_SECURITY_INTERCEPTOR" />
-    </http>
+		</property>
+	</bean>	
 
-    <authentication-manager alias="authenticationManager">
-        <authentication-provider user-service-ref='myUserDetailsService'/>
-    </authentication-manager>
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref='myUserDetailsService'/>
+        <security:authentication-provider ref='rememberMeAuthenticationProvider' />
+    </security:authentication-manager>
     
-    <beans:bean id="myUserDetailsService" class="org.datacite.mds.service.impl.UserDetailsServiceImpl" />
+    <bean id="myUserDetailsService" class="org.datacite.mds.service.impl.UserDetailsServiceImpl" />
     
-    <beans:bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">
-        <beans:property name="userDetailsService" ref="myUserDetailsService" />
-        <beans:property name="switchUserUrl" value="/resources/j_spring_security_switch_user" />
-        <beans:property name="exitUserUrl" value="/resources/j_spring_security_exit_user" />
-        <beans:property name="targetUrl" value="/" />
-    </beans:bean>
-    
+    <bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">
+        <property name="userDetailsService" ref="myUserDetailsService" />
+        <property name="switchUserUrl" value="/resources/j_spring_security_switch_user" />
+        <property name="exitUserUrl" value="/resources/j_spring_security_exit_user" />
+        <property name="targetUrl" value="/" />
+    </bean>
 
-</beans:beans>
+	<!-- Don't seem to be able to create one without session?? -->
+	<bean id="securityContextPersistenceFilterWithASCFalse"
+		class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+	</bean>
+
+	<bean id="securityContextPersistenceFilterWithASCTrue"
+		class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+	</bean>		
+
+	<bean id="formLoginFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="rememberMeServices" ref="rememberMeServices"/>
+
+		<property name="authenticationSuccessHandler">
+			<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+				<property name="defaultTargetUrl" value="/" />
+			</bean>
+		</property>
+		<property name="authenticationFailureHandler">
+			<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+				<property name="defaultFailureUrl" value="/login?login_error=t" />
+			</bean>
+		</property>
+
+		<property name="filterProcessesUrl" value="/resources/j_spring_security_check"/>
+	</bean>  
+	
+	<bean id="formLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<constructor-arg value="/"/> <!-- URL redirected to after logout -->
+		<constructor-arg>
+			<list>
+				<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+			</list>
+		</constructor-arg>
+		<property name="filterProcessesUrl" value="/resources/j_spring_security_logout"/>
+	</bean>
+
+	<bean id="formAuthenticationEntryPoint"
+		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<property name="loginFormUrl" value="/login"/>
+		<property name="forceHttps" value="true"/>
+	</bean>		
+
+	<bean id="formExceptionTranslationFilter"
+		class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint" ref="formAuthenticationEntryPoint"/>
+		<property name="accessDeniedHandler" ref="formAccessDeniedHandler"/>
+	</bean>				
+
+	<bean id="formAccessDeniedHandler"
+		class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
+<!--		<property name="errorPage" value="/accessDenied.htm"/> -->
+	</bean>		
+
+	<bean id="basicAuthenticationFilter" 
+		class="org.springframework.security.web.authentication.www.BasicAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="authenticationEntryPoint" ref="basicAuthenticationEntryPoint"/>
+	</bean>	
+
+	<bean id="basicAuthenticationEntryPoint"
+		class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		<property name="realmName" value="api.datacite.org"/>
+	</bean>		
+
+	<bean id="basicExceptionTranslationFilter"
+		class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		<property name="authenticationEntryPoint" ref="basicAuthenticationEntryPoint"/>
+		<property name="accessDeniedHandler" ref="basicAccessDeniedHandler"/>
+	</bean>				
+
+	<bean id="basicAccessDeniedHandler"
+		class="org.datacite.mds.web.api.ApiAccessDeniedHandler">
+	</bean>
+
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<property name="allowIfAllAbstainDecisions" value="false"/>
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.springframework.security.access.vote.RoleVoter" />
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager"/>
+		<property name="rememberMeServices" ref="rememberMeServices"/>
+    </bean>
+
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+		<property name="key" value="MDS"/>
+		<property name="tokenValiditySeconds" value="86400"/> <!-- one day -->
+		<property name="userDetailsService" ref="myUserDetailsService"/>
+	</bean>
+	
+	<bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		<property name="key" value="MDS"/>
+	</bean>
+	
+	<bean id="securityContextHolder" class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter"/>
+
+</beans>

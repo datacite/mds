@@ -41,11 +41,9 @@
       <c:out value=" | "/>
     </sec:authorize>
     
-    
-  
-  <c:if test="${pageContext['request'].userPrincipal != null}">
-    <sec:authentication property="principal.username" var="username"/>
-    <spring:message code="security_logged_in_as" arguments="${username}"/>
+  <sec:authentication property="principal" var="user"/>
+  <c:if test="${! empty user}">
+    <spring:message code="security_logged_in_as" arguments="${user.username}"/>
     <c:out value=" | "/>
     <span>
       <spring:url value="/userinfo" var="userinfo"/>
@@ -62,7 +60,7 @@
     </span>
   </c:if>
 
-  <c:if test="${pageContext['request'].userPrincipal == null}">
+  <c:if test="${empty user}">
     <spring:message code="security_not_logged_in"/>
     <c:out value=" | "/>
     <span>
