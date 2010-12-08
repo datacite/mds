@@ -17,7 +17,7 @@ my $DEFAULT_USER_PW   = '12345678';
 my %opts;             #Getopt::Std
 
 sub main() {
-  getopts("hlnp:u:v", \%opts) or pod2usage();
+  getopts("hlnp:su:v", \%opts) or pod2usage();
   pod2usage() if $opts{h};
 
   my ($resource, $method, $query, $content, $content_type);
@@ -92,16 +92,28 @@ sub do_request {
   # pass request to the user agent and get a response back
   my $res = $ua->request($req);
 
-  # output response
+  # output request/response
   if ($opts{v}) {
-    say $req->as_string();
-    say $res->as_string();
+    say STDERR "== REQUEST ==";
+    say STDERR $req->method . " " . $req->uri->as_string();
+    say STDERR $req->headers_as_string();
+    say STDERR shorten($req->content) if $req->content;
+    say STDERR "\n== RESPONSE ==";
   }
-  else {
-    say $res->status_line;
-    say $res->content;
-  }
+  say STDERR $res->status_line;
+  say STDERR $res->headers_as_string() if $opts{v};
+  say shorten($res->content) if $res->content;
+  
+}
 
+
+sub shorten {
+  my ($txt) = @_;
+  return $txt unless $opts{s};
+  my @rows = split "\n", $txt;
+  my $rows = scalar(@rows);
+  my $size = length($txt);
+  return "+++ body: $rows rows, $size chars; first 60 characters:\n+++ " . substr("@rows",0,60);
 }
 
 main();
@@ -120,6 +132,7 @@ __END__
    -h          - prints this help
    -l          - use a local test server
    -n          - no credentials (only for testing)
+   -s          - short output (truncate request/response body)
    -u <symbol> - username (defaults to value specified in the script)
    -v          - verbose (display complete request and response)
 
