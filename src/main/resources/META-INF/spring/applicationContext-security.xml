@@ -44,6 +44,7 @@
                 <security:intercept-url method="PUT" pattern="/doi/**" access="ROLE_DATACENTRE" />
                 <security:intercept-url method="POST" pattern="/doi/**" access="ROLE_DATACENTRE" />
                 <security:intercept-url method="GET" pattern="/metadata/**" access="ROLE_DATACENTRE" />
+                <security:intercept-url method="POST" pattern="/metadata/**" access="ROLE_DATACENTRE" />        
                 <security:intercept-url method="PUT" pattern="/metadata/**" access="ROLE_DATACENTRE" />        
                 <security:intercept-url method="DELETE" pattern="/metadata/**" access="ROLE_DATACENTRE" />
                 <security:intercept-url method="GET" pattern="/oaisource/**" access="ROLE_ADMIN,ROLE_DEV" />
