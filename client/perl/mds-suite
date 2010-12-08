@@ -5,18 +5,19 @@ use Switch;
 use Getopt::Std;
 use Pod::Usage;
 use LWP;
+use URI;
 use Crypt::SSLeay;    # SSL for LWP
 use Term::ReadKey;    # for password reading
 
-my $SERVER_DOMAIN          = 'localhost:8443';
-my $SERVER_RESOURCE_PREFIX = 'mds/';
-my $SERVER_REALM           = 'api.datacite.org';
-my $DEFAULT_USER_NAME      = 'TEST.TEST';
-my $DEFAULT_USER_PW        = '12345678';
+my $GLOBAL_SERVER     = 'api.datacite.org';
+my $LOCAL_SERVER      = 'localhost:8443/mds';
+my $SERVER_REALM      = 'api.datacite.org';
+my $DEFAULT_USER_NAME = 'TEST.TEST';
+my $DEFAULT_USER_PW   = '12345678';
 my %opts;             #Getopt::Std
 
 sub main() {
-  getopts("hnp:u:v", \%opts) or pod2usage();
+  getopts("hlnp:u:v", \%opts) or pod2usage();
   pod2usage() if $opts{h};
 
   my ($resource, $method, $query, $content, $content_type);
@@ -48,10 +49,14 @@ sub main() {
       $content = "@content";
       chomp $content;
   }
+  
   my $user_name = $opts{u} || $DEFAULT_USER_NAME;
   my $user_pw = $opts{p} || ($opts{u} ? read_pw() : $DEFAULT_USER_PW);
+
+  my $domain = $opts{l} ? $LOCAL_SERVER : $GLOBAL_SERVER;
+
   do_request($method,
-    "https://$SERVER_DOMAIN/$SERVER_RESOURCE_PREFIX$resource$query",
+    "https://$domain/$resource$query",
     $user_name, $user_pw, $content, $content_type);
 }
 
@@ -66,11 +71,12 @@ sub read_pw {
 
 sub do_request {
   my ($method, $url, $user_name, $user_pw, $content, $content_type) = @_;
-
   # build user agent (with credentials)
   my $ua = LWP::UserAgent->new;
   if (!$opts{n}) {
-    $ua->credentials($SERVER_DOMAIN, $SERVER_REALM, $user_name, $user_pw);
+    my $uri = URI->new($url);
+    my $host = $uri->host() . ':' . $uri->port(); #neede for ua->credentials syntax
+    $ua->credentials($host, $SERVER_REALM, $user_name, $user_pw);
   }
 
   # build request
@@ -112,6 +118,7 @@ __END__
 
  Options:
  -h          - prints this help
+ -l          - use a local test server
  -n          - no credentials (only for testing)
  -u <symbol> - username (defaults to value specified in the script)
  -v          - verbose (display complete request and response)
