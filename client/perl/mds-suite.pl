@@ -5,13 +5,11 @@ use Switch;
 use Getopt::Std;
 use Pod::Usage;
 use LWP;
-use URI;
 use Crypt::SSLeay;    # SSL for LWP
 use Term::ReadKey;    # for password reading
 
 my $GLOBAL_SERVER     = 'api.datacite.org';
 my $LOCAL_SERVER      = 'localhost:8443/mds';
-my $SERVER_REALM      = 'api.datacite.org';
 my $DEFAULT_USER_NAME = 'TEST.TEST';
 my $DEFAULT_USER_PW   = '12345678';
 my %opts;             #Getopt::Std
@@ -71,13 +69,6 @@ sub read_pw {
 
 sub do_request {
   my ($method, $url, $user_name, $user_pw, $content, $content_type) = @_;
-  # build user agent (with credentials)
-  my $ua = LWP::UserAgent->new;
-  if (!$opts{n}) {
-    my $uri = URI->new($url);
-    my $host = $uri->host() . ':' . $uri->port(); #neede for ua->credentials syntax
-    $ua->credentials($host, $SERVER_REALM, $user_name, $user_pw);
-  }
 
   # build request
   my $headers = HTTP::Headers->new(
@@ -88,8 +79,10 @@ sub do_request {
     $method => $url,
     $headers, $content
   );
+  $req->authorization_basic($user_name, $user_pw) unless $opts{n};
 
   # pass request to the user agent and get a response back
+  my $ua = LWP::UserAgent->new;
   my $res = $ua->request($req);
 
   # output request/response
