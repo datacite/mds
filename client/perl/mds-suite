@@ -117,17 +117,16 @@ __END__
  mds-suite [options] <command> 
 
  Options:
- -h          - prints this help
- -l          - use a local test server
- -n          - no credentials (only for testing)
- -u <symbol> - username (defaults to value specified in the script)
- -v          - verbose (display complete request and response)
+   -h          - prints this help
+   -l          - use a local test server
+   -n          - no credentials (only for testing)
+   -u <symbol> - username (defaults to value specified in the script)
+   -v          - verbose (display complete request and response)
 
  Commands:
- doi <method>
- metadata <method> <doi> [<url>]
- generic <method> <resource>
+   doi <method>
+   metadata <method> <doi> [<url>]
  
- The body of http POST and PULL requests are read from stdin  
-   
+   [ generic <method> <resource/params> ]
  
+ The body of an http POST/PULL request is read from stdin
