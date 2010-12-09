@@ -12,16 +12,23 @@
     dojo.require("dijit.layout.ContentPane");
 
     dojo.addOnLoad(function() {
+        var first_tab;
         dojo.query("#${id} > div").forEach(function(node) {
-            new dijit.layout.ContentPane({
-                title: dojo.attr(node, "title")
+            var cp = new dijit.layout.ContentPane({
+                title: dojo.attr(node, "title"),
             }, node);
+            if (! first_tab ) {
+                first_tab = cp;
+            }
         });
-        
+
         var tc = new dijit.layout.TabContainer({
             style: dojo.attr("${id}", "style")
         }, "${id}");
         tc.startup();
+        dojo.removeClass(first_tab.id, "dijitHidden");
+        // workaround for the first_tab being selected but not shown on startup
+        // this might be a bug in dojo 
     });
   </script>
 
