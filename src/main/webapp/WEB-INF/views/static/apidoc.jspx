@@ -137,6 +137,9 @@ empty
 try later and if problem persists please contact us
 </p> 
 <h4>Python example</h4> 	
+
+<util:tabs id="script_metadata_get">
+<div title="python">
 <util:highlight lang="python">
 <![CDATA[
 import httplib2, sys, base64
@@ -158,6 +161,36 @@ if (response.status != 200):
 print(content.decode('utf-8'))
 ]]>
 </util:highlight>
+</div>
+<div title="perl">
+<util:highlight lang="perl">
+<![CDATA[
+use strict;
+use LWP;
+use Crypt::SSLeay;    # SSL for LWP
+
+my $endpoint = 'https://api.datacite.org/metadata'
+
+my ($user_name, $user_pass, $doi) = @ARGV 
+  or die('Please provide username, password and doi'); 
+
+my $request = HTTP::Request->new(
+  GET => "$endpoint?doi=$doi",
+  HTTP::Headers->new(
+    Accept         => 'application/xml',
+  ),
+);
+$request->authorization_basic($user_name, $user_pass);
+
+my $user_agent = LWP::UserAgent->new;
+my $response   = $user_agent->request($request);
+
+print STDERR $response->status_line . "\n";
+print $response->content;
+]]>
+</util:highlight>
+</div>
+</util:tabs>
 
 <h3>POST</h3>
 <p>This request creates a dataset and stores the first version of metadata. The request body must contain valid XML. There is a request parameter doi. If optional parameter url exists, a DOI will be minted.</p>
