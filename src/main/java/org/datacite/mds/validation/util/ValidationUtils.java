@@ -70,6 +70,13 @@ public class ValidationUtils {
     
         return true;
     }
+    
+    public static <T> String getFirstViolationMessage(T object) {
+        for (ConstraintViolation<T> violation : getValidator().validate(object)) {
+            return violation.getMessage();
+        }
+        return null;
+    }
 
     public static void addConstraintViolation(ConstraintValidatorContext context, String message, String node) {
         context.buildConstraintViolationWithTemplate(message).addNode(node).addConstraintViolation();
