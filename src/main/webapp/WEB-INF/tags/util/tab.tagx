@@ -1,0 +1,8 @@
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+  <jsp:directive.attribute name="title" type="java.lang.String" required="true" description="title of tab" />
+
+  <div title="${title}">
+    <jsp:doBody/>
+  </div>
+</jsp:root>

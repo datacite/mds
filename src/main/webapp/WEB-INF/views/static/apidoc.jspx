@@ -139,7 +139,7 @@ try later and if problem persists please contact us
 <h4>Python example</h4> 	
 
 <util:tabs id="script_metadata_get">
-<div title="python">
+<util:tab title="python">
 <util:highlight lang="python">
 <![CDATA[
 import httplib2, sys, base64
@@ -161,8 +161,8 @@ if (response.status != 200):
 print(content.decode('utf-8'))
 ]]>
 </util:highlight>
-</div>
-<div title="perl">
+</util:tab>
+<util:tab title="perl">
 <util:highlight lang="perl">
 <![CDATA[
 use strict;
@@ -189,7 +189,7 @@ print STDERR $response->status_line . "\n";
 print $response->content;
 ]]>
 </util:highlight>
-</div>
+</util:tab>
 </util:tabs>
 
 <h3>POST</h3>
