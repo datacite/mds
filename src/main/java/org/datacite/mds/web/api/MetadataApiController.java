@@ -103,7 +103,7 @@ public class MetadataApiController implements ApiController {
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
-        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
+        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (HandleException e) {
         	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);        	
         }
