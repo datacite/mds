@@ -34,6 +34,11 @@ sub main() {
       $resource = 'doi';
       $content_type = 'text/plain;charset=UTF-8';
       $method = uc shift @ARGV or pod2usage("missing method");
+      my $doi = shift @ARGV or pod2usage("missing doi (or '-')");
+      if ($doi ne "-") { 
+        my $url = shift @ARGV or pod2usage("missing url");
+        $content = "$doi\n$url";
+      }
     }
     case "generic" {
       $method = uc shift @ARGV or pod2usage("missing method");
@@ -42,7 +47,7 @@ sub main() {
     else { pod2usage("unknown command '$command'"); }
   }
   
-  if ($method =~ "POST|PUT") {
+  if (!$content and $method =~ "POST|PUT") {
       my @content = <>;
       $content = "@content";
       chomp $content;
@@ -130,9 +135,11 @@ __END__
    -v          - verbose (display complete request and response)
 
  Commands:
-   doi <method>
+   doi <method> (<doi> <url> | '-')
    metadata <method> <doi> [<url>]
  
    [ generic <method> <resource/params> ]
  
- The body of an http POST/PULL request is read from stdin
+ The body of an http POST/PUT request is read from stdin. 
+ For 'doi put/post' the request body is build from commandline params,
+ unless you set '-' (=read from stdin) as doi param.  
