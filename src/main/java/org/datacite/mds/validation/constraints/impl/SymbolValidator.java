@@ -37,7 +37,7 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
     boolean isMalformed(String symbol, ConstraintValidatorContext context) {
         for (Type t : types) {
-            if (Symbol.PATTERNS.get(t).matcher(symbol).matches()) {
+            if (Symbol.PATTERNS.get(t).matcher(symbol).matches() && symbol.indexOf("--") == -1) {
                 //check against the pattern for each given type 
                 return false;
             } else {

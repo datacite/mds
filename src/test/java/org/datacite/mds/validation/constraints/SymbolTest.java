@@ -2,7 +2,6 @@ package org.datacite.mds.validation.constraints;
 
 // TODO test for parameter hasToExist
 
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -12,9 +11,10 @@ import org.junit.Test;
 
 public class SymbolTest {
 
-    String[] allowAllocator = { "AB", "ABCDEFGH" };
-    String[] allowDatacentre = { "ABC.DE", "ABCDEF.AAA" };
-    String[] disallow = { "A", "ABCDEFGHI", "AB.C", "AB.CDEFHIJKL", "abcde", "abc.def" };
+    String[] allowAllocator = { "AB", "ABCDEFGH", "AB-CD" };
+    String[] allowDatacentre = { "ABC.DE", "ABCDEF.AAA", "AB.CD-EF", "AB-CD.EF-GH" };
+    String[] disallow = { "A", "ABCDEFGHI", "AB.C", "AB.CDEFHIJKL", "abcde", "abc.def", "AB-", "-AB", "A--B", "AB.-C",
+            "AB.C-", "AB.C--D" };
 
     @Symbol(Symbol.Type.ALLOCATOR)
     String symbolAllocator;

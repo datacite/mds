@@ -55,8 +55,10 @@ public @interface Symbol {
 
     static final HashMap<Type, Pattern> PATTERNS = new HashMap<Type, Pattern>() {
         {
-            put(Type.ALLOCATOR, Pattern.compile("[A-Z]{2,8}"));
-            put(Type.DATACENTRE, Pattern.compile("[A-Z]{2,8}\\.[A-Z]{2,8}"));
+            // prohibition of "--" is realized in SymbolValidator.java
+            String symbol = "[A-Z][A-Z\\-]{0,6}[A-Z]"; 
+            put(Type.ALLOCATOR, Pattern.compile(symbol));
+            put(Type.DATACENTRE, Pattern.compile(symbol + "\\." + symbol));
         }
     };
 
