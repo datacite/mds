@@ -65,18 +65,22 @@ public class MetadataApiController implements ApiController {
         headers.setContentType(MediaType.APPLICATION_XML);
         return new ResponseEntity<Object>(metadata.getXml(), headers, HttpStatus.OK);
     }
-
-    @RequestMapping(value = "metadata", method = RequestMethod.PUT, headers = { "Content-Type=application/xml;charset=UTF-8" })
-        public ResponseEntity<String> update(@RequestBody String body, 
+    
+//    @RequestMapping(value = "metadata", method = { RequestMethod.PUT }, headers = { "Content-Type=application/xml;charset=UTF-8" })
+    @RequestMapping(value = "metadata", method = { RequestMethod.PUT, RequestMethod.POST }, headers = { "Content-Type=application/xml;charset=UTF-8" })
+        public ResponseEntity<String> createOrUpdate(@RequestBody String body, 
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 
-                                             @RequestParam(required = false) Boolean testMode) {
+                                             @RequestParam(required = false) Boolean testMode,
+                                             HttpServletRequest httpRequest) {
 
+        String method = httpRequest.getMethod();
+        String logPrefix = "*****" + method + " metadata: ";
         if (testMode == null)
             testMode = false;
         HttpHeaders headers = new HttpHeaders();
 
-        log4j.debug("*****PUT metadata: " + doi + ", url: " + url + " \ntestMode = " + testMode);
+        log4j.debug(logPrefix + doi + ", url: " + url + " \ntestMode = " + testMode);
 
         Metadata metadata = new Metadata();
         try {
@@ -91,7 +95,11 @@ public class MetadataApiController implements ApiController {
         Dataset dataset;
 
         try {
-            dataset = doiService.update(doi, url, testMode);
+            if (method.equals("POST")) {
+                dataset = doiService.create(doi, url, testMode);
+            } else { // PUT
+                dataset = doiService.update(doi, url, testMode);
+            }
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
@@ -100,56 +108,16 @@ public class MetadataApiController implements ApiController {
         	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);        	
         }
 
-        log4j.debug("*****PUT metadata: dataset found, id = " + dataset.getId());
+        log4j.debug(logPrefix + "dataset id = " + dataset.getId());
         metadata.setDataset(dataset);
         if (!testMode) {
-            log4j.debug("*****PUT metadata: persisting XML");
+            log4j.debug(logPrefix + "persisting XML");
             metadata.persist();
         }
 
         return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "metadata", method = RequestMethod.POST, headers = { "Content-Type=application/xml;charset=UTF-8" })
-        public ResponseEntity<String> create(@RequestBody String body, 
-                                             @RequestParam String doi,
-                                             @RequestParam(required = false) String url, 
-                                             @RequestParam(required = false) Boolean testMode) {
-        log4j.debug("*****POST metadata: " + doi + ", url: " + url + " \ntestMode = " + testMode);
-
-        if (testMode == null)
-            testMode = false;
-
-        HttpHeaders headers = new HttpHeaders();
-
-        Metadata metadata = new Metadata();
-        try {
-            metadata.setXml(body.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        if (!org.datacite.mds.validation.util.ValidationUtils.isValid(metadata, org.datacite.mds.validation.constraints.ValidXML.class))
-            return new ResponseEntity<String>("XML is not valid", headers, HttpStatus.BAD_REQUEST);
-        
-        Dataset dataset;
-        try {
-            dataset = doiService.create(doi, url, testMode);
-        } catch (SecurityException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
-        } catch (HandleException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        
-        log4j.debug("*****POST metadata: dataset create id = " + dataset.getId());
-        metadata.setDataset(dataset);
-        if (!testMode) {
-            log4j.debug("*****POST metadata: persisting XML");
-            metadata.persist();
-        }
-        
-        return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
-    }
 
     @RequestMapping(value = "metadata", method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam String doi,
