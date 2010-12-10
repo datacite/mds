@@ -56,7 +56,7 @@ public class MetadataApiController implements ApiController {
         }
 
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
-            return new ResponseEntity<String>("cannot retrieve metadata  which belongs to another party", headers, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<String>("cannot retrieve metadata which belongs to another party", headers, HttpStatus.FORBIDDEN);
 
         if (!dataset.getIsActive())
             return new ResponseEntity<String>("dataset inactive", headers, HttpStatus.GONE);
