@@ -1,14 +1,8 @@
 package org.datacite.mds.web.util;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
-import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Allocator;
-import org.datacite.mds.domain.Prefix;
+import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.SecurityException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -91,76 +85,6 @@ public class SecurityUtils {
             log4j.info(message);
             throw new SecurityException(message);
         }
-    }
-
-    /**
-     * Checks if 3 conditions are met: (1) DOI has prefix belonging to the
-     * Datacentre (2) URL is a valid URL (3) domain in URL is on Datacentre's
-     * allowed list
-     * 
-     * @param doi
-     * @param url
-     * @param datacentre
-     * @throws ForbiddenException
-     *             if any condition not met
-     */
-    public static void checkRestrictions(String doi, String urlString, Datacentre datacentre) throws SecurityException {
-        log4j.debug("checking restrictions for " + doi);
-        // prefix test
-        if (doi != null && !doi.equals("")) {
-            Set<Prefix> prefixes = datacentre.getPrefixes();
-            boolean didMatchedSome = false;
-            for (Prefix prefix : prefixes) {
-                if (doi.startsWith(prefix.getPrefix())) {
-                    didMatchedSome = true;
-                    break;
-                }
-            }
-
-            if (!didMatchedSome) {
-                String message = "DOI's prefix not assigned to this datacentre: " + doi + ", " + datacentre.getSymbol();
-                log4j.info(message);
-                throw new SecurityException(message);
-            }
-        }
-        log4j.debug("DOI prefix: OK");
-
-        // URL test
-        if (urlString == null || urlString.equals("") || urlString.length() < 10) {
-            String message = "Empty or bad URL: " + urlString;
-            log4j.warn(message);
-            throw new SecurityException(message);
-        }
-
-        URL url = null;
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-            String message = "Malformed URL: " + url;
-            log4j.warn(message);
-            throw new SecurityException(message);
-        }
-        log4j.debug("URL: OK");
-
-        // domain test
-        String host = url.getHost();
-        String[] domains = datacentre.getDomains().split(",");
-        boolean didMatchedSome = false;
-        for (String domain : domains) {
-            if (host.toUpperCase().endsWith(domain.toUpperCase())) {
-                didMatchedSome = true;
-                break;
-            }
-        }
-
-        if (!didMatchedSome) {
-            String message = "URL with domain not assigned to this datacentre: " + host;
-            log4j.warn(message);
-            throw new SecurityException(message);
-        }
-        log4j.debug("Domain: OK");
-
-        log4j.debug("All checks are OK");
     }
 
     /**

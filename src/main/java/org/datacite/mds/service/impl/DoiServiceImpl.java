@@ -10,6 +10,7 @@ import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.validation.util.ValidationUtils;
 import org.datacite.mds.web.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,23 +24,27 @@ public class DoiServiceImpl implements DoiService {
     HandleService handleService;
 
     public Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException {
-        Datacentre datacentre = preliminaryCheck(doi, url);
-
-        Dataset dataset = null;
-        log4j.debug("trying handle registration: " + doi);
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
         
+        SecurityUtils.checkQuota(datacentre);
+
+        Dataset dataset = new Dataset();
+        dataset.setDatacentre(datacentre);
+        dataset.setDoi(doi);
+        dataset.setUrl(url);
+        
+        String violationMessage = ValidationUtils.getFirstViolationMessage(dataset);
+        if (violationMessage != null ) {
+            throw new SecurityException(violationMessage);
+        }
+        
+        log4j.debug("trying handle registration: " + doi);
         if (!testMode && url != null && !"".equals(url)){
             handleService.create(doi, url);
         } else
             log4j.debug("TEST MODE or empty URL- minting skipped");
 
         datacentre.incQuotaUsed();
-
-        dataset = new Dataset();
-        dataset.setDatacentre(datacentre);
-        dataset.setDoi(doi);
-        dataset.setIsActive(true);
-        dataset.setLastMetadataStatus("ABSENT"); // TODO refactor - use enum
 
         if (!testMode) {
             dataset.persist();
@@ -52,7 +57,8 @@ public class DoiServiceImpl implements DoiService {
     }
 
     public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException {
-        Datacentre datacentre = preliminaryCheck(doi, url);
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
+
         Dataset dataset = null;
         try {
             dataset = (Dataset) Dataset.findDatasetsByDoiEquals(doi).getSingleResult();
@@ -62,6 +68,12 @@ public class DoiServiceImpl implements DoiService {
             String message = "more then one row for: " + doi;
             log4j.error(message, e);
             throw new RuntimeException(message, e);
+        }
+        dataset.setUrl(url);
+        
+        String violationMessage = ValidationUtils.getFirstViolationMessage(dataset);
+        if (violationMessage != null ) {
+            throw new SecurityException(violationMessage);
         }
 
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol())) {
@@ -78,16 +90,5 @@ public class DoiServiceImpl implements DoiService {
         }
 
         return dataset;
-    }
-
-    private Datacentre preliminaryCheck(String doi, String url) throws SecurityException {
-        Datacentre datacentre = null;
-
-        datacentre = SecurityUtils.getCurrentDatacentreWithException();
-        SecurityUtils.checkQuota(datacentre);
-        if (url != null && !"".equals(url)) {
-            SecurityUtils.checkRestrictions(doi, url, datacentre);
-        }
-        return datacentre;
     }
 }
