@@ -1,5 +1,7 @@
 package org.datacite.mds.web.api;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
@@ -23,35 +25,9 @@ public class DoiApiController implements ApiController {
     @Autowired
     DoiService doiService;
 
-    @RequestMapping(value = "doi", method = RequestMethod.POST, headers = { "Content-Type=text/plain;charset=UTF-8" })
-    public ResponseEntity<String> mint(@RequestBody String body, @RequestParam(required = false) Boolean testMode) {
-        if (testMode == null)
-            testMode = false;
-
-        HttpHeaders headers = new HttpHeaders();
-
-        if (body.indexOf("\n") == -1 || body.indexOf("\n") != body.lastIndexOf("\n"))
-        	return new ResponseEntity<String>("request body must contain exactly two lines: DOI and URL", headers, 
-        	        HttpStatus.BAD_REQUEST);
-        
-        String doi = body.substring(0, body.indexOf("\n"));
-        String url = body.substring(body.indexOf("\n")+1, body.length());
-
-        log4j.debug("*****POST doi: " + doi + ", url: " + url + " \ntestMode = " + testMode);
-        
-        try {
-            doiService.create(doi, url, testMode);
-        } catch (SecurityException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
-        } catch (HandleException e) {
-        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
-         }
-        
-        return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "doi", method = RequestMethod.PUT, headers = { "Content-Type=text/plain;charset=UTF-8" })
-    public ResponseEntity<String> update(@RequestBody String body, @RequestParam(required = false) Boolean testMode) {
+    @RequestMapping(value = "doi", method = { RequestMethod.PUT, RequestMethod.POST }, headers = { "Content-Type=text/plain;charset=UTF-8" })
+    public ResponseEntity<String> createOrUpdate(@RequestBody String body, @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest) {
+        String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;
         HttpHeaders headers = new HttpHeaders();
@@ -63,10 +39,14 @@ public class DoiApiController implements ApiController {
         String doi = body.substring(0, body.indexOf("\n"));
         String url = body.substring(body.indexOf("\n")+1, body.length());
 
-        log4j.debug("*****PUT doi: " + doi + ", url: " + url + " \ntestMode = " + testMode);
+        log4j.debug("*****" + method + " doi: " + doi + ", url: " + url + " \ntestMode = " + testMode);
 
         try {
-            doiService.update(doi, url, testMode);
+            if (method.equals("POST")) {
+                doiService.create(doi, url, testMode);
+            } else { // PUT
+                doiService.update(doi, url, testMode);
+            }
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
@@ -75,6 +55,6 @@ public class DoiApiController implements ApiController {
         	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);        	
         }
 
-        return new ResponseEntity<String>("OK", headers, HttpStatus.OK);
+        return new ResponseEntity<String>("OK", headers, method.equals("POST") ? HttpStatus.CREATED : HttpStatus.OK);
     }
 }
