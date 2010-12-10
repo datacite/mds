@@ -34,9 +34,11 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
         // if hibernate persists the object the entityManager is not injected,
         // so we always return true.
-        if (entityManager == null)
+        if (entityManager == null) {
+            log.debug("entityManager not injected");
             return true;
-
+        }
+        
         Serializable id, value;
         try {
             id = (Serializable) PropertyUtils.getProperty(entity, idField);
