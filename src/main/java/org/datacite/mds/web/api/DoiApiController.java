@@ -21,23 +21,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DoiApiController implements ApiController {
 
     private static Logger log4j = Logger.getLogger(DoiApiController.class);
-    
+
     @Autowired
     DoiService doiService;
 
     @RequestMapping(value = "doi", method = { RequestMethod.PUT, RequestMethod.POST }, headers = { "Content-Type=text/plain;charset=UTF-8" })
-    public ResponseEntity<String> createOrUpdate(@RequestBody String body, @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest) {
+    public ResponseEntity<String> createOrUpdate(@RequestBody String body,
+            @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest) {
         String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;
         HttpHeaders headers = new HttpHeaders();
 
         if (body.indexOf("\n") == -1 || body.indexOf("\n") != body.lastIndexOf("\n"))
-        	return new ResponseEntity<String>("request body must contain exactly two lines: DOI and URL", headers, 
-        	        HttpStatus.BAD_REQUEST);
-        
+            return new ResponseEntity<String>("request body must contain exactly two lines: DOI and URL", headers,
+                    HttpStatus.BAD_REQUEST);
+
         String doi = body.substring(0, body.indexOf("\n"));
-        String url = body.substring(body.indexOf("\n")+1, body.length());
+        String url = body.substring(body.indexOf("\n") + 1, body.length());
 
         log4j.debug("*****" + method + " doi: " + doi + ", url: " + url + " \ntestMode = " + testMode);
 
@@ -50,9 +51,9 @@ public class DoiApiController implements ApiController {
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
-        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
         } catch (HandleException e) {
-        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);        	
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<String>("OK", headers, method.equals("POST") ? HttpStatus.CREATED : HttpStatus.OK);

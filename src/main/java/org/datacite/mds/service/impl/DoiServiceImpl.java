@@ -22,21 +22,21 @@ public class DoiServiceImpl implements DoiService {
 
     public Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
-        
+
         SecurityUtils.checkQuota(datacentre);
 
         Dataset dataset = new Dataset();
         dataset.setDatacentre(datacentre);
         dataset.setDoi(doi);
         dataset.setUrl(url);
-        
+
         String violationMessage = ValidationUtils.getFirstViolationMessage(dataset);
-        if (violationMessage != null ) {
+        if (violationMessage != null) {
             throw new SecurityException(violationMessage);
         }
-        
+
         log4j.debug("trying handle registration: " + doi);
-        if (!testMode && url != null && !"".equals(url)){
+        if (!testMode && url != null && !"".equals(url)) {
             handleService.create(doi, url);
         } else
             log4j.debug("TEST MODE or empty URL- minting skipped");
@@ -49,21 +49,21 @@ public class DoiServiceImpl implements DoiService {
         } else {
             log4j.debug("TEST MODE - registration skipped");
         }
-        
+
         return dataset;
     }
 
     public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
 
-        Dataset dataset =  Dataset.findDatasetByDoi(doi);
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null) {
             throw new SecurityException("DOI doesn't exist");
         }
         dataset.setUrl(url);
-        
+
         String violationMessage = ValidationUtils.getFirstViolationMessage(dataset);
-        if (violationMessage != null ) {
+        if (violationMessage != null) {
             throw new SecurityException(violationMessage);
         }
 
@@ -73,7 +73,7 @@ public class DoiServiceImpl implements DoiService {
             throw new SecurityException(message);
         }
 
-        if (!testMode && url != null && !"".equals(url)){
+        if (!testMode && url != null && !"".equals(url)) {
             handleService.update(doi, url);
             log4j.debug("doi update: " + doi + " successful");
         } else {
