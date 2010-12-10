@@ -48,12 +48,9 @@ public class MetadataApiController implements ApiController {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } 
         
-        Dataset dataset;
-        try {
-            dataset = Dataset.findDatasetsByDoiEquals(doi).getSingleResult();
-        } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
-        }
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        if (dataset == null)
+            return new ResponseEntity<String>("DOI doesn't exist", headers, HttpStatus.NOT_FOUND);
 
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
             return new ResponseEntity<String>("cannot retrieve metadata which belongs to another party", headers, HttpStatus.FORBIDDEN);
@@ -141,7 +138,7 @@ public class MetadataApiController implements ApiController {
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (HandleException e) {
-        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
         log4j.debug("*****POST metadata: dataset create id = " + dataset.getId());
