@@ -1,8 +1,5 @@
 package org.datacite.mds.service.impl;
 
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
-
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -59,15 +56,9 @@ public class DoiServiceImpl implements DoiService {
     public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
 
-        Dataset dataset = null;
-        try {
-            dataset = (Dataset) Dataset.findDatasetsByDoiEquals(doi).getSingleResult();
-        } catch (NoResultException e) {
+        Dataset dataset =  Dataset.findDatasetByDoi(doi);
+        if (dataset == null) {
             throw new SecurityException("DOI doesn't exist");
-        } catch (NonUniqueResultException e) {
-            String message = "more then one row for: " + doi;
-            log4j.error(message, e);
-            throw new RuntimeException(message, e);
         }
         dataset.setUrl(url);
         
