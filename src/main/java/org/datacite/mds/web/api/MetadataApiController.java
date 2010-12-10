@@ -11,6 +11,7 @@ import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.validation.util.ValidationUtils;
 import org.datacite.mds.web.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -84,8 +85,11 @@ public class MetadataApiController implements ApiController {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
    
-        if (!org.datacite.mds.validation.util.ValidationUtils.isValid(metadata, org.datacite.mds.validation.constraints.ValidXML.class))
-            return new ResponseEntity<String>("XML is not valid", headers, HttpStatus.BAD_REQUEST);
+        metadata.setDataset(new Dataset());
+        String violationMessage = ValidationUtils.getFirstViolationMessage(metadata);
+        if (violationMessage != null) {
+            return new ResponseEntity<String>(violationMessage, headers, HttpStatus.FORBIDDEN);
+        }
         
         Dataset dataset;
 
