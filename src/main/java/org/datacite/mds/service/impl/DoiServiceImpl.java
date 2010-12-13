@@ -7,8 +7,8 @@ import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
-import org.datacite.mds.validation.util.ValidationUtils;
-import org.datacite.mds.web.util.SecurityUtils;
+import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

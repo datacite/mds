@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.validation.util.ValidationUtils;
+import org.datacite.mds.util.ValidationUtils;
 import org.junit.Before;
 import org.junit.Test;
 

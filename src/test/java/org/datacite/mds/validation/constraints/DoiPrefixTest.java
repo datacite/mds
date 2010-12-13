@@ -2,7 +2,7 @@ package org.datacite.mds.validation.constraints;
 
 import static org.junit.Assert.*;
 
-import org.datacite.mds.validation.util.ValidationUtils;
+import org.datacite.mds.util.ValidationUtils;
 import org.junit.Test;
 
 public class DoiPrefixTest {

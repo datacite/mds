@@ -1,8 +1,9 @@
-package org.datacite.mds.validation.util;
+package org.datacite.mds.util;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.datacite.mds.util.ValidationUtils;
 import org.junit.Test;
 
 public class ValidationUtilsTest {

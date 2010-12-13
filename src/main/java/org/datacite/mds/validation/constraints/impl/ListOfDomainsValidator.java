@@ -4,8 +4,8 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 import org.datacite.mds.util.Utils;
+import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.ListOfDomains;
-import org.datacite.mds.validation.util.ValidationUtils;
 
 public class ListOfDomainsValidator implements ConstraintValidator<ListOfDomains, String> {
 

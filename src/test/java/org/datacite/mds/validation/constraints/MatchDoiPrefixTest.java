@@ -8,7 +8,7 @@ import java.util.Set;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
-import org.datacite.mds.validation.util.ValidationUtils;
+import org.datacite.mds.util.ValidationUtils;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 import java.util.Date;
 
+import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.api.ApiController;
-import org.datacite.mds.web.util.SecurityUtils;
 import org.datacite.mds.service.SecurityException;
 import javax.persistence.NoResultException;
 

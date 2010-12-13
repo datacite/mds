@@ -11,8 +11,8 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
+import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.Unique;
-import org.datacite.mds.validation.util.ValidationUtils;
 
 public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 

@@ -1,4 +1,4 @@
-package org.datacite.mds.web.util;
+package org.datacite.mds.util;
 
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;

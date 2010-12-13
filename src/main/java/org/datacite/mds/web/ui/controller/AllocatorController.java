@@ -3,7 +3,7 @@ package org.datacite.mds.web.ui.controller;
 import javax.annotation.PostConstruct;
 
 import org.datacite.mds.domain.Allocator;
-import org.datacite.mds.web.util.Converters;
+import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;

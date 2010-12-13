@@ -8,9 +8,9 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Symbol.Type;
-import org.datacite.mds.validation.util.ValidationUtils;
 
 public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
