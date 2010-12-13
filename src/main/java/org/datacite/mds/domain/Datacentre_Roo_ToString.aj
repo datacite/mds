@@ -13,6 +13,7 @@ privileged aspect Datacentre_Roo_ToString {
         sb.append("Version: ").append(getVersion()).append(", ");
         sb.append("RoleName: ").append(getRoleName()).append(", ");
         sb.append("Allocator: ").append(getAllocator()).append(", ");
+        sb.append("QuotaExceeded: ").append(isQuotaExceeded()).append(", ");
         sb.append("Symbol: ").append(getSymbol()).append(", ");
         sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
