@@ -1,4 +1,4 @@
-package org.datacite.mds.web.api;
+package org.datacite.mds.web.api.controller;
 
 import java.io.UnsupportedEncodingException;
 
@@ -12,6 +12,7 @@ import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.validation.util.ValidationUtils;
+import org.datacite.mds.web.api.ApiController;
 import org.datacite.mds.web.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

@@ -1,4 +1,4 @@
-package org.datacite.mds.web.api;
+package org.datacite.mds.web.api.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.OaiSource;
 import org.datacite.mds.domain.OaiSourceCollection;
+import org.datacite.mds.web.api.ApiController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

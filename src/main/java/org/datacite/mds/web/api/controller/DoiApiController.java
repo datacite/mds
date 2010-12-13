@@ -1,4 +1,4 @@
-package org.datacite.mds.web.api;
+package org.datacite.mds.web.api.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.web.api.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

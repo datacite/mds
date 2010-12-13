@@ -1,4 +1,4 @@
-package org.datacite.mds.web.api;
+package org.datacite.mds.web.api.controller;
 
 import javax.validation.Valid;
 
@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.MediaType;
 import java.util.Date;
+
+import org.datacite.mds.web.api.ApiController;
 import org.datacite.mds.web.util.SecurityUtils;
 import org.datacite.mds.service.SecurityException;
 import javax.persistence.NoResultException;
