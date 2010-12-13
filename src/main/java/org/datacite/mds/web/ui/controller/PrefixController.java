@@ -1,4 +1,4 @@
-package org.datacite.mds.web;
+package org.datacite.mds.web.ui.controller;
 
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.datacite.mds.domain.Prefix;

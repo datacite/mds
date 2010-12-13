@@ -1,4 +1,4 @@
-package org.datacite.mds.web;
+package org.datacite.mds.web.ui.controller;
 
 import javax.annotation.PostConstruct;
 
