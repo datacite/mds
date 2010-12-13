@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
@@ -45,19 +44,6 @@ privileged aspect MetadataController_Roo_Controller {
         }
         model.addAttribute("dependencies", dependencies);
         return "metadatas/create";
-    }
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public String MetadataController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
-        if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            model.addAttribute("metadatas", Metadata.findMetadataEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
-            float nrOfPages = (float) Metadata.countMetadatas() / sizeNo;
-            model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
-        } else {
-            model.addAttribute("metadatas", Metadata.findAllMetadatas());
-        }
-        return "metadatas/list";
     }
     
     private String MetadataController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {

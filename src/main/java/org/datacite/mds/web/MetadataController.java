@@ -85,4 +85,9 @@ public class MetadataController {
         headers.setContentType(MediaType.APPLICATION_XML);
         return new ResponseEntity<Object>(metadata.getXml(), headers, HttpStatus.OK);
     }
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String list() {
+        return "index";
+    }
 }
