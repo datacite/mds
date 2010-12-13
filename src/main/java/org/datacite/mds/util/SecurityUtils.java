@@ -80,7 +80,7 @@ public class SecurityUtils {
      *             Datacentre run out of quota
      */
     public static void checkQuota(Datacentre datacentre) throws SecurityException {
-        if (datacentre.getDoiQuotaAllowed() <= datacentre.getDoiQuotaUsed()) {
+        if (datacentre.isQuotaExceeded()) {
             String message = "datacentre quota exceeded: " + datacentre.getSymbol();
             log4j.info(message);
             throw new SecurityException(message);

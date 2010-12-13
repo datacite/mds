@@ -160,6 +160,11 @@ public class Datacentre {
         String qlString = "update Datacentre a set a.doiQuotaUsed = a.doiQuotaUsed + 1 where a.symbol = :symbol";
         entityManager.createQuery(qlString).setParameter("symbol", getSymbol()).executeUpdate();
     }
+    
+    @Transactional
+    public boolean isQuotaExceeded() {
+        return getDoiQuotaAllowed() <= getDoiQuotaUsed();
+    }
 
     @SuppressWarnings("unchecked")
     public static List<Datacentre> findAllDatacentresByAllocator(Allocator allocator) {
