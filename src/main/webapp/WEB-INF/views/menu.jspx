@@ -42,7 +42,7 @@
     <menu:category id="c_metadata" render="false" z="user-managed">
             <menu:item id="i_metadata_new" messageCode="global_menu_new" url="/metadatas?form" z="t7Y7EyYeymOIiWS/6t44dCQDHc4="/>
         <menu:item id="i_metadata_list" messageCode="global_menu_list" url="/metadatas?page=${empty param.page ? 1 : param.page}&amp;size=${empty param.size ? 20 : param.size}" z="user-managed"/>
-        <menu:item id="fi_metadata_dataset" messageCode="global_menu_find" url="/metadatas?find=ByDataset&amp;form" z="rDENoolIzdk+ecuM9Ust7uJX64Y="/>
+        
             </menu:category>
     </sec:authorize>
 

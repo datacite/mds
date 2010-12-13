@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
 @RooToString
-@RooEntity(finders = { "findMetadatasByDataset" })
+@RooEntity
 public class Metadata {
 
     @Lob
