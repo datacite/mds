@@ -129,7 +129,7 @@
 
 	<bean id="formAccessDeniedHandler"
 		class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
-<!--		<property name="errorPage" value="/accessDenied.htm"/> -->
+		<property name="errorPage" value="/accessDenied"/> 
 	</bean>		
 
 	<bean id="basicAuthenticationFilter" 
