@@ -58,12 +58,12 @@ public class Allocator {
     @NotNull
     @Min(-1L)
     @Max(999999999L)
-    private Integer doiQuotaAllowed;
+    private Integer doiQuotaAllowed = -1;
 
     @NotNull
     @Min(0L)
     @Max(999999999L)
-    private Integer doiQuotaUsed;
+    private Integer doiQuotaUsed = 0;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @OrderBy("prefix")
