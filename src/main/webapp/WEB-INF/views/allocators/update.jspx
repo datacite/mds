@@ -7,7 +7,7 @@
         <field:textarea field="name" id="c_org_datacite_mds_domain_Allocator_name" required="true" z="q3lecVWHFw6wDWux7cvKm1kaWV0="/>
         <field:textarea field="contactName" id="c_org_datacite_mds_domain_Allocator_contactName" required="true" z="y1zOZH57Meld4p62RwgldAeNu40="/>
         <field:input field="contactEmail" id="c_org_datacite_mds_domain_Allocator_contactEmail" required="true" z="JBlmrLGQu/6+nUPzjpsfz9Pg+SE="/>
-        <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Allocator_doiQuotaAllowed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="mwhrNgVG7ii5iZCJe/Ceu4ZQ8N0="/>
+        <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Allocator_doiQuotaAllowed" max="999999999" min="-1" required="true" validationMessageCode="field_invalid_integer" z="mwhrNgVG7ii5iZCJe/Ceu4ZQ8N0="/>
         <field:input field="doiQuotaUsed" id="c_org_datacite_mds_domain_Allocator_doiQuotaUsed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="VVgrfTiLLFf7e5K9oBobk8R/ayM="/>
         <field:select field="prefixes" id="c_org_datacite_mds_domain_Allocator_prefixes" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="FQ1ywpuPotm8KjihTVV4VBcv51A="/>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Allocator_isActive" z="6POWfZXasELSKoxz5mDZYIPVjkc="/>
