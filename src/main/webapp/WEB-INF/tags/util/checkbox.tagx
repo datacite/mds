@@ -3,8 +3,12 @@
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" description="The identifier for this tag (do not change!)" />
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" description="The label used for this field, will default to a message bundle if not supplied" />
+  <jsp:directive.attribute name="checked" type="java.lang.Boolean" required="false" description="checkbox checked by default?" />
   <jsp:directive.attribute name="fields" type="java.lang.String" required="false" description="comma separated key value pairs of fields. value is used for fields if checkbox is not checked" />
   
+    <c:if test="${empty checked}">
+      <c:set value="false" var="checked"/>
+    </c:if>
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
     </c:if>
@@ -14,7 +18,14 @@
       <label for="_${sec_id}_checkbox_id">
         <c:out value="${fn:escapeXml(label)}" />:
       </label>
-      <script type="text/javascript">
+      <input id="_${sec_id}_checkbox_id" name="${sec_id}" type="checkbox" onchange="onchange_${sec_id}()" />
+    </div>
+    <br />
+    <div id="_${sec_id}_content_id">
+        <jsp:doBody />
+    </div>
+
+    <script type="text/javascript">
         dojo.require("dijit.form.CheckBox");
         function onchange_${sec_id}() {
             var fields = "${fields}".split(",");
@@ -32,25 +43,28 @@
                 
                 // get input field specified in fields
                 var input = dojo.byId("_" + key + "_id");
-                input.readOnly = ! checked;
-                if (! checked) {
+                if (! checked || ! input.hasAttribute("oldvalue")) {
                     // save old data
                     input.setAttribute("oldvalue", input.value);
                 } 
                 if (typeof(val) != "undefined") {
-                    // if value for disabled checkbox is set:
-                    // set default value or restore old value  
-                    input.value = checked ? input.getAttribute("oldvalue") : val;
+                    // if value for disabled checkbox is set
+                    if (checked) {
+                        var oldvalue = input.getAttribute("oldvalue");
+                        // restore old value if it differs from default value
+                        input.value = oldvalue == val ? "" : oldvalue;
+                    } else {
+                        // set default value
+                        input.value = val;
+                    }
                 }
             }
         }
+        // set checkbox status to default status
+        dojo.byId("_${sec_id}_checkbox_id").checked = ${checked};
+        
         // execute script once on startup to handle checkbox default check status
-        dojo.addOnLoad(onchange_${sec_id});
-      </script>
-      <input id="_${sec_id}_checkbox_id" name="${sec_id}" type="checkbox" onchange="onchange_${sec_id}()" />
-    </div>
-    <br />
-    <div id="_${sec_id}_content_id">
-        <jsp:doBody />
-    </div>
+        //dojo.addOnLoad(onchange_${sec_id});
+        onchange_${sec_id}();
+    </script>
 </jsp:root>
