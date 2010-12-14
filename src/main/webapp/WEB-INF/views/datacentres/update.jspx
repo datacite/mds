@@ -8,7 +8,7 @@
         <field:textarea field="contactName" id="c_org_datacite_mds_domain_Datacentre_contactName" required="true" z="/iHtVJWTszKcl99KhYL3VO3fLME="/>
         <field:input field="contactEmail" id="c_org_datacite_mds_domain_Datacentre_contactEmail" required="true" z="qu1fINT0vGtuupRnl4EZf0Smle4="/>
         <util:checkbox checked="${datacentre.doiQuotaAllowed != -1}" fields="doiQuotaAllowed=-1,doiQuotaUsed" id="c_org_datacite_mds_domain_Datacentre_enableQuota">
-          <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaAllowed" max="999999999" min="-1" required="true" validationMessageCode="field_invalid_integer" z="Gkm2RvIy+LuIWrEbqhFLAuKq8N0="/>
+          <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaAllowed" max="999999999" min="-1" required="true" validationMessageCode="field_invalid_integer" z="user-managed"/>
           <field:input field="doiQuotaUsed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaUsed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="Cv1MAJbNN9Oc35bxGmioYmN/X1w="/>
         </util:checkbox>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Datacentre_isActive" z="lrf8mMimLYTsM1DqCg/0Vf08hm0="/>

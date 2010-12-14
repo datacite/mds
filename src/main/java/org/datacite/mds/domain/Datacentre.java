@@ -98,8 +98,6 @@ public class Datacentre {
     private String contactEmail;
 
     @NotNull
-    @Min(-1L)
-    @Max(999999999L)
     private Integer doiQuotaAllowed = -1;
 
     @NotNull
