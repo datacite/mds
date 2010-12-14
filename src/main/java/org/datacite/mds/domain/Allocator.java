@@ -56,7 +56,7 @@ public class Allocator {
     private String contactEmail;
 
     @NotNull
-    @Min(0L)
+    @Min(-1L)
     @Max(999999999L)
     private Integer doiQuotaAllowed;
 

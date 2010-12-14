@@ -98,7 +98,7 @@ public class Datacentre {
     private String contactEmail;
 
     @NotNull
-    @Min(0L)
+    @Min(-1L)
     @Max(999999999L)
     private Integer doiQuotaAllowed;
 
@@ -163,7 +163,7 @@ public class Datacentre {
     
     @Transactional
     public boolean isQuotaExceeded() {
-        return getDoiQuotaAllowed() <= getDoiQuotaUsed();
+        return getDoiQuotaAllowed() <= getDoiQuotaUsed() && getDoiQuotaAllowed() >= 0;
     }
 
     @SuppressWarnings("unchecked")
