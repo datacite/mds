@@ -51,6 +51,19 @@ public class Utils {
     }
 
     /**
+     * returns the allocator part of a symbol
+     * 
+     * @param symbol
+     *            Symbol (e.g. "BL.DC")
+     * @return allocator symbol (e.g. "BL");
+     */
+    public static String getAllocatorFromDatacentreSymbol(String symbol) {
+        if (symbol == null || !symbol.contains(".") || symbol.length() == 0)
+            return null;
+        return symbol.split("\\.", -1)[0];
+    }
+
+    /**
      * converts a string with comma separated values to a List of Strings
      * 
      * @param csv

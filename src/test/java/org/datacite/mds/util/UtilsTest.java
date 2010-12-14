@@ -25,6 +25,14 @@ public class UtilsTest {
     }
     
     @Test
+    public void testGetAllocatorFromSymbol() {
+        assertTrue(Utils.getAllocatorFromDatacentreSymbol("BL.DC").equals("BL"));
+        assertNull(Utils.getAllocatorFromDatacentreSymbol("BL"));
+        assertNull(Utils.getAllocatorFromDatacentreSymbol(""));
+        assertNull(Utils.getAllocatorFromDatacentreSymbol(null));
+    }
+    
+    @Test
     public void testCsvToList() {
         String csv="ab,,cde,f,";
         List<String> list = Utils.csvToList(csv);
