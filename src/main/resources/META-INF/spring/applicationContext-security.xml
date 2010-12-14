@@ -66,10 +66,15 @@
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref='myUserDetailsService'/>
+        <security:authentication-provider user-service-ref='myMasterUserDetailsService'/>
         <security:authentication-provider ref='rememberMeAuthenticationProvider' />
     </security:authentication-manager>
     
     <bean id="myUserDetailsService" class="org.datacite.mds.service.impl.UserDetailsServiceImpl" />
+
+    <bean id="myMasterUserDetailsService" class="org.datacite.mds.service.impl.MasterUserDetailsServiceImpl" >
+        <property name="userDetailsService" ref="myUserDetailsService"/>
+    </bean>
     
     <bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">
         <property name="userDetailsService" ref="myUserDetailsService" />
