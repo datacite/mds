@@ -13,6 +13,7 @@ import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.ValidationUtils;
+import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -33,6 +34,9 @@ public class MetadataApiController implements ApiController {
     
     @Autowired
     DoiService doiService;
+
+    @Autowired
+    ValidationHelper validationHelper;
 
     @RequestMapping(value = "metadata", method = RequestMethod.GET, headers = { "Accept=application/xml" })
     public ResponseEntity<? extends Object> get(@RequestParam String doi) {
@@ -87,7 +91,7 @@ public class MetadataApiController implements ApiController {
         }
    
         metadata.setDataset(new Dataset());
-        String violationMessage = ValidationUtils.getFirstViolationMessage(metadata);
+        String violationMessage = validationHelper.getFirstViolationMessage(metadata);
         if (violationMessage != null) {
             return new ResponseEntity<String>(violationMessage, headers, HttpStatus.FORBIDDEN);
         }

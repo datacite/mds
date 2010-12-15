@@ -8,7 +8,7 @@ import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
-import org.datacite.mds.util.ValidationUtils;
+import org.datacite.mds.validation.ValidationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +16,12 @@ import org.springframework.stereotype.Service;
 public class DoiServiceImpl implements DoiService {
 
     static final Logger log4j = Logger.getLogger(DoiServiceImpl.class);
-
+    
     @Autowired
     HandleService handleService;
+    
+    @Autowired
+    ValidationHelper validationHelper;
 
     public Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
@@ -30,7 +33,7 @@ public class DoiServiceImpl implements DoiService {
         dataset.setDoi(doi);
         dataset.setUrl(url);
 
-        String violationMessage = ValidationUtils.getFirstViolationMessage(dataset);
+        String violationMessage = validationHelper.getFirstViolationMessage(dataset);
         if (violationMessage != null) {
             throw new SecurityException(violationMessage);
         }
@@ -62,7 +65,7 @@ public class DoiServiceImpl implements DoiService {
         }
         dataset.setUrl(url);
 
-        String violationMessage = ValidationUtils.getFirstViolationMessage(dataset);
+        String violationMessage = validationHelper.getFirstViolationMessage(dataset);
         if (violationMessage != null) {
             throw new SecurityException(violationMessage);
         }
