@@ -1,11 +1,11 @@
 package org.datacite.mds.validation.constraints;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.datacite.mds.util.ValidationUtils;
 import org.junit.Test;
 
-public class ListOfDomainsTest {
+public class ListOfDomainsTest extends AbstractContraintsTest {
     @ListOfDomains
     String domains;
 
@@ -23,7 +23,7 @@ public class ListOfDomainsTest {
 
     boolean isValid(String domains) {
         this.domains = domains;
-        return ValidationUtils.isValid(this, "domains");
+        return getValidationHelper().isValid(this, "domains");
     }
 
 }

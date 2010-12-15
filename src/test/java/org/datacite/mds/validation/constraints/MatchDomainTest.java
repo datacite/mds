@@ -1,18 +1,14 @@
 package org.datacite.mds.validation.constraints;
 
-import static org.junit.Assert.*;
-
-import java.util.HashSet;
-import java.util.Set;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
-import org.datacite.mds.domain.Prefix;
-import org.datacite.mds.util.ValidationUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MatchDomainTest {
+public class MatchDomainTest extends AbstractContraintsTest {
 
     Dataset dataset;
 
@@ -42,6 +38,6 @@ public class MatchDomainTest {
 
     boolean isValid(String url) {
         dataset.setUrl(url);
-        return ValidationUtils.isValid(dataset, MatchDomain.class);
+        return getValidationHelper().isValid(dataset, MatchDomain.class);
     }
 }

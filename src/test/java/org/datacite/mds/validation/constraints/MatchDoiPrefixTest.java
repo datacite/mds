@@ -1,6 +1,7 @@
 package org.datacite.mds.validation.constraints;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,11 +9,10 @@ import java.util.Set;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
-import org.datacite.mds.util.ValidationUtils;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MatchDoiPrefixTest {
+public class MatchDoiPrefixTest extends AbstractContraintsTest {
 
     Dataset dataset;
 
@@ -43,6 +43,6 @@ public class MatchDoiPrefixTest {
 
     boolean isValid(String doi) {
         dataset.setDoi(doi);
-        return ValidationUtils.isValid(dataset, MatchDoiPrefix.class);
+        return getValidationHelper().isValid(dataset, MatchDoiPrefix.class);
     }
 }

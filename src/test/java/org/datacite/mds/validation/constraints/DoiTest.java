@@ -1,11 +1,11 @@
 package org.datacite.mds.validation.constraints;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.datacite.mds.util.ValidationUtils;
 import org.junit.Test;
 
-public class DoiTest {
+public class DoiTest extends AbstractContraintsTest {
     @Doi
     String doi;
 
@@ -22,7 +22,7 @@ public class DoiTest {
 
     boolean isValid(String doi) {
         this.doi = doi;
-        return ValidationUtils.isValid(this, "doi");
+        return getValidationHelper().isValid(this, "doi");
     }
 
 }

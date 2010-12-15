@@ -1,11 +1,11 @@
 package org.datacite.mds.validation.constraints;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.datacite.mds.util.ValidationUtils;
 import org.junit.Test;
 
-public class DoiPrefixTest {
+public class DoiPrefixTest extends AbstractContraintsTest {
     @DoiPrefix
     String prefix;
 
@@ -24,7 +24,7 @@ public class DoiPrefixTest {
 
     boolean isValid(String prefix) {
         this.prefix = prefix;
-        return ValidationUtils.isValid(this, "prefix");
+        return getValidationHelper().isValid(this, "prefix");
     }
 
 }

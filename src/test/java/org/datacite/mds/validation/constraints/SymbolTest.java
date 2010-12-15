@@ -6,10 +6,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.datacite.mds.util.ValidationUtils;
 import org.junit.Test;
 
-public class SymbolTest {
+public class SymbolTest extends AbstractContraintsTest {
 
     String[] allowAllocator = { "AB", "ABCDEFGH", "AB-CD" };
     String[] allowDatacentre = { "ABC.DE", "ABCDEF.AAA", "AB.CD-EF", "AB-CD.EF-GH" };
@@ -18,18 +17,18 @@ public class SymbolTest {
 
     @Symbol(Symbol.Type.ALLOCATOR)
     String symbolAllocator;
-
+    
     @Test
     public void testAllocator() {
         symbolAllocator = null;
-        assertTrue(ValidationUtils.isValid(this, "symbolAllocator"));
+        assertTrue(getValidationHelper().isValid(this, "symbolAllocator"));
         for (String symbol : allowAllocator) {
             symbolAllocator = symbol;
-            assertTrue(ValidationUtils.isValid(this, "symbolAllocator"));
+            assertTrue(getValidationHelper().isValid(this, "symbolAllocator"));
         }
         for (String symbol : (String[]) ArrayUtils.addAll(allowDatacentre, disallow)) {
             symbolAllocator = symbol;
-            assertFalse(ValidationUtils.isValid(this, "symbolAllocator"));
+            assertFalse(getValidationHelper().isValid(this, "symbolAllocator"));
         }
     }
 
@@ -39,14 +38,14 @@ public class SymbolTest {
     @Test
     public void testDatacentre() {
         symbolDatacentre = null;
-        assertTrue(ValidationUtils.isValid(this, "symbolDatacentre"));
+        assertTrue(getValidationHelper().isValid(this, "symbolDatacentre"));
         for (String symbol : allowDatacentre) {
             symbolDatacentre = symbol;
-            assertTrue(ValidationUtils.isValid(this, "symbolDatacentre"));
+            assertTrue(getValidationHelper().isValid(this, "symbolDatacentre"));
         }
         for (String symbol : (String[]) ArrayUtils.addAll(allowAllocator, disallow)) {
             symbolDatacentre = symbol;
-            assertFalse(ValidationUtils.isValid(this, "symbolDatacentre"));
+            assertFalse(getValidationHelper().isValid(this, "symbolDatacentre"));
         }
     }
 
@@ -56,14 +55,14 @@ public class SymbolTest {
     @Test
     public void testBoth() {
         symbolBoth = null;
-        assertTrue(ValidationUtils.isValid(this, "symbolBoth"));
+        assertTrue(getValidationHelper().isValid(this, "symbolBoth"));
         for (String symbol : (String[]) ArrayUtils.addAll(allowDatacentre, allowAllocator)) {
             symbolBoth = symbol;
-            assertTrue(ValidationUtils.isValid(this, "symbolBoth"));
+            assertTrue(getValidationHelper().isValid(this, "symbolBoth"));
         }
         for (String symbol : disallow) {
             symbolBoth = symbol;
-            assertFalse(ValidationUtils.isValid(this, "symbolBoth"));
+            assertFalse(getValidationHelper().isValid(this, "symbolBoth"));
         }
     }
 }

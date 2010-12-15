@@ -1,11 +1,11 @@
 package org.datacite.mds.validation.constraints;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.datacite.mds.util.ValidationUtils;
 import org.junit.Test;
 
-public class EmailTest {
+public class EmailTest extends AbstractContraintsTest {
     @Email
     String email;
 
@@ -32,7 +32,7 @@ public class EmailTest {
 
     boolean isValid(String email) {
         this.email = email;
-        return ValidationUtils.isValid(this, "email");
+        return getValidationHelper().isValid(this, "email");
     }
 
 }
