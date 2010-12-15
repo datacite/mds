@@ -13,6 +13,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.Unique;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
@@ -31,6 +33,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
         this.defaultMessage = constraintAnnotation.message();
     }
 
+    @Transactional(readOnly=true, propagation = Propagation.REQUIRES_NEW)
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
         // if hibernate persists the object the entityManager is not injected,
         // so we always return true.
