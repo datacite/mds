@@ -35,11 +35,9 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
     @Transactional(readOnly=true, propagation = Propagation.REQUIRES_NEW)
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
-        // if hibernate persists the object the entityManager is not injected,
-        // so we always return true.
         if (entityManager == null) {
-            log.debug("entityManager not injected");
-            return true;
+            log.warn("entityManager not injected");
+            return false;
         }
         
         Serializable id, value;
