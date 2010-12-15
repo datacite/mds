@@ -1,26 +1,24 @@
 package org.datacite.mds.web.api.controller;
 
+import java.util.Date;
+
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
-import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.web.api.ApiController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.MediaType;
-import java.util.Date;
-
-import org.datacite.mds.util.SecurityUtils;
-import org.datacite.mds.web.api.ApiController;
-import org.datacite.mds.service.SecurityException;
-import javax.persistence.NoResultException;
 
 @RequestMapping("/*")
 @Controller

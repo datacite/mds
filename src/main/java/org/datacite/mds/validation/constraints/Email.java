@@ -9,8 +9,6 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
 import org.datacite.mds.validation.constraints.impl.EmailValidator;
 

@@ -14,12 +14,9 @@ package org.datacite.mds.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.NoResultException;
-
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.util.SecurityUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;

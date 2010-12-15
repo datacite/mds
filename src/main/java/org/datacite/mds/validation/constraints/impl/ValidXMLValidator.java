@@ -17,7 +17,6 @@ import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.ValidXML;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 

@@ -2,7 +2,6 @@ package org.datacite.mds.web.api.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.OaiSource;

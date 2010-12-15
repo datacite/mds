@@ -80,7 +80,7 @@ public class MetadataController {
         HttpHeaders headers = new HttpHeaders();
         Metadata metadata = Metadata.findMetadata(id);
         if (metadata == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
         }
         headers.setContentType(MediaType.APPLICATION_XML);
         return new ResponseEntity<Object>(metadata.getXml(), headers, HttpStatus.OK);

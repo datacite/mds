@@ -12,7 +12,6 @@ import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
-import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
