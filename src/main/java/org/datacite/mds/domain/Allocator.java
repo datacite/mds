@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RooEntity(finders = { "findAllocatorsBySymbolEquals", "findAllocatorsByNameLike" })
 @Unique(field = "symbol")
 public class Allocator {
-    
+
     private static Logger log4j = Logger.getLogger(Allocator.class);
 
     @NotNull
@@ -134,4 +134,16 @@ public class Allocator {
         }
     }
 
+    /**
+     * calculate String to be used for magic auth key
+     * 
+     * @return (unhashed) base part of the magic auth string
+     */
+    public String getBaseAuthString() {
+        StringBuilder str = new StringBuilder();
+        str.append(getId());
+        str.append(getSymbol());
+        str.append(getPassword());
+        return str.toString();
+    }
 }

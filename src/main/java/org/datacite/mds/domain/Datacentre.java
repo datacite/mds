@@ -222,5 +222,17 @@ public class Datacentre {
             return null;
         }
     }
-
+    
+    /**
+     * calculate String to be used for magic auth key
+     * 
+     * @return (unhashed) base part of the magic auth string
+     */
+    public String getBaseAuthString() {
+        StringBuilder str = new StringBuilder();
+        str.append(getId());
+        str.append(getSymbol());
+        str.append(getPassword());
+        return str.toString();
+    }
 }
