@@ -15,6 +15,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Doi;
 import org.datacite.mds.validation.constraints.MatchDoiPrefix;
 import org.datacite.mds.validation.constraints.MatchDomain;
@@ -125,6 +126,7 @@ public class Dataset {
      *         exists
      */
     public static Dataset findDatasetByDoi(String doi) {
+        doi = Utils.normalizeDoi(doi);
         if (doi == null) {
             return null;
         }
@@ -139,4 +141,7 @@ public class Dataset {
         }
     }
 
+    public void setDoi(String doi) {
+        this.doi = Utils.normalizeDoi(doi);
+    }
 }

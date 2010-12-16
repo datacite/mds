@@ -140,11 +140,9 @@ public class MetadataApiController implements ApiController {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } 
 
-        try {
-            dataset = Dataset.findDatasetsByDoiEquals(doi).getSingleResult();
-        } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
-        }
+        dataset = Dataset.findDatasetByDoi(doi);
+        if (dataset == null)
+            return new ResponseEntity<String>("DOI doesn't exist", headers, HttpStatus.NOT_FOUND);
 
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
             return new ResponseEntity<String>("cannot delete DOI which belongs to another party", headers, HttpStatus.FORBIDDEN);

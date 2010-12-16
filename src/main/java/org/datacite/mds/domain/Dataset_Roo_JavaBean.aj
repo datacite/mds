@@ -14,11 +14,7 @@ privileged aspect Dataset_Roo_JavaBean {
     public String Dataset.getDoi() {
         return this.doi;
     }
-    
-    public void Dataset.setDoi(String doi) {
-        this.doi = doi;
-    }
-    
+        
     public Boolean Dataset.getIsActive() {
         return this.isActive;
     }
