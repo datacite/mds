@@ -7,6 +7,13 @@ import static org.junit.Assert.*;
 
 public class UtilsTest {
     @Test
+    public void testNormalizeDoi() {
+        assertTrue(Utils.normalizeDoi("10.5072/aBcÄöß_12zZ").equals("10.5072/ABCÄöß_12ZZ"));
+        assertTrue(Utils.normalizeDoi("").equals(""));
+        assertNull(Utils.normalizeDoi(null));
+    }
+    
+    @Test
     public void testGetDoiPrefix() {
         assertTrue(Utils.getDoiPrefix("10.5072/suffix").equals("10.5072"));
         assertTrue(Utils.getDoiPrefix("/emptyprefix").equals(""));

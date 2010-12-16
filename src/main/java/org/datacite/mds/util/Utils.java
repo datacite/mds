@@ -6,9 +6,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.dom4j.Document;
@@ -20,6 +22,20 @@ import org.dom4j.io.XMLWriter;
  * Class with several static util methods
  */
 public class Utils {
+
+    private static final String AZ_LOWER_CASE = "abcdefghijklmnopqrstuvxyz";
+    private static final String AZ_UPPER_CASE = AZ_LOWER_CASE.toUpperCase(Locale.ENGLISH);
+
+    /**
+     * normalizes a DOI according to the DOI Handbook by converting 'a' to 'z' to
+     * upper-case.
+     * 
+     * @param doi
+     * @return normalized DOI
+     */
+    public static String normalizeDoi(String doi) {
+        return StringUtils.replaceChars(doi, AZ_LOWER_CASE, AZ_UPPER_CASE);
+    }
 
     private static String splitDoi(String doi, int index) {
         if (doi == null || !doi.contains("/"))
