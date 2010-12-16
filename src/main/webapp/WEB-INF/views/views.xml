@@ -22,7 +22,11 @@
     <put-attribute name="body" value="/WEB-INF/views/accessDenied.jspx"/>
   </definition>
 
-<definition extends="public" name="login">
-        <put-attribute name="body" value="/WEB-INF/views/login.jspx"/>
-    </definition>
+  <definition extends="public" name="login">
+    <put-attribute name="body" value="/WEB-INF/views/login.jspx"/>
+  </definition>
+  
+  <definition extends="public" name="changePassword">
+    <put-attribute name="body" value="/WEB-INF/views/changePassword.jspx"/>
+  </definition>
 </tiles-definitions>
