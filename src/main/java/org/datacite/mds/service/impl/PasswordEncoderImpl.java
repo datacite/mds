@@ -1,10 +1,16 @@
 package org.datacite.mds.service.impl;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PasswordEncoderImpl extends ShaPasswordEncoder {
 
-    String salt = null; // disable salt for a moment
+    Logger log4j = Logger.getLogger(PasswordEncoderImpl.class);
+
+    @Value("${salt.password}") String salt;
 
     public PasswordEncoderImpl() {
         super(256); // SHA-256
@@ -13,6 +19,7 @@ public class PasswordEncoderImpl extends ShaPasswordEncoder {
     @Override
     public String encodePassword(String rawPass, Object salt) {
         // use system-wide salt
+        log4j.debug("encodePassword (salt=" + this.salt + ")");
         return super.encodePassword(rawPass, this.salt);
     }
 

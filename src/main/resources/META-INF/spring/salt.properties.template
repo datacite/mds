@@ -1,0 +1,1 @@
+salt.password=<<'random' string; must not contain one of "{}">>
