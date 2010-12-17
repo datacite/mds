@@ -40,7 +40,6 @@ public class Allocator implements AllocatorOrDatacentre {
     private String symbol;
 
     @NotNull
-    @Size(min = 8, max = 30)
     private String password;
 
     @NotNull

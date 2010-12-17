@@ -8,6 +8,7 @@ import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.ui.model.ChangePasswordModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ChangePasswordController {
 
     Logger log4j = Logger.getLogger(ChangePasswordController.class);
-    
+
     @Autowired
     private MagicAuthStringService magicAuthStringService;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private static final String AUTH_NOT_VALID = "auth string is not valid; might be expired";
 
@@ -50,6 +54,9 @@ public class ChangePasswordController {
             model.addAttribute("password", changePasswordModel);
             return "changePassword";
         }
+        
+        user.setPassword(passwordEncoder.encodePassword(changePasswordModel.getFirst(),null));
+        user.merge();
         
         return "redirect:/";
     }
