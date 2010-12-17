@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
-import org.datacite.mds.util.AuthStringUtils;
+import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,9 @@ public class DatacentreController {
 
     @Autowired
     private GenericConversionService myConversionService;
+    
+    @Autowired
+    private MagicAuthStringService magicAuthStringService;
 
     @PostConstruct
     void registerConverters() {
@@ -97,7 +100,7 @@ public class DatacentreController {
 	Datacentre datacentre = Datacentre.findDatacentre(id);
         model.addAttribute("datacentre", datacentre );
         model.addAttribute("itemId", id);
-        model.addAttribute("magicAuthString", AuthStringUtils.getCurrentAuthString(datacentre));
+        model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
         return "datacentres/show";
     }
 }

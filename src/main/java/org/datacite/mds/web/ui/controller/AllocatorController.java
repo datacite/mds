@@ -3,7 +3,7 @@ package org.datacite.mds.web.ui.controller;
 import javax.annotation.PostConstruct;
 
 import org.datacite.mds.domain.Allocator;
-import org.datacite.mds.util.AuthStringUtils;
+import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AllocatorController {
     @Autowired
     private GenericConversionService myConversionService;
+    
+    @Autowired
+    private MagicAuthStringService magicAuthStringService;
 
     @PostConstruct
     void registerConverters() {
@@ -39,7 +42,7 @@ public class AllocatorController {
         Allocator allocator = Allocator.findAllocator(id);
         model.addAttribute("allocator", allocator);
         model.addAttribute("itemId", id);
-        model.addAttribute("magicAuthString", AuthStringUtils.getCurrentAuthString(allocator));
+        model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(allocator));
         return "allocators/show";
     }
 }
