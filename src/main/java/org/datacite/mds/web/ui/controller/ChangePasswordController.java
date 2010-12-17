@@ -3,7 +3,9 @@ package org.datacite.mds.web.ui.controller;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.ui.model.ChangePasswordModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,7 +30,8 @@ public class ChangePasswordController {
     @RequestMapping(method = RequestMethod.GET)
     public String createForm(@RequestParam(value = "symbol", required = true) String symbol,
             @RequestParam(value = "auth", required = true) String auth, Model model) {
-        if (!magicAuthStringService.isValidAuthString(symbol, auth)) {
+        AllocatorOrDatacentre user = Utils.findAllocatorOrDatacentreBySymbol(symbol);
+        if (!magicAuthStringService.isValidAuthString(user, auth)) {
             throw new RuntimeException(AUTH_NOT_VALID);
         }
         model.addAttribute("password", new ChangePasswordModel());
@@ -39,13 +42,15 @@ public class ChangePasswordController {
     public String changePassword(@ModelAttribute("password") @Valid ChangePasswordModel changePasswordModel,
             BindingResult result, @RequestParam(value = "symbol", required = true) String symbol,
             @RequestParam(value = "auth", required = true) String auth, Model model) {
-        if (!magicAuthStringService.isValidAuthString(symbol, auth)) {
+        AllocatorOrDatacentre user = Utils.findAllocatorOrDatacentreBySymbol(symbol);
+        if (!magicAuthStringService.isValidAuthString(user, auth)) {
             throw new RuntimeException(AUTH_NOT_VALID);
         }
         if (result.hasErrors()) {
             model.addAttribute("password", changePasswordModel);
             return "changePassword";
         }
+        
         return "redirect:/";
     }
 }

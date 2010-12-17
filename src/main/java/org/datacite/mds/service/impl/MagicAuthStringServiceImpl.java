@@ -13,7 +13,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
-import org.datacite.mds.util.Utils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,10 +28,6 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
         return baseAuthString;
     }
 
-    private String getBaseAuthString(String symbol) {
-        return getBaseAuthString(Utils.findAllocatorOrDatacentreBySymbol(symbol));
-    }
-
     private String saltAuthStringWithDate(String auth, Date date) {
         if (StringUtils.isEmpty(auth)) {
             return null;
@@ -42,30 +37,26 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
         return DigestUtils.sha256Hex(auth + df.format(date));
     }
 
-    public Collection<String> getValidAuthStrings(String symbol) {
+    public Collection<String> getValidAuthStrings(AllocatorOrDatacentre user) {
         List<String> list = new ArrayList<String>();
         Date curDate = new Date();
         // Date prevDate = DateUtils.addDays(curDate, -1);
         Date prevDate = DateUtils.addMinutes(curDate, -1);
-        String baseAuthString = getBaseAuthString(symbol);
+        String baseAuthString = getBaseAuthString(user);
         if (baseAuthString != null) {
             list.add(saltAuthStringWithDate(baseAuthString, curDate));
             list.add(saltAuthStringWithDate(baseAuthString, prevDate));
         }
-        log4j.debug("valid auth strings for " + symbol + ": " + list);
+        log4j.debug("valid auth strings for " + user.getSymbol() + ": " + list);
         return list;
-    }
-
-    public String getCurrentAuthString(String symbol) {
-        return saltAuthStringWithDate(getBaseAuthString(symbol), new Date());
     }
 
     public String getCurrentAuthString(AllocatorOrDatacentre user) {
         return saltAuthStringWithDate(getBaseAuthString(user), new Date());
     }
 
-    public boolean isValidAuthString(String symbol, String auth) {
-        return !StringUtils.isEmpty(symbol) && !StringUtils.isEmpty(auth) && // 
-                getValidAuthStrings(symbol).contains(auth);
+    public boolean isValidAuthString(AllocatorOrDatacentre user, String auth) {
+        return user != null && !StringUtils.isEmpty(auth) && // 
+                getValidAuthStrings(user).contains(auth);
     }
 }

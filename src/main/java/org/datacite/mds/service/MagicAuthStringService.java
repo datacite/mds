@@ -5,11 +5,9 @@ import java.util.Collection;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 
 public interface MagicAuthStringService {
-    public Collection<String> getValidAuthStrings(String symbol);
-
-    public String getCurrentAuthString(String symbol);
+    public Collection<String> getValidAuthStrings(AllocatorOrDatacentre user);
 
     public String getCurrentAuthString(AllocatorOrDatacentre user);
 
-    public boolean isValidAuthString(String symbol, String auth);
+    public boolean isValidAuthString(AllocatorOrDatacentre user, String auth);
 }
