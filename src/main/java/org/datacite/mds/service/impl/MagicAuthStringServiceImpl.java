@@ -19,8 +19,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class MagicAuthStringServiceImpl implements MagicAuthStringService {
     Logger log4j = Logger.getLogger(MagicAuthStringServiceImpl.class);
-    
-    @Value("${salt.magicAuthString}") String salt;
+
+    @Value("${salt.magicAuthString}")
+    String salt;
 
     private String getBaseAuthString(AllocatorOrDatacentre user) {
         String baseAuthString = null;
@@ -35,19 +36,19 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
         if (StringUtils.isEmpty(baseAuth)) {
             return null;
         }
-        // DateFormat df = new SimpleDateFormat("yyyyMMdd");
-        DateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        // DateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
         String rawAuth = baseAuth + ":" + df.format(date) + ":" + this.salt;
         String hashedAuth = DigestUtils.sha256Hex(rawAuth);
-        log4j.debug("saltAndHash: " + hashedAuth + " <- "+ rawAuth);
+        log4j.debug("saltAndHash: " + hashedAuth + " <- " + rawAuth);
         return hashedAuth;
     }
 
     public Collection<String> getValidAuthStrings(AllocatorOrDatacentre user) {
         List<String> list = new ArrayList<String>();
         Date curDate = new Date();
-        // Date prevDate = DateUtils.addDays(curDate, -1);
-        Date prevDate = DateUtils.addMinutes(curDate, -1);
+        Date prevDate = DateUtils.addDays(curDate, -1);
+        // Date prevDate = DateUtils.addMinutes(curDate, -1);
         String baseAuthString = getBaseAuthString(user);
         if (baseAuthString != null) {
             list.add(saltAndHash(baseAuthString, curDate));
