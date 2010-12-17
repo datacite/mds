@@ -1,1 +1,2 @@
 salt.password=<<'random' string; must not contain one of "{}">>
+salt.magicAuthString=<<'random' string>>

@@ -13,11 +13,14 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MagicAuthStringServiceImpl implements MagicAuthStringService {
     Logger log4j = Logger.getLogger(MagicAuthStringServiceImpl.class);
+    
+    @Value("${salt.magicAuthString}") String salt;
 
     private String getBaseAuthString(AllocatorOrDatacentre user) {
         String baseAuthString = null;
@@ -28,13 +31,16 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
         return baseAuthString;
     }
 
-    private String saltAuthStringWithDate(String auth, Date date) {
-        if (StringUtils.isEmpty(auth)) {
+    private String saltAndHash(String baseAuth, Date date) {
+        if (StringUtils.isEmpty(baseAuth)) {
             return null;
         }
-        // DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd mm");
-        return DigestUtils.sha256Hex(auth + df.format(date));
+        // DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        DateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
+        String rawAuth = baseAuth + ":" + df.format(date) + ":" + this.salt;
+        String hashedAuth = DigestUtils.sha256Hex(rawAuth);
+        log4j.debug("saltAndHash: " + hashedAuth + " <- "+ rawAuth);
+        return hashedAuth;
     }
 
     public Collection<String> getValidAuthStrings(AllocatorOrDatacentre user) {
@@ -44,15 +50,15 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
         Date prevDate = DateUtils.addMinutes(curDate, -1);
         String baseAuthString = getBaseAuthString(user);
         if (baseAuthString != null) {
-            list.add(saltAuthStringWithDate(baseAuthString, curDate));
-            list.add(saltAuthStringWithDate(baseAuthString, prevDate));
+            list.add(saltAndHash(baseAuthString, curDate));
+            list.add(saltAndHash(baseAuthString, prevDate));
         }
         log4j.debug("valid auth strings for " + user.getSymbol() + ": " + list);
         return list;
     }
 
     public String getCurrentAuthString(AllocatorOrDatacentre user) {
-        return saltAuthStringWithDate(getBaseAuthString(user), new Date());
+        return saltAndHash(getBaseAuthString(user), new Date());
     }
 
     public boolean isValidAuthString(AllocatorOrDatacentre user, String auth) {
