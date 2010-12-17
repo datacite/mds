@@ -3,7 +3,6 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_datacite_mds_domain_Datacentre" modelAttribute="datacentre" path="/datacentres" z="Vnd7uZBrKNyNMFSjgdfSqyxN/UI=">
         <field:input field="symbol" id="c_org_datacite_mds_domain_Datacentre_symbol" required="true" z="cLuUdsyRewixl+3p0MnkoNFEwTU="/>
-        <field:input field="password" id="c_org_datacite_mds_domain_Datacentre_password" required="true" z="yEjQsgKgduYC9uDtE/XDyJZ8yZE="/>
         <field:textarea field="name" id="c_org_datacite_mds_domain_Datacentre_name" required="true" z="uBWUzaT/SrLIs9chzq0ml2AHX3U="/>
         <field:textarea field="contactName" id="c_org_datacite_mds_domain_Datacentre_contactName" required="true" z="/iHtVJWTszKcl99KhYL3VO3fLME="/>
         <field:input field="contactEmail" id="c_org_datacite_mds_domain_Datacentre_contactEmail" required="true" z="qu1fINT0vGtuupRnl4EZf0Smle4="/>
@@ -17,6 +16,7 @@
         <field:textarea field="comments" id="c_org_datacite_mds_domain_Datacentre_comments" z="7scBOc9Lbz9U32Wucy+zXfwQRSM="/>
         <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" render="false" z="user-managed"/>
         <util:hide>
+          <field:input field="password" id="c_org_datacite_mds_domain_Datacentre_password" z="JKR2n/5V0AGqVCP0XpXk2yTU6eI="/>
           <field:select field="allocator" id="c_org_datacite_mds_domain_Datacentre_allocator" itemValue="id" items="${allocators}" path="/allocators" required="true" z="Q9xGvmtIB6OgOU1WwA/0MeAzLEw="/>
           <field:datetime dateTimePattern="${datacentre_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" z="user-managed"/>
           <field:datetime dateTimePattern="${datacentre_created_date_format}" field="created" id="c_org_datacite_mds_domain_Datacentre_created" z="user-managed"/>

@@ -3,7 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:show delete="false" id="ps_org_datacite_mds_domain_Allocator" object="${allocator}" path="/allocators" z="HoWjWsp2XYm0EwzB9aQRn2L/P7A=">
         <field:display field="symbol" id="s_org_datacite_mds_domain_Allocator_symbol" object="${allocator}" z="8VeHkMbYOzqowa/AFx3edtZZSus="/>
-        <field:display field="password" id="s_org_datacite_mds_domain_Allocator_password" object="${allocator}" z="kkRrPL4+MVwgynbchM5LYyrPeRI="/>
+        <field:display field="password" id="s_org_datacite_mds_domain_Allocator_password" object="${allocator}" render="false" z="user-managed"/>
         <field:display field="name" id="s_org_datacite_mds_domain_Allocator_name" object="${allocator}" z="sJgbHtFrWszjFmUfwXcMPYYXC+4="/>
         <field:display field="contactName" id="s_org_datacite_mds_domain_Allocator_contactName" link="mailto:${allocator.contactEmail}" linkTitle="${allocator.contactEmail}" object="${allocator}" z="user-managed"/>
         <field:display field="contactEmail" id="s_org_datacite_mds_domain_Allocator_contactEmail" object="${allocator}" render="false" z="user-managed"/>
@@ -14,6 +14,6 @@
         <field:display field="roleName" id="s_org_datacite_mds_domain_Allocator_roleName" object="${allocator}" render="false" z="user-managed"/>
         <field:display date="true" dateTimePattern="${allocator_created_date_format}" field="created" id="s_org_datacite_mds_domain_Allocator_created" object="${allocator}" z="0e/rwOMZEsUv+ltjyPbWyhX+q6E="/>
         <field:display date="true" dateTimePattern="${allocator_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Allocator_updated" object="${allocator}" z="JWYXjmiWZS49d0nv0XJuoiYuR1w="/>
-        <util:change-password auth="${magicAuthString}" symbol="${allocator.symbol}"></util:change-password>
+        <util:change-password auth="${magicAuthString}" symbol="${allocator.symbol}"/>
     </page:show>
 </div>
