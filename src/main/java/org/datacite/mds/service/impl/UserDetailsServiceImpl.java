@@ -14,6 +14,7 @@ package org.datacite.mds.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
@@ -66,6 +67,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             password = datacentre.getPassword();
             role = datacentre.getRoleName();
             isActive = datacentre.getIsActive() == null ? false : datacentre.getIsActive();
+        }
+        
+        if (StringUtils.isEmpty(password)) {
+            return null;
         }
 
         authorities.add(new GrantedAuthorityImpl(role));

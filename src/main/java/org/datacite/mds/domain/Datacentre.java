@@ -81,7 +81,6 @@ public class Datacentre implements AllocatorOrDatacentre {
     @Column(unique = true)
     private String symbol;
 
-    @NotNull
     private String password;
 
     @NotNull

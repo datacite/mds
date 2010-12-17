@@ -39,7 +39,6 @@ public class Allocator implements AllocatorOrDatacentre {
     @Column(unique = true)
     private String symbol;
 
-    @NotNull
     private String password;
 
     @NotNull
