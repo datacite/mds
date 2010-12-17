@@ -30,7 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RooToString
 @RooEntity(finders = { "findAllocatorsBySymbolEquals", "findAllocatorsByNameLike" })
 @Unique(field = "symbol")
-public class Allocator {
+public class Allocator implements AllocatorOrDatacentre {
 
     private static Logger log4j = Logger.getLogger(Allocator.class);
 

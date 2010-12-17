@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Unique(field = "symbol")
 @Entity
 @XmlRootElement
-public class Datacentre {
+public class Datacentre implements AllocatorOrDatacentre {
 
     private static Logger log4j = Logger.getLogger(Datacentre.class);
 
