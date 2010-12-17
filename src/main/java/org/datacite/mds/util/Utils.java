@@ -12,6 +12,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
@@ -143,6 +144,14 @@ public class Utils {
             symbols.add(allocator.getSymbol());
         }
         return symbols;
+    }
+    
+    public static AllocatorOrDatacentre findAllocatorOrDatacentreBySymbol(String symbol) {
+        AllocatorOrDatacentre user = Datacentre.findDatacentreBySymbol(symbol);
+        if (user == null) {
+            user = Allocator.findAllocatorBySymbol(symbol);
+        }
+        return user;
     }
 
 }
