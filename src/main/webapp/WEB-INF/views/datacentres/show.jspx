@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <page:show delete="false" id="ps_org_datacite_mds_domain_Datacentre" object="${datacentre}" path="/datacentres" z="OWCsKH4TRcVv0SGalvYZM4Y9xIk=">
         <field:display field="symbol" id="s_org_datacite_mds_domain_Datacentre_symbol" object="${datacentre}" z="BRIyEhrJU2Yd0GWzDGnW1i68PUI="/>
@@ -15,7 +15,8 @@
         <field:display field="allocator" id="s_org_datacite_mds_domain_Datacentre_allocator" object="${datacentre}" z="1ATRi/EPpyKgQn8iyCd414S8yAw="/>
         <field:display field="prefixes" id="s_org_datacite_mds_domain_Datacentre_prefixes" object="${datacentre}" z="Tupqob8sQAftvqvD8SKu9zKixuQ="/>
         <field:display field="roleName" id="s_org_datacite_mds_domain_Datacentre_roleName" object="${datacentre}" render="false" z="user-managed"/>
-    <field:display date="true" dateTimePattern="${datacentre_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Datacentre_updated" object="${datacentre}" z="ycquI8H7Amr7/EyAfc8eqavsQHo="/>
-    <field:display date="true" dateTimePattern="${datacentre_created_date_format}" field="created" id="s_org_datacite_mds_domain_Datacentre_created" object="${datacentre}" z="Rq5vul7Cq5z/WcpmDBl1ehChCsA="/>
+        <field:display date="true" dateTimePattern="${datacentre_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Datacentre_updated" object="${datacentre}" z="ycquI8H7Amr7/EyAfc8eqavsQHo="/>
+        <field:display date="true" dateTimePattern="${datacentre_created_date_format}" field="created" id="s_org_datacite_mds_domain_Datacentre_created" object="${datacentre}" z="Rq5vul7Cq5z/WcpmDBl1ehChCsA="/>
+        <util:change-password auth="${magicAuthString}" symbol="${datacentre.symbol}"></util:change-password>
     </page:show>
 </div>

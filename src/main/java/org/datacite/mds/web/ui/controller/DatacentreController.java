@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
+import org.datacite.mds.util.AuthStringUtils;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,5 +90,14 @@ public class DatacentreController {
     public String findDatacentresBySymbolEquals(@RequestParam("symbol") String symbol, Model model) {
         Datacentre datacentre = Datacentre.findDatacentreBySymbol(symbol);
         return (datacentre == null) ? "datacentres/show" : "redirect:/datacentres/" + datacentre.getId();
+    }
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String show(@PathVariable("id") Long id, Model model) {
+	Datacentre datacentre = Datacentre.findDatacentre(id);
+        model.addAttribute("datacentre", datacentre );
+        model.addAttribute("itemId", id);
+        model.addAttribute("magicAuthString", AuthStringUtils.getCurrentAuthString(datacentre));
+        return "datacentres/show";
     }
 }
