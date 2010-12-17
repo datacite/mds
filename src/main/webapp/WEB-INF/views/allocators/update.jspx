@@ -3,7 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_datacite_mds_domain_Allocator" modelAttribute="allocator" path="/allocators" z="v0Guludwhmmei13qFqUNyo6KCWc=">
         <field:input field="symbol" id="c_org_datacite_mds_domain_Allocator_symbol" required="true" z="KtF++KB5FDWRKiYmxPMREG9cCkk="/>
-        <field:input field="password" id="c_org_datacite_mds_domain_Allocator_password" max="30" min="8" required="true" z="ESrJNKPHrmAHVJJAE8TiLutCNo8="/>
+        <field:input field="password" id="c_org_datacite_mds_domain_Allocator_password" required="true" z="61mawcHal+T5E4IEKk3mM/lJbao="/>
         <field:textarea field="name" id="c_org_datacite_mds_domain_Allocator_name" required="true" z="q3lecVWHFw6wDWux7cvKm1kaWV0="/>
         <field:textarea field="contactName" id="c_org_datacite_mds_domain_Allocator_contactName" required="true" z="y1zOZH57Meld4p62RwgldAeNu40="/>
         <field:input field="contactEmail" id="c_org_datacite_mds_domain_Allocator_contactEmail" required="true" z="JBlmrLGQu/6+nUPzjpsfz9Pg+SE="/>

@@ -44,7 +44,6 @@ privileged aspect AllocatorController_Roo_Controller {
         return "allocators/create";
     }
     
-        
     @RequestMapping(method = RequestMethod.GET)
     public String AllocatorController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
         if (page != null || size != null) {

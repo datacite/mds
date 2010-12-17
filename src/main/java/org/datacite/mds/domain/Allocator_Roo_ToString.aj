@@ -9,6 +9,7 @@ privileged aspect Allocator_Roo_ToString {
     
     public String Allocator.toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("BaseAuthString: ").append(getBaseAuthString()).append(", ");
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Version: ").append(getVersion()).append(", ");
         sb.append("Symbol: ").append(getSymbol()).append(", ");

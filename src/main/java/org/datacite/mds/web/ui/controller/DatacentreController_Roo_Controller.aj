@@ -37,7 +37,6 @@ privileged aspect DatacentreController_Roo_Controller {
         return "redirect:/datacentres/" + encodeUrlPathSegment(datacentre.getId().toString(), request);
     }
     
-        
     @RequestMapping(method = RequestMethod.PUT)
     public String DatacentreController.update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {

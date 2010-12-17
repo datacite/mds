@@ -3,7 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_org_datacite_mds_domain_Datacentre" modelAttribute="datacentre" path="/datacentres" render="${empty dependencies}" z="v+pNG2RvBFPDFY9thjDHhASPFuA=">
         <field:input field="symbol" id="c_org_datacite_mds_domain_Datacentre_symbol" required="true" z="cLuUdsyRewixl+3p0MnkoNFEwTU="/>
-        <field:input field="password" id="c_org_datacite_mds_domain_Datacentre_password" max="30" min="8" required="true" z="zaGQm8W8zzCeFV2L4U476+veQQQ="/>
+        <field:input field="password" id="c_org_datacite_mds_domain_Datacentre_password" required="true" z="yEjQsgKgduYC9uDtE/XDyJZ8yZE="/>
         <field:textarea field="name" id="c_org_datacite_mds_domain_Datacentre_name" required="true" z="uBWUzaT/SrLIs9chzq0ml2AHX3U="/>
         <field:textarea field="contactName" id="c_org_datacite_mds_domain_Datacentre_contactName" required="true" z="/iHtVJWTszKcl99KhYL3VO3fLME="/>
         <field:input field="contactEmail" id="c_org_datacite_mds_domain_Datacentre_contactEmail" required="true" z="qu1fINT0vGtuupRnl4EZf0Smle4="/>
