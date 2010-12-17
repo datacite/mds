@@ -11,28 +11,26 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.datacite.mds.domain.Allocator;
-import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
+import org.datacite.mds.util.Utils;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MagicAuthStringServiceImpl implements MagicAuthStringService {
     Logger log4j = Logger.getLogger(MagicAuthStringServiceImpl.class);
-    
-    private String getBaseAuthString(String symbol) {
+
+    private String getBaseAuthString(AllocatorOrDatacentre user) {
         String baseAuthString = null;
-        Datacentre datacentre = Datacentre.findDatacentreBySymbol(symbol);
-        if (datacentre != null) {
-            baseAuthString = datacentre.getBaseAuthString();
-        } else {
-            Allocator allocator = Allocator.findAllocatorBySymbol(symbol);
-            if (allocator != null) {
-                baseAuthString = allocator.getBaseAuthString();
-            }
+        if (user != null) {
+            baseAuthString = user.getBaseAuthString();
         }
-        log4j.debug("base auth string for " + symbol + ": " + baseAuthString);
+        log4j.debug("base auth string for " + user.getSymbol() + ": " + baseAuthString);
         return baseAuthString;
+    }
+
+    private String getBaseAuthString(String symbol) {
+        return getBaseAuthString(Utils.findAllocatorOrDatacentreBySymbol(symbol));
     }
 
     private String saltAuthStringWithDate(String auth, Date date) {
@@ -61,13 +59,9 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
     public String getCurrentAuthString(String symbol) {
         return saltAuthStringWithDate(getBaseAuthString(symbol), new Date());
     }
-    
-    public String getCurrentAuthString(Datacentre datacentre) {
-        return saltAuthStringWithDate(datacentre.getBaseAuthString(), new Date());
-    }
 
-    public String getCurrentAuthString(Allocator allocator) {
-        return saltAuthStringWithDate(allocator.getBaseAuthString(), new Date());
+    public String getCurrentAuthString(AllocatorOrDatacentre user) {
+        return saltAuthStringWithDate(getBaseAuthString(user), new Date());
     }
 
     public boolean isValidAuthString(String symbol, String auth) {
