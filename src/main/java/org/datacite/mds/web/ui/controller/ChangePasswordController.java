@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ChangePasswordController {
 
-    Logger log4j = Logger.getLogger(ChangePasswordModel.class);
+    Logger log4j = Logger.getLogger(ChangePasswordController.class);
 
     private static final String AUTH_NOT_VALID = "auth string is not valid; might be expired";
 
@@ -33,8 +33,8 @@ public class ChangePasswordController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String changePassword(@ModelAttribute("password") @Valid ChangePasswordModel changePasswordModel,
-            @RequestParam(value = "symbol", required = true) String symbol,
-            @RequestParam(value = "auth", required = true) String auth, BindingResult result, Model model) {
+            BindingResult result, @RequestParam(value = "symbol", required = true) String symbol,
+            @RequestParam(value = "auth", required = true) String auth, Model model) {
         if (!AuthStringUtils.isValidAuthString(symbol, auth)) {
             throw new RuntimeException(AUTH_NOT_VALID);
         }
