@@ -68,10 +68,10 @@
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider user-service-ref='myUserDetailsService'>
-<!--            <security:password-encoder ref="passwordEncoder" />-->
+            <security:password-encoder ref="passwordEncoder" />
         </security:authentication-provider>
         <security:authentication-provider user-service-ref='myMasterUserDetailsService'>
-<!--            <security:password-encoder ref="passwordEncoder" />-->
+            <security:password-encoder ref="passwordEncoder" />
         </security:authentication-provider>
         <security:authentication-provider ref='rememberMeAuthenticationProvider' />
     </security:authentication-manager>
