@@ -179,13 +179,13 @@
     </bean>
 
 	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
-		<property name="key" value="MDS"/>
+		<property name="key" value="${salt.rememberMe}"/>
 		<property name="tokenValiditySeconds" value="86400"/> <!-- one day -->
 		<property name="userDetailsService" ref="myUserDetailsService"/>
 	</bean>
 	
 	<bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
-		<property name="key" value="MDS"/>
+		<property name="key" value="${salt.rememberMe}"/>
 	</bean>
 	
 	<bean id="securityContextHolder" class="org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter"/>
