@@ -27,9 +27,9 @@ public class Utils {
 
     private static final String AZ_LOWER_CASE = "abcdefghijklmnopqrstuvxyz";
     private static final String AZ_UPPER_CASE = AZ_LOWER_CASE.toUpperCase(Locale.ENGLISH);
-    
+
     public static final Character CSV_SEPARATOR = ',';
-    
+
     static Logger log4j = Logger.getLogger(Utils.class);
 
     /**
@@ -123,12 +123,16 @@ public class Utils {
         String ret = csv;
         ret = StringUtils.chomp(ret); // delete trailing newline char
         if (newlineAsSeparator) {
-            ret = ret.replaceAll("\n", SEP); //convert newline char to separator
+            // convert newline char to separator
+            ret = ret.replaceAll("\n", SEP);
         }
-        ret = ret.replaceAll("\\s*(" + SEP + "|^|$)\\s*", "$1"); // remove leading and trailing whitespace
+        // remove leading and trailing whitespace
+        ret = ret.replaceAll("\\s*(" + SEP + "|^|$)\\s*", "$1");
         if (skipEmptyValues) {
-            ret = ret.replaceAll(SEP + "+", SEP); // remove empty values in the middle
-            ret = ret.replaceAll("(^" + SEP + "|" + SEP + "$)", ""); // remove empty leading and trailing values
+            // remove empty values in the middle
+            ret = ret.replaceAll(SEP + "+", SEP);
+            // remove empty leading and trailing values
+            ret = ret.replaceAll("(^" + SEP + "|" + SEP + "$)", "");
         }
         log4j.debug("normalizeCsv: " + csv + " -> " + ret);
         return ret;
