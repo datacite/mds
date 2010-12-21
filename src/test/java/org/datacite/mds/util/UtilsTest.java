@@ -56,6 +56,15 @@ public class UtilsTest {
     }
     
     @Test
+    public void testNormalizeCsv() {
+        String csv = " ,  aa,,b c,dd \n ee,ff \ngg,, ,\n";
+        assertEquals(",aa,,b c,dd \n ee,ff \ngg,,,",Utils.normalizeCsv(csv, false, false));
+        assertEquals(",aa,,b c,dd,ee,ff,gg,,,",Utils.normalizeCsv(csv, true, false));
+        assertEquals("aa,b c,dd \n ee,ff \ngg",Utils.normalizeCsv(csv, false, true));
+        assertEquals("aa,b c,dd,ee,ff,gg",Utils.normalizeCsv(csv, true, true));
+    }
+    
+    @Test
     public void getHostname() {
         assertTrue(Utils.getHostname("ftp://user@sub.domain.tld:8080/path").equals("sub.domain.tld"));
     }

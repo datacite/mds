@@ -11,6 +11,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
@@ -26,10 +27,12 @@ public class Utils {
 
     private static final String AZ_LOWER_CASE = "abcdefghijklmnopqrstuvxyz";
     private static final String AZ_UPPER_CASE = AZ_LOWER_CASE.toUpperCase(Locale.ENGLISH);
+    
+    static Logger log4j = Logger.getLogger(Utils.class);
 
     /**
-     * normalizes a DOI according to the DOI Handbook by converting 'a' to 'z' to
-     * upper-case.
+     * normalizes a DOI according to the DOI Handbook by converting 'a' to 'z'
+     * to upper-case.
      * 
      * @param doi
      * @return normalized DOI
@@ -95,6 +98,40 @@ public class Utils {
     }
 
     /**
+     * <p>
+     * normalizes a string with comma or newline separated values
+     * </p>
+     * 
+     * <p>
+     * A trailing newline char is removed. Whitespace at the beginning or end of
+     * a value is trimmed. Optionally newline chars are converted to the default
+     * separator (',') and empty values are skipped
+     * </p>
+     * 
+     * @param csv
+     *            String to be normalized
+     * @param newlineAsSeparator
+     *            if true replace all newline chars with the default separator
+     * @param skipEmptyValues
+     *            if true delete empty values (e.g. 'a,,b' -> 'a,b')
+     * @return
+     */
+    public static String normalizeCsv(String csv, boolean newlineAsSeparator, boolean skipEmptyValues) {
+        String ret = csv;
+        ret = StringUtils.chomp(ret); // delete trailing newline char
+        if (newlineAsSeparator) {
+            ret = ret.replaceAll("\n", ","); //convert newline char to separator
+        }
+        ret = ret.replaceAll("\\s*(,|^|$)\\s*", "$1"); // remove leading and trailing whitespace
+        if (skipEmptyValues) {
+            ret = ret.replaceAll(",+", ","); // remove empty values in the middle
+            ret = ret.replaceAll("(^,|,$)", ""); // remove empty leading and trailing values
+        }
+        log4j.debug("normalizeCsv: " + csv + " -> " + ret);
+        return ret;
+    }
+
+    /**
      * returns the hostname of the given URL
      * 
      * @param urlStr
@@ -145,7 +182,7 @@ public class Utils {
         }
         return symbols;
     }
-    
+
     public static AllocatorOrDatacentre findAllocatorOrDatacentreBySymbol(String symbol) {
         AllocatorOrDatacentre user = Datacentre.findDatacentreBySymbol(symbol);
         if (user == null) {
