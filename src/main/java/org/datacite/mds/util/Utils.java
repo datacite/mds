@@ -49,7 +49,7 @@ public class Utils {
     private static String splitDoi(String doi, int index) {
         if (doi == null || !doi.contains("/"))
             return null;
-        String[] split = doi.split("/", -1);
+        String[] split = doi.split("/", 2);
         return split[index];
     }
 

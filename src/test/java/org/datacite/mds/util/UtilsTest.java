@@ -27,6 +27,7 @@ public class UtilsTest {
     @Test
     public void testGetDoiSuffix() {
         assertTrue(Utils.getDoiSuffix("10.5072/suffix").equals("suffix"));
+        assertTrue(Utils.getDoiSuffix("10.5072/suffix/foo/bar").equals("suffix/foo/bar"));
         assertTrue(Utils.getDoiSuffix("emptysuffix/").equals(""));
         assertNull(Utils.getDoiSuffix("nosuffix"));
         assertNull(Utils.getDoiSuffix(""));
