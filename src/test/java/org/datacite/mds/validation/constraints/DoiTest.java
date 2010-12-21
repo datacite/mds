@@ -18,6 +18,9 @@ public class DoiTest extends AbstractContraintsTest {
         assertFalse(isValid("10.1234/"));
         assertFalse(isValid("10..1234/test"));
         assertTrue(isValid("10.1234/test"));
+        assertFalse(isValid("10.1234/a/foobar"));
+        assertFalse(isValid("10.1234/foo/bar\u0010foo"));
+        assertFalse(isValid("10.1234/foo\nbar"));
     }
 
     boolean isValid(String doi) {

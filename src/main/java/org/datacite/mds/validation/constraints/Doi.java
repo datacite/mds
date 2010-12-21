@@ -8,21 +8,22 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.datacite.mds.validation.constraints.impl.DoiValidator;
 
 /**
  * This annotation is used for a String containing a DOI. It checks if the DOI
- * is well-formed.
+ * is well-formed. Null is a valid DOI (use @NotNull annotation if you don't
+ * want this).
  */
 @Documented
-@Constraint(validatedBy = {})
+@Constraint(validatedBy = DoiValidator.class)
 @Size(max = 255)
-@Pattern(regexp = "10\\.(\\d)+/(\\S)+", message = "{org.datacite.mds.validation.constraints.Doi.message}")
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Doi {
-    public abstract String message() default "";
+    public abstract String message() default "{org.datacite.mds.validation.constraints.Doi.message}";
 
     public abstract Class<?>[] groups() default {};
 
