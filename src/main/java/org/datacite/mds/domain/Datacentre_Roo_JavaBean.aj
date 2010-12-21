@@ -80,10 +80,6 @@ privileged aspect Datacentre_Roo_JavaBean {
         return this.domains;
     }
     
-    public void Datacentre.setDomains(String domains) {
-        this.domains = domains;
-    }
-    
     public String Datacentre.getComments() {
         return this.comments;
     }

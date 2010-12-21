@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.ListOfDomains;
 import org.datacite.mds.validation.constraints.MatchSymbolPrefix;
@@ -232,5 +233,9 @@ public class Datacentre implements AllocatorOrDatacentre {
         str.append(getSymbol());
         str.append(getPassword());
         return str.toString();
+    }
+
+    public void setDomains(String domains) {
+        this.domains = Utils.normalizeCsv(domains, true, true);
     }
 }
