@@ -28,6 +28,8 @@ public class Utils {
     private static final String AZ_LOWER_CASE = "abcdefghijklmnopqrstuvxyz";
     private static final String AZ_UPPER_CASE = AZ_LOWER_CASE.toUpperCase(Locale.ENGLISH);
     
+    public static final Character CSV_SEPARATOR = ',';
+    
     static Logger log4j = Logger.getLogger(Utils.class);
 
     /**
@@ -94,7 +96,7 @@ public class Utils {
         if (csv == null) {
             return new ArrayList<String>();
         }
-        return Arrays.asList(csv.split(",", -1));
+        return Arrays.asList(csv.split(CSV_SEPARATOR.toString(), -1));
     }
 
     /**
@@ -117,15 +119,16 @@ public class Utils {
      * @return
      */
     public static String normalizeCsv(String csv, boolean newlineAsSeparator, boolean skipEmptyValues) {
+        String SEP = CSV_SEPARATOR.toString();
         String ret = csv;
         ret = StringUtils.chomp(ret); // delete trailing newline char
         if (newlineAsSeparator) {
-            ret = ret.replaceAll("\n", ","); //convert newline char to separator
+            ret = ret.replaceAll("\n", SEP); //convert newline char to separator
         }
-        ret = ret.replaceAll("\\s*(,|^|$)\\s*", "$1"); // remove leading and trailing whitespace
+        ret = ret.replaceAll("\\s*(" + SEP + "|^|$)\\s*", "$1"); // remove leading and trailing whitespace
         if (skipEmptyValues) {
-            ret = ret.replaceAll(",+", ","); // remove empty values in the middle
-            ret = ret.replaceAll("(^,|,$)", ""); // remove empty leading and trailing values
+            ret = ret.replaceAll(SEP + "+", SEP); // remove empty values in the middle
+            ret = ret.replaceAll("(^" + SEP + "|" + SEP + "$)", ""); // remove empty leading and trailing values
         }
         log4j.debug("normalizeCsv: " + csv + " -> " + ret);
         return ret;
