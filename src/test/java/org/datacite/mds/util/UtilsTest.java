@@ -1,5 +1,7 @@
 package org.datacite.mds.util;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
@@ -58,10 +60,20 @@ public class UtilsTest {
     @Test
     public void testNormalizeCsv() {
         String csv = " ,  aa,,b c,dd \n ee,ff \ngg,, ,\n";
-        assertEquals(",aa,,b c,dd \n ee,ff \ngg,,,",Utils.normalizeCsv(csv, false, false));
-        assertEquals(",aa,,b c,dd,ee,ff,gg,,,",Utils.normalizeCsv(csv, true, false));
-        assertEquals("aa,b c,dd \n ee,ff \ngg",Utils.normalizeCsv(csv, false, true));
-        assertEquals("aa,b c,dd,ee,ff,gg",Utils.normalizeCsv(csv, true, true));
+        Collection<String> newline = Arrays.asList("\n");
+        Collection<String> space = Arrays.asList(" ");
+        Collection<String> newlineAndSpace = Arrays.asList(" ", "\n");
+        
+        assertEquals(",aa,,b c,dd \n ee,ff \ngg,,,",Utils.normalizeCsv(csv, null, false));
+        assertEquals(",,,,aa,,b,c,dd,\n,ee,ff,\ngg,,,,",Utils.normalizeCsv(csv, space, false));
+        assertEquals(",aa,,b c,dd,ee,ff,gg,,,",Utils.normalizeCsv(csv, newline, false));
+        assertEquals(",,,,aa,,b,c,dd,,,ee,ff,,gg,,,,",Utils.normalizeCsv(csv, newlineAndSpace, false));
+
+        assertEquals("aa,b c,dd \n ee,ff \ngg",Utils.normalizeCsv(csv, null, true));
+        assertEquals("aa,b,c,dd,\n,ee,ff,\ngg",Utils.normalizeCsv(csv, space, true));
+        assertEquals("aa,b c,dd,ee,ff,gg",Utils.normalizeCsv(csv, newline, true));
+        assertEquals("aa,b,c,dd,ee,ff,gg",Utils.normalizeCsv(csv, newlineAndSpace, true));
+
     }
     
     @Test

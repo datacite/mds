@@ -1,5 +1,6 @@
 package org.datacite.mds.domain;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -236,6 +237,6 @@ public class Datacentre implements AllocatorOrDatacentre {
     }
 
     public void setDomains(String domains) {
-        this.domains = Utils.normalizeCsv(domains, true, true);
+        this.domains = Utils.normalizeCsv(domains, Arrays.asList(" ", "\n"), true);
     }
 }

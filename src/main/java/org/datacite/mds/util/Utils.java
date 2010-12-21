@@ -5,11 +5,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
@@ -29,6 +31,7 @@ public class Utils {
     private static final String AZ_UPPER_CASE = AZ_LOWER_CASE.toUpperCase(Locale.ENGLISH);
 
     public static final Character CSV_SEPARATOR = ',';
+    public static final String CSV_WHITESPACE = " ";
 
     static Logger log4j = Logger.getLogger(Utils.class);
 
@@ -112,22 +115,26 @@ public class Utils {
      * 
      * @param csv
      *            String to be normalized
-     * @param newlineAsSeparator
-     *            if true replace all newline chars with the default separator
+     * @param additionalSeparators
+     *            replace all entries of this list with the default separator
      * @param skipEmptyValues
      *            if true delete empty values (e.g. 'a,,b' -> 'a,b')
      * @return
      */
-    public static String normalizeCsv(String csv, boolean newlineAsSeparator, boolean skipEmptyValues) {
+    public static String normalizeCsv(String csv, Collection<String> additionalSeparators, boolean skipEmptyValues) {
         String SEP = CSV_SEPARATOR.toString();
+        String WHITE = CSV_WHITESPACE;
         String ret = csv;
         ret = StringUtils.chomp(ret); // delete trailing newline char
-        if (newlineAsSeparator) {
-            // convert newline char to separator
-            ret = ret.replaceAll("\n", SEP);
+        ret = ret.replaceAll("\r\n", "\n"); // uniform newline chars
+        if (additionalSeparators != null) {
+            for (String additionalSeparator : additionalSeparators) {
+                // convert additional separators to default separator
+                ret = ret.replaceAll(additionalSeparator, SEP);
+            }
         }
         // remove leading and trailing whitespace
-        ret = ret.replaceAll("\\s*(" + SEP + "|^|$)\\s*", "$1");
+        ret = ret.replaceAll("[" + WHITE + "]*(" + SEP + "|^|$)[" + WHITE + "]*", "$1");
         if (skipEmptyValues) {
             // remove empty values in the middle
             ret = ret.replaceAll(SEP + "+", SEP);
