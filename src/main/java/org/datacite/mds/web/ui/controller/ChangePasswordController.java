@@ -42,7 +42,7 @@ public class ChangePasswordController {
             throw new RuntimeException(AUTH_NOT_VALID);
         }
         model.addAttribute("password", new ChangePasswordModel());
-        return "changePassword";
+        return "password/change";
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -57,7 +57,7 @@ public class ChangePasswordController {
             model.addAttribute("password", changePasswordModel);
             ValidationUtils.copyFieldErrorToObject(result, "equal");
             log4j.debug("form has error: password not changed");
-            return "changePassword";
+            return "password/change";
         }
         
         user.setPassword(passwordEncoder.encodePassword(changePasswordModel.getFirst(),null));
