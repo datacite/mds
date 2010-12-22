@@ -10,7 +10,7 @@ public class ChangePasswordModel {
     String first;
     String second ;
     
-    @AssertTrue
+    @AssertTrue(message="{org.datacite.mds.validation.other.FieldEquals.message}")
     public boolean isEqual() {
         return getFirst().equals(getSecond());
     }
