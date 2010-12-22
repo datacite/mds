@@ -52,11 +52,13 @@ public class ChangePasswordController {
         }
         if (result.hasErrors()) {
             model.addAttribute("password", changePasswordModel);
+            log4j.debug("form has error: password not changed");
             return "changePassword";
         }
         
         user.setPassword(passwordEncoder.encodePassword(changePasswordModel.getFirst(),null));
         user.merge();
+        log4j.debug("password succesfully changed for '" + symbol + "'");
         
         return "redirect:/";
     }
