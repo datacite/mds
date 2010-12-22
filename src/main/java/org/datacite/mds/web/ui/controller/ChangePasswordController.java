@@ -46,7 +46,9 @@ public class ChangePasswordController {
         if (!magicAuthStringService.isValidAuthString(user, auth)) {
             return "password/expired";
         }
-        model.addAttribute("password", new ChangePasswordModel());
+        ChangePasswordModel changePasswordModel = new ChangePasswordModel();
+        changePasswordModel.setSymbol(symbol);
+        model.addAttribute("password", changePasswordModel);
         return "password/change";
     }
 
