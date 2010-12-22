@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/resources/change_password")
 @Controller
 public class ChangePasswordController {
-
+    
     Logger log4j = Logger.getLogger(ChangePasswordController.class);
 
     @Autowired
@@ -64,6 +64,6 @@ public class ChangePasswordController {
         user.merge();
         log4j.debug("password succesfully changed for '" + symbol + "'");
         
-        return "redirect:/";
+        return "password/success";
     }
 }

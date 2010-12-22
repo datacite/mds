@@ -5,4 +5,8 @@
   <definition extends="public" name="password/change">
     <put-attribute name="body" value="/WEB-INF/views/password/change.jspx"/>
   </definition>
+
+  <definition extends="default" name="password/success">
+    <put-attribute name="body" value="/WEB-INF/views/password/success.jspx"/>
+  </definition>
 </tiles-definitions>
