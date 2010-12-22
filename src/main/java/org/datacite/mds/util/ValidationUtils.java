@@ -65,6 +65,14 @@ public class ValidationUtils {
         }
     }
 
+    public static void copyFieldErrorToField(BindingResult result, String fromField, String toField) {
+        FieldError fieldError = result.getFieldError(fromField);
+        if (fieldError != null) {
+            FieldError newError = new FieldError(fieldError.getObjectName(), toField, fieldError.getDefaultMessage());
+            result.addError(newError);
+        }
+    }
+
     /**
      * 
      * validation method to check a string, if it is a valid hostname. E.g. it

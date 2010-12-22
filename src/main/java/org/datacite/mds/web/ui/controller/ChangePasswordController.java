@@ -62,7 +62,8 @@ public class ChangePasswordController {
         }
         if (result.hasErrors()) {
             model.addAttribute("password", changePasswordModel);
-            ValidationUtils.copyFieldErrorToObject(result, "equal");
+            ValidationUtils.copyFieldErrorToField(result, "equal", "first");
+            ValidationUtils.copyFieldErrorToField(result, "equal", "second");
             log4j.debug("form has error: password not changed");
             return "password/change";
         }
