@@ -80,6 +80,7 @@ public class ChangePasswordController {
             log4j.info("no autologin because already logged in");
         }
 
+        model.addAttribute("symbol", symbol);
         return "password/success";
     }
 
