@@ -6,12 +6,15 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.util.Utils;
+import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.web.ui.model.ChangePasswordModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,6 +55,7 @@ public class ChangePasswordController {
         }
         if (result.hasErrors()) {
             model.addAttribute("password", changePasswordModel);
+            ValidationUtils.copyFieldErrorToObject(result, "equal");
             log4j.debug("form has error: password not changed");
             return "changePassword";
         }

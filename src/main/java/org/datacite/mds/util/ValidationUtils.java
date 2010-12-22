@@ -6,12 +6,15 @@ import java.net.URL;
 import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.validator.UrlValidator;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 
 /**
  * Util class with validation related static methods.
  */
 public class ValidationUtils {
-  
+
     /**
      * shortcut for building a constraint violation attached to a specific node
      * 
@@ -36,6 +39,30 @@ public class ValidationUtils {
      */
     public static void addConstraintViolation(ConstraintValidatorContext context, String message) {
         context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+    }
+
+    /**
+     * <p>
+     * Copy a validation error from a field to the object itself. This makes
+     * sense for fields not rendered but might cause a validation error
+     * (typically a assertTrue Annotation on method level)
+     * </p>
+     * 
+     * <p>
+     * If there is no error in the specified field, this method does nothing.
+     * </p>
+     * 
+     * @param result
+     *            binding result
+     * @param field
+     *            name of field to be copied to object level
+     */
+    public static void copyFieldErrorToObject(BindingResult result, String field) {
+        FieldError fieldError = result.getFieldError(field);
+        if (fieldError != null) {
+            ObjectError error = new ObjectError(fieldError.getObjectName(), fieldError.getDefaultMessage());
+            result.addError(error);
+        }
     }
 
     /**
