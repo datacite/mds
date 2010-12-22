@@ -6,6 +6,10 @@
     <put-attribute name="body" value="/WEB-INF/views/password/change.jspx"/>
   </definition>
 
+  <definition extends="public" name="password/expired">
+    <put-attribute name="body" value="/WEB-INF/views/password/expired.jspx"/>
+  </definition>
+
   <definition extends="default" name="password/success">
     <put-attribute name="body" value="/WEB-INF/views/password/success.jspx"/>
   </definition>

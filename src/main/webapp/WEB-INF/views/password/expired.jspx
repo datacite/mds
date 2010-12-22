@@ -1,0 +1,11 @@
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+  <spring:message var="title" code="error_magicauth_expired_title" />
+  <util:panel id="title" title="${title}">
+    <h2>${fn:escapeXml(title)}</h2>
+    <p>
+      <spring:message code="error_magicauth_expired_description" />
+    </p>
+  </util:panel>
+</div>
+

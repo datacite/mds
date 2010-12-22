@@ -32,14 +32,12 @@ public class ChangePasswordController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private static final String AUTH_NOT_VALID = "auth string is not valid; might be expired";
-
     @RequestMapping(method = RequestMethod.GET)
     public String createForm(@RequestParam(value = "symbol", required = true) String symbol,
             @RequestParam(value = "auth", required = true) String auth, Model model) {
         AllocatorOrDatacentre user = Utils.findAllocatorOrDatacentreBySymbol(symbol);
         if (!magicAuthStringService.isValidAuthString(user, auth)) {
-            throw new RuntimeException(AUTH_NOT_VALID);
+            return "password/expired";
         }
         model.addAttribute("password", new ChangePasswordModel());
         return "password/change";
@@ -51,7 +49,7 @@ public class ChangePasswordController {
             @RequestParam(value = "auth", required = true) String auth, Model model) {
         AllocatorOrDatacentre user = Utils.findAllocatorOrDatacentreBySymbol(symbol);
         if (!magicAuthStringService.isValidAuthString(user, auth)) {
-            throw new RuntimeException(AUTH_NOT_VALID);
+            return "password/expired";
         }
         if (result.hasErrors()) {
             model.addAttribute("password", changePasswordModel);
