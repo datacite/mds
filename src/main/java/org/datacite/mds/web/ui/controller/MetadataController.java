@@ -48,8 +48,8 @@ public class MetadataController {
     }
 
     @ModelAttribute("datasets")
-    public Collection<Dataset> populateDatasets(@RequestParam(value = "dataset", required = false) Long dataset_id) {
-        Dataset dataset = Dataset.findDataset(dataset_id);
+    public Collection<Dataset> populateDatasets(@RequestParam(value = "dataset", required = false) Long datasetId) {
+        Dataset dataset = Dataset.findDataset(datasetId);
         return Arrays.asList(dataset);
     }
 
@@ -76,7 +76,7 @@ public class MetadataController {
     }
 
     @RequestMapping(value = "/{id}", params = "raw", method = RequestMethod.GET)
-    public ResponseEntity<? extends Object> show_raw(@PathVariable("id") Long id) {
+    public ResponseEntity<? extends Object> showRaw(@PathVariable("id") Long id) {
         HttpHeaders headers = new HttpHeaders();
         Metadata metadata = Metadata.findMetadata(id);
         if (metadata == null) {

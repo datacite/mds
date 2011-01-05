@@ -19,7 +19,5 @@ public interface HandleService {
      * @param newUrl a new location to be resolved
      * @throws HandleException wraps exception from the server
      */
-	void update(String doi, String newUrl) throws HandleException;
-
-	
+    void update(String doi, String newUrl) throws HandleException;
 }

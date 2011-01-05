@@ -59,7 +59,7 @@ public class MetadataApiController implements ApiController {
             return new ResponseEntity<String>("dataset inactive", headers, HttpStatus.GONE);
 
         Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
-        if(metadata == null)
+        if (metadata == null)
             return new ResponseEntity<String>("no metadata for the DOI", headers, HttpStatus.NOT_FOUND);
 
         headers.setContentType(MediaType.APPLICATION_XML);
@@ -106,9 +106,9 @@ public class MetadataApiController implements ApiController {
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
-        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (HandleException e) {
-        	return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);        	
+            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         log4j.debug(logPrefix + "dataset id = " + dataset.getId());
