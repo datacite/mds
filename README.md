@@ -7,7 +7,7 @@ datasets.
 
 To learn more about DataCite please visit [our website](http://www.datacite.org)
 
-To use this software please go to [https://api.datacite.org]
+To use this software please go to [https://api.datacite.org](https://api.datacite.org)
 
 # Installation (for development only)
 
@@ -31,9 +31,7 @@ manually.
 
 ### Oracle JDBC driver
 
-get ojdbc14.jar from 
-
-    http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-10201-088211.html
+get ojdbc14.jar from [Oracle](http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-10201-088211.html)
 
 and add it to maven local repo:
 
@@ -45,7 +43,7 @@ and add it to maven local repo:
 MDS uses Handle System Java API to make calls to the Handle Service. You
 need the Handle API client jar.
 
-Download the Java package from http://handle.net/client_download.html
+Download the Java package from [Handle.net](http://handle.net/client_download.html)
 
 Extract files and add handle-client.jar to your local maven repo:
 
