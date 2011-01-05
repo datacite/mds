@@ -5,9 +5,9 @@ app has UI and API for DataCite members and their datacentres. The
 main functionality is minting DOIs and storing metadata for the
 datasets.
 
-To learn more about DataCite please visit http://www.datacite.org
+To learn more about DataCite please visit [our website](http://www.datacite.org)
 
-To use this software please go to https://api.datacite.org
+To use this software please go to [https://api.datacite.org]
 
 # Installation (for development only)
 
