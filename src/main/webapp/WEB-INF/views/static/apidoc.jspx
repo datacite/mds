@@ -136,7 +136,7 @@ empty
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us
 </p> 
-<h4>Python example</h4> 	
+<h4>Examples</h4> 	
 
 <util:tabs id="script_metadata_get">
 <util:tab title="python">
@@ -209,7 +209,7 @@ print $response->content;
 <p><code>403 Forbidden</code> - login problem, quota exceeded, wrong domain, wrong prefix</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
-<h4>Python example</h4> 	
+<h4>Examples</h4> 	
 <util:tabs id="script_metadata_post">
 <util:tab title="python">
 <util:highlight lang="python">
@@ -288,7 +288,7 @@ print $response->content;
 <p><code>403 Forbidden</code> - login problem, quota excceded, wrong domain, wrong prefix</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
-<h4>Python example</h4>
+<h4>Examples</h4>
 <util:tabs id="script_metadata_put">
 <util:tab title="python">
 <util:highlight lang="python">
@@ -367,7 +367,7 @@ empty
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us
 </p> 
-<h4>Python example</h4>
+<h4>Examples</h4>
 <util:tabs id="script_metadata_delete">
 <util:tab title="python"> 	
 <util:highlight lang="python">
@@ -435,7 +435,7 @@ print $response->content;
 <p><code>403 Forbidden</code> - login problem, quota excceded, wrong domain, wrong prefix</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
-<h4>Python example</h4> 	
+<h4>Examples</h4> 	
 <util:tabs id="script_doi_post">
 <util:tab title="python"> 	
 <util:highlight lang="python">
@@ -518,7 +518,7 @@ print $response->content;
 <p><code>403 Forbidden</code> - login problem, quota excceded, wrong domain, wrong prefix</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
-<h4>Python example</h4> 	
+<h4>Examples</h4> 	
 <util:tabs id="script_doi_put">
 <util:tab title="python"> 	
 <util:highlight lang="python">
