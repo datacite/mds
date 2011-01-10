@@ -95,9 +95,9 @@ public class DatacentreController {
         return (datacentre == null) ? "datacentres/show" : "redirect:/datacentres/" + datacentre.getId();
     }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {
-	Datacentre datacentre = Datacentre.findDatacentre(id);
+        Datacentre datacentre = Datacentre.findDatacentre(id);
         model.addAttribute("datacentre", datacentre );
         model.addAttribute("itemId", id);
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));

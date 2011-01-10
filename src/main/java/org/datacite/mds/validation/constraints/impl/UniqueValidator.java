@@ -33,7 +33,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
         this.defaultMessage = constraintAnnotation.message();
     }
 
-    @Transactional(readOnly=true, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
         if (entityManager == null) {
             log.warn("entityManager not injected");

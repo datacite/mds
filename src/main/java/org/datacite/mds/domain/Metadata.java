@@ -2,7 +2,15 @@ package org.datacite.mds.domain;
 
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EntityManager;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.Query;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -75,7 +83,7 @@ public class Metadata {
         
         EntityManager em = Metadata.entityManager();
         TypedQuery<Metadata> q = em.createQuery(
-                "SELECT Metadata FROM Metadata AS metadata WHERE metadata.dataset = :dataset "+
+                "SELECT Metadata FROM Metadata AS metadata WHERE metadata.dataset = :dataset " +
                 "AND metadata.metadataVersion = :metadataVersion", 
                 Metadata.class);
         q.setParameter("dataset", dataset);

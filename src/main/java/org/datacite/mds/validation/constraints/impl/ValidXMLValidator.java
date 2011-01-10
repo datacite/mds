@@ -38,7 +38,7 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
 
     public boolean isValid(byte[] xmlBytes, ConstraintValidatorContext context) {
         InputStream inputStream = new ByteArrayInputStream(xmlBytes);
-        if (! isEnabled()) {
+        if (!isEnabled()) {
             log.debug("validation skipped; checking only for well-formness");
             try {
                 XMLReader reader = XMLReaderFactory.createXMLReader();

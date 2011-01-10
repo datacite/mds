@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DatacentreApiController implements ApiController {
 
     Logger log4j = Logger.getLogger(DatacentreApiController.class);
-    
-	@RequestMapping(value = "datacentre", method = RequestMethod.GET, headers = { "Accept=application/xml" })
-	public ResponseEntity<? extends Object> get(@RequestParam String symbol) {
+
+    @RequestMapping(value = "datacentre", method = RequestMethod.GET, headers = { "Accept=application/xml" })
+    public ResponseEntity<? extends Object> get(@RequestParam String symbol) {
 
         Datacentre datacentre;
         try {
@@ -43,26 +43,26 @@ public class DatacentreApiController implements ApiController {
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
-        	return new ResponseEntity<String>("internal error - please contact admin", new HttpHeaders(), 
-                                              HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>("internal error - please contact admin", new HttpHeaders(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
-	    
+
         if (!allocator.getSymbol().equals(datacentre.getAllocator().getSymbol())) {
             return new ResponseEntity<String>("cannot request datacentre which belongs to another party", 
                                               new HttpHeaders(), HttpStatus.FORBIDDEN);
         }
 
         //TODO refactor HttpHeaders into local variable and set headers.setContentType(MediaType.APPLICATION_XML);
-	    return new ResponseEntity<Datacentre>(datacentre, new HttpHeaders(), HttpStatus.OK);	    
-	}
-	
-	@RequestMapping(value = "datacentre", method = RequestMethod.PUT, headers = { "Content-Type=application/xml" })
-	public ResponseEntity<? extends Object> createOrUpdate(@RequestBody @Valid Datacentre requestDatacentre,
-			@RequestParam(required = false) Boolean testMode) {
+        return new ResponseEntity<Datacentre>(datacentre, new HttpHeaders(), HttpStatus.OK);
+    }
 
-		if (testMode == null)
-			testMode = false;
-		log4j.debug("*****PUT datacentre " + requestDatacentre + " \ntestMode = " + testMode);
+    @RequestMapping(value = "datacentre", method = RequestMethod.PUT, headers = { "Content-Type=application/xml" })
+    public ResponseEntity<? extends Object> createOrUpdate(@RequestBody @Valid Datacentre requestDatacentre,
+            @RequestParam(required = false) Boolean testMode) {
+
+        if (testMode == null)
+            testMode = false;
+        log4j.debug("*****PUT datacentre " + requestDatacentre + " \ntestMode = " + testMode);
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -73,8 +73,8 @@ public class DatacentreApiController implements ApiController {
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
-        	return new ResponseEntity<String>("internal error - please contact admin", 
-                                              headers, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>("internal error - please contact admin", headers,
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         if (!requestDatacentre.getSymbol().startsWith(allocator.getSymbol()))
@@ -100,7 +100,7 @@ public class DatacentreApiController implements ApiController {
             requestDatacentre.setUpdated(new Date());
             requestDatacentre.setCreated(new Date());
 
-            if(!testMode)
+            if (!testMode)
                 requestDatacentre.persist();
 
             headers.setContentType(MediaType.APPLICATION_XML);
@@ -121,10 +121,10 @@ public class DatacentreApiController implements ApiController {
         datacentre.getPrefixes().addAll(requestDatacentre.getPrefixes());
         datacentre.setSymbol(requestDatacentre.getSymbol());
 
-        if(!testMode)
+        if (!testMode)
             datacentre.merge();
                 
         headers.setContentType(MediaType.APPLICATION_XML);
         return new ResponseEntity<Datacentre>(datacentre, headers, HttpStatus.OK);
-	}
+    }
 }

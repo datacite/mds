@@ -25,7 +25,7 @@ public class MatchSymbolPrefixValidator implements ConstraintValidator<MatchSymb
             return true;
         }
         
-        if (!datacentre.getSymbol().startsWith(datacentre.getAllocator().getSymbol()+".")) {
+        if (!datacentre.getSymbol().startsWith(datacentre.getAllocator().getSymbol() + ".")) {
             context.disableDefaultConstraintViolation();
             ValidationUtils.addConstraintViolation(context, defaultMessage, "symbol");
             return false;

@@ -76,7 +76,7 @@ public class HandleServiceImpl implements HandleService {
             log4j.error("UnsupportedEncodingException", e);
             throw new RuntimeException("UnsupportedEncodingException", e);
         } catch (net.handle.hdllib.HandleException e) {
-        	String message = "tried to register handle " + doi + " but failed: " + e.getMessage();
+            String message = "tried to register handle " + doi + " but failed: " + e.getMessage();
             log4j.error(message, e);
             throw new HandleException(message, e);
         }
@@ -118,7 +118,7 @@ public class HandleServiceImpl implements HandleService {
                 throw new HandleException(msg);
             }
         } catch (net.handle.hdllib.HandleException e) {
-        	String message = "tried to update handle " + doi + " but failed: " + e.getMessage();
+            String message = "tried to update handle " + doi + " but failed: " + e.getMessage();
             throw new HandleException(message, e);
         } catch (UnsupportedEncodingException e) {
             log4j.error("UnsupportedEncodingException", e);
