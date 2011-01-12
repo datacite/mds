@@ -68,7 +68,7 @@ repository. Now you need to configure the code before compiling.
 The git repository has a bunch of *.template files. You can find them
 with:
 
-find . -name *.template
+    find . -name *.template
 
 Those files are templates for the various configuration files which
 are machine specific i.e. passwords, IP addresses etc.
