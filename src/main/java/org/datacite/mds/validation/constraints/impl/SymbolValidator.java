@@ -1,7 +1,9 @@
 package org.datacite.mds.validation.constraints.impl;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -16,7 +18,15 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
     List<Type> types;
     boolean hasToExist;
-
+    
+    static final HashMap<Type, Pattern> PATTERNS = new HashMap<Type, Pattern>() {
+        {
+            String symbol = "[A-Z][A-Z\\-]{0,6}[A-Z]"; 
+            put(Type.ALLOCATOR, Pattern.compile(symbol));
+            put(Type.DATACENTRE, Pattern.compile(symbol + "\\." + symbol));
+        }
+    };
+    
     public void initialize(Symbol constraintAnnotation) {
         types = Arrays.asList(constraintAnnotation.value());
         hasToExist = constraintAnnotation.hasToExist();
@@ -37,7 +47,7 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
     boolean isMalformed(String symbol, ConstraintValidatorContext context) {
         for (Type t : types) {
-            if (Symbol.PATTERNS.get(t).matcher(symbol).matches() && symbol.indexOf("--") == -1) {
+            if (PATTERNS.get(t).matcher(symbol).matches() && symbol.indexOf("--") == -1) {
                 //check against the pattern for each given type 
                 return false;
             } else {

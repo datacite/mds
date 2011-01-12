@@ -5,8 +5,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.HashMap;
-import java.util.regex.Pattern;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -52,15 +50,6 @@ public @interface Symbol {
     public enum Type {
         ALLOCATOR, DATACENTRE
     }
-
-    static final HashMap<Type, Pattern> PATTERNS = new HashMap<Type, Pattern>() {
-        {
-            // prohibition of "--" is realized in SymbolValidator.java
-            String symbol = "[A-Z][A-Z\\-]{0,6}[A-Z]"; 
-            put(Type.ALLOCATOR, Pattern.compile(symbol));
-            put(Type.DATACENTRE, Pattern.compile(symbol + "\\." + symbol));
-        }
-    };
 
     /**
      * the symbol types to accept
