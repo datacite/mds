@@ -570,6 +570,14 @@
 				   </webAppConfig>
 				</configuration>
 			</plugin>
+                        <plugin>
+                          <groupId>org.apache.maven.plugins</groupId>
+                          <artifactId>maven-checkstyle-plugin</artifactId>
+                          <version>2.6</version>
+                          <configuration>
+                             <configLocation>${basedir}/src/main/config/checkstyle.xml</configLocation>
+                          </configuration>
+                        </plugin>
 		</plugins>
 	</build>
 </project>
