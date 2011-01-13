@@ -30,6 +30,8 @@ public class HandleServiceImpl implements HandleService {
 
     @Value("${handle.traceMessages}") private boolean traceMessages;
 
+    @Value("${handle.dummyMode}") private boolean dummyMode;    
+    
     private static final int URL_RECORD_INDEX = 1;
 
     private static final int ADMIN_RECORD_INDEX = 100;
@@ -64,13 +66,17 @@ public class HandleServiceImpl implements HandleService {
 
             CreateHandleRequest req = new CreateHandleRequest(doi.getBytes(DEFAULT_ENCODING), val, authInfo);
 
-            AbstractResponse response = resolver.processRequest(req);
+            if (!dummyMode) {
+                AbstractResponse response = resolver.processRequest(req);
 
-            String msg = AbstractMessage.getResponseCodeMessage(response.responseCode);
-            log4j.debug("response code from Handle request: " + msg);
+                String msg = AbstractMessage.getResponseCodeMessage(response.responseCode);
+                log4j.debug("response code from Handle request: " + msg);
 
-            if (response.responseCode != AbstractMessage.RC_SUCCESS) {
-                throw new HandleException(msg);
+                if (response.responseCode != AbstractMessage.RC_SUCCESS) {
+                    throw new HandleException(msg);
+                }
+            } else {
+                log4j.debug("response code from Handle request: none - dummyMode on");
             }
         } catch (UnsupportedEncodingException e) {
             log4j.error("UnsupportedEncodingException", e);
@@ -90,10 +96,22 @@ public class HandleServiceImpl implements HandleService {
 
         HandleResolver resolver = new HandleResolver();
         resolver.traceMessages = traceMessages;
-
+        int timestamp = (int) (System.currentTimeMillis() / 1000);
+        
         try {
-            HandleValue[] val = resolver.resolveHandle(doi, new String[] { "URL" }, null);
-            log4j.debug("found handle: " + val[0]);
+            HandleValue[] val;
+            HandleValue[] dummyVal = {
+                    new HandleValue(URL_RECORD_INDEX, "URL".getBytes(DEFAULT_ENCODING), 
+                            newUrl.getBytes(DEFAULT_ENCODING),
+                            HandleValue.TTL_TYPE_RELATIVE, 86400, timestamp, null, true, true, true, false) };
+
+            if(!dummyMode) {
+                val = resolver.resolveHandle(doi, new String[] { "URL" }, null);
+                log4j.debug("found handle: " + val[0]);
+            } else {
+                val = dummyVal;
+                log4j.debug("found handle: none - dummyMode on");
+            }
 
             if (val.length != 1) {
                 String msg = "Handle not found";
@@ -108,14 +126,18 @@ public class HandleServiceImpl implements HandleService {
 
             ModifyValueRequest req = new ModifyValueRequest(doi.getBytes(DEFAULT_ENCODING), val, authInfo);
 
-            AbstractResponse response = resolver.processRequest(req);
+            if(!dummyMode){
+                AbstractResponse response = resolver.processRequest(req);
 
-            String msg = AbstractMessage.getResponseCodeMessage(response.responseCode);
-            
-            log4j.debug("response code from Handle request: " + msg);
+                String msg = AbstractMessage.getResponseCodeMessage(response.responseCode);
 
-            if (response.responseCode != AbstractMessage.RC_SUCCESS) {
-                throw new HandleException(msg);
+                log4j.debug("response code from Handle request: " + msg);
+
+                if (response.responseCode != AbstractMessage.RC_SUCCESS) {
+                    throw new HandleException(msg);
+                }
+            } else {
+                log4j.debug("response code from Handle request: none - dummyMode on");
             }
         } catch (net.handle.hdllib.HandleException e) {
             String message = "tried to update handle " + doi + " but failed: " + e.getMessage();
