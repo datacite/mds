@@ -588,7 +588,7 @@
       <configuration>
         <tasks>
           <!--backup the "proper" persistence.xml-->
-          <copy file="${project.build.outputDirectory}/META-INF/persistence.xml" tofile="${project.build.outputDirectory}/META-INF/persistence.xml.proper"/>
+          <move file="${project.build.outputDirectory}/META-INF/persistence.xml" tofile="${project.build.outputDirectory}/META-INF/persistence.xml.proper" failonerror="false"/>
           <!--replace the "proper" persistence.xml with the "test" version-->
           <copy file="${project.build.testOutputDirectory}/META-INF/persistence.xml" tofile="${project.build.outputDirectory}/META-INF/persistence.xml" overwrite="true"/>
         </tasks>
@@ -603,7 +603,7 @@
       <configuration>
         <tasks>
           <!--restore the "proper" persistence.xml-->
-          <copy file="${project.build.outputDirectory}/META-INF/persistence.xml.proper" tofile="${project.build.outputDirectory}/META-INF/persistence.xml" overwrite="true"/>
+          <copy file="${project.build.outputDirectory}/META-INF/persistence.xml.proper" tofile="${project.build.outputDirectory}/META-INF/persistence.xml" overwrite="true" failonerror="false"/>
         </tasks>
       </configuration>
       <goals>
