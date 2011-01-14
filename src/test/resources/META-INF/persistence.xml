@@ -7,11 +7,5 @@
             <property name="hibernate.hbm2ddl.auto" value="create"/>
             <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
         </properties>
-        <class>org.datacite.mds.domain.Allocator</class>
-        <class>org.datacite.mds.domain.Datacentre</class>
-        <class>org.datacite.mds.domain.Dataset</class>
-        <class>org.datacite.mds.domain.Metadata</class>
-        <class>org.datacite.mds.domain.OaiSource</class>
-        <class>org.datacite.mds.domain.Prefix</class>
     </persistence-unit>
 </persistence>
