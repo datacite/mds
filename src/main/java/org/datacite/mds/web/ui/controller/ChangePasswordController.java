@@ -6,7 +6,7 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.util.DomainUtils;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.web.ui.model.ChangePasswordModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class ChangePasswordController {
     @RequestMapping(method = RequestMethod.GET)
     public String createForm(@RequestParam(value = "symbol", required = true) String symbol,
             @RequestParam(value = "auth", required = true) String auth, Model model) {
-        AllocatorOrDatacentre user = Utils.findAllocatorOrDatacentreBySymbol(symbol);
+        AllocatorOrDatacentre user = DomainUtils.findAllocatorOrDatacentreBySymbol(symbol);
         if (!magicAuthStringService.isValidAuthString(user, auth)) {
             return "password/expired";
         }
@@ -56,7 +56,7 @@ public class ChangePasswordController {
     public String changePassword(@ModelAttribute("password") @Valid ChangePasswordModel changePasswordModel,
             BindingResult result, @RequestParam(value = "symbol", required = true) String symbol,
             @RequestParam(value = "auth", required = true) String auth, Model model, HttpServletRequest request) {
-        AllocatorOrDatacentre user = Utils.findAllocatorOrDatacentreBySymbol(symbol);
+        AllocatorOrDatacentre user = DomainUtils.findAllocatorOrDatacentreBySymbol(symbol);
         if (!magicAuthStringService.isValidAuthString(user, auth)) {
             return "password/expired";
         }

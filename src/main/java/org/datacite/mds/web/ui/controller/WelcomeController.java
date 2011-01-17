@@ -2,7 +2,7 @@ package org.datacite.mds.web.ui.controller;
 
 import java.util.Collection;
 
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.util.DomainUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,7 +20,7 @@ public class WelcomeController {
 
     @ModelAttribute("symbols")
     public Collection<String> populateSymbols() {
-        Collection<String> symbols = Utils.getAllSymbols();
+        Collection<String> symbols = DomainUtils.getAllSymbols();
         symbols.add(""); // add empty string to disable symbol default selection
         return symbols;
     }

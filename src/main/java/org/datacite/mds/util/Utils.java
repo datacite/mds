@@ -8,14 +8,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.datacite.mds.domain.Allocator;
-import org.datacite.mds.domain.AllocatorOrDatacentre;
-import org.datacite.mds.domain.Datacentre;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
@@ -182,28 +177,6 @@ public class Utils {
         xw.write(doc);
         String result = sw.toString();
         return result;
-    }
-
-    /**
-     * @return joined list of allocator and datacentre symbols
-     */
-    public static SortedSet<String> getAllSymbols() {
-        SortedSet<String> symbols = new TreeSet<String>();
-        for (Datacentre datacentre : Datacentre.findAllDatacentres()) {
-            symbols.add(datacentre.getSymbol());
-        }
-        for (Allocator allocator : Allocator.findAllAllocators()) {
-            symbols.add(allocator.getSymbol());
-        }
-        return symbols;
-    }
-
-    public static AllocatorOrDatacentre findAllocatorOrDatacentreBySymbol(String symbol) {
-        AllocatorOrDatacentre user = Datacentre.findDatacentreBySymbol(symbol);
-        if (user == null) {
-            user = Allocator.findAllocatorBySymbol(symbol);
-        }
-        return user;
     }
 
 }
