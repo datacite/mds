@@ -79,6 +79,9 @@ public class UtilsTest {
     
     @Test
     public void getHostname() {
-        assertTrue(Utils.getHostname("ftp://user@sub.domain.tld:8080/path").equals("sub.domain.tld"));
+        assertNull(Utils.getHostname(null));
+        assertNull(Utils.getHostname(""));
+        assertNull(Utils.getHostname("malformedURL"));
+        assertEquals("sub.domain.tld",Utils.getHostname("ftp://user@sub.domain.tld:8080/path"));
     }
 }
