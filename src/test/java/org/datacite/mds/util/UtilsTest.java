@@ -84,4 +84,16 @@ public class UtilsTest {
         assertNull(Utils.getHostname("malformedURL"));
         assertEquals("sub.domain.tld",Utils.getHostname("ftp://user@sub.domain.tld:8080/path"));
     }
+    
+    @Test
+    public void formatXml() throws Exception {
+        assertNull(Utils.formatXML(null));
+        assertEquals("", Utils.formatXML(""));
+        assertNotNull(Utils.formatXML("<root/>"));
+    }
+    
+    @Test(expected = Exception.class)
+    public void formatXml_invalid() throws Exception {
+        Utils.formatXML("<foo></bar>");
+    }
 }

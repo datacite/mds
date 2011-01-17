@@ -173,6 +173,8 @@ public class Utils {
      *             if the xml cannot be parsed
      */
     public static String formatXML(String xml) throws Exception {
+        if (StringUtils.isBlank(xml))
+            return xml;
         Document doc = DocumentHelper.parseText(xml);
         StringWriter sw = new StringWriter();
         OutputFormat format = OutputFormat.createPrettyPrint();
