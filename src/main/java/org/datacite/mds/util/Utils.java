@@ -82,7 +82,7 @@ public class Utils {
      * @return allocator symbol (e.g. "BL");
      */
     public static String getAllocatorFromDatacentreSymbol(String symbol) {
-        if (symbol == null || !symbol.contains(".") || symbol.length() == 0)
+        if (symbol == null || !symbol.contains("."))
             return null;
         return symbol.split("\\.", -1)[0];
     }
