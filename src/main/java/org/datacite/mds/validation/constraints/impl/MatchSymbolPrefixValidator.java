@@ -3,6 +3,7 @@ package org.datacite.mds.validation.constraints.impl;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.MatchSymbolPrefix;
@@ -15,16 +16,16 @@ public class MatchSymbolPrefixValidator implements ConstraintValidator<MatchSymb
     }
 
     public boolean isValid(Datacentre datacentre, ConstraintValidatorContext context) {
-        if (datacentre.getAllocator() == null || datacentre.getSymbol() == null) { 
+        boolean isValidationUnneeded =  datacentre.getAllocator() == null || StringUtils.isEmpty(datacentre.getSymbol());
+        if (isValidationUnneeded)
             return true;
-        }
         
-        if (!datacentre.getSymbol().startsWith(datacentre.getAllocator().getSymbol() + ".")) {
-            ValidationUtils.addConstraintViolation(context, defaultMessage, "symbol");
-            return false;
-        }
+        String datacentreSymbol = datacentre.getSymbol();
+        String allocatorSymbol = datacentre.getAllocator().getSymbol();
         
-        return true;
+        ValidationUtils.addConstraintViolation(context, defaultMessage, "symbol");
+
+        return datacentreSymbol.startsWith(allocatorSymbol + ".");
     }
 
 }

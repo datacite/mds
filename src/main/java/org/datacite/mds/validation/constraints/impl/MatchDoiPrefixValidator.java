@@ -1,8 +1,11 @@
 package org.datacite.mds.validation.constraints.impl;
 
+import java.util.Set;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.util.Utils;
@@ -17,14 +20,15 @@ public class MatchDoiPrefixValidator implements ConstraintValidator<MatchDoiPref
     }
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
-        if (dataset.getDatacentre() == null || dataset.getDoi() == null) {
+        boolean isValidationUnneeded = dataset.getDatacentre() == null || StringUtils.isEmpty(dataset.getDoi());  
+        if (isValidationUnneeded)
             return true;
-        }
 
-        // check each allowed prefix of the datacentre against the used one
-        String prefixStr = Utils.getDoiPrefix(dataset.getDoi());
-        for (Prefix prefix : dataset.getDatacentre().getPrefixes()) {
-            if (prefix.getPrefix().equals(prefixStr)) {
+        String prefixOfDataset = Utils.getDoiPrefix(dataset.getDoi());
+        Set<Prefix> allowedPrefixes = dataset.getDatacentre().getPrefixes();
+        
+        for (Prefix prefix : allowedPrefixes) {
+            if (prefix.getPrefix().equals(prefixOfDataset)) {
                 return true;
             }
         }
