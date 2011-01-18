@@ -26,6 +26,7 @@ public class ValidationUtils {
      *            node to attach the violation to
      */
     public static void addConstraintViolation(ConstraintValidatorContext context, String message, String node) {
+        context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(message).addNode(node).addConstraintViolation();
     }
 

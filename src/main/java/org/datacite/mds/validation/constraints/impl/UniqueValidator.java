@@ -67,7 +67,6 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
         log.debug("isUnique=" + isUnique);
         
         if (!isUnique) {
-          context.disableDefaultConstraintViolation();
           ValidationUtils.addConstraintViolation(context, defaultMessage, field);
         }
         

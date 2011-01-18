@@ -33,6 +33,7 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
     }
 
     public boolean isValid(String symbol, ConstraintValidatorContext context) {
+        // TODO check if required
         context.disableDefaultConstraintViolation();
         if (symbol == null) {
             return true;

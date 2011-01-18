@@ -35,7 +35,6 @@ public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Da
             }
         }
 
-        context.disableDefaultConstraintViolation();
         ValidationUtils.addConstraintViolation(context, defaultMessage, "url");
         return false;
     }
