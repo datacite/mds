@@ -1,13 +1,23 @@
 package org.datacite.mds.validation.constraints;
 
-// TODO test for parameter hasToExist
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
+import org.datacite.mds.util.DomainUtils;
+import org.easymock.EasyMock;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.easymock.PowerMock;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PowerMockIgnore( { "javax.*", "org.apache.log4j.*" })
+@PrepareForTest( { DomainUtils.class })
 public class SymbolTest extends AbstractContraintsTest {
 
     String[] allowAllocator = { "AB", "ABCDEFGH", "AB-CD" };
@@ -17,7 +27,7 @@ public class SymbolTest extends AbstractContraintsTest {
 
     @Symbol(Symbol.Type.ALLOCATOR)
     String symbolAllocator;
-    
+
     @Test
     public void testAllocator() {
         symbolAllocator = null;
@@ -64,5 +74,32 @@ public class SymbolTest extends AbstractContraintsTest {
             symbolBoth = symbol;
             assertFalse(getValidationHelper().isValid(this, "symbolBoth"));
         }
+    }
+
+    @Symbol(value = Symbol.Type.ALLOCATOR, hasToExist = true)
+    String existingSymbol = "DUMMY";
+
+    @Test
+    public void testExistingSymbol() {
+        mockFindAllocatorOrDatacentre(new Allocator());
+        assertTrue(isValidExistingSymbol());
+        PowerMock.verifyAll();
+    }
+
+    @Test
+    public void testNonExistingSymbol() {
+        mockFindAllocatorOrDatacentre(null);
+        assertFalse(isValidExistingSymbol());
+        PowerMock.verifyAll();
+    }
+
+    boolean isValidExistingSymbol() {
+        return getValidationHelper().isValid(this, "existingSymbol");
+    }
+
+    void mockFindAllocatorOrDatacentre(AllocatorOrDatacentre mockReturn) {
+        PowerMock.mockStatic(DomainUtils.class);
+        EasyMock.expect(DomainUtils.findAllocatorOrDatacentreBySymbol(existingSymbol)).andReturn(mockReturn);
+        PowerMock.replay(DomainUtils.class);
     }
 }
