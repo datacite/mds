@@ -44,6 +44,9 @@ public class MatchDoiPrefixTest extends AbstractContraintsTest {
         assertTrue(isValid("10.4711/test"));
         assertTrue(isValid("10.5072/test"));
         assertFalse(isValid("10.1234/test"));
+        
+        dataset.setDatacentre(null);
+        assertTrue(isValid("foobar"));
     }
 
     boolean isValid(String doi) {

@@ -39,6 +39,9 @@ public class MatchDomainTest extends AbstractContraintsTest {
         assertTrue(isValid("http://sub.domain.net/path"));
         assertFalse(isValid("http://subsub.domain.net/path"));
         assertTrue(isValid("http://sub.SUB.domain.net/path"));
+        
+        dataset.setDatacentre(null);
+        assertTrue(isValid("foobar"));
     }
 
     boolean isValid(String url) {

@@ -28,9 +28,12 @@ public class MatchSymbolPrefixTest extends AbstractContraintsTest {
 
     @Test
     public void test() {
-        assertTrue(isValid(null)); 
+        assertTrue(isValid(null));
         assertTrue(isValid("AL.DC"));
         assertFalse(isValid("OTHER.DC"));
+
+        datacentre.setAllocator(null);
+        assertTrue(isValid("foobar"));
     }
 
     boolean isValid(String symbol) {
