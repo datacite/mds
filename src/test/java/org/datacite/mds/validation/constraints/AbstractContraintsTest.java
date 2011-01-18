@@ -1,16 +1,18 @@
 package org.datacite.mds.validation.constraints;
 
-import org.datacite.mds.validation.ValidationHelper;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/META-INF/spring/applicationContext.xml")
+import org.datacite.mds.validation.ValidationHelper;
+
 public abstract class AbstractContraintsTest {
-    @Autowired
     private ValidationHelper validationHelper;
+    
+    AbstractContraintsTest() {
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        validationHelper = new ValidationHelper();
+        validationHelper.setValidator(validator);
+    }
     
     public ValidationHelper getValidationHelper() {
         return validationHelper;

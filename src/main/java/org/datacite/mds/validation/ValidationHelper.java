@@ -28,6 +28,10 @@ public class ValidationHelper {
         return this.validator;
     }
 
+    public void setValidator(Validator validator) {
+        this.validator = validator;
+    }
+
     /**
      * Wrapper to simply validate a property of an object.
      * 
