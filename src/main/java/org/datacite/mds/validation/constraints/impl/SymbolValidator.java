@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.util.DomainUtils;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.Symbol;
@@ -47,12 +48,13 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
     boolean isMalformed(String symbol, ConstraintValidatorContext context) {
         List<String> violationMessages = new ArrayList<String>();
-        for (Type t : types) {
-            if (PATTERNS.get(t).matcher(symbol).matches() && symbol.indexOf("--") == -1) {
-                // check against the pattern for each given type
+        for (Type type : types) {
+            boolean isPatternMatched = PATTERNS.get(type).matcher(symbol).matches();
+            boolean containsDoubledDash = StringUtils.contains(symbol, "--");
+            if (isPatternMatched && !containsDoubledDash) {
                 return false;
             } else {
-                violationMessages.add("{org.datacite.mds.validation.constraints.Symbol." + t.name() + ".message}");
+                violationMessages.add("{org.datacite.mds.validation.constraints.Symbol." + type.name() + ".message}");
             }
         }
         for (String message : violationMessages)
