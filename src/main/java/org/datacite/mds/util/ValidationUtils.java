@@ -39,6 +39,7 @@ public class ValidationUtils {
      *            message of the violation (e.g. template to be evaluated)
      */
     public static void addConstraintViolation(ConstraintValidatorContext context, String message) {
+        context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
     }
 
