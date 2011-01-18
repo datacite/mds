@@ -61,13 +61,13 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
     boolean exists(String symbol, ConstraintValidatorContext context) {
         //check table Allocator or Datacentre based on given types
         if (types.contains(Type.ALLOCATOR)) {
-            if (Allocator.findAllocatorsBySymbolEquals(symbol).getResultList().size() > 0) {
+            if (Allocator.findAllocatorBySymbol(symbol) != null) {
                 return true;
             }
         }
         
         if (types.contains(Type.DATACENTRE)) {
-            if (Datacentre.findDatacentresBySymbolEquals(symbol).getResultList().size() > 0) {
+            if (Datacentre.findDatacentreBySymbol(symbol) != null) {
                 return true;
             }
         }
