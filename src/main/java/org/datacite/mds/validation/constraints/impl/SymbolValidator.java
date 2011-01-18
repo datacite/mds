@@ -8,8 +8,7 @@ import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.datacite.mds.domain.Allocator;
-import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.util.DomainUtils;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Symbol.Type;
@@ -35,15 +34,16 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
     public boolean isValid(String symbol, ConstraintValidatorContext context) {
         // TODO check if required
         context.disableDefaultConstraintViolation();
-        if (symbol == null) {
+        if (symbol == null) 
             return true;
-        }
-        if (hasToExist) {
-            // do database lookup only
+        
+        if (isMalformed(symbol, context))
+            return false;
+        
+        if (hasToExist) 
             return exists(symbol, context);
-        } else {
-            return !isMalformed(symbol, context);
-        }
+        
+        return true;
     }
 
     boolean isMalformed(String symbol, ConstraintValidatorContext context) {
@@ -60,18 +60,9 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
     }
 
     boolean exists(String symbol, ConstraintValidatorContext context) {
-        //check table Allocator or Datacentre based on given types
-        if (types.contains(Type.ALLOCATOR)) {
-            if (Allocator.findAllocatorBySymbol(symbol) != null) {
-                return true;
-            }
-        }
-        
-        if (types.contains(Type.DATACENTRE)) {
-            if (Datacentre.findDatacentreBySymbol(symbol) != null) {
-                return true;
-            }
-        }
+        boolean foundSymbol = DomainUtils.findAllocatorOrDatacentreBySymbol(symbol) != null;
+        if (foundSymbol) 
+            return true;
 
         ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.Symbol.notfound}");
         return false;
