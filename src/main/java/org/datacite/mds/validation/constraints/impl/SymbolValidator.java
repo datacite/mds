@@ -1,5 +1,6 @@
 package org.datacite.mds.validation.constraints.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -17,15 +18,15 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
     List<Type> types;
     boolean hasToExist;
-    
+
     static final HashMap<Type, Pattern> PATTERNS = new HashMap<Type, Pattern>() {
         {
-            String symbol = "[A-Z][A-Z\\-]{0,6}[A-Z]"; 
+            String symbol = "[A-Z][A-Z\\-]{0,6}[A-Z]";
             put(Type.ALLOCATOR, Pattern.compile(symbol));
             put(Type.DATACENTRE, Pattern.compile(symbol + "\\." + symbol));
         }
     };
-    
+
     public void initialize(Symbol constraintAnnotation) {
         types = Arrays.asList(constraintAnnotation.value());
         hasToExist = constraintAnnotation.hasToExist();
@@ -34,34 +35,36 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
     public boolean isValid(String symbol, ConstraintValidatorContext context) {
         // TODO check if required
         context.disableDefaultConstraintViolation();
-        if (symbol == null) 
+        if (symbol == null)
             return true;
-        
+
         if (isMalformed(symbol, context))
             return false;
-        
-        if (hasToExist) 
+
+        if (hasToExist)
             return exists(symbol, context);
-        
+
         return true;
     }
 
     boolean isMalformed(String symbol, ConstraintValidatorContext context) {
+        List<String> violationMessages = new ArrayList<String>();
         for (Type t : types) {
             if (PATTERNS.get(t).matcher(symbol).matches() && symbol.indexOf("--") == -1) {
-                //check against the pattern for each given type 
+                // check against the pattern for each given type
                 return false;
             } else {
-                String message = "{org.datacite.mds.validation.constraints.Symbol." + t.name() + ".message}";
-                ValidationUtils.addConstraintViolation(context, message);
+                violationMessages.add("{org.datacite.mds.validation.constraints.Symbol." + t.name() + ".message}");
             }
         }
+        for (String message : violationMessages)
+            ValidationUtils.addConstraintViolation(context, message);
         return true;
     }
 
     boolean exists(String symbol, ConstraintValidatorContext context) {
         boolean foundSymbol = DomainUtils.findAllocatorOrDatacentreBySymbol(symbol) != null;
-        if (foundSymbol) 
+        if (foundSymbol)
             return true;
 
         ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.Symbol.notfound}");
