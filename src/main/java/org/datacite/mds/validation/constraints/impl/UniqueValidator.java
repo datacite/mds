@@ -37,7 +37,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
         if (entityManager == null) {
             log.warn("entityManager not injected");
-            return false;
+            return true;
         }
         
         Serializable id, value;
