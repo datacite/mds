@@ -21,9 +21,7 @@ public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Da
     }
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
-        if (dataset.getUrl() == null || dataset.getUrl().isEmpty() || dataset.getDatacentre() == null
-                || !validationHelper.isValid(dataset, "url")) {
-            // don't check until a datacentre is selected and valid url is given
+        if (dataset.getUrl() == null || dataset.getUrl().isEmpty() || dataset.getDatacentre() == null) {
             return true;
         }
 
