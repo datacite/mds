@@ -23,9 +23,9 @@ import org.xml.sax.helpers.XMLReaderFactory;
 @Configurable
 public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> {
     Logger log = Logger.getLogger(ValidXMLValidator.class);
-    
+
     String xsd;
-     
+
     boolean enabled;
 
     public void initialize(ValidXML constraintAnnotation) {
@@ -37,33 +37,33 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
     }
 
     public boolean isValid(byte[] xmlBytes, ConstraintValidatorContext context) {
-        InputStream inputStream = new ByteArrayInputStream(xmlBytes);
-        if (!isEnabled()) {
-            log.debug("validation skipped; checking only for well-formness");
-            try {
-                XMLReader reader = XMLReaderFactory.createXMLReader();
-                reader.parse(new InputSource(inputStream));
-            } catch (Exception e) {
-                ValidationUtils.addConstraintViolation(context, "xml error: " + e.getMessage());
-                return false;
-            }
-            return true;
-        }
-        
-        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Source schemaSource = new StreamSource(xsd);
-        Schema schema;
+        InputStream xml = new ByteArrayInputStream(xmlBytes);
         try {
-            schema = schemaFactory.newSchema(schemaSource);
-            Validator validator = schema.newValidator();
-            Source xml = new StreamSource(inputStream);
-            validator.validate(xml);
+            if (isEnabled()) {
+                checkValidity(xml, xsd);
+            } else {
+                log.debug("validation skipped; checking only for well-formedness");
+                checkWellFormedness(xml);
+            }
         } catch (Exception e) {
             ValidationUtils.addConstraintViolation(context, "xml error: " + e.getMessage());
             return false;
         }
-
         return true;
+    }
+
+    private void checkWellFormedness(InputStream xml) throws Exception {
+        XMLReader reader = XMLReaderFactory.createXMLReader();
+        reader.parse(new InputSource(xml));
+    }
+
+    private void checkValidity(InputStream xml, String xsd) throws Exception {
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Source schemaSource = new StreamSource(xsd);
+        Schema schema = schemaFactory.newSchema(schemaSource);
+        Validator validator = schema.newValidator();
+        Source xmlSource = new StreamSource(xml);
+        validator.validate(xmlSource);
     }
 
     public String getXsd() {
