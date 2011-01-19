@@ -24,9 +24,9 @@ public class DomainUtils {
     }
 
     public static AllocatorOrDatacentre findAllocatorOrDatacentreBySymbol(String symbol) {
-        AllocatorOrDatacentre user = Datacentre.findDatacentreBySymbol(symbol);
+        AllocatorOrDatacentre user = Allocator.findAllocatorBySymbol(symbol);
         if (user == null) {
-            user = Allocator.findAllocatorBySymbol(symbol);
+            user = Datacentre.findDatacentreBySymbol(symbol);
         }
         return user;
     }
