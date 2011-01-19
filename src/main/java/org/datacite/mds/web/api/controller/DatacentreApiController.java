@@ -30,10 +30,11 @@ public class DatacentreApiController implements ApiController {
     public ResponseEntity<? extends Object> get(@RequestParam String symbol) {
 
         Datacentre datacentre;
+        HttpHeaders httpHeaders = new HttpHeaders();
         try {
             datacentre = Datacentre.findDatacentresBySymbolEquals(symbol).getSingleResult();
         } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<String>(e.getMessage(), httpHeaders, HttpStatus.NOT_FOUND);
         }
 
         Allocator allocator;
@@ -41,19 +42,19 @@ public class DatacentreApiController implements ApiController {
         try {
             allocator = SecurityUtils.getCurrentAllocatorWithExceptions();
         } catch (SecurityException e) {
-            return new ResponseEntity<String>(e.getMessage(), new HttpHeaders(), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<String>(e.getMessage(), httpHeaders, HttpStatus.FORBIDDEN);
         } catch (RuntimeException e) {
-            return new ResponseEntity<String>("internal error - please contact admin", new HttpHeaders(),
+            return new ResponseEntity<String>("internal error - please contact admin", httpHeaders,
                     HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         if (!allocator.getSymbol().equals(datacentre.getAllocator().getSymbol())) {
             return new ResponseEntity<String>("cannot request datacentre which belongs to another party", 
-                                              new HttpHeaders(), HttpStatus.FORBIDDEN);
+                                              httpHeaders, HttpStatus.FORBIDDEN);
         }
 
-        //TODO refactor HttpHeaders into local variable and set headers.setContentType(MediaType.APPLICATION_XML);
-        return new ResponseEntity<Datacentre>(datacentre, new HttpHeaders(), HttpStatus.OK);
+        httpHeaders.setContentType(MediaType.APPLICATION_XML);
+        return new ResponseEntity<Datacentre>(datacentre, httpHeaders, HttpStatus.OK);
     }
 
     @RequestMapping(value = "datacentre", method = RequestMethod.PUT, headers = { "Content-Type=application/xml" })
