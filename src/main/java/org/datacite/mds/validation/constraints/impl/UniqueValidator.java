@@ -40,8 +40,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
             id = (Serializable) PropertyUtils.getProperty(entity, idField);
             value = (Serializable) PropertyUtils.getProperty(entity, field);
         } catch (Exception e) {
-            log.debug("error getting property:" + e.getMessage());
-            return false;
+            throw new RuntimeException(e);
         }
         log.debug("entity=" + entity.getClass().getName() + ", id: " + idField + "=" + id + ", field: " + field + "=" + value);
 
