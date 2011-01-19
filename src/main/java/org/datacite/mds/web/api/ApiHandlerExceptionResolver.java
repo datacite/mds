@@ -49,7 +49,7 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         if (mav == null) {
             try {
                 // response with INTERNAL SERVER ERROR
-                wrappedResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncatched exception");
+                wrappedResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncaught exception");
                 mav = new ModelAndView();
             } catch (IOException e) {
                 logger.debug(e);
