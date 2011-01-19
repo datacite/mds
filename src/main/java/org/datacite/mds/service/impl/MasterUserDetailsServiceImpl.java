@@ -57,10 +57,6 @@ public class MasterUserDetailsServiceImpl implements UserDetailsService {
                 user.getAuthorities());
     }
 
-    public UserDetailsService getUserDetailsService() {
-        return userDetailsService;
-    }
-
     public void setUserDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }

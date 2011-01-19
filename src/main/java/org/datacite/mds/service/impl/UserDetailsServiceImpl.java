@@ -14,6 +14,7 @@ package org.datacite.mds.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
@@ -52,7 +53,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         String symbol = user.getSymbol();
         String password = user.getPassword();
         String role = user.getRoleName();
-        boolean isActive = user.getIsActive() == null ? false : user.getIsActive();
+        boolean isActive = BooleanUtils.toBoolean(user.getIsActive());
         log4j.debug("found " + symbol + " (" + role + ")");
 
         if (StringUtils.isEmpty(password)) {
