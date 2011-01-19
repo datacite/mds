@@ -35,11 +35,6 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
-        if (entityManager == null) {
-            log.warn("entityManager not injected");
-            return true;
-        }
-        
         Serializable id, value;
         try {
             id = (Serializable) PropertyUtils.getProperty(entity, idField);
