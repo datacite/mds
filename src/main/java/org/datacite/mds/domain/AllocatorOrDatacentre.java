@@ -3,6 +3,10 @@ package org.datacite.mds.domain;
 public interface AllocatorOrDatacentre {
     
     public AllocatorOrDatacentre merge();
+
+    public Boolean getIsActive();
+    
+    public String getRoleName();
     
     public String getSymbol();
 

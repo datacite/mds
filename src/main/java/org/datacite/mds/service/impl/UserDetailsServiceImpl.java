@@ -17,7 +17,9 @@ import java.util.Collection;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.util.DomainUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -32,7 +34,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     Logger log4j = Logger.getLogger(UserDetailsServiceImpl.class);
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -41,44 +43,30 @@ public class UserDetailsServiceImpl implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
-
         log4j.debug("trying to find user name " + username);
-        
-        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        String symbol, password, role;
-        boolean isActive;
-        
-        Allocator allocator = Allocator.findAllocatorBySymbol(username);
+        AllocatorOrDatacentre user = DomainUtils.findAllocatorOrDatacentreBySymbol(username);
 
-        if (allocator != null) {
-            log4j.debug("found allocator = " + username);
-            symbol = allocator.getSymbol(); 
-            password = allocator.getPassword();
-            role = allocator.getRoleName();
-            isActive = allocator.getIsActive() == null ? false : allocator.getIsActive();
-        } else {
-            Datacentre datacentre = Datacentre.findDatacentreBySymbol(username);
-            if (datacentre == null) {
-                throw new UsernameNotFoundException("user not found");
-            }
-            
-            log4j.debug("found datacentre = " + username);
-            symbol = datacentre.getSymbol(); 
-            password = datacentre.getPassword();
-            role = datacentre.getRoleName();
-            isActive = datacentre.getIsActive() == null ? false : datacentre.getIsActive();
-        }
-        
+        if (user == null)
+            throw new UsernameNotFoundException("user not found");
+
+        String symbol = user.getSymbol();
+        String password = user.getPassword();
+        String role = user.getRoleName();
+        boolean isActive = user.getIsActive() == null ? false : user.getIsActive();
+        log4j.debug("found " + symbol + " (" + role + ")");
+
         if (StringUtils.isEmpty(password)) {
             return null;
         }
 
+        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl(role));
-        return new User(symbol, password, isActive, 
-                            true, /* account not expired */
-                            true, /* credentials not expired */
-                            true, /* account not locked */
-                            authorities);
-        
+
+        return new User(symbol, password, isActive, // 
+                true, /* account not expired */
+                true, /* credentials not expired */
+                true, /* account not locked */
+                authorities);
+
     }
 }
