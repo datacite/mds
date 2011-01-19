@@ -23,48 +23,49 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
     @PersistenceContext
     transient EntityManager entityManager;
 
-    String field;
+    String uniqueField;
     String idField;
     String defaultMessage;
 
     public void initialize(Unique constraintAnnotation) {
-        this.field = constraintAnnotation.field();
+        this.uniqueField = constraintAnnotation.field();
         this.idField = constraintAnnotation.idField();
         this.defaultMessage = constraintAnnotation.message();
     }
 
     @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
-        Serializable id, value;
+        Serializable idFieldValue = getProperty(entity, idField);
+        Serializable uniqueFieldValue = getProperty(entity, uniqueField);
+        log.debug("entity: " + entity.getClass().getName() + ", id: " + idField + "=" + idFieldValue + ", field: "
+                + uniqueField + "=" + uniqueFieldValue);
+
+        List<Serializable> foundIds = findIds(entity, uniqueFieldValue);
+
+        Boolean isUnique = foundIds.size() == 0 || foundIds.contains(idFieldValue);
+        log.debug("isUnique=" + isUnique);
+
+        ValidationUtils.addConstraintViolation(context, defaultMessage, uniqueField);
+
+        return isUnique;
+    }
+
+    private Serializable getProperty(Object entity, String field) {
         try {
-            id = (Serializable) PropertyUtils.getProperty(entity, idField);
-            value = (Serializable) PropertyUtils.getProperty(entity, field);
+            return (Serializable) PropertyUtils.getProperty(entity, field);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        log.debug("entity=" + entity.getClass().getName() + ", id: " + idField + "=" + id + ", field: " + field + "=" + value);
+    }
 
-        String qstr = "SELECT " + idField + " FROM " + entity.getClass().getName() + " WHERE " + field + " = :value";
-        TypedQuery<Serializable> q = entityManager.createQuery(qstr, Serializable.class);
-        q.setParameter("value", value);
-        List<Serializable> results = q.getResultList();
-
-        Boolean isUnique = true;
-        if (results.size() == 1) {
-            Serializable foundId = results.get(0);
-            log.debug("#results=1 (" + idField + "=" + foundId + ")");
-            isUnique = foundId.equals(id);
-        } else {
-            log.debug("#results=" + results.size());
-            isUnique = results.size() == 0;
-        }
-        log.debug("isUnique=" + isUnique);
-        
-        if (!isUnique) {
-          ValidationUtils.addConstraintViolation(context, defaultMessage, field);
-        }
-        
-        return isUnique;
+    private List<Serializable> findIds(Object entity, Serializable value) {
+        String queryString = "SELECT " + idField + " FROM " + entity.getClass().getName() + " WHERE " + uniqueField
+                + " = :value";
+        TypedQuery<Serializable> query = entityManager.createQuery(queryString, Serializable.class);
+        query.setParameter("value", value);
+        List<Serializable> foundIds = query.getResultList();
+        log.debug("found IDs with '" + uniqueField + "=" + value + "': " + foundIds);
+        return foundIds;
     }
 
 }
