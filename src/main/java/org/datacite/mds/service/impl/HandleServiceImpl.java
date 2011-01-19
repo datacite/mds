@@ -30,7 +30,7 @@ public class HandleServiceImpl implements HandleService {
 
     @Value("${handle.traceMessages}") private boolean traceMessages;
 
-    @Value("${handle.dummyMode}") private boolean dummyMode;    
+    @Value("${handle.dummyMode}") boolean dummyMode;    
     
     private static final int URL_RECORD_INDEX = 1;
 

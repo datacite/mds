@@ -3,6 +3,7 @@ package org.datacite.mds.service.impl;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.junit.Test;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -13,7 +14,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class HandleServiceImplTest {
 
     @Autowired
-    private HandleService service;
+    private HandleServiceImpl service;
+    
+    @Before
+    public void setup() {
+        service.dummyMode = true;
+    }
 
     private static final String doi = "10.5072/test";
 
