@@ -1,7 +1,9 @@
 package org.datacite.mds.test;
 
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.domain.Dataset;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -10,6 +12,14 @@ public class Utils {
     public static void setUsernamePassword(String username, String password) {
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(username, password));
+    }
+
+    public static void login(AllocatorOrDatacentre user) {
+        if (user == null) {
+            setUsernamePassword(null, null);
+        } else {
+            setUsernamePassword(user.getSymbol(), user.getPassword());
+        }
     }
 
     public static Allocator createAllocator(String symbol) {
@@ -40,5 +50,13 @@ public class Utils {
         datacentre.setRoleName("ROLE_DATACENTRE");
         return datacentre;
     }
+    
+    public static Dataset createDataset(String doi, Datacentre datacentre) {
+        Dataset dataset = new Dataset();
+        dataset.setDoi(doi);
+        dataset.setDatacentre(datacentre);
+        return dataset;
+    }
+    
 
 }
