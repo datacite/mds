@@ -48,8 +48,16 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         // super method returns null, if it cannot handle the exception
         if (mav == null) {
             try {
+                String causes = ex.getMessage();
+                Throwable t = ex;
+                while (t.getCause() != null) {
+                    causes += " --> " + t.getCause().getMessage();
+                    t = t.getCause();
+                }                
+                logger.debug(causes);
+                
                 // response with INTERNAL SERVER ERROR
-                wrappedResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncaught exception");
+                wrappedResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncaught exception"); 
                 mav = new ModelAndView();
             } catch (IOException e) {
                 logger.debug(e);
