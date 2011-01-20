@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
-//@Transactional
+@Transactional
 public class DatacentreApiControllerTest {
 
     DatacentreApiController datacentreApiController = new DatacentreApiController();
@@ -155,7 +155,7 @@ public class DatacentreApiControllerTest {
         assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());
     }
     
-/*    @Test
+    @Test
     @Rollback
     public void testCreate() {
         datacentre2 = new Datacentre();
@@ -173,7 +173,7 @@ public class DatacentreApiControllerTest {
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre2, false);
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
     }    
-*/
+
     @Test
     public void testCreateTestMode() {
         datacentre2 = new Datacentre();
