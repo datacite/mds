@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.api.ApiController;
@@ -119,8 +120,21 @@ public class DatacentreApiController implements ApiController {
         datacentre.setIsActive(requestDatacentre.getIsActive());
         datacentre.setName(requestDatacentre.getName());
         datacentre.setPassword(requestDatacentre.getPassword());
-        datacentre.getPrefixes().addAll(requestDatacentre.getPrefixes());
         datacentre.setSymbol(requestDatacentre.getSymbol());
+
+        datacentre.getPrefixes().clear();
+        if (!testMode)
+            datacentre.merge();
+        
+        for (Prefix p : requestDatacentre.getPrefixes()) {            
+            Prefix persistedPrefix;
+            try {
+                persistedPrefix = Prefix.findPrefixesByPrefixLike(p.getPrefix()).getSingleResult();
+            } catch (Exception e) {
+                return new ResponseEntity<String>("Prefix not found in our database: " + p.getPrefix(), headers, HttpStatus.NOT_FOUND);
+            }
+            datacentre.getPrefixes().add(persistedPrefix);
+        }
 
         if (!testMode)
             datacentre.merge();
