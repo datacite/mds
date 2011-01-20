@@ -84,6 +84,15 @@ public class Datacentre implements AllocatorOrDatacentre {
     private String symbol;
 
     private String password;
+    
+    @XmlTransient
+    public String getPassword() {
+        return this.password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     @NotNull
     @Size(min = 3, max = 255)

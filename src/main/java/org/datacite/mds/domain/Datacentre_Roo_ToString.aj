@@ -11,12 +11,12 @@ privileged aspect Datacentre_Roo_ToString {
         StringBuilder sb = new StringBuilder();
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Version: ").append(getVersion()).append(", ");
+        sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("RoleName: ").append(getRoleName()).append(", ");
         sb.append("Allocator: ").append(getAllocator()).append(", ");
         sb.append("QuotaExceeded: ").append(isQuotaExceeded()).append(", ");
         sb.append("BaseAuthString: ").append(getBaseAuthString()).append(", ");
         sb.append("Symbol: ").append(getSymbol()).append(", ");
-        sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
         sb.append("ContactName: ").append(getContactName()).append(", ");
         sb.append("ContactEmail: ").append(getContactEmail()).append(", ");

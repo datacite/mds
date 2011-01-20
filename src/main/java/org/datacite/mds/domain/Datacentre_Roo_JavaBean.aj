@@ -20,14 +20,6 @@ privileged aspect Datacentre_Roo_JavaBean {
         this.symbol = symbol;
     }
     
-    public String Datacentre.getPassword() {
-        return this.password;
-    }
-    
-    public void Datacentre.setPassword(String password) {
-        this.password = password;
-    }
-    
     public String Datacentre.getName() {
         return this.name;
     }
