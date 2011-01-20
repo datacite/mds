@@ -23,7 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-// TODO test quota; malformed doi & url
+// TODO test malformed doi & url
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
@@ -41,6 +41,7 @@ public class DoiServiceImplTest {
     final String DOI_WRONG = "10.1000/TEST";
     final String DOMAIN = "example.com";
     final String DOMAIN_WRONG = "wrong.invalid";
+    final Integer DOI_QUOTA_USED = 42;
 
     Datacentre datacentre;
 
@@ -55,6 +56,7 @@ public class DoiServiceImplTest {
         datacentre = createDatacentre(DATACENTRE_SYMBOL, allocator);
         datacentre.setPrefixes(prefixes);
         datacentre.setDomains(DOMAIN);
+        datacentre.setDoiQuotaUsed(42);
         datacentre.persist();
 
         login(datacentre);
@@ -67,11 +69,19 @@ public class DoiServiceImplTest {
         Dataset dataset = doiService.create(DOI, "http://" + DOMAIN, true);
         assertEquals(DOI, dataset.getDoi());
         assertEquals(DATACENTRE_SYMBOL, dataset.getDatacentre().getSymbol());
+        Integer doiQuotaUsedExpected = DOI_QUOTA_USED + 1;
+        assertEquals(doiQuotaUsedExpected, dataset.getDatacentre().getDoiQuotaUsed());
     }
 
     @Test(expected = SecurityException.class)
     public void testCreateWrongPrefix() throws HandleException, SecurityException {
         doiService.create(DOI_WRONG, "http://" + DOMAIN, true);
+    }
+
+    @Test(expected = SecurityException.class)
+    public void testCreateQuotaExceeded() throws HandleException, SecurityException {
+        datacentre.setDoiQuotaAllowed(DOI_QUOTA_USED);
+        doiService.create(DOI, "http://" + DOMAIN, true);
     }
 
     @Test(expected = SecurityException.class)

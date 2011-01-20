@@ -155,8 +155,8 @@ public class Datacentre implements AllocatorOrDatacentre {
 
     @Transactional
     public void incQuotaUsed() {
-        String qlString = "update Datacentre a set a.doiQuotaUsed = a.doiQuotaUsed + 1 where a.symbol = :symbol";
-        entityManager.createQuery(qlString).setParameter("symbol", getSymbol()).executeUpdate();
+        this.doiQuotaUsed++;
+        merge();
     }
     
     @Transactional
