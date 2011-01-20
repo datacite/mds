@@ -3,8 +3,10 @@ package org.datacite.mds.web.api.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import static org.datacite.mds.test.Utils.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,33 +46,13 @@ public class DatacentreApiControllerTest {
     
     @Before
     public void setUp() throws Exception { 
-        allocator = new Allocator();
-        allocator.setSymbol("TEST");
-        allocator.setPassword("12345678");
-        allocator.setContactEmail("aaa@aaa.com");
-        allocator.setContactName("aaaaaaaaaaaaaa");
-        allocator.setDoiQuotaAllowed(-1);
-        allocator.setDoiQuotaUsed(0);
-        allocator.setIsActive(true);
-        allocator.setName("aaaaaaaaaa");
-        allocator.setRoleName("ROLE_ALLOCATOR");
+        allocator = createAllocator(allocatorSymbol);
         allocator.persist();
 
-        datacentre = new Datacentre();
-        datacentre.setSymbol(datacentreSymbol);
-        datacentre.setAllocator(allocator);
-        datacentre.setContactEmail("aaa@aaa.com");
-        datacentre.setContactName("aaaa");
-        datacentre.setDoiQuotaAllowed(-1);
-        datacentre.setDoiQuotaUsed(0);
-        datacentre.setDomains("bl.uk");
-        datacentre.setIsActive(true);
-        datacentre.setName("aaaaaaaaaa");
-        datacentre.setRoleName("ROLE_DATACENTRE");
+        datacentre = createDatacentre(datacentreSymbol, allocator);
         datacentre.persist();
         
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(allocator.getSymbol(), allocator.getPassword()));        
+        setUsernamePassword(allocator.getSymbol(), allocator.getPassword());
     }
 
     @Test
@@ -87,8 +69,7 @@ public class DatacentreApiControllerTest {
     
     @Test
     public void testGet403NotLoggedIn() {
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(null, null));        
+        setUsernamePassword(null, null);
 
         ResponseEntity<? extends Object> result = datacentreApiController.get(datacentreSymbol);
         assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());
@@ -96,8 +77,7 @@ public class DatacentreApiControllerTest {
 
     @Test
     public void testGet403WrongUser() {
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(allocatorSymbol2, null));        
+        setUsernamePassword(allocatorSymbol2, null);
 
         ResponseEntity<? extends Object> result = datacentreApiController.get(datacentreSymbol);
         assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());
@@ -135,8 +115,7 @@ public class DatacentreApiControllerTest {
     
     @Test
     public void testUpdate403NotLoggedIn() {
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(null, null));        
+        setUsernamePassword(null, null);
 
         String newName = "qwrfgqwergv";
         datacentre.setName(newName);
@@ -146,8 +125,7 @@ public class DatacentreApiControllerTest {
 
     @Test
     public void testUpdate403AnotherOwner() {
-        SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(allocatorSymbol2, null));        
+        setUsernamePassword(allocatorSymbol2, null);
 
         String newName = "qwrfgqwergv";
         datacentre.setName(newName);
@@ -158,17 +136,7 @@ public class DatacentreApiControllerTest {
     @Test
     @Rollback
     public void testCreate() {
-        datacentre2 = new Datacentre();
-        datacentre2.setSymbol(datacentreSymbol2);
-        datacentre2.setAllocator(allocator);
-        datacentre2.setContactEmail("aaa@aaa.com");
-        datacentre2.setContactName("aaaa");
-        datacentre2.setDoiQuotaAllowed(-1);
-        datacentre2.setDoiQuotaUsed(0);
-        datacentre2.setDomains("bl.uk");
-        datacentre2.setIsActive(true);
-        datacentre2.setName("aaaaaaaaaa");
-        datacentre2.setRoleName("ROLE_DATACENTRE");
+        datacentre2 = createDatacentre(datacentreSymbol2, allocator);
         
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre2, false);
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
@@ -176,17 +144,7 @@ public class DatacentreApiControllerTest {
 
     @Test
     public void testCreateTestMode() {
-        datacentre2 = new Datacentre();
-        datacentre2.setSymbol(datacentreSymbol2);
-        datacentre2.setAllocator(allocator);
-        datacentre2.setContactEmail("aaa@aaa.com");
-        datacentre2.setContactName("aaaa");
-        datacentre2.setDoiQuotaAllowed(-1);
-        datacentre2.setDoiQuotaUsed(0);
-        datacentre2.setDomains("bl.uk");
-        datacentre2.setIsActive(true);
-        datacentre2.setName("aaaaaaaaaa");
-        datacentre2.setRoleName("ROLE_DATACENTRE");
+        datacentre2 = createDatacentre(datacentreSymbol2, allocator);
         
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre2, true);
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
