@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
@@ -14,6 +16,7 @@ import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
+import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,132 +33,104 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DatacentreApiController implements ApiController {
 
     Logger log4j = Logger.getLogger(DatacentreApiController.class);
-    
+
     @Autowired
     ValidationHelper validationHelper;
 
     @RequestMapping(value = "datacentre", method = RequestMethod.GET, headers = { "Accept=application/xml" })
-    public ResponseEntity<? extends Object> get(@RequestParam String symbol) {
+    public ResponseEntity<? extends Object> get(@RequestParam String symbol) throws SecurityException,
+            NotFoundException {
 
-        Datacentre datacentre;
-        HttpHeaders httpHeaders = new HttpHeaders();
-        try {
-            datacentre = Datacentre.findDatacentresBySymbolEquals(symbol).getSingleResult();
-        } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), httpHeaders, HttpStatus.NOT_FOUND);
-        }
+        Datacentre datacentre = Datacentre.findDatacentreBySymbol(symbol);
+        if (datacentre == null)
+            throw new NotFoundException();
 
-        Allocator allocator;
+        Allocator allocator = SecurityUtils.getCurrentAllocatorWithExceptions();
 
-        try {
-            allocator = SecurityUtils.getCurrentAllocatorWithExceptions();
-        } catch (SecurityException e) {
-            return new ResponseEntity<String>(e.getMessage(), httpHeaders, HttpStatus.FORBIDDEN);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<String>("internal error - please contact admin", httpHeaders,
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        compareAllocator(datacentre, allocator);
 
-        if (!allocator.getSymbol().equals(datacentre.getAllocator().getSymbol())) {
-            return new ResponseEntity<String>("cannot request datacentre which belongs to another party", 
-                                              httpHeaders, HttpStatus.FORBIDDEN);
-        }
-
-        httpHeaders.setContentType(MediaType.APPLICATION_XML);
-        return new ResponseEntity<Datacentre>(datacentre, httpHeaders, HttpStatus.OK);
+        return makeResponse(datacentre, HttpStatus.OK);
     }
 
     @RequestMapping(value = "datacentre", method = RequestMethod.PUT, headers = { "Content-Type=application/xml" })
     public ResponseEntity<? extends Object> createOrUpdate(@RequestBody @Valid Datacentre requestDatacentre,
-            @RequestParam(required = false) Boolean testMode) {
+            @RequestParam(required = false) Boolean testMode) throws SecurityException {
 
-        if (testMode == null)
-            testMode = false;
+        testMode = BooleanUtils.isTrue(testMode);
+
         log4j.debug("*****PUT datacentre " + requestDatacentre + " \ntestMode = " + testMode);
-        
-        HttpHeaders headers = new HttpHeaders();
 
-        try {
-            convertPrefixesToPersistentPrefixes(requestDatacentre);
-        } catch (Exception ex) {
-            return new ResponseEntity<String>(ex.getMessage(), headers, HttpStatus.NOT_FOUND);
+        convertPrefixesToPersistentPrefixes(requestDatacentre);
+
+        Allocator currentAllocator = SecurityUtils.getCurrentAllocatorWithExceptions();
+        Datacentre persistentDatacentre = Datacentre.findDatacentreBySymbol(requestDatacentre.getSymbol());
+
+        if (persistentDatacentre == null) {
+            requestDatacentre.setAllocator(currentAllocator);
+            return createDatacentre(requestDatacentre, testMode);
+        } else {
+            compareAllocator(persistentDatacentre, currentAllocator);
+            return updateDatacentre(persistentDatacentre, requestDatacentre, testMode);
         }
+    }
 
-        Allocator allocator;
+    private ResponseEntity<Datacentre> updateDatacentre(Datacentre persistentDatacentre, Datacentre requestDatacentre,
+            Boolean testMode) {
+        log4j.debug("*****PUT datacentre, found datacentre... updating ");
 
-        try {
-            allocator = SecurityUtils.getCurrentAllocatorWithExceptions();
-        } catch (SecurityException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<String>("internal error - please contact admin", headers,
-                    HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        persistentDatacentre.setRoleName("ROLE_DATACENTRE");
+        persistentDatacentre.setUpdated(new Date());
+        persistentDatacentre.setContactName(requestDatacentre.getContactName());
+        persistentDatacentre.setContactEmail(requestDatacentre.getContactEmail());
+        persistentDatacentre.setDoiQuotaAllowed(requestDatacentre.getDoiQuotaAllowed());
+        persistentDatacentre.setDoiQuotaUsed(requestDatacentre.getDoiQuotaUsed());
+        persistentDatacentre.setDomains(requestDatacentre.getDomains());
+        persistentDatacentre.setIsActive(requestDatacentre.getIsActive());
+        persistentDatacentre.setName(requestDatacentre.getName());
+        persistentDatacentre.setPassword(requestDatacentre.getPassword());
+        persistentDatacentre.setSymbol(requestDatacentre.getSymbol());
+        persistentDatacentre.setPrefixes(requestDatacentre.getPrefixes());
 
-        if (!requestDatacentre.getSymbol().startsWith(allocator.getSymbol()))
-            return new ResponseEntity<String>("cannot PUT datacentre which belongs to another party", 
-                                              headers, HttpStatus.FORBIDDEN);
-
-        Datacentre datacentre = null;
-        try {
-            datacentre = Datacentre.findDatacentresBySymbolEquals(requestDatacentre.getSymbol()).getSingleResult();
-
-            if (!allocator.getSymbol().equals(datacentre.getAllocator().getSymbol()))
-                return new ResponseEntity<String>("cannot update datacentre which belongs to another party", 
-                                                  headers, HttpStatus.FORBIDDEN);
-
-            log4j.debug("*****PUT datacentre, found datacentre... updating ");
-
-        } catch (Exception e) {
-
-            log4j.debug("*****PUT datacentre: new datacentre");
-
-            requestDatacentre.setAllocator(allocator);
-            requestDatacentre.setRoleName("ROLE_DATACENTRE");
-            requestDatacentre.setUpdated(new Date());
-            requestDatacentre.setCreated(new Date());
-
-            String validationError = validationHelper.getFirstViolationMessage(requestDatacentre);
-            if (validationError != null) {
-                return new ResponseEntity<String>(validationError, headers, HttpStatus.BAD_REQUEST);
-            }
-
-            if (!testMode)
-                requestDatacentre.persist();
-
-            headers.setContentType(MediaType.APPLICATION_XML);
-            return new ResponseEntity<Datacentre>(datacentre, headers, HttpStatus.CREATED);
-        }
-
-        datacentre.setAllocator(allocator);
-        datacentre.setRoleName("ROLE_DATACENTRE");
-        datacentre.setUpdated(new Date());
-        datacentre.setContactName(requestDatacentre.getContactName());
-        datacentre.setContactEmail(requestDatacentre.getContactEmail());
-        datacentre.setDoiQuotaAllowed(requestDatacentre.getDoiQuotaAllowed());
-        datacentre.setDoiQuotaUsed(requestDatacentre.getDoiQuotaUsed());
-        datacentre.setDomains(requestDatacentre.getDomains());
-        datacentre.setIsActive(requestDatacentre.getIsActive());
-        datacentre.setName(requestDatacentre.getName());
-        datacentre.setPassword(requestDatacentre.getPassword());
-        datacentre.setSymbol(requestDatacentre.getSymbol());
-        datacentre.setPrefixes(requestDatacentre.getPrefixes());
+        validationHelper.validate(persistentDatacentre);
 
         if (!testMode)
-            datacentre.merge();
-                
-        headers.setContentType(MediaType.APPLICATION_XML);
-        return new ResponseEntity<Datacentre>(datacentre, headers, HttpStatus.OK);
+            persistentDatacentre.merge();
+
+        return makeResponse(persistentDatacentre, HttpStatus.OK);
+    }
+
+    private ResponseEntity<Datacentre> createDatacentre(Datacentre requestDatacentre, Boolean testMode) {
+        log4j.debug("*****PUT datacentre: new datacentre");
+
+        requestDatacentre.setRoleName("ROLE_DATACENTRE");
+
+        validationHelper.validate(requestDatacentre);
+
+        if (!testMode)
+            requestDatacentre.persist();
+
+        return makeResponse(requestDatacentre, HttpStatus.CREATED);
     }
     
-    private void convertPrefixesToPersistentPrefixes(Datacentre datacentre) throws Exception {
+    private ResponseEntity<Datacentre> makeResponse(Datacentre datacentre, HttpStatus responseCode) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_XML);
+        return new ResponseEntity<Datacentre>(datacentre, headers, responseCode);
+    }
+
+    private void compareAllocator(Datacentre datacentre, Allocator allocator) throws SecurityException {
+        if (!allocator.getSymbol().equals(datacentre.getAllocator().getSymbol()))
+            throw new SecurityException("cannot access datacentre which belongs to another party");
+    }
+
+    private void convertPrefixesToPersistentPrefixes(Datacentre datacentre) throws ValidationException {
         Set<Prefix> persistentPrefixes = new HashSet<Prefix>();
-        for (Prefix p : datacentre.getPrefixes()) {            
+        for (Prefix p : datacentre.getPrefixes()) {
             Prefix persistedPrefix;
             try {
                 persistedPrefix = Prefix.findPrefixesByPrefixLike(p.getPrefix()).getSingleResult();
             } catch (Exception e) {
-                throw new Exception("Prefix not found in our database: " + p.getPrefix());
+                throw new ValidationException("Prefix not found in our database: " + p.getPrefix());
             }
             persistentPrefixes.add(persistedPrefix);
         }
