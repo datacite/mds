@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ValidationException;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 /**
@@ -45,25 +47,37 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         HttpServletResponse wrappedResponse = new ApiResponseWrapper(response);
         ModelAndView mav = super.doResolveException(request, wrappedResponse, handler, ex);
 
-        // super method returns null, if it cannot handle the exception
-        if (mav == null) {
-            try {
-                String causes = ex.getMessage();
-                Throwable t = ex;
-                while (t.getCause() != null) {
-                    causes += " --> " + t.getCause().getMessage();
-                    t = t.getCause();
-                }                
-                logger.debug(causes);
-                
-                // response with INTERNAL SERVER ERROR
-                wrappedResponse.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncaught exception"); 
-                mav = new ModelAndView();
-            } catch (IOException e) {
-                logger.debug(e);
-            }
+        if (mav != null) // super method handled the exception
+            return mav;
+
+        try {
+            handleExceptions(ex, wrappedResponse);
+        } catch (IOException e) {
+            logger.debug(e);
         }
-        return mav;
+        
+        return new ModelAndView();
+    }
+
+    private void handleExceptions(Exception ex, HttpServletResponse response) throws IOException {
+        if (ex instanceof ValidationException) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+        } else if (ex instanceof SecurityException) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
+        } else {
+            logCauses(ex);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncaught exception");
+        }
+    }
+
+    private void logCauses(Exception ex) {
+        String causes = ex.getMessage();
+        Throwable t = ex;
+        while (t.getCause() != null) {
+            causes += " --> " + t.getCause().getMessage();
+            t = t.getCause();
+        }
+        logger.debug(causes);
     }
 
     @Override

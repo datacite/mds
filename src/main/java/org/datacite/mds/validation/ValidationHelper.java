@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 
 import org.apache.log4j.Logger;
@@ -95,6 +96,12 @@ public class ValidationHelper {
             return violation.getPropertyPath() + ": " + violation.getMessage();
         }
         return null;
+    }
+    
+    public void validate(Object object) throws ValidationException {
+        String violationMessage = getFirstViolationMessage(object);
+        if (violationMessage != null) 
+            throw new ValidationException(violationMessage);
     }
 
 }
