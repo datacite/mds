@@ -10,7 +10,9 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +28,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DatacentreApiController implements ApiController {
 
     Logger log4j = Logger.getLogger(DatacentreApiController.class);
+    
+    @Autowired
+    ValidationHelper validationHelper;
 
     @RequestMapping(value = "datacentre", method = RequestMethod.GET, headers = { "Accept=application/xml" })
     public ResponseEntity<? extends Object> get(@RequestParam String symbol) {
@@ -101,6 +106,11 @@ public class DatacentreApiController implements ApiController {
             requestDatacentre.setRoleName("ROLE_DATACENTRE");
             requestDatacentre.setUpdated(new Date());
             requestDatacentre.setCreated(new Date());
+
+            String validationError = validationHelper.getFirstViolationMessage(requestDatacentre);
+            if (validationError != null) {
+                return new ResponseEntity<String>(validationError, headers, HttpStatus.BAD_REQUEST);
+            }
 
             if (!testMode)
                 requestDatacentre.persist();
