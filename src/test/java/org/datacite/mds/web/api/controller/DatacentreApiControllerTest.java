@@ -1,25 +1,23 @@
 package org.datacite.mds.web.api.controller;
 
+import static org.datacite.mds.test.Utils.createAllocator;
+import static org.datacite.mds.test.Utils.createDatacentre;
+import static org.datacite.mds.test.Utils.setUsernamePassword;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
-import static org.datacite.mds.test.Utils.*;
+import org.datacite.mds.validation.ValidationHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -28,6 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class DatacentreApiControllerTest {
 
     DatacentreApiController datacentreApiController = new DatacentreApiController();
+    
+    @Autowired
+    ValidationHelper validationHelper;
+   
 
     String allocatorSymbol = "TEST";
     String allocatorSymbol2 = "XYZ";
@@ -45,7 +47,9 @@ public class DatacentreApiControllerTest {
     }
     
     @Before
-    public void setUp() throws Exception { 
+    public void setUp() throws Exception {
+        datacentreApiController.validationHelper = this.validationHelper;
+        
         allocator = createAllocator(allocatorSymbol);
         allocator.persist();
 
