@@ -1,6 +1,8 @@
 package org.datacite.mds.web.api.controller;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -70,8 +72,14 @@ public class DatacentreApiController implements ApiController {
         if (testMode == null)
             testMode = false;
         log4j.debug("*****PUT datacentre " + requestDatacentre + " \ntestMode = " + testMode);
-
+        
         HttpHeaders headers = new HttpHeaders();
+
+        try {
+            convertPrefixesToPersistentPrefixes(requestDatacentre);
+        } catch (Exception ex) {
+            return new ResponseEntity<String>(ex.getMessage(), headers, HttpStatus.NOT_FOUND);
+        }
 
         Allocator allocator;
 
@@ -131,25 +139,26 @@ public class DatacentreApiController implements ApiController {
         datacentre.setName(requestDatacentre.getName());
         datacentre.setPassword(requestDatacentre.getPassword());
         datacentre.setSymbol(requestDatacentre.getSymbol());
-
-        datacentre.getPrefixes().clear();
-        if (!testMode)
-            datacentre.merge();
-        
-        for (Prefix p : requestDatacentre.getPrefixes()) {            
-            Prefix persistedPrefix;
-            try {
-                persistedPrefix = Prefix.findPrefixesByPrefixLike(p.getPrefix()).getSingleResult();
-            } catch (Exception e) {
-                return new ResponseEntity<String>("Prefix not found in our database: " + p.getPrefix(), headers, HttpStatus.NOT_FOUND);
-            }
-            datacentre.getPrefixes().add(persistedPrefix);
-        }
+        datacentre.setPrefixes(requestDatacentre.getPrefixes());
 
         if (!testMode)
             datacentre.merge();
                 
         headers.setContentType(MediaType.APPLICATION_XML);
         return new ResponseEntity<Datacentre>(datacentre, headers, HttpStatus.OK);
+    }
+    
+    private void convertPrefixesToPersistentPrefixes(Datacentre datacentre) throws Exception {
+        Set<Prefix> persistentPrefixes = new HashSet<Prefix>();
+        for (Prefix p : datacentre.getPrefixes()) {            
+            Prefix persistedPrefix;
+            try {
+                persistedPrefix = Prefix.findPrefixesByPrefixLike(p.getPrefix()).getSingleResult();
+            } catch (Exception e) {
+                throw new Exception("Prefix not found in our database: " + p.getPrefix());
+            }
+            persistentPrefixes.add(persistedPrefix);
+        }
+        datacentre.setPrefixes(persistentPrefixes);
     }
 }
