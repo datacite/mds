@@ -92,7 +92,7 @@ public class ValidationHelper {
      */
     public <T> String getFirstViolationMessage(T object) {
         for (ConstraintViolation<T> violation : getValidator().validate(object)) {
-            return violation.getMessage();
+            return violation.getPropertyPath() + ": " + violation.getMessage();
         }
         return null;
     }
