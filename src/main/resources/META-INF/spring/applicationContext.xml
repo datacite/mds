@@ -59,6 +59,7 @@
     <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="dataSource" ref="dataSource"/>
+        <property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
         <property name="jpaPropertyMap">
             <map>
                 <entry key="javax.persistence.validation.factory" value-ref="validator" />
