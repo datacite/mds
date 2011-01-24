@@ -150,7 +150,7 @@
 	</bean>	
 
 	<bean id="basicAuthenticationEntryPoint"
-		class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
+		class="org.datacite.mds.web.api.ApiBasicAuthenticationEntryPoint">
 		<property name="realmName" value="api.datacite.org"/>
 	</bean>		
 
