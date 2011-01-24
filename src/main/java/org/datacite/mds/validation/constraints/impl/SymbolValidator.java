@@ -22,7 +22,7 @@ public class SymbolValidator implements ConstraintValidator<Symbol, String> {
 
     static final HashMap<Type, Pattern> PATTERNS = new HashMap<Type, Pattern>() {
         {
-            String symbol = "[A-Z][A-Z\\-]{0,6}[A-Z]";
+            String symbol = "[A-Z][A-Z0-9\\-]{0,6}[A-Z0-9]";
             put(Type.ALLOCATOR, Pattern.compile(symbol));
             put(Type.DATACENTRE, Pattern.compile(symbol + "\\." + symbol));
         }

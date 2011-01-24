@@ -20,10 +20,10 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest( { DomainUtils.class })
 public class SymbolTest extends AbstractContraintsTest {
 
-    String[] allowAllocator = { "AB", "ABCDEFGH", "AB-CD" };
-    String[] allowDatacentre = { "ABC.DE", "ABCDEF.AAA", "AB.CD-EF", "AB-CD.EF-GH" };
+    String[] allowAllocator = { "AB", "ABCDEFGH", "AB-CD", "AB2", "A42-5" };
+    String[] allowDatacentre = { "ABC.DE", "ABCDEF.AAA", "AB.CD-EF", "AB-CD.EF-GH", "AB.C42" };
     String[] disallow = { "A", "ABCDEFGHI", "AB.C", "AB.CDEFHIJKL", "abcde", "abc.def", "AB-", "-AB", "A--B", "AB.-C",
-            "AB.C-", "AB.C--D" };
+            "AB.C-", "AB.C--D", "42" };
 
     @Symbol(Symbol.Type.ALLOCATOR)
     String symbolAllocator;
