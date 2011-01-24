@@ -121,6 +121,7 @@
 		<constructor-arg>
 			<list>
 				<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+				<ref bean="rememberMeServices"/>
 			</list>
 		</constructor-arg>
 		<property name="filterProcessesUrl" value="/resources/j_spring_security_logout"/>
