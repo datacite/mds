@@ -24,10 +24,10 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
     String salt;
 
     private String getBaseAuthString(AllocatorOrDatacentre user) {
-        String baseAuthString = null;
-        if (user != null) {
-            baseAuthString = user.getBaseAuthString();
-        }
+        if (user == null)
+            return null;
+        
+        String baseAuthString = user.getBaseAuthString();
         log4j.debug("base auth string for " + user.getSymbol() + ": " + baseAuthString);
         return baseAuthString;
     }
@@ -46,6 +46,9 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
 
     public Collection<String> getValidAuthStrings(AllocatorOrDatacentre user) {
         List<String> list = new ArrayList<String>();
+        if (user == null)
+            return list;
+        
         Date curDate = new Date();
         Date prevDate = DateUtils.addDays(curDate, -1);
         // Date prevDate = DateUtils.addMinutes(curDate, -1);
