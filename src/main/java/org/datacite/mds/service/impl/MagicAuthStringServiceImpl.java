@@ -23,21 +23,11 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
     @Value("${salt.magicAuthString}")
     String salt;
 
-    private String getBaseAuthString(AllocatorOrDatacentre user) {
-        if (user == null)
-            return null;
-        
-        String baseAuthString = user.getBaseAuthString();
-        log4j.debug("base auth string for " + user.getSymbol() + ": " + baseAuthString);
-        return baseAuthString;
-    }
-
     private String saltAndHash(String baseAuth, Date date) {
         if (StringUtils.isEmpty(baseAuth)) {
             return null;
         }
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
-        // DateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
         String rawAuth = baseAuth + ":" + df.format(date) + ":" + this.salt;
         String hashedAuth = DigestUtils.sha256Hex(rawAuth);
         log4j.debug("saltAndHash: " + hashedAuth + " <- " + rawAuth);
@@ -48,25 +38,26 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
         List<String> list = new ArrayList<String>();
         if (user == null)
             return list;
-        
+
         Date curDate = new Date();
         Date prevDate = DateUtils.addDays(curDate, -1);
-        // Date prevDate = DateUtils.addMinutes(curDate, -1);
-        String baseAuthString = getBaseAuthString(user);
-        if (baseAuthString != null) {
-            list.add(saltAndHash(baseAuthString, curDate));
-            list.add(saltAndHash(baseAuthString, prevDate));
-        }
+
+        String baseAuthString = user.getBaseAuthString();
+        list.add(saltAndHash(baseAuthString, curDate));
+        list.add(saltAndHash(baseAuthString, prevDate));
+        
         log4j.debug("valid auth strings for " + user.getSymbol() + ": " + list);
         return list;
     }
 
     public String getCurrentAuthString(AllocatorOrDatacentre user) {
-        return saltAndHash(getBaseAuthString(user), new Date());
+        if (user == null)
+            return null;
+        else
+            return saltAndHash(user.getBaseAuthString(), new Date());
     }
 
     public boolean isValidAuthString(AllocatorOrDatacentre user, String auth) {
-        return user != null && !StringUtils.isEmpty(auth) && // 
-                getValidAuthStrings(user).contains(auth);
+        return getValidAuthStrings(user).contains(auth);
     }
 }
