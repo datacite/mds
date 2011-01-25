@@ -7,7 +7,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.validation.ValidationHelper;
+import org.datacite.mds.web.api.NotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,35 +62,30 @@ public class DatacentreApiControllerTest {
     }
 
     @Test
-    public void testGet() {
+    public void testGet() throws Exception {
         ResponseEntity<? extends Object> result = datacentreApiController.get(datacentreSymbol);
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
     
-    @Test
-    public void testGet404() {
+    @Test(expected = NotFoundException.class)
+    public void testGet404() throws Exception {
         ResponseEntity<? extends Object> result = datacentreApiController.get(allocatorSymbol);
-        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
     
-    @Test
-    public void testGet403NotLoggedIn() {
+    @Test(expected = SecurityException.class)
+    public void testGet403NotLoggedIn() throws Exception {
         setUsernamePassword(null, null);
-
         ResponseEntity<? extends Object> result = datacentreApiController.get(datacentreSymbol);
-        assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());
     }
 
-    @Test
-    public void testGet403WrongUser() {
+    @Test(expected = SecurityException.class)
+    public void testGet403WrongUser() throws Exception {
         setUsernamePassword(allocatorSymbol2, null);
-
         ResponseEntity<? extends Object> result = datacentreApiController.get(datacentreSymbol);
-        assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());
     }
     
     @Test
-    public void testUpdate() {
+    public void testUpdate() throws Exception {
         String newName = "qwrfgqwergv";
         datacentre.setName(newName);
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre, false);
@@ -98,7 +95,7 @@ public class DatacentreApiControllerTest {
     }
     
     @Test
-    public void testUpdateTestMode() {
+    public void testUpdateTestMode() throws Exception {
         String newName = "qwrfgqwergv";
         datacentre.setName(newName);
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre, true);
@@ -108,7 +105,7 @@ public class DatacentreApiControllerTest {
     }
 
     @Test
-    public void testUpdateTestModeNull() {
+    public void testUpdateTestModeNull() throws Exception {
         String newName = "qwrfgqwergv";
         datacentre.setName(newName);
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre, null);
@@ -117,29 +114,27 @@ public class DatacentreApiControllerTest {
         assertEquals(newName, updatedDatacentre.getName());
     }
     
-    @Test
-    public void testUpdate403NotLoggedIn() {
+    @Test(expected = SecurityException.class)
+    public void testUpdate403NotLoggedIn() throws Exception {
         setUsernamePassword(null, null);
 
         String newName = "qwrfgqwergv";
         datacentre.setName(newName);
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre, false);
-        assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());
     }
 
-    @Test
-    public void testUpdate403AnotherOwner() {
+    @Test(expected = SecurityException.class)
+    public void testUpdate403AnotherOwner() throws Exception {
         setUsernamePassword(allocatorSymbol2, null);
 
         String newName = "qwrfgqwergv";
         datacentre.setName(newName);
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre, false);
-        assertEquals(HttpStatus.FORBIDDEN, result.getStatusCode());
     }
     
     @Test
     @Rollback
-    public void testCreate() {
+    public void testCreate() throws Exception {
         datacentre2 = createDatacentre(datacentreSymbol2, allocator);
         
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre2, false);
@@ -147,7 +142,7 @@ public class DatacentreApiControllerTest {
     }    
 
     @Test
-    public void testCreateTestMode() {
+    public void testCreateTestMode() throws Exception {
         datacentre2 = createDatacentre(datacentreSymbol2, allocator);
         
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre2, true);
