@@ -15,6 +15,7 @@ import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
+import org.datacite.mds.web.api.DeletedException;
 import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -40,25 +41,24 @@ public class MetadataApiController implements ApiController {
     ValidationHelper validationHelper;
 
     @RequestMapping(value = "metadata", method = RequestMethod.GET, headers = { "Accept=application/xml" })
-    public ResponseEntity<? extends Object> get(@RequestParam String doi) throws SecurityException {
-        HttpHeaders headers = new HttpHeaders();
-
+    public ResponseEntity<? extends Object> get(@RequestParam String doi) throws SecurityException, NotFoundException, DeletedException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
         
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
-            return new ResponseEntity<String>("DOI doesn't exist", headers, HttpStatus.NOT_FOUND);
+            throw new NotFoundException("DOI doesn't exist");
 
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
-            return new ResponseEntity<String>("cannot retrieve metadata which belongs to another party", headers, HttpStatus.FORBIDDEN);
+            throw new SecurityException("cannot retrieve metadata which belongs to another party");
 
         if (!dataset.getIsActive())
-            return new ResponseEntity<String>("dataset inactive", headers, HttpStatus.GONE);
+            throw new DeletedException("dataset inactive");
 
         Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
         if (metadata == null)
-            return new ResponseEntity<String>("no metadata for the DOI", headers, HttpStatus.NOT_FOUND);
+            throw new NotFoundException("no metadata for the DOI");
 
+        HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
         return new ResponseEntity<Object>(metadata.getXml(), headers, HttpStatus.OK);
     }
@@ -69,28 +69,20 @@ public class MetadataApiController implements ApiController {
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 
                                              @RequestParam(required = false) Boolean testMode,
-                                             HttpServletRequest httpRequest) throws ValidationException, NotFoundException, HandleException, SecurityException {
+                                             HttpServletRequest httpRequest) throws ValidationException, NotFoundException, HandleException, SecurityException, UnsupportedEncodingException {
 
         String method = httpRequest.getMethod();
         String logPrefix = "*****" + method + " metadata: ";
         if (testMode == null)
             testMode = false;
-        HttpHeaders headers = new HttpHeaders();
 
         log4j.debug(logPrefix + doi + ", url: " + url + " \ntestMode = " + testMode);
 
         Metadata metadata = new Metadata();
-        try {
-            metadata.setXml(body.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-   
+        metadata.setXml(body.getBytes("UTF-8"));
         metadata.setDataset(new Dataset());
-        String violationMessages = validationHelper.getViolationMessages(metadata);
-        if (violationMessages != null) {
-            return new ResponseEntity<String>(violationMessages, headers, HttpStatus.FORBIDDEN);
-        }
+        
+        validationHelper.validate(metadata);
         
         Dataset dataset;
 
@@ -107,28 +99,27 @@ public class MetadataApiController implements ApiController {
             metadata.persist();
         }
 
+        HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
     }
 
 
     @RequestMapping(value = "metadata", method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam String doi,
-            @RequestParam(required = false) Boolean testMode) throws SecurityException {
+            @RequestParam(required = false) Boolean testMode) throws SecurityException, NotFoundException {
         log4j.debug("*****DELETE metadata: " + doi + " \ntestMode = " + testMode);
 
         if (testMode == null)
             testMode = false;
 
-        HttpHeaders headers = new HttpHeaders();
-
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
 
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
-            return new ResponseEntity<String>("DOI doesn't exist", headers, HttpStatus.NOT_FOUND);
+            throw new NotFoundException("DOI doesn't exist");
 
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
-            return new ResponseEntity<String>("cannot delete DOI which belongs to another party", headers, HttpStatus.FORBIDDEN);
+            throw new SecurityException("cannot delete DOI which belongs to another party");
         
         if (!testMode) {
             if (dataset.getIsActive() == null)
@@ -138,6 +129,7 @@ public class MetadataApiController implements ApiController {
             dataset.merge();
         }
 
+        HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<String>("OK", headers, HttpStatus.OK);
     }
 }

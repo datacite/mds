@@ -35,11 +35,9 @@ public class DoiApiController implements ApiController {
         String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;
-        HttpHeaders headers = new HttpHeaders();
 
         if (body.indexOf("\n") == -1 || body.indexOf("\n") != body.lastIndexOf("\n"))
-            return new ResponseEntity<String>("request body must contain exactly two lines: DOI and URL", headers,
-                    HttpStatus.BAD_REQUEST);
+            throw new ValidationException("request body must contain exactly two lines: DOI and URL");
 
         String doi = body.substring(0, body.indexOf("\n"));
         String url = body.substring(body.indexOf("\n") + 1, body.length());
@@ -52,6 +50,7 @@ public class DoiApiController implements ApiController {
             doiService.update(doi, url, testMode);
         }
 
+        HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<String>("OK", headers, method.equals("POST") ? HttpStatus.CREATED : HttpStatus.OK);
     }
 }

@@ -69,6 +69,8 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
             response.sendError(HttpServletResponse.SC_NOT_FOUND, ex.getMessage());
         } else if (ex instanceof HandleException) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
+        } else if (ex instanceof DeletedException) {
+            response.sendError(HttpServletResponse.SC_GONE, ex.getMessage());
         } else {
             logCauses(ex);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncaught exception");
