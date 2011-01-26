@@ -1,9 +1,13 @@
 package org.datacite.mds.test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Prefix;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -50,13 +54,26 @@ public class Utils {
         datacentre.setRoleName("ROLE_DATACENTRE");
         return datacentre;
     }
-    
+
     public static Dataset createDataset(String doi, Datacentre datacentre) {
         Dataset dataset = new Dataset();
         dataset.setDoi(doi);
         dataset.setDatacentre(datacentre);
         return dataset;
     }
-    
+
+    public static Prefix createPrefix(String prefix) {
+        Prefix prefixObj = new Prefix();
+        prefixObj.setPrefix(prefix);
+        return prefixObj;
+    }
+
+    public static Set<Prefix> createPrefixes(String... prefixes) {
+        Set<Prefix> prefixSet = new HashSet<Prefix>();
+        for (String prefix : prefixes) {
+            prefixSet.add(createPrefix(prefix));
+        }
+        return prefixSet;
+    }
 
 }

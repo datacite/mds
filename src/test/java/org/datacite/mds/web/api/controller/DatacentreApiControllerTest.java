@@ -2,8 +2,11 @@ package org.datacite.mds.web.api.controller;
 
 import static org.datacite.mds.test.Utils.createAllocator;
 import static org.datacite.mds.test.Utils.createDatacentre;
+import static org.datacite.mds.test.Utils.createPrefixes;
 import static org.datacite.mds.test.Utils.setUsernamePassword;
 import static org.junit.Assert.assertEquals;
+
+import javax.validation.ValidationException;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
@@ -55,12 +58,14 @@ public class DatacentreApiControllerTest {
         datacentreApiController.validationHelper = this.validationHelper;
         
         allocator = createAllocator(allocatorSymbol);
+        allocator.setPrefixes(createPrefixes("10.5072"));
         allocator.persist();
 
         allocator2 = createAllocator(allocatorSymbol2);
         allocator2.persist();
 
         datacentre = createDatacentre(datacentreSymbol, allocator);
+        datacentre.setPrefixes(allocator.getPrefixes());
         datacentre.persist();
         
         setUsernamePassword(allocator.getSymbol(), allocator.getPassword());
@@ -136,7 +141,7 @@ public class DatacentreApiControllerTest {
         datacentre.setName(newName);
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre, false);
     }
-    
+   
     @Test
     @Rollback
     public void testCreate() throws Exception {
@@ -152,5 +157,13 @@ public class DatacentreApiControllerTest {
         
         ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre2, true);
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
-    } 
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void testCreateNonExistingPrefix() throws Exception {
+        String nonExistingPrefix = "10.4711";
+        datacentre2 = createDatacentre(datacentreSymbol2, allocator);
+        datacentre2.setPrefixes(createPrefixes(nonExistingPrefix));
+        ResponseEntity<? extends Object> result = datacentreApiController.createOrUpdate(datacentre2, false);
+    }
 }
