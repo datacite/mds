@@ -64,7 +64,9 @@ public class DatacentreApiControllerTest {
     @Test
     public void testGet() throws Exception {
         ResponseEntity<? extends Object> result = datacentreApiController.get(datacentreSymbol);
+        Datacentre returnedDatacentre = (Datacentre) result.getBody();
         assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(datacentre.getSymbol(), returnedDatacentre.getSymbol());
     }
 
     @Test(expected = NotFoundException.class)
