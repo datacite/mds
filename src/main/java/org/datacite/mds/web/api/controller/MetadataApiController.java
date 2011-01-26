@@ -90,9 +90,9 @@ public class MetadataApiController implements ApiController {
         }
    
         metadata.setDataset(new Dataset());
-        String violationMessage = validationHelper.getFirstViolationMessage(metadata);
-        if (violationMessage != null) {
-            return new ResponseEntity<String>(violationMessage, headers, HttpStatus.FORBIDDEN);
+        String violationMessages = validationHelper.getViolationMessages(metadata);
+        if (violationMessages != null) {
+            return new ResponseEntity<String>(violationMessages, headers, HttpStatus.FORBIDDEN);
         }
         
         Dataset dataset;

@@ -1,12 +1,15 @@
 package org.datacite.mds.validation;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -91,15 +94,18 @@ public class ValidationHelper {
      * @return String containing the first error message of null if the object
      *         is valid
      */
-    public <T> String getFirstViolationMessage(T object) {
+    public <T> String getViolationMessages(T object) {
+        Collection<String> messages = new ArrayList<String>();
         for (ConstraintViolation<T> violation : getValidator().validate(object)) {
-            return violation.getPropertyPath() + ": " + violation.getMessage();
+            messages.add("[" + violation.getPropertyPath() + "] " + violation.getMessage());
         }
-        return null;
+        
+        String messagesJoined = StringUtils.join(messages, "; ");
+        return StringUtils.defaultIfEmpty(messagesJoined, null);
     }
     
     public void validate(Object object) throws ValidationException {
-        String violationMessage = getFirstViolationMessage(object);
+        String violationMessage = getViolationMessages(object);
         if (violationMessage != null) 
             throw new ValidationException(violationMessage);
     }

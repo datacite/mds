@@ -33,9 +33,9 @@ public class DoiServiceImpl implements DoiService {
         dataset.setDoi(doi);
         dataset.setUrl(url);
 
-        String violationMessage = validationHelper.getFirstViolationMessage(dataset);
-        if (violationMessage != null) {
-            throw new SecurityException(violationMessage);
+        String violationMessages = validationHelper.getViolationMessages(dataset);
+        if (violationMessages != null) {
+            throw new SecurityException(violationMessages);
         }
 
         log4j.debug("trying handle registration: " + doi);
@@ -65,9 +65,9 @@ public class DoiServiceImpl implements DoiService {
         }
         dataset.setUrl(url);
 
-        String violationMessage = validationHelper.getFirstViolationMessage(dataset);
-        if (violationMessage != null) {
-            throw new SecurityException(violationMessage);
+        String violationMessages = validationHelper.getViolationMessages(dataset);
+        if (violationMessages != null) {
+            throw new SecurityException(violationMessages);
         }
 
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol())) {
