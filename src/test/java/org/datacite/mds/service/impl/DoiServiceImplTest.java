@@ -2,17 +2,14 @@ package org.datacite.mds.service.impl;
 
 import static org.datacite.mds.test.Utils.createAllocator;
 import static org.datacite.mds.test.Utils.createDatacentre;
-import static org.datacite.mds.test.Utils.*;
+import static org.datacite.mds.test.Utils.createDataset;
+import static org.datacite.mds.test.Utils.createPrefixes;
 import static org.datacite.mds.test.Utils.login;
 import static org.junit.Assert.assertEquals;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
-import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.junit.Before;
@@ -47,16 +44,12 @@ public class DoiServiceImplTest {
 
     @Before
     public void init() {
-        Prefix prefix = new Prefix();
-        prefix.setPrefix(PREFIX);
-        Set<Prefix> prefixes = new HashSet<Prefix>();
-        prefixes.add(prefix);
         Allocator allocator = createAllocator(ALLOCATOR_SYMBOL);
         allocator.persist();
         datacentre = createDatacentre(DATACENTRE_SYMBOL, allocator);
-        datacentre.setPrefixes(prefixes);
+        datacentre.setPrefixes(createPrefixes(PREFIX));
         datacentre.setDomains(DOMAIN);
-        datacentre.setDoiQuotaUsed(42);
+        datacentre.setDoiQuotaUsed(DOI_QUOTA_USED);
         datacentre.persist();
 
         login(datacentre);
@@ -94,9 +87,9 @@ public class DoiServiceImplTest {
         login(null);
         doiService.create(DOI, "http://" + DOMAIN, true);
     }
-    
+
     // UPDATE
-    
+
     @Test
     public void testUpdate() throws HandleException, SecurityException {
         createDataset(DOI, datacentre).persist();
