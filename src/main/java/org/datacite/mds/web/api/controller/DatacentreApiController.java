@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
@@ -14,6 +13,7 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
 import org.datacite.mds.web.api.NotFoundException;
@@ -54,7 +54,7 @@ public class DatacentreApiController implements ApiController {
 
     @RequestMapping(value = "datacentre", method = RequestMethod.PUT, headers = { "Content-Type=application/xml" })
     public ResponseEntity<? extends Object> createOrUpdate(@RequestBody @Valid Datacentre requestDatacentre,
-            @RequestParam(required = false) Boolean testMode) throws SecurityException {
+            @RequestParam(required = false) Boolean testMode) throws SecurityException, ValidationException {
 
         testMode = BooleanUtils.isTrue(testMode);
 
@@ -75,7 +75,7 @@ public class DatacentreApiController implements ApiController {
     }
 
     private ResponseEntity<Datacentre> updateDatacentre(Datacentre persistentDatacentre, Datacentre requestDatacentre,
-            Boolean testMode) {
+            Boolean testMode) throws ValidationException {
         log4j.debug("*****PUT datacentre, found datacentre... updating ");
 
         persistentDatacentre.setRoleName("ROLE_DATACENTRE");
@@ -99,7 +99,7 @@ public class DatacentreApiController implements ApiController {
         return makeResponse(persistentDatacentre, HttpStatus.OK);
     }
 
-    private ResponseEntity<Datacentre> createDatacentre(Datacentre requestDatacentre, Boolean testMode) {
+    private ResponseEntity<Datacentre> createDatacentre(Datacentre requestDatacentre, Boolean testMode) throws ValidationException {
         log4j.debug("*****PUT datacentre: new datacentre");
 
         requestDatacentre.setRoleName("ROLE_DATACENTRE");
