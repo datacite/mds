@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.datacite.mds.service.HandleException;
 import org.datacite.mds.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -66,6 +67,8 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
             response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
         } else if (ex instanceof NotFoundException) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, ex.getMessage());
+        } else if (ex instanceof HandleException) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
         } else {
             logCauses(ex);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncaught exception");
