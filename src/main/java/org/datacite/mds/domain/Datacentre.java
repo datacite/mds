@@ -162,10 +162,14 @@ public class Datacentre implements AllocatorOrDatacentre {
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date created;
 
+    
     @Transactional
-    public void incQuotaUsed() {
-        this.doiQuotaUsed++;
-        merge();
+    public void incQuotaUsed(boolean forceRefresh) {
+        String qlString = "update Datacentre a set a.doiQuotaUsed = a.doiQuotaUsed + 1 where a.symbol = :symbol";
+        entityManager.createQuery(qlString).setParameter("symbol", getSymbol()).executeUpdate();
+        
+        if (forceRefresh)
+            refresh();
     }
     
     @Transactional
@@ -211,7 +215,14 @@ public class Datacentre implements AllocatorOrDatacentre {
         this.entityManager.flush();
         return merged;
     }
-    
+
+        @Transactional
+    public void refresh() {
+        if (this.entityManager == null)
+            this.entityManager = entityManager();
+        this.entityManager.refresh(this);
+    }
+
     /**
      * retrieve a datacentre by symbol
      * @param symbol of an datacentre

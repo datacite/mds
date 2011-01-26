@@ -44,7 +44,7 @@ public class DoiServiceImpl implements DoiService {
         } else
             log4j.debug("TEST MODE or empty URL- minting skipped");
 
-        datacentre.incQuotaUsed();
+        datacentre.incQuotaUsed(true);
 
         if (!testMode) {
             dataset.persist();
