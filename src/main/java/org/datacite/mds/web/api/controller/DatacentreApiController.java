@@ -43,7 +43,7 @@ public class DatacentreApiController implements ApiController {
 
         Datacentre datacentre = Datacentre.findDatacentreBySymbol(symbol);
         if (datacentre == null)
-            throw new NotFoundException();
+            throw new NotFoundException("Datacentre not found");
 
         Allocator allocator = SecurityUtils.getCurrentAllocatorWithExceptions();
 
