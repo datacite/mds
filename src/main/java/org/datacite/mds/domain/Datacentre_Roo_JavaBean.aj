@@ -7,8 +7,6 @@ import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
 import java.util.Date;
-import java.util.Set;
-import org.datacite.mds.domain.Prefix;
 
 privileged aspect Datacentre_Roo_JavaBean {
     
@@ -78,14 +76,6 @@ privileged aspect Datacentre_Roo_JavaBean {
     
     public void Datacentre.setComments(String comments) {
         this.comments = comments;
-    }
-    
-    public Set<Prefix> Datacentre.getPrefixes() {
-        return this.prefixes;
-    }
-    
-    public void Datacentre.setPrefixes(Set<Prefix> prefixes) {
-        this.prefixes = prefixes;
     }
     
     public Date Datacentre.getUpdated() {

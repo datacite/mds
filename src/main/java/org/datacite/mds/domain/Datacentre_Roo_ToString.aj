@@ -14,6 +14,7 @@ privileged aspect Datacentre_Roo_ToString {
         sb.append("Password: ").append(getPassword()).append(", ");
         sb.append("RoleName: ").append(getRoleName()).append(", ");
         sb.append("Allocator: ").append(getAllocator()).append(", ");
+        sb.append("Prefixes: ").append(getPrefixes() == null ? "null" : getPrefixes().size()).append(", ");
         sb.append("QuotaExceeded: ").append(isQuotaExceeded()).append(", ");
         sb.append("BaseAuthString: ").append(getBaseAuthString()).append(", ");
         sb.append("Symbol: ").append(getSymbol()).append(", ");
@@ -25,7 +26,6 @@ privileged aspect Datacentre_Roo_ToString {
         sb.append("IsActive: ").append(getIsActive()).append(", ");
         sb.append("Domains: ").append(getDomains()).append(", ");
         sb.append("Comments: ").append(getComments()).append(", ");
-        sb.append("Prefixes: ").append(getPrefixes() == null ? "null" : getPrefixes().size()).append(", ");
         sb.append("Updated: ").append(getUpdated()).append(", ");
         sb.append("Created: ").append(getCreated());
         return sb.toString();

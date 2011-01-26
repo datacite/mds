@@ -58,7 +58,7 @@ public class DatacentreApiController implements ApiController {
 
         testMode = BooleanUtils.isTrue(testMode);
 
-        log4j.debug("*****PUT datacentre " + requestDatacentre + " \ntestMode = " + testMode);
+        log4j.debug("*****PUT datacentre (from xml): " + requestDatacentre + " \ntestMode = " + testMode);
 
         convertPrefixesToPersistentPrefixes(requestDatacentre);
 

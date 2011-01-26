@@ -6,10 +6,11 @@
             <table:column id="c_org_datacite_mds_domain_Datacentre_symbol" property="symbol" z="3TjQR9FMHnETLoTlc4UUtql+vgQ="/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_password" property="password" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_name" property="name" z="B3pk/gga9DpPwGI/a2TNbtjup4w="/>
-            <table:column id="c_org_datacite_mds_domain_Datacentre_contactName" property="contactName" z="MrnuTJZ4CkWBFb1Xpz//eRKpaKs="/>
+            
             <table:column id="c_org_datacite_mds_domain_Datacentre_contactEmail" property="contactEmail" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_allocator" property="allocator" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_roleName" property="roleName" render="false" z="user-managed"/>
+        <table:column id="c_org_datacite_mds_domain_Datacentre_prefixes" property="prefixes" z="rfiXVTnjshYZzGeYFXRtjmCVZBg="/>
         </table:table>
     </page:list>
 </div>
