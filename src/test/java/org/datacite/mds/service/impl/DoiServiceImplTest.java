@@ -12,6 +12,7 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.validation.ValidationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +59,7 @@ public class DoiServiceImplTest {
     // CREATE
 
     @Test
-    public void testCreate() throws HandleException, SecurityException {
+    public void testCreate() throws Exception {
         Dataset dataset = doiService.create(DOI, "http://" + DOMAIN, true);
         assertEquals(DOI, dataset.getDoi());
         assertEquals(DATACENTRE_SYMBOL, dataset.getDatacentre().getSymbol());
@@ -66,24 +67,24 @@ public class DoiServiceImplTest {
         assertEquals(doiQuotaUsedExpected, dataset.getDatacentre().getDoiQuotaUsed());
     }
 
-    @Test(expected = SecurityException.class)
-    public void testCreateWrongPrefix() throws HandleException, SecurityException {
+    @Test(expected = ValidationException.class)
+    public void testCreateWrongPrefix() throws Exception {
         doiService.create(DOI_WRONG, "http://" + DOMAIN, true);
     }
 
     @Test(expected = SecurityException.class)
-    public void testCreateQuotaExceeded() throws HandleException, SecurityException {
+    public void testCreateQuotaExceeded() throws Exception {
         datacentre.setDoiQuotaAllowed(DOI_QUOTA_USED);
         doiService.create(DOI, "http://" + DOMAIN, true);
     }
 
-    @Test(expected = SecurityException.class)
-    public void testCreateWrongDomain() throws HandleException, SecurityException {
+    @Test(expected = ValidationException.class)
+    public void testCreateWrongDomain() throws Exception {
         doiService.create(DOI, "http://" + DOMAIN_WRONG, true);
     }
 
     @Test(expected = SecurityException.class)
-    public void testCreateNotLoggedIn() throws HandleException, SecurityException {
+    public void testCreateNotLoggedIn() throws Exception {
         login(null);
         doiService.create(DOI, "http://" + DOMAIN, true);
     }
@@ -91,19 +92,19 @@ public class DoiServiceImplTest {
     // UPDATE
 
     @Test
-    public void testUpdate() throws HandleException, SecurityException {
+    public void testUpdate() throws Exception {
         createDataset(DOI, datacentre).persist();
         doiService.update(DOI, "http://" + DOMAIN, true);
     }
 
-    @Test(expected = SecurityException.class)
-    public void testUpdateWrongDomain() throws HandleException, SecurityException {
+    @Test(expected = ValidationException.class)
+    public void testUpdateWrongDomain() throws Exception {
         createDataset(DOI, datacentre).persist();
         doiService.update(DOI, "http://" + DOMAIN_WRONG, true);
     }
 
     @Test(expected = SecurityException.class)
-    public void testUpdateNonBelongingDataset() throws HandleException, SecurityException {
+    public void testUpdateNonBelongingDataset() throws Exception {
         Datacentre datacentre2 = createDatacentre(DATACENTRE_SYMBOL2, datacentre.getAllocator());
         datacentre2.setPrefixes(datacentre.getPrefixes());
         datacentre2.persist();
@@ -112,7 +113,7 @@ public class DoiServiceImplTest {
     }
 
     @Test(expected = SecurityException.class)
-    public void testUpdateNonExistingDataset() throws HandleException, SecurityException {
+    public void testUpdateNonExistingDataset() throws Exception {
         doiService.update(DOI, "http://" + DOMAIN, true);
     }
 

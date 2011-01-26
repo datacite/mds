@@ -12,6 +12,7 @@ import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class MetadataApiController implements ApiController {
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 
                                              @RequestParam(required = false) Boolean testMode,
-                                             HttpServletRequest httpRequest) {
+                                             HttpServletRequest httpRequest) throws ValidationException {
 
         String method = httpRequest.getMethod();
         String logPrefix = "*****" + method + " metadata: ";

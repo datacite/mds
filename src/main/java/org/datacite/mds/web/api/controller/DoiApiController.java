@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.web.api.ApiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -28,7 +29,7 @@ public class DoiApiController implements ApiController {
 
     @RequestMapping(value = "doi", method = { RequestMethod.PUT, RequestMethod.POST }, headers = { "Content-Type=text/plain;charset=UTF-8" })
     public ResponseEntity<String> createOrUpdate(@RequestBody String body,
-            @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest) {
+            @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest) throws ValidationException {
         String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;

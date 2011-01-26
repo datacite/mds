@@ -1,6 +1,7 @@
 package org.datacite.mds.service;
 
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.validation.ValidationException;
 
 /**
  * An interface to create and update DOIs
@@ -27,9 +28,11 @@ public interface DoiService {
      * @throws HandleException
      *             exception from Handle Service
      * @throws SecurityException
-     *             when any of above conditions not met
+     *             when datacentre not logged in, not active or has exceeded quota
+     * @throws ValidationException
+     *             when any of above conditions remaining not met
      */
-    Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException;
+    Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException;
 
     /**
      * Updates DOI. Checks if the following conditions are met:
@@ -50,8 +53,10 @@ public interface DoiService {
      * @throws HandleException
      *             exception from Handle Service
      * @throws SecurityException
-     *             when any of above conditions not met
+     *             when datacentre not logged in, not active or has exceeded quota
+     * @throws ValidationException
+     *             when any of above conditions remaining not met
      */
-    Dataset update(String doi, String newUrl, boolean testMode) throws HandleException, SecurityException;
+    Dataset update(String doi, String newUrl, boolean testMode) throws HandleException, SecurityException, ValidationException;
 
 }

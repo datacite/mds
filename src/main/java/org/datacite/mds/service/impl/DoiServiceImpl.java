@@ -8,6 +8,7 @@ import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class DoiServiceImpl implements DoiService {
     @Autowired
     ValidationHelper validationHelper;
 
-    public Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException {
+    public Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
 
         SecurityUtils.checkQuota(datacentre);
@@ -33,10 +34,7 @@ public class DoiServiceImpl implements DoiService {
         dataset.setDoi(doi);
         dataset.setUrl(url);
 
-        String violationMessages = validationHelper.getViolationMessages(dataset);
-        if (violationMessages != null) {
-            throw new SecurityException(violationMessages);
-        }
+        validationHelper.validate(dataset);
 
         log4j.debug("trying handle registration: " + doi);
         if (!testMode && url != null && !"".equals(url)) {
@@ -56,7 +54,7 @@ public class DoiServiceImpl implements DoiService {
         return dataset;
     }
 
-    public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException {
+    public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
 
         Dataset dataset = Dataset.findDatasetByDoi(doi);
@@ -65,10 +63,7 @@ public class DoiServiceImpl implements DoiService {
         }
         dataset.setUrl(url);
 
-        String violationMessages = validationHelper.getViolationMessages(dataset);
-        if (violationMessages != null) {
-            throw new SecurityException(violationMessages);
-        }
+        validationHelper.validate(dataset);
 
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol())) {
             String message = "cannot update DOI which belongs to another party";
