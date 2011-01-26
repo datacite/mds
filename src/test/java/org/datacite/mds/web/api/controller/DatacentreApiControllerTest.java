@@ -151,4 +151,11 @@ public class DatacentreApiControllerTest {
         datacentre2.setPrefixes(createPrefixes(nonExistingPrefix));
         datacentreApiController.createOrUpdate(datacentre2, false);
     }
+
+    @Test(expected = ValidationException.class)
+    public void testCreateInvalidDatacentre() throws Exception {
+        datacentre2 = createDatacentre(datacentreSymbol2, allocator);
+        datacentre2.setDomains("invaliddomain");
+        datacentreApiController.createOrUpdate(datacentre2, false);
+    }
 }
