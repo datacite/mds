@@ -24,7 +24,7 @@ public class DoiPrefixTest extends AbstractContraintsTest {
 
     boolean isValid(String prefix) {
         this.prefix = prefix;
-        return getValidationHelper().isValid(this, "prefix");
+        return super.isValid(this, "prefix");
     }
 
 }

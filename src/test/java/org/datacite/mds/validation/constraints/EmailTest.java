@@ -32,7 +32,7 @@ public class EmailTest extends AbstractContraintsTest {
 
     boolean isValid(String email) {
         this.email = email;
-        return getValidationHelper().isValid(this, "email");
+        return super.isValid(this, "email");
     }
 
 }

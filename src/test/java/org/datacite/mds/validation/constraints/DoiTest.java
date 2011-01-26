@@ -25,7 +25,7 @@ public class DoiTest extends AbstractContraintsTest {
 
     boolean isValid(String doi) {
         this.doi = doi;
-        return getValidationHelper().isValid(this, "doi");
+        return super.isValid(this, "doi");
     }
 
 }

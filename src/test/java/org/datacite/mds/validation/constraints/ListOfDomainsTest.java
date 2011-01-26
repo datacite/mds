@@ -23,7 +23,7 @@ public class ListOfDomainsTest extends AbstractContraintsTest {
 
     boolean isValid(String domains) {
         this.domains = domains;
-        return getValidationHelper().isValid(this, "domains");
+        return super.isValid(this, "domains");
     }
 
 }

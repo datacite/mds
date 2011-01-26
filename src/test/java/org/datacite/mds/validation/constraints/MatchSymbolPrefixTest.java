@@ -38,6 +38,6 @@ public class MatchSymbolPrefixTest extends AbstractContraintsTest {
 
     boolean isValid(String symbol) {
         datacentre.setSymbol(symbol);
-        return getValidationHelper().isValid(datacentre, MatchSymbolPrefix.class);
+        return super.isValid(datacentre, MatchSymbolPrefix.class);
     }
 }

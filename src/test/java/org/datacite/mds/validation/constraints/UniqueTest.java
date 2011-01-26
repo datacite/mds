@@ -46,6 +46,6 @@ public class UniqueTest extends AbstractContraintsTest {
 
     boolean isValid(Integer id, String uniqField) {
         UniqueTestEntity entity = UniqueTestEntity.create(id, uniqField);
-        return getValidationHelper().isValid(entity, Unique.class);
+        return super.isValid(entity, Unique.class);
     }
 }

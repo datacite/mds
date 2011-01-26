@@ -51,6 +51,6 @@ public class MatchDoiPrefixTest extends AbstractContraintsTest {
 
     boolean isValid(String doi) {
         dataset.setDoi(doi);
-        return getValidationHelper().isValid(dataset, MatchDoiPrefix.class);
+        return super.isValid(dataset, MatchDoiPrefix.class);
     }
 }

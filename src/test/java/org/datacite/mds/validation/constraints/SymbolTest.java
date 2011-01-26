@@ -31,14 +31,14 @@ public class SymbolTest extends AbstractContraintsTest {
     @Test
     public void testAllocator() {
         symbolAllocator = null;
-        assertTrue(getValidationHelper().isValid(this, "symbolAllocator"));
+        assertTrue(isValid(this, "symbolAllocator"));
         for (String symbol : allowAllocator) {
             symbolAllocator = symbol;
-            assertTrue(getValidationHelper().isValid(this, "symbolAllocator"));
+            assertTrue(isValid(this, "symbolAllocator"));
         }
         for (String symbol : (String[]) ArrayUtils.addAll(allowDatacentre, disallow)) {
             symbolAllocator = symbol;
-            assertFalse(getValidationHelper().isValid(this, "symbolAllocator"));
+            assertFalse(isValid(this, "symbolAllocator"));
         }
     }
 
@@ -48,14 +48,14 @@ public class SymbolTest extends AbstractContraintsTest {
     @Test
     public void testDatacentre() {
         symbolDatacentre = null;
-        assertTrue(getValidationHelper().isValid(this, "symbolDatacentre"));
+        assertTrue(isValid(this, "symbolDatacentre"));
         for (String symbol : allowDatacentre) {
             symbolDatacentre = symbol;
-            assertTrue(getValidationHelper().isValid(this, "symbolDatacentre"));
+            assertTrue(isValid(this, "symbolDatacentre"));
         }
         for (String symbol : (String[]) ArrayUtils.addAll(allowAllocator, disallow)) {
             symbolDatacentre = symbol;
-            assertFalse(getValidationHelper().isValid(this, "symbolDatacentre"));
+            assertFalse(isValid(this, "symbolDatacentre"));
         }
     }
 
@@ -65,14 +65,14 @@ public class SymbolTest extends AbstractContraintsTest {
     @Test
     public void testBoth() {
         symbolBoth = null;
-        assertTrue(getValidationHelper().isValid(this, "symbolBoth"));
+        assertTrue(isValid(this, "symbolBoth"));
         for (String symbol : (String[]) ArrayUtils.addAll(allowDatacentre, allowAllocator)) {
             symbolBoth = symbol;
-            assertTrue(getValidationHelper().isValid(this, "symbolBoth"));
+            assertTrue(isValid(this, "symbolBoth"));
         }
         for (String symbol : disallow) {
             symbolBoth = symbol;
-            assertFalse(getValidationHelper().isValid(this, "symbolBoth"));
+            assertFalse(isValid(this, "symbolBoth"));
         }
     }
 
@@ -94,7 +94,7 @@ public class SymbolTest extends AbstractContraintsTest {
     }
 
     boolean isValidExistingSymbol() {
-        return getValidationHelper().isValid(this, "existingSymbol");
+        return isValid(this, "existingSymbol");
     }
 
     void mockFindAllocatorOrDatacentre(AllocatorOrDatacentre mockReturn) {

@@ -17,7 +17,7 @@ public class ValidXmlTest extends AbstractContraintsTest {
     
     boolean isValid(String xml) {
         this.xml = xml.getBytes();
-        return getValidationHelper().isValid(this, "xml");
+        return super.isValid(this, "xml");
     }
 
 }
