@@ -39,13 +39,15 @@ public class DatacentreApiControllerTest {
     String datacentreSymbol2 = allocatorSymbol+".NEWTEST";
     
     Allocator allocator;
-    Datacentre datacentre; 
+    Allocator allocator2;
+    Datacentre datacentre;
     Datacentre datacentre2;
     
     @After
     public void tearDown() {
         datacentre.remove();
         allocator.remove();
+        allocator2.remove();
     }
     
     @Before
@@ -54,6 +56,9 @@ public class DatacentreApiControllerTest {
         
         allocator = createAllocator(allocatorSymbol);
         allocator.persist();
+
+        allocator2 = createAllocator(allocatorSymbol2);
+        allocator2.persist();
 
         datacentre = createDatacentre(datacentreSymbol, allocator);
         datacentre.persist();
@@ -79,7 +84,7 @@ public class DatacentreApiControllerTest {
     }
 
     @Test(expected = SecurityException.class)
-    public void testGet403WrongUser() throws Exception {
+    public void testGet403AnotherOwner() throws Exception {
         setUsernamePassword(allocatorSymbol2, null);
         ResponseEntity<? extends Object> result = datacentreApiController.get(datacentreSymbol);
     }
