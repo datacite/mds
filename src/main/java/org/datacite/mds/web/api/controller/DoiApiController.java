@@ -30,7 +30,8 @@ public class DoiApiController implements ApiController {
 
     @RequestMapping(value = "doi", method = { RequestMethod.PUT, RequestMethod.POST }, headers = { "Content-Type=text/plain;charset=UTF-8" })
     public ResponseEntity<String> createOrUpdate(@RequestBody String body,
-            @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest) throws ValidationException {
+            @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest)
+            throws ValidationException, HandleException, SecurityException, NotFoundException {
         String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;
@@ -45,18 +46,10 @@ public class DoiApiController implements ApiController {
 
         log4j.debug("*****" + method + " doi: " + doi + ", url: " + url + " \ntestMode = " + testMode);
 
-        try {
-            if (method.equals("POST")) {
-                doiService.create(doi, url, testMode);
-            } else { // PUT
-                doiService.update(doi, url, testMode);
-            }
-        } catch (SecurityException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
-        } catch (HandleException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        if (method.equals("POST")) {
+            doiService.create(doi, url, testMode);
+        } else { // PUT
+            doiService.update(doi, url, testMode);
         }
 
         return new ResponseEntity<String>("OK", headers, method.equals("POST") ? HttpStatus.CREATED : HttpStatus.OK);

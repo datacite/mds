@@ -40,15 +40,10 @@ public class MetadataApiController implements ApiController {
     ValidationHelper validationHelper;
 
     @RequestMapping(value = "metadata", method = RequestMethod.GET, headers = { "Accept=application/xml" })
-    public ResponseEntity<? extends Object> get(@RequestParam String doi) {
+    public ResponseEntity<? extends Object> get(@RequestParam String doi) throws SecurityException {
         HttpHeaders headers = new HttpHeaders();
 
-        Datacentre datacentre;
-        try {
-            datacentre = SecurityUtils.getCurrentDatacentreWithException();
-        } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
-        } 
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
         
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
@@ -74,7 +69,7 @@ public class MetadataApiController implements ApiController {
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 
                                              @RequestParam(required = false) Boolean testMode,
-                                             HttpServletRequest httpRequest) throws ValidationException, NotFoundException {
+                                             HttpServletRequest httpRequest) throws ValidationException, NotFoundException, HandleException, SecurityException {
 
         String method = httpRequest.getMethod();
         String logPrefix = "*****" + method + " metadata: ";
@@ -99,18 +94,10 @@ public class MetadataApiController implements ApiController {
         
         Dataset dataset;
 
-        try {
-            if (method.equals("POST")) {
-                dataset = doiService.create(doi, url, testMode);
-            } else { // PUT
-                dataset = doiService.update(doi, url, testMode);
-            }
-        } catch (SecurityException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (HandleException e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
+        if (method.equals("POST")) {
+            dataset = doiService.create(doi, url, testMode);
+        } else { // PUT
+            dataset = doiService.update(doi, url, testMode);
         }
 
         log4j.debug(logPrefix + "dataset id = " + dataset.getId());
@@ -126,23 +113,17 @@ public class MetadataApiController implements ApiController {
 
     @RequestMapping(value = "metadata", method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam String doi,
-            @RequestParam(required = false) Boolean testMode) {
+            @RequestParam(required = false) Boolean testMode) throws SecurityException {
         log4j.debug("*****DELETE metadata: " + doi + " \ntestMode = " + testMode);
 
         if (testMode == null)
             testMode = false;
 
         HttpHeaders headers = new HttpHeaders();
-        Datacentre datacentre;
-        Dataset dataset;
 
-        try {
-            datacentre = SecurityUtils.getCurrentDatacentreWithException();
-        } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
-        } 
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
 
-        dataset = Dataset.findDatasetByDoi(doi);
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
             return new ResponseEntity<String>("DOI doesn't exist", headers, HttpStatus.NOT_FOUND);
 
