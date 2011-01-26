@@ -13,6 +13,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.validation.ValidationException;
+import org.datacite.mds.web.api.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -112,7 +113,7 @@ public class DoiServiceImplTest {
         doiService.update(DOI, "http://" + DOMAIN, true);
     }
 
-    @Test(expected = SecurityException.class)
+    @Test(expected = NotFoundException.class)
     public void testUpdateNonExistingDataset() throws Exception {
         doiService.update(DOI, "http://" + DOMAIN, true);
     }

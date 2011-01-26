@@ -8,6 +8,7 @@ import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.web.api.ApiController;
+import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class DoiApiController implements ApiController {
             }
         } catch (SecurityException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.FORBIDDEN);
-        } catch (RuntimeException e) {
+        } catch (NotFoundException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.NOT_FOUND);
         } catch (HandleException e) {
             return new ResponseEntity<String>(e.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);

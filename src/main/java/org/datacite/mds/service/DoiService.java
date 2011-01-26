@@ -2,6 +2,7 @@ package org.datacite.mds.service;
 
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.validation.ValidationException;
+import org.datacite.mds.web.api.NotFoundException;
 
 /**
  * An interface to create and update DOIs
@@ -56,7 +57,9 @@ public interface DoiService {
      *             when datacentre not logged in, not active or has exceeded quota
      * @throws ValidationException
      *             when any of above conditions remaining not met
+     * @throws NotFoundException 
+     *             when there is no dataset for the given DOI 
      */
-    Dataset update(String doi, String newUrl, boolean testMode) throws HandleException, SecurityException, ValidationException;
+    Dataset update(String doi, String newUrl, boolean testMode) throws HandleException, SecurityException, ValidationException, NotFoundException;
 
 }

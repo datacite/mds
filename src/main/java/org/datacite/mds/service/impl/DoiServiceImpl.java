@@ -10,6 +10,7 @@ import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
+import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,12 +55,12 @@ public class DoiServiceImpl implements DoiService {
         return dataset;
     }
 
-    public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException {
+    public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException, NotFoundException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
 
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null) {
-            throw new SecurityException("DOI doesn't exist");
+            throw new NotFoundException("DOI doesn't exist");
         }
         dataset.setUrl(url);
 

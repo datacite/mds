@@ -15,6 +15,7 @@ import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
+import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,7 +74,7 @@ public class MetadataApiController implements ApiController {
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 
                                              @RequestParam(required = false) Boolean testMode,
-                                             HttpServletRequest httpRequest) throws ValidationException {
+                                             HttpServletRequest httpRequest) throws ValidationException, NotFoundException {
 
         String method = httpRequest.getMethod();
         String logPrefix = "*****" + method + " metadata: ";
