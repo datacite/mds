@@ -121,7 +121,7 @@ public class DatasetController {
         }
 
         dataset.persist();
-        dataset.getDatacentre().incQuotaUsed(true);
+        dataset.getDatacentre().incQuotaUsed(Datacentre.ForceRefresh.YES);
         return "redirect:/datasets/" + dataset.getId().toString();
     }
 

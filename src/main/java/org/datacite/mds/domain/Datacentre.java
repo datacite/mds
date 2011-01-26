@@ -162,19 +162,45 @@ public class Datacentre implements AllocatorOrDatacentre {
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date created;
 
+    public enum ForceRefresh { YES, NO };
     
+    /**
+     * Increase used quota counter for a datacentre.
+     * 
+     * Implementation uses HQL update in order to maintain potential concurrent access (i.e. a datacentre using 
+     * concurrently many API clients. Using HQL update makes sure database row level lock will guarantee only one
+     * client changes the value at the time.
+     *  
+     * @param forceRefresh the consequence of using HQL update is lack of the value in the instance field. 
+     * Use ForceRefresh.YES to reread the value from database but be aware that refresh() rereads all fields, not
+     * only doiQuotaUsed so if you have any other changes in the object persist them first.
+     */
     @Transactional
-    public void incQuotaUsed(boolean forceRefresh) {
+    public void incQuotaUsed(ForceRefresh forceRefresh) {
         String qlString = "update Datacentre a set a.doiQuotaUsed = a.doiQuotaUsed + 1 where a.symbol = :symbol";
         entityManager.createQuery(qlString).setParameter("symbol", getSymbol()).executeUpdate();
         
-        if (forceRefresh)
+        if (forceRefresh == ForceRefresh.YES)
             refresh();
     }
     
+    /**
+     * Check if quota exceeded.
+     * 
+     * Implementation uses HQL select in order to maintain potential concurrent access (i.e. a datacentre using 
+     * concurrently many API clients.
+     *  
+     * @return true if quota is exceeded
+     */
     @Transactional
     public boolean isQuotaExceeded() {
-        return getDoiQuotaAllowed() <= getDoiQuotaUsed() && getDoiQuotaAllowed() >= 0;
+        if (getDoiQuotaAllowed() < 0)
+            return false;
+        
+        String qlString = "select doiQuotaAllowed - doiQuotaUsed from Datacentre o where id = :id";
+        Integer diff = (Integer)entityManager().createQuery(qlString).setParameter("id", getId()).getSingleResult();
+        
+        return diff <= 0;
     }
 
     @SuppressWarnings("unchecked")

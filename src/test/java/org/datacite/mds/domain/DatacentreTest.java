@@ -3,7 +3,6 @@ package org.datacite.mds.domain;
 import static org.junit.Assert.*;
 
 import org.datacite.mds.test.Utils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.Rollback;
@@ -29,7 +28,7 @@ public class DatacentreTest {
         expectedQuota = 43;
         datacentre.persist();
         
-        datacentre.incQuotaUsed(true);
+        datacentre.incQuotaUsed(Datacentre.ForceRefresh.YES);
         
         assertEquals(expectedQuota, datacentre.getDoiQuotaUsed());
 
@@ -37,9 +36,28 @@ public class DatacentreTest {
         assertEquals(expectedQuota, datacentre2.getDoiQuotaUsed());
     }
 
-/*    @Test
+    @Test
+    @Rollback
     public void testIsQuotaExceeded() {
-        fail("Not yet implemented");
+        Datacentre datacentre;
+
+        Allocator allocator = Utils.createAllocator("AL");
+        allocator.persist();
+        datacentre = Utils.createDatacentre("AL.DC", allocator);
+        datacentre.setDoiQuotaUsed(42);
+        datacentre.setDoiQuotaAllowed(43);
+        datacentre.persist();
+        
+        assertFalse(datacentre.isQuotaExceeded());
+        
+        datacentre.incQuotaUsed(Datacentre.ForceRefresh.YES);
+
+        assertTrue(datacentre.isQuotaExceeded());
+        
+        datacentre.setDoiQuotaAllowed(-1);
+        datacentre.persist();
+
+        assertFalse(datacentre.isQuotaExceeded());
     }
-*/
+
 }
