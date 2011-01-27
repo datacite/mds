@@ -40,7 +40,7 @@ public class MetadataApiController implements ApiController {
     @Autowired
     ValidationHelper validationHelper;
 
-    @RequestMapping(value = "metadata", method = RequestMethod.GET, headers = { "Accept=application/xml" })
+    @RequestMapping(value = "metadata", method = RequestMethod.GET)
     public ResponseEntity<? extends Object> get(@RequestParam String doi) throws SecurityException, NotFoundException, DeletedException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
         
@@ -63,8 +63,7 @@ public class MetadataApiController implements ApiController {
         return new ResponseEntity<Object>(metadata.getXml(), headers, HttpStatus.OK);
     }
     
-//    @RequestMapping(value = "metadata", method = { RequestMethod.PUT }, headers = { "Content-Type=application/xml;charset=UTF-8" })
-    @RequestMapping(value = "metadata", method = { RequestMethod.PUT, RequestMethod.POST }, headers = { "Content-Type=application/xml;charset=UTF-8" })
+    @RequestMapping(value = "metadata", method = { RequestMethod.PUT, RequestMethod.POST })
         public ResponseEntity<String> createOrUpdate(@RequestBody String body, 
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 

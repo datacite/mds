@@ -37,7 +37,7 @@ public class DatacentreApiController implements ApiController {
     @Autowired
     ValidationHelper validationHelper;
 
-    @RequestMapping(value = "datacentre", method = RequestMethod.GET, headers = { "Accept=application/xml" })
+    @RequestMapping(value = "datacentre", method = RequestMethod.GET)
     public ResponseEntity<? extends Object> get(@RequestParam String symbol) throws SecurityException,
             NotFoundException {
 
@@ -52,7 +52,7 @@ public class DatacentreApiController implements ApiController {
         return makeResponse(datacentre, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "datacentre", method = RequestMethod.PUT, headers = { "Content-Type=application/xml" })
+    @RequestMapping(value = "datacentre", method = RequestMethod.PUT)
     public ResponseEntity<? extends Object> createOrUpdate(@RequestBody @Valid Datacentre requestDatacentre,
             @RequestParam(required = false) Boolean testMode) throws SecurityException, ValidationException {
 

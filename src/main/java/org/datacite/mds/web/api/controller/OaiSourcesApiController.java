@@ -21,7 +21,7 @@ public class OaiSourcesApiController implements ApiController {
     
     Logger log4j = Logger.getLogger(OaiSourcesApiController.class);
 
-    @RequestMapping(value = "oaisource", method = RequestMethod.GET, headers = { "Accept=application/xml" })
+    @RequestMapping(value = "oaisource", method = RequestMethod.GET)
     public ResponseEntity<OaiSourceCollection> get() {
 
         OaiSourceCollection all = new OaiSourceCollection();

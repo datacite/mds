@@ -28,7 +28,7 @@ public class DoiApiController implements ApiController {
     @Autowired
     DoiService doiService;
 
-    @RequestMapping(value = "doi", method = { RequestMethod.PUT, RequestMethod.POST }, headers = { "Content-Type=text/plain;charset=UTF-8" })
+    @RequestMapping(value = "doi", method = { RequestMethod.PUT, RequestMethod.POST })
     public ResponseEntity<String> createOrUpdate(@RequestBody String body,
             @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest)
             throws ValidationException, HandleException, SecurityException, NotFoundException {
