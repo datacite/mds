@@ -23,7 +23,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -154,16 +153,6 @@ public class Datacentre implements AllocatorOrDatacentre {
     @NotNull
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
 
-    @XmlElementWrapper(name="prefixSet")
-    public Set<Prefix> getPrefixes() {
-        return this.prefixes;
-    }
-    
-    public void setPrefixes(Set<Prefix> prefixes) {
-        this.prefixes = prefixes;
-    }
-
-    
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = ISO.DATE_TIME)
 
