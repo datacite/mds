@@ -41,7 +41,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 import org.springframework.transaction.annotation.Transactional;
 
 @RooJavaBean
-@RooToString
+@RooToString(excludeFields = { "quotaExceeded" })
 @RooEntity(finders = { "findDatacentresBySymbolEquals", "findDatacentresByNameLike" })
 @MatchSymbolPrefix
 @Unique(field = "symbol")
