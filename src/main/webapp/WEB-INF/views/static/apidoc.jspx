@@ -513,7 +513,7 @@ print $response->content;
 <h4>Response body</h4> 
 <p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
-<p><code>201 Created</code> - operation successful</p>
+<p><code>200 OK</code> - operation successful</p>
 <p><code>400 Bad Request</code> - request body must be exactly two lines: DOI and URL</p>
 <p><code>403 Forbidden</code> - login problem, quota excceded, wrong domain, wrong prefix</p>
 <p><code>500 Internal Server Error</code> - server internal error,
