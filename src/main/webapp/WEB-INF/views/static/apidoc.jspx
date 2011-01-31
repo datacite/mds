@@ -114,6 +114,9 @@ href="https://api.datacite.org/resources/schemas/datacite-metadata-2010-11-17.xm
 
 <h1>API reference</h1> 
 
+<p><strong>Each API call can have optional request parameter <code>testMode</code>. 
+If set to "true" or "1" the request will not change the database nor will the DOI handle will be registered or updated.</strong></p>
+
 <h2>Metadata API</h2>
 <p><i>URI: https://api.datacite.org/metadata</i></p> 
 <h3>GET</h3> 
