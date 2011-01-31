@@ -36,7 +36,8 @@ public class DoiApiController implements ApiController {
         if (testMode == null)
             testMode = false;
 
-        if (body.indexOf("\n") == -1 || body.indexOf("\n") != body.lastIndexOf("\n"))
+        if (body.indexOf("\n") == -1 || body.indexOf("\n") != body.lastIndexOf("\n")
+        		|| body.indexOf("\n") == body.length() - 1 || body.indexOf("\n") == 0)
             throw new ValidationException("request body must contain exactly two lines: DOI and URL");
 
         String doi = body.substring(0, body.indexOf("\n"));
