@@ -46,6 +46,6 @@ public class MatchDomainTest extends AbstractContraintsTest {
 
     boolean isValid(String url) {
         dataset.setUrl(url);
-        return super.isValid(dataset, MatchDomain.class);
+        return super.isValid(dataset, Dataset.SecondLevelConstraint.class);
     }
 }

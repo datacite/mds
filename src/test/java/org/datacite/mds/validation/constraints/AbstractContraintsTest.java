@@ -26,8 +26,8 @@ public abstract class AbstractContraintsTest {
      *            constraint annotation to be checked
      * @return true if the given constraint is not violated
      */
-    public <T> boolean isValid(T object, Class<? extends Annotation> constraint) {
-        Set<ConstraintViolation<T>> violations = validator.validate(object);
+    public <T> boolean isValidAnnotation(T object, Class<? extends Annotation> constraint, Class<?>... groups) {
+        Set<ConstraintViolation<T>> violations = validator.validate(object, groups);
 
         for (ConstraintViolation<T> violation : violations) {
             if (violation.getConstraintDescriptor().getAnnotation().annotationType().equals(constraint)) {
@@ -48,8 +48,8 @@ public abstract class AbstractContraintsTest {
      * @return true if property validates
      * @see javax.validation.Validator.validateProperty
      */
-    public <T> boolean isValid(T object, String propertyName) {
-        Set<?> violations = validator.validateProperty(object, propertyName);
+    public <T> boolean isValid(T object, String propertyName, Class<?>... groups) {
+        Set<?> violations = validator.validateProperty(object, propertyName, groups);
         return violations.isEmpty();
     }
 
@@ -61,9 +61,11 @@ public abstract class AbstractContraintsTest {
      * @return true if object validates
      * @see javax.validation.Validator.validateProperty
      */
-    public <T> boolean isValid(T object) {
-        Set<?> violations = validator.validate(object);
+    public <T> boolean isValid(T object, Class<?>... groups) {
+        Set<?> violations = validator.validate(object, groups);
         return violations.isEmpty();
     }
+    
+    
 
 }
