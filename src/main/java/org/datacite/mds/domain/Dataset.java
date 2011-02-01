@@ -10,6 +10,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -32,8 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RooToString
 @RooEntity(finders = { "findDatasetsByDoiEquals" })
 @MatchDoiPrefix
-@MatchDomain
+@MatchDomain(groups = Dataset.SecondLevelConstraint.class)
 @Unique(field = "doi")
+@GroupSequence({Dataset.class, Dataset.SecondLevelConstraint.class})
 public class Dataset {
     
     private static Logger log4j = Logger.getLogger(Dataset.class);
@@ -144,4 +146,6 @@ public class Dataset {
     public void setDoi(String doi) {
         this.doi = Utils.normalizeDoi(doi);
     }
+    
+    public interface SecondLevelConstraint {};
 }
