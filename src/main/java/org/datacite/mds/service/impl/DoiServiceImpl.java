@@ -30,11 +30,18 @@ public class DoiServiceImpl implements DoiService {
 
         SecurityUtils.checkQuota(datacentre);
 
-        Dataset dataset = new Dataset();
-        dataset.setDatacentre(datacentre);
-        dataset.setDoi(doi);
-        dataset.setUrl(url);
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        if (dataset == null) {
+            dataset = new Dataset();
+            dataset.setDatacentre(datacentre);
+            dataset.setDoi(doi);
+        } else {
+            if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol())) {
+                throw new SecurityException("cannot mint DOI which belongs to another party");
+            }
+        }
 
+        dataset.setUrl(url);
         validationHelper.validate(dataset);
 
         log4j.debug("trying handle registration: " + doi);
@@ -46,7 +53,11 @@ public class DoiServiceImpl implements DoiService {
         datacentre.incQuotaUsed(Datacentre.ForceRefresh.YES);
 
         if (!testMode) {
-            dataset.persist();
+            if (dataset.getId()==null) {
+                dataset.persist();
+            } else {
+                dataset.merge();
+            }
             log4j.debug("doi registration: " + dataset.getDoi() + " successful");
         } else {
             log4j.debug("TEST MODE - registration skipped");
@@ -81,4 +92,6 @@ public class DoiServiceImpl implements DoiService {
 
         return dataset;
     }
+    
+    
 }
