@@ -58,9 +58,11 @@ sub main() {
 
   my $domain = $opts{l} ? $LOCAL_SERVER : $GLOBAL_SERVER;
 
-  do_request($method,
+  my $response_code =  do_request($method,
     "https://$domain/$resource$query",
     $user_name, $user_pw, $content, $content_type);
+    
+  exit $response_code;
 }
 
 sub read_pw {
@@ -102,6 +104,7 @@ sub do_request {
   say STDERR $res->headers_as_string() if $opts{v};
   say shorten($res->content) if $res->content;
   
+  return $res->code();
 }
 
 
