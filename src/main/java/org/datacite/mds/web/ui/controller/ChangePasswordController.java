@@ -31,13 +31,13 @@ public class ChangePasswordController {
     Logger log4j = Logger.getLogger(ChangePasswordController.class);
 
     @Autowired
-    private MagicAuthStringService magicAuthStringService;
+    MagicAuthStringService magicAuthStringService;
 
     @Autowired
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    PasswordEncoder passwordEncoder;
 
     @RequestMapping(method = RequestMethod.GET)
     public String createForm(@RequestParam(value = "symbol", required = true) String symbol,
