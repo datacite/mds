@@ -97,6 +97,7 @@ public class ChangePasswordControllerTest {
 
     @Test
     public void changePasswordWhenNotLoggedIn() {
+        Utils.login(null);
         changePassword();
         Assert.assertEquals(symbol, SecurityUtils.getCurrentSymbol());
     }

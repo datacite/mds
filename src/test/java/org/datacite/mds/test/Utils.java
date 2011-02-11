@@ -17,10 +17,14 @@ public class Utils {
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(username, password));
     }
+    
+    public static void logout() {
+        SecurityContextHolder.getContext().setAuthentication(null);
+    }
 
     public static void login(AllocatorOrDatacentre user) {
         if (user == null) {
-            setUsernamePassword(null, null);
+            logout();
         } else {
             setUsernamePassword(user.getSymbol(), user.getPassword());
         }
