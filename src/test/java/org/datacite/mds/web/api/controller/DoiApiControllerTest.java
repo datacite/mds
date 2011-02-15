@@ -46,16 +46,28 @@ public class DoiApiControllerTest {
         datacentre = Utils.createDatacentre(datacentreSymbol, allocator);
         datacentre.setPrefixes(allocator.getPrefixes());    
         datacentre.persist();
+        datacentre.merge();
 
         Utils.login(datacentre);
     }    
 
     @Test
+    @Rollback
     public void testCreateOrUpdatePost() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setMethod("POST");
-        doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", true, request);
+        doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", false, request);
     }    
+
+    @Test
+    @Rollback
+    public void testCreateOrUpdatePut() throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setMethod("POST");
+        doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", false, request);
+        request.setMethod("PUT");
+        doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com/aaa", false, request);
+    }        
     
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateNonValid() throws Exception {
