@@ -46,7 +46,6 @@ public class DoiApiControllerTest {
         datacentre = Utils.createDatacentre(datacentreSymbol, allocator);
         datacentre.setPrefixes(allocator.getPrefixes());    
         datacentre.persist();
-        datacentre.merge();
 
         Utils.login(datacentre);
     }    
