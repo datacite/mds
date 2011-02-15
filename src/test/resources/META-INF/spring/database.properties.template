@@ -1,0 +1,9 @@
+database.password=
+database.url=jdbc:oracle:thin:@localhost:1521:xe
+database.username=datacite_test
+database.driverClassName=oracle.jdbc.OracleDriver
+
+#database.password=
+#database.username=datacite_test
+#database.url=jdbc:postgresql://localhost/datacite_test
+#database.driverClassName=org.postgresql.Driver

@@ -102,6 +102,15 @@ SQL for creating user in Oracle:
     create user datacite identified by <<HERE YOUR PASS>>;
     grant connect, resource to datacite;
 
+### src/test/resources/META-INF/spring/database.properties
+
+your test database configuration. This database is recreated from scratch every time test run via "mvn clean test"
+
+SQL for creating user in Oracle:
+
+    create user datacite_test identified by <<HERE YOUR PASS>>;
+    grant connect, resource to datacite_test;
+
 ### src/main/resources/META-INF/spring/handle.properties
 
 Handle service authentication info. If you don't know what to put here
