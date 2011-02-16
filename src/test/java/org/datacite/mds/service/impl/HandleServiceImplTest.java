@@ -40,7 +40,7 @@ public class HandleServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreatefail() throws HandleException {
-        service.update(null, null);
+        service.create(null, null);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -50,6 +50,6 @@ public class HandleServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreatefail2() throws HandleException {
-        service.update("","");
+        service.create("","");
     }
 }
