@@ -22,6 +22,9 @@ public class HandleServiceImplTest {
 
     @Autowired
     private HandleServiceImpl service;
+    
+    private static final String doi = "10.5072/test";
+    private static final String url = "http://example.com";
 
     @Before
     public void setup() {
@@ -33,9 +36,6 @@ public class HandleServiceImplTest {
     public void tearDown() {
         service.dummyMode = true;
     }
-
-    private static final String doi = "10.5072/test";
-    private static final String url = "http://example.com";
 
     @Test
     public void testCreate() throws Exception {
@@ -82,6 +82,22 @@ public class HandleServiceImplTest {
         replay(service.resolver);
         service.update(doi, url);
     }
+    
+    @Test(expected = HandleException.class)
+    public void testUpdateError() throws Exception {
+        mockExistingHandle();
+        mockResponseCode(AbstractMessage.RC_ERROR);
+        replay(service.resolver);
+        service.update(doi, url);
+    }
+    
+    @Test(expected = HandleException.class)
+    public void testUpdateException() throws Exception {
+        mockExistingHandle();
+        mockResponseException();
+        replay(service.resolver);
+        service.update(doi, url);
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testUpdateIllegalArgument1() throws HandleException {
@@ -110,9 +126,9 @@ public class HandleServiceImplTest {
     }
 
     void mockNonExistingHandle() throws net.handle.hdllib.HandleException {
+        HandleValue[] values = {};
         expect(service.resolver.resolveHandle(eq(doi), anyObject(String[].class), anyObject(int[].class)))//
-                .andThrow(
-                        new net.handle.hdllib.HandleException(net.handle.hdllib.HandleException.HANDLE_DOES_NOT_EXIST));
+                .andReturn(values);
     }
 
 }
