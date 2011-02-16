@@ -3,6 +3,8 @@ package org.datacite.mds.domain;
 public interface AllocatorOrDatacentre {
     
     public AllocatorOrDatacentre merge();
+    
+    public void persist();
 
     public Boolean getIsActive();
     

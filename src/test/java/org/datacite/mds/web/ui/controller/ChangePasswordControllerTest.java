@@ -33,12 +33,10 @@ import org.springframework.validation.BindingResult;
 public class ChangePasswordControllerTest {
 
     String symbol = "AL";
+    String oldPassword = "old password";
+    String newPassword = "new password";
+    
     AllocatorOrDatacentre user;
-    String auth;
-    ChangePasswordModel changePasswordModel;
-    Model model;
-    HttpServletRequest request;
-    BindingResult result;
 
     ChangePasswordController controller;
 
@@ -47,6 +45,12 @@ public class ChangePasswordControllerTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+    
+    String auth;
+    ChangePasswordModel changePasswordModel;
+    Model model;
+    HttpServletRequest request;
+    BindingResult result;
 
     @Before
     public void init() {
@@ -55,19 +59,18 @@ public class ChangePasswordControllerTest {
         controller.passwordEncoder = passwordEncoder;
         controller.authenticationManager = new AuthenticationManagerStub();
 
-        Allocator allocator = Utils.createAllocator(symbol);
-        allocator.setPassword("old password");
-        allocator.persist();
-        user = allocator;
+        user = Utils.createAllocator(symbol);
+        user.setPassword(oldPassword);
+        user.persist();
+
         auth = magicAuthStringService.getCurrentAuthString(user);
 
         model = new ExtendedModelMap();
         request = new MockHttpServletRequest();
 
-        String password = "new password";
         changePasswordModel = new ChangePasswordModel();
-        changePasswordModel.setFirst(password);
-        changePasswordModel.setSecond(password);
+        changePasswordModel.setFirst(newPassword);
+        changePasswordModel.setSecond(newPassword);
 
         result = new BeanPropertyBindingResult(changePasswordModel, "");
     }
@@ -116,7 +119,7 @@ public class ChangePasswordControllerTest {
         String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
         Assert.assertEquals("password/success", view);
 
-        String expectedPassword = passwordEncoder.encodePassword(changePasswordModel.getFirst(), null);
+        String expectedPassword = passwordEncoder.encodePassword(newPassword, null);
         Assert.assertEquals(expectedPassword, user.getPassword());
     }
 
