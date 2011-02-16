@@ -40,11 +40,12 @@ public class HandleServiceImpl implements HandleService {
 
     static final Logger log4j = Logger.getLogger(HandleServiceImpl.class);
 
+    HandleResolver resolver = new HandleResolver();
+
     public void create(String doi, String url) throws HandleException {
         if (doi == null || url == null || "".equals(doi) || "".equals(url))
             throw new IllegalArgumentException("DOI and URL cannot be empty");
 
-        HandleResolver resolver = new HandleResolver();
         resolver.traceMessages = traceMessages;
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         try {
@@ -94,7 +95,6 @@ public class HandleServiceImpl implements HandleService {
 
         log4j.debug("update Handle: DOI: " + doi + " URL: " + newUrl);
 
-        HandleResolver resolver = new HandleResolver();
         resolver.traceMessages = traceMessages;
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         
