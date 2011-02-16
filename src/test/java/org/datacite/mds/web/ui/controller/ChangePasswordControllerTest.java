@@ -26,6 +26,7 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
@@ -96,12 +97,20 @@ public class ChangePasswordControllerTest {
         String view = controller.createForm(symbol, auth, model);
         Assert.assertEquals("password/expired", view);
     }
+    
+    @Test
+    public void changePasswordModelWithErrors() {
+        result.addError(new ObjectError("foo", "bar"));
+        String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
+        Assert.assertEquals("password/change", view);
+        checkPasswordNotChanged();
+    }
 
     @Test
     public void changePasswordWhenNotLoggedIn() {
         Utils.login(null);
         changePassword();
-        Assert.assertEquals(symbol, SecurityUtils.getCurrentSymbol());
+        checkLoggedInAs(symbol);
     }
 
     @Test
@@ -109,10 +118,8 @@ public class ChangePasswordControllerTest {
         String symbol = "ANOTHER";
         Allocator anotherUser = Utils.createAllocator(symbol);
         Utils.login(anotherUser);
-        
         changePassword();
-        
-        Assert.assertEquals(symbol, SecurityUtils.getCurrentSymbol());
+        checkLoggedInAs(symbol);
     }
 
     private void changePassword() {
@@ -128,6 +135,7 @@ public class ChangePasswordControllerTest {
         String auth = "invalid auth";
         String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
         Assert.assertEquals("password/expired", view);
+        checkPasswordNotChanged();
     }
 
     @Test
@@ -137,6 +145,15 @@ public class ChangePasswordControllerTest {
         String symbol = unknown_user.getSymbol();
         String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
         Assert.assertEquals("password/expired", view);
+        checkPasswordNotChanged();
+    }
+    
+    void checkPasswordNotChanged() {
+        Assert.assertEquals(oldPassword, user.getPassword());
+    }
+    
+    void checkLoggedInAs(String symbol) {
+        Assert.assertEquals(symbol, SecurityUtils.getCurrentSymbol());
     }
 
     class AuthenticationManagerStub implements AuthenticationManager {
