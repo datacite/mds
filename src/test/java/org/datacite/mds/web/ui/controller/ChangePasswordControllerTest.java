@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +28,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/META-INF/spring/applicationContext.xml","/META-INF/spring/applicationContext-security.xml"})
+@ContextConfiguration("/META-INF/spring/applicationContext.xml")
 @Transactional
 public class ChangePasswordControllerTest {
 
@@ -45,16 +47,13 @@ public class ChangePasswordControllerTest {
 
     @Autowired
     PasswordEncoder passwordEncoder;
-    
-    @Autowired
-    AuthenticationManager authenticationManager;
 
     @Before
     public void init() {
         controller = new ChangePasswordController();
         controller.magicAuthStringService = magicAuthStringService;
         controller.passwordEncoder = passwordEncoder;
-        controller.authenticationManager = authenticationManager;
+        controller.authenticationManager = new AuthenticationManagerStub();
 
         Allocator allocator = Utils.createAllocator(symbol);
         allocator.setPassword("old password");
@@ -135,6 +134,14 @@ public class ChangePasswordControllerTest {
         String symbol = unknown_user.getSymbol();
         String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
         Assert.assertEquals("password/expired", view);
+    }
+
+    class AuthenticationManagerStub implements AuthenticationManager {
+        @Override
+        public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+            return authentication;
+        }
+
     }
 
 }
