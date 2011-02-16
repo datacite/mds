@@ -205,6 +205,61 @@ print $response->content;
 ]]>
 </util:highlight>
 </util:tab>
+<util:tab title="java">
+<util:highlight lang="java">
+<![CDATA[
+	public void GETMetadataExample(){
+		
+		try{			
+			String restEndpoint = "https://api.datacite.org/metadata";
+			String doi = "[doi]";
+			String username = "[username]";
+			String password = "[password]";
+			
+			URL u = new URL(restEndpoint+"?doi="+URLEncoder.encode(doi,"UTF-8"));			
+			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Accept", "application/xml");
+			conn.setRequestProperty("Content-Type", "application/xml;charset=UTF-8");
+			 
+			sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+			String encAuth = enc.encode((username+":"+password).getBytes());	
+			conn.setRequestProperty("Authorization", "Basic "+encAuth);
+			
+			conn.connect();
+			int responseCode = conn.getResponseCode();
+			        
+			InputStreamReader isr;
+			if (responseCode >= 400){isr = new InputStreamReader(conn.getErrorStream());}
+			else{isr = new InputStreamReader(conn.getInputStream());}
+			
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			char[] buffer = new char[1024];
+			int n;
+			while ((n=br.read(buffer))!=-1){
+				sw.write(buffer, 0, n);
+			}
+
+			System.out.println("Return Code: "+responseCode);
+			System.out.println("Return Body: "+sw.toString());
+									
+			isr.close();
+			sw.close();
+			br.close();
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}	
+	}	
+]]>
+</util:highlight>
+</util:tab>
+
 </util:tabs>
 
 <h3>POST</h3>
@@ -282,6 +337,68 @@ my $response   = $user_agent->request($request);
 
 print STDERR $response->status_line . "\n";
 print $response->content;
+]]>
+</util:highlight>
+</util:tab>
+<util:tab title="java">
+<util:highlight lang="java">
+<![CDATA[
+	public void POSTMetadataExample(){
+		
+		try{			
+			String restEndpoint = "https://api.datacite.org/metadata";
+			String doi = "[doi]";
+			String url = "[url]";
+			String username = "[username]";
+			String password = "[password]";
+			String metadata = "[metadata]";
+			
+			restEndpoint+= "?doi="+URLEncoder.encode(doi,"UTF-8");
+			restEndpoint+= (url!=null && url.trim().length()>0)?"&url="+URLEncoder.encode(url,"UTF-8"):"";
+			
+			URL u = new URL(restEndpoint);
+			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Accept", "application/xml");
+			conn.setRequestProperty("Content-Type", "application/xml;charset=UTF-8");
+			 
+			sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+			String encAuth = enc.encode((username+":"+password).getBytes());	
+			conn.setRequestProperty("Authorization", "Basic "+encAuth);
+			        
+			DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+			dos.writeBytes(metadata);
+			dos.close();
+			
+			conn.connect();
+			int responseCode = conn.getResponseCode();
+			        
+			InputStreamReader isr;
+			if (responseCode >= 400){isr = new InputStreamReader(conn.getErrorStream());}
+			else{isr = new InputStreamReader(conn.getInputStream());}
+			
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			char[] buffer = new char[1024];
+			int n;
+			while ((n=br.read(buffer))!=-1){
+				sw.write(buffer, 0, n);
+			}
+
+			System.out.println("Return Code:"+responseCode);
+			System.out.println("Return Body:"+sw.toString());
+									
+			isr.close();
+			sw.close();
+			br.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}	
 ]]>
 </util:highlight>
 </util:tab>
@@ -365,6 +482,68 @@ print $response->content;
 ]]>
 </util:highlight>
 </util:tab>
+<util:tab title="java">
+<util:highlight lang="java">
+<![CDATA[
+	public void PUTMetadataExample(){
+		
+		try{			
+			String restEndpoint = "https://api.datacite.org/metadata";
+			String doi = "[doi]";
+			String url = "[url]";
+			String username = "[username]";
+			String password = "[password]";
+			String metadata = "[metadata]";			
+			
+			restEndpoint+= "?doi="+URLEncoder.encode(doi,"UTF-8");
+			restEndpoint+= (url!=null && url.trim().length()>0)?"&url="+URLEncoder.encode(url,"UTF-8"):"";
+			
+			URL u = new URL(restEndpoint);
+			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
+			conn.setRequestMethod("PUT");
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Accept", "application/xml");
+			conn.setRequestProperty("Content-Type", "application/xml;charset=UTF-8");
+			 
+			sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+			String encAuth = enc.encode((username+":"+password).getBytes());	
+			conn.setRequestProperty("Authorization", "Basic "+encAuth);
+			        
+			DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+			dos.writeBytes(metadata);
+			dos.close();
+			
+			conn.connect();
+			int responseCode = conn.getResponseCode();
+			        
+			InputStreamReader isr;
+			if (responseCode >= 400){isr = new InputStreamReader(conn.getErrorStream());}
+			else{isr = new InputStreamReader(conn.getInputStream());}
+			
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			char[] buffer = new char[1024];
+			int n;
+			while ((n=br.read(buffer))!=-1){
+				sw.write(buffer, 0, n);
+			}
+
+			System.out.println("Return Code:"+responseCode);
+			System.out.println("Return Body:"+sw.toString());			
+			
+			isr.close();
+			sw.close();
+			br.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+]]>
+</util:highlight>
+</util:tab>
 </util:tabs>
 
 <h3>DELETE</h3> 
@@ -429,6 +608,59 @@ my $response   = $user_agent->request($request);
 
 print STDERR $response->status_line . "\n";
 print $response->content;
+]]>
+</util:highlight>
+</util:tab>
+<util:tab title="java">
+<util:highlight lang="java">
+<![CDATA[
+	public void DELETEMetadataExample(){
+		
+		try{			
+			String restEndpoint = "https://api.datacite.org/metadata";
+			String doi = "[doi]";
+			String username = "[username]";
+			String password = "[password]";
+
+			URL u = new URL(restEndpoint+"?doi="+URLEncoder.encode(doi,"UTF-8"));
+			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
+			conn.setRequestMethod("DELETE");
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Accept", "application/xml");
+			conn.setRequestProperty("Content-Type", "application/xml;charset=UTF-8");
+			 
+			sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+			String encAuth = enc.encode((username+":"+password).getBytes());	
+			conn.setRequestProperty("Authorization", "Basic "+encAuth);
+			
+			conn.connect();
+			int responseCode = conn.getResponseCode();
+			        
+			InputStreamReader isr;
+			if (responseCode >= 400){isr = new InputStreamReader(conn.getErrorStream());}
+			else{isr = new InputStreamReader(conn.getInputStream());}
+			
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			char[] buffer = new char[1024];
+			int n;
+			while ((n=br.read(buffer))!=-1){
+				sw.write(buffer, 0, n);
+			}
+
+			System.out.println("Return Code:"+responseCode);
+			System.out.println("Return Body:"+sw.toString());
+									
+			isr.close();
+			sw.close();
+			br.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+	}	
 ]]>
 </util:highlight>
 </util:tab>
@@ -515,6 +747,64 @@ print $response->content;
 ]]>
 </util:highlight>
 </util:tab>
+<util:tab title="java">
+<util:highlight lang="java">
+<![CDATA[
+	public void POSTDoiExample(){
+		
+		try{			
+			String restEndpoint = "https://api.datacite.org/doi";
+			String doi = "[doi]";
+			String url = "[url]";
+			String username = "[username]";
+			String password = "[password]";
+			
+			URL u = new URL(restEndpoint);
+			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
+			conn.setRequestMethod("POST");
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Accept", "application/xml");
+			conn.setRequestProperty("Content-Type", "text/plain;charset=UTF-8");
+			 
+			sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+			String encAuth = enc.encode((username+":"+password).getBytes());	
+			conn.setRequestProperty("Authorization", "Basic "+encAuth);
+			
+			DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+			dos.writeBytes(doi+"\n"+url);
+			dos.close();			
+			
+			conn.connect();
+			int responseCode = conn.getResponseCode();
+			        
+			InputStreamReader isr;
+			if (responseCode >= 400){isr = new InputStreamReader(conn.getErrorStream());}
+			else{isr = new InputStreamReader(conn.getInputStream());}
+			
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			char[] buffer = new char[1024];
+			int n;
+			while ((n=br.read(buffer))!=-1){
+				sw.write(buffer, 0, n);
+			}
+
+			System.out.println("Return Code: "+responseCode);
+			System.out.println("Return Body: "+sw.toString());
+									
+			isr.close();
+			sw.close();
+			br.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}	
+	}	
+]]>
+</util:highlight>
+</util:tab>
 </util:tabs>
 
 <p><code>doi-url file</code> has to contain the request body, so a file with two lines: doi and url.</p>
@@ -595,6 +885,64 @@ my $response   = $user_agent->request($request);
 
 print STDERR $response->status_line . "\n";
 print $response->content;
+]]>
+</util:highlight>
+</util:tab>
+<util:tab title="java">
+<util:highlight lang="java">
+<![CDATA[
+	public void PUTDoiExample(){
+		
+		try{			
+			String restEndpoint = "https://api.datacite.org/doi";
+			String doi = "[doi]";
+			String url = "[url]";
+			String username = "[username]";
+			String password = "[password]";
+			
+			URL u = new URL(restEndpoint);
+			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
+			conn.setRequestMethod("PUT");
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Accept", "application/xml");
+			conn.setRequestProperty("Content-Type", "text/plain;charset=UTF-8");
+			 
+			sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+			String encAuth = enc.encode((username+":"+password).getBytes());	
+			conn.setRequestProperty("Authorization", "Basic "+encAuth);
+			
+			DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
+			dos.writeBytes(doi+"\n"+url);
+			dos.close();			
+			
+			conn.connect();
+			int responseCode = conn.getResponseCode();
+			        
+			InputStreamReader isr;
+			if (responseCode >= 400){isr = new InputStreamReader(conn.getErrorStream());}
+			else{isr = new InputStreamReader(conn.getInputStream());}
+			
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			char[] buffer = new char[1024];
+			int n;
+			while ((n=br.read(buffer))!=-1){
+				sw.write(buffer, 0, n);
+			}
+
+			System.out.println("Return Code: "+responseCode);
+			System.out.println("Return Body: "+sw.toString());
+									
+			isr.close();
+			sw.close();
+			br.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}	
+	}	
 ]]>
 </util:highlight>
 </util:tab>
