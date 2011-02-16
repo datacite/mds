@@ -107,16 +107,15 @@ public class HandleServiceImpl implements HandleService {
 
             if(!dummyMode) {
                 val = resolver.resolveHandle(doi, new String[] { "URL" }, null);
+                if (val.length != 1) {
+                    String msg = "Handle not found";
+                    log4j.debug(msg);
+                    throw new HandleException(msg);
+                }
                 log4j.debug("found handle: " + val[0]);
             } else {
                 val = dummyVal;
                 log4j.debug("found handle: none - dummyMode on");
-            }
-
-            if (val.length != 1) {
-                String msg = "Handle not found";
-                log4j.debug(msg);
-                throw new HandleException(msg);
             }
 
             val[0].setData(newUrl.getBytes(DEFAULT_ENCODING));
