@@ -4,3 +4,5 @@ email.host=mail.example.com
 email.username=<<username>>
 email.password=<<password>>
 email.from=do-not-reply@datacite.org
+email.replyTo=tech@datacite.org
+email.mdsUrl=https://api.datacite.org

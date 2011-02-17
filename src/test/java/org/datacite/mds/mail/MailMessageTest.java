@@ -28,8 +28,8 @@ public class MailMessageTest {
     public void replacePlaceholder() {
         mail.setSubject("%aa% - %cc%");
         mail.setText("%aa% - %bb%\n%aa%");
-        mail.replacePlaceholer("aa", "A");
-        mail.replacePlaceholer("bb", "B");
+        mail.replacePlaceholder("aa", "A");
+        mail.replacePlaceholder("bb", "B");
         assertEquals("A - %cc%", mail.getSubject());
         assertEquals("A - B\nA", mail.getText());
     }

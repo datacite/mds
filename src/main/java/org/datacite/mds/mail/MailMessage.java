@@ -4,15 +4,10 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.SimpleMailMessage;
 
 public class MailMessage extends SimpleMailMessage {
-    
-    public void setTo(AllocatorOrDatacentre user) {
-        this.setTo(user.getContactEmail());
-    }
     
     public void loadTemplate(Resource resource) {
         String text;
@@ -34,7 +29,7 @@ public class MailMessage extends SimpleMailMessage {
         return getSubject() + "\n" + getText();
     }
     
-    public void replacePlaceholer(String placeholder, String replacement) {
+    public void replacePlaceholder(String placeholder, String replacement) {
         String template = getTemplate();
         template = StringUtils.replace(template, "%" + placeholder + "%", replacement);
         loadTemplate(template);
