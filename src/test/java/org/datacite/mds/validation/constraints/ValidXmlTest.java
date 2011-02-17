@@ -2,6 +2,9 @@ package org.datacite.mds.validation.constraints;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
+import org.datacite.mds.test.Utils;
 import org.junit.Test;
 
 public class ValidXmlTest extends AbstractContraintsTest {
@@ -10,8 +13,8 @@ public class ValidXmlTest extends AbstractContraintsTest {
     byte[] xml;
 
     @Test
-    public void test() {
-        assertTrue(isValid("<xml/>"));
+    public void test() throws IOException {
+        assertTrue(isValid(Utils.getTestMetadata()));
         assertFalse(isValid("<a></b>"));
     }
     
