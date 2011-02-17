@@ -1,21 +1,19 @@
 package org.datacite.mds.web.api.controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.DoiService;
-import org.datacite.mds.service.HandleException;
-import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.test.Utils;
 import org.datacite.mds.validation.ValidationException;
-import org.datacite.mds.web.api.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,21 +49,23 @@ public class DoiApiControllerTest {
     }    
 
     @Test
-    @Rollback
     public void testCreateOrUpdatePost() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setMethod("POST");
-        doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", false, request);
+        ResponseEntity<? extends Object> response = doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", false, request);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+
     }    
 
     @Test
-    @Rollback
     public void testCreateOrUpdatePut() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setMethod("POST");
-        doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", false, request);
+        ResponseEntity<? extends Object> response = doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", false, request);
+		assertEquals(HttpStatus.CREATED, response.getStatusCode());
         request.setMethod("PUT");
-        doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com/aaa", false, request);
+        response = doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com/aaa", false, request);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
     }        
     
     @Test(expected = ValidationException.class)
