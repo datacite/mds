@@ -69,6 +69,8 @@
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
     <bean class="org.springframework.mail.javamail.JavaMailSenderImpl" id="mailSender">
         <property name="host" value="${email.host}"/>
+        <property name="username" value="${email.username}"/>
+        <property name="password" value="${email.password}"/>
     </bean>
     <bean class="org.datacite.mds.validation.constraints.impl.ValidXMLValidator" scope="prototype">
         <property name="xsd" value="${xml.schema.default}"/>
