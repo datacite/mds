@@ -1,5 +1,8 @@
 package org.datacite.mds.test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -80,4 +83,21 @@ public class Utils {
         return prefixSet;
     }
 
+	public static byte[] getTestMetadata() throws IOException {
+		InputStream in = Utils.class.getClassLoader().getResourceAsStream(
+				"datacite-metadata-sample-v2.0.xml");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		try {
+			byte[] buffer = new byte[1024];
+			int n;
+			while ((n = in.read(buffer)) != -1) {
+				out.write(buffer, 0, n);
+			}
+
+			return out.toByteArray();
+		} finally {
+			in.close();
+			out.close();
+		}
+	}
 }
