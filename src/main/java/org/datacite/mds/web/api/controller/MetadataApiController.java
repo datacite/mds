@@ -120,6 +120,7 @@ public class MetadataApiController implements ApiController {
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
             throw new SecurityException("cannot delete DOI which belongs to another party");
         
+        boolean wasActive = dataset.getIsActive() == Boolean.TRUE;
         if (!testMode) {
             if (dataset.getIsActive() == null)
                 dataset.setIsActive(false);
@@ -129,6 +130,6 @@ public class MetadataApiController implements ApiController {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<String>("OK", headers, HttpStatus.OK);
+        return new ResponseEntity<String>("OK", headers, wasActive ? HttpStatus.OK : HttpStatus.CREATED);
     }
 }

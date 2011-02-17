@@ -555,7 +555,8 @@ empty
 <h4>Response body</h4> 
 <p>if response status 200 - XML representing a dataset, otherwise short explanation for non-200 status</p> 
 <h4>Response statuses</h4> 
-<p><code>200 OK</code> - operation successful</p>
+<p><code>200 OK</code> - operation successful: dataset deactivated</p>
+<p><code>201 Created</code> - operation successful: dataset reactivated</p>
 <p><code>403 Forbidden</code> - login problem or dataset belongs to another party</p>
 <p><code>404 Not Found</code> - DOI does not exist in our database</p>
 <p><code>500 Internal Server Error</code> - server internal error,
