@@ -4,10 +4,13 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.springframework.core.io.Resource;
 import org.springframework.mail.SimpleMailMessage;
 
 public class MailMessage extends SimpleMailMessage {
+    
+    AllocatorOrDatacentre user;
     
     public void loadTemplate(Resource resource) {
         String text;
@@ -33,5 +36,13 @@ public class MailMessage extends SimpleMailMessage {
         String template = getTemplate();
         template = StringUtils.replace(template, "%" + placeholder + "%", replacement);
         loadTemplate(template);
+    }
+
+    public AllocatorOrDatacentre getUser() {
+        return user;
+    }
+
+    public void setUser(AllocatorOrDatacentre user) {
+        this.user = user;
     }
 }

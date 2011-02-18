@@ -42,6 +42,7 @@ public class MailMessageFactory {
 
     public MailMessage createGenericMail(AllocatorOrDatacentre user) {
         MailMessage mail = new MailMessage();
+        mail.setUser(user);
         mail.setFrom(from);
         mail.setTo(user.getContactEmail());
         if (!StringUtils.isBlank(replyTo))
