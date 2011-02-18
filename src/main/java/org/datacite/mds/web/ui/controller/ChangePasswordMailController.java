@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
+import org.datacite.mds.service.MailService;
 import org.datacite.mds.util.DomainUtils;
 import org.datacite.mds.web.ui.model.ChangePasswordMailModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +23,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ChangePasswordMailController {
 
     Logger log4j = Logger.getLogger(ChangePasswordMailController.class);
-    
+
     @Autowired
-    MailSender mailSender;
-    
+    MailService mailService;
+
     @Autowired
     MailMessageFactory mailMessageFactory;
 
@@ -42,12 +43,12 @@ public class ChangePasswordMailController {
             model.addAttribute("mail", changePasswordMailModel);
             return "password/mail";
         }
-        
+
         String symbol = changePasswordMailModel.getSymbol();
         AllocatorOrDatacentre user = DomainUtils.findAllocatorOrDatacentreBySymbol(symbol);
         MailMessage mail = mailMessageFactory.createResetPasswordMail(user);
-        mailSender.send(mail);
-
+        mailService.send(mail);
+        
         model.addAttribute("symbol", symbol);
         return "password/mail/success";
     }
