@@ -28,16 +28,6 @@ privileged aspect AllocatorController_Roo_Controller {
     @Autowired
     private GenericConversionService AllocatorController.conversionService;
     
-    @RequestMapping(method = RequestMethod.POST)
-    public String AllocatorController.create(@Valid Allocator allocator, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            model.addAttribute("allocator", allocator);
-            return "allocators/create";
-        }
-        allocator.persist();
-        return "redirect:/allocators/" + encodeUrlPathSegment(allocator.getId().toString(), request);
-    }
-    
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String AllocatorController.createForm(Model model) {
         model.addAttribute("allocator", new Allocator());

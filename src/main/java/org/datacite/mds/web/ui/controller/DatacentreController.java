@@ -6,11 +6,16 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
+import org.datacite.mds.mail.MailMessage;
+import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
+import org.datacite.mds.service.MailService;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +24,7 @@ import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +41,12 @@ public class DatacentreController {
     
     @Autowired
     private MagicAuthStringService magicAuthStringService;
+    
+    @Autowired
+    MailService mailService;
+    
+    @Autowired
+    MailMessageFactory mailMessageFactory;
 
     @PostConstruct
     void registerConverters() {
@@ -102,5 +114,19 @@ public class DatacentreController {
         model.addAttribute("itemId", id);
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
         return "datacentres/show";
+    }
+
+	@RequestMapping(method = RequestMethod.POST)
+    public String create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
+        if (result.hasErrors()) {
+            model.addAttribute("datacentre", datacentre);
+            return "datacentres/create";
+        }
+        datacentre.persist();
+        
+        MailMessage mail = mailMessageFactory.createWelcomeDatacentreMail(datacentre);
+        mailService.send(mail);
+        
+        return "redirect:/datacentres/" + datacentre.getId();
     }
 }
