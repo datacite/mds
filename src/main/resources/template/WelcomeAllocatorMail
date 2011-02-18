@@ -1,0 +1,27 @@
+DataCite Metadata Store: New Account
+Dear %contactName%,
+
+We welcome you to our Metadata Store on %mdsUrl%.
+
+An account was created for you. Your login name (symbol) is:
+
+  %symbol%
+  
+To activate your account and set the initial password you have to go to 
+
+  %mdsUrl%/resources/change_password?symbol=%symbol%&auth=%magicAuth%
+  
+This link is valid for at least 24 hours.
+
+After successful login you are able to create datacentres under your
+symbol prefix (e.g. %symbol%.DC). By default a welcome mail is sent to 
+each newly created datacentre, so they can set there password on their own. 
+
+Via the "User Info" link on the upper right corner you can e.g. see the
+list of your DOI prefixes. 
+
+Kind regards,
+  
+DataCite Metadata Store
+%mdsUrl%
+

@@ -1,3 +1,8 @@
 #Updated at Wed Sep 29 16:32:16 BST 2010
 #Wed Sep 29 16:32:16 BST 2010
-email.host=smtp.google.com
+email.host=mail.example.com
+email.username=<<username>>
+email.password=<<password>>
+email.from=do-not-reply@datacite.org
+email.replyTo=tech@datacite.org
+email.mdsUrl=https://api.datacite.org

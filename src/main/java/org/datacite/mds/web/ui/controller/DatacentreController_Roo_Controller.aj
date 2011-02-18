@@ -27,16 +27,6 @@ privileged aspect DatacentreController_Roo_Controller {
     @Autowired
     private GenericConversionService DatacentreController.conversionService;
     
-    @RequestMapping(method = RequestMethod.POST)
-    public String DatacentreController.create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            model.addAttribute("datacentre", datacentre);
-            return "datacentres/create";
-        }
-        datacentre.persist();
-        return "redirect:/datacentres/" + encodeUrlPathSegment(datacentre.getId().toString(), request);
-    }
-    
     @RequestMapping(method = RequestMethod.PUT)
     public String DatacentreController.update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {

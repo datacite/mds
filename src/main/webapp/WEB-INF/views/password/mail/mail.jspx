@@ -1,0 +1,7 @@
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+  <jsp:output omit-xml-declaration="yes" />
+  <form:create id="fc_org_datacite_mds_web_ui_model_ChangePasswordMailModel" modelAttribute="mail" path="">
+    <field:input id="c_org_datacite_mds_web_ui_model_ChangePasswordMailModel_symbol" field="symbol" required="true" />
+  </form:create>
+</div>
+

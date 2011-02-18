@@ -61,6 +61,10 @@
         <input id="reset" type="reset" value="${fn:escapeXml(reset_label)}" />
       </div>
     </form>
+    
+    <br/>
+    <spring:url value="/resources/change_password_mail" var="forgotten_url" />
+    <a href="${fn:escapeXml(forgotten_url)}">Forgotten password?</a>
   </util:panel>
 </div>
 

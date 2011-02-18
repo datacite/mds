@@ -11,7 +11,11 @@ public interface AllocatorOrDatacentre {
     public String getRoleName();
     
     public String getSymbol();
+    
+    public String getContactName();
 
+    public String getContactEmail();
+    
     public String getPassword();
     
     public void setPassword(String password);
