@@ -21,7 +21,7 @@
         <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${datacentre_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${datacentre_created_date_format}" field="created" id="c_org_datacite_mds_domain_Datacentre_created" render="false" z="user-managed"/>
-        <field:checkbox field="sendWelcomeMail" id="c_org_datacite_mds_domain_Datacentre_sendwelcomemail" disableFormBinding="true" z="user-managed"/>
+        <field:checkbox field="sendWelcomeMail" id="c_org_datacite_mds_domain_Datacentre_sendwelcomemail" disableFormBinding="true" checked="true" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Datacentre" render="${not empty dependencies}" z="2mOyhvEGqo+B/6PwSRFZpMQcTJ4="/>
 </div>
