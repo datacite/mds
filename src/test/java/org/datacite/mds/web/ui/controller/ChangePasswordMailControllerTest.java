@@ -11,6 +11,7 @@ import junit.framework.Assert;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
+import org.datacite.mds.service.MailService;
 import org.datacite.mds.test.Utils;
 import org.datacite.mds.web.ui.model.ChangePasswordMailModel;
 import org.easymock.Capture;
@@ -45,14 +46,14 @@ public class ChangePasswordMailControllerTest {
     @Autowired
     MailMessageFactory mailMessageFactory;
     
-    MailSender mockMailSender;
+    MailService mockMailService;
     
     @Before
     public void init() {
         controller = new ChangePasswordMailController();
         controller.mailMessageFactory = mailMessageFactory;
-        mockMailSender = createMock(MailSender.class);
-        controller.mailSender = mockMailSender;
+        mockMailService = createMock(MailService.class);
+        controller.mailService = mockMailService;
         
         changePasswordMailModel = new ChangePasswordMailModel();
         changePasswordMailModel.setSymbol(symbol);
@@ -73,12 +74,12 @@ public class ChangePasswordMailControllerTest {
     @Test
     public void mail() {
         Capture<MailMessage> capturedMail = new Capture<MailMessage>();
-        mockMailSender.send(and(capture(capturedMail),anyObject(MailMessage.class)));
-        replay(mockMailSender);
+        mockMailService.send(and(capture(capturedMail),anyObject(MailMessage.class)));
+        replay(mockMailService);
         String view = controller.mail(changePasswordMailModel, result, model);
         Assert.assertEquals("password/mail/success", view);
         checkTo(capturedMail.getValue());
-        verify(mockMailSender);
+        verify(mockMailService);
     }
     
     void checkTo(MailMessage mail) {
