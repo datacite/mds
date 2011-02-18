@@ -19,7 +19,7 @@ public class MailMessageFactory {
     @Value("${email.replyTo}")
     String replyTo;
 
-    @Value("template/ResetPasswordMail")
+    @Value("classpath:template/ResetPasswordMail")
     Resource templateResetPasswordMail;
 
     @Autowired
