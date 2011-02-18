@@ -86,7 +86,7 @@ public class ChangePasswordControllerTest {
     public void createFormInvalidAuth() {
         String auth = "invalid auth";
         String view = controller.createForm(symbol, auth, model);
-        Assert.assertEquals("password/expired", view);
+        Assert.assertEquals("password/change/expired", view);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class ChangePasswordControllerTest {
         String auth = magicAuthStringService.getCurrentAuthString(unknown_user);
         String symbol = unknown_user.getSymbol();
         String view = controller.createForm(symbol, auth, model);
-        Assert.assertEquals("password/expired", view);
+        Assert.assertEquals("password/change/expired", view);
     }
     
     @Test
@@ -124,7 +124,7 @@ public class ChangePasswordControllerTest {
 
     private void changePassword() {
         String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
-        Assert.assertEquals("password/success", view);
+        Assert.assertEquals("password/change/success", view);
 
         String expectedPassword = passwordEncoder.encodePassword(newPassword, null);
         Assert.assertEquals(expectedPassword, user.getPassword());
@@ -134,7 +134,7 @@ public class ChangePasswordControllerTest {
     public void changePasswordInvalidAuth() {
         String auth = "invalid auth";
         String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
-        Assert.assertEquals("password/expired", view);
+        Assert.assertEquals("password/change/expired", view);
         checkPasswordNotChanged();
     }
 
@@ -144,7 +144,7 @@ public class ChangePasswordControllerTest {
         String auth = magicAuthStringService.getCurrentAuthString(unknown_user);
         String symbol = unknown_user.getSymbol();
         String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
-        Assert.assertEquals("password/expired", view);
+        Assert.assertEquals("password/change/expired", view);
         checkPasswordNotChanged();
     }
     

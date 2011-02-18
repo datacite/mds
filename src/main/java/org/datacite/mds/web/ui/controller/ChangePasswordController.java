@@ -44,7 +44,7 @@ public class ChangePasswordController {
             @RequestParam(value = "auth", required = true) String auth, Model model) {
         AllocatorOrDatacentre user = DomainUtils.findAllocatorOrDatacentreBySymbol(symbol);
         if (!magicAuthStringService.isValidAuthString(user, auth)) {
-            return "password/expired";
+            return "password/change/expired";
         }
         ChangePasswordModel changePasswordModel = new ChangePasswordModel();
         changePasswordModel.setSymbol(symbol);
@@ -58,7 +58,7 @@ public class ChangePasswordController {
             @RequestParam(value = "auth", required = true) String auth, Model model, HttpServletRequest request) {
         AllocatorOrDatacentre user = DomainUtils.findAllocatorOrDatacentreBySymbol(symbol);
         if (!magicAuthStringService.isValidAuthString(user, auth)) {
-            return "password/expired";
+            return "password/change/expired";
         }
         if (result.hasErrors()) {
             model.addAttribute("password", changePasswordModel);
@@ -81,7 +81,7 @@ public class ChangePasswordController {
         }
 
         model.addAttribute("symbol", symbol);
-        return "password/success";
+        return "password/change/success";
     }
 
     private void login(String symbol, String password, HttpServletRequest request) {
