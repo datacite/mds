@@ -77,8 +77,10 @@ public class Utils {
 
     public static Set<Prefix> createPrefixes(String... prefixes) {
         Set<Prefix> prefixSet = new HashSet<Prefix>();
-        for (String prefix : prefixes) {
-            prefixSet.add(createPrefix(prefix));
+        if (prefixes != null) {
+            for (String prefix : prefixes) {
+                prefixSet.add(createPrefix(prefix));
+            }
         }
         return prefixSet;
     }

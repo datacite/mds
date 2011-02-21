@@ -1,5 +1,6 @@
 package org.datacite.mds.util;
 
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -30,5 +31,14 @@ public class DomainUtils {
         }
         return user;
     }
-
+    
+    public static Allocator getAdmin() {
+        for (Allocator allocator : Allocator.findAllAllocators()) {
+            if (allocator.getRoleName().equals("ROLE_ADMIN")) {
+                return allocator;
+            }
+        }
+        return null;
+    }
+    
 }

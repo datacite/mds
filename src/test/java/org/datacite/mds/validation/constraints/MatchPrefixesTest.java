@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
-public class MatchSymbolPrefixTest extends AbstractContraintsTest {
+public class MatchPrefixesTest extends AbstractContraintsTest {
 
     Datacentre datacentre;
 
@@ -22,17 +22,21 @@ public class MatchSymbolPrefixTest extends AbstractContraintsTest {
     public void init() {
         Allocator allocator = Utils.createAllocator("AL");
         datacentre = Utils.createDatacentre("AL.DC", allocator);
+        
+        allocator.setPrefixes(Utils.createPrefixes("10.5072", "10.5073"));
     }
 
     @Test
     public void test() {
-        assertTrue(isValid(null));
-        assertTrue(isValid("AL.DC"));
-        assertFalse(isValid("OTHER.DC"));
+        assertTrue(isPrefixSetValid()); 
+        assertTrue(isPrefixSetValid("10.5072"));
+        assertTrue(isPrefixSetValid("10.5072", "10.5073"));
+        assertFalse(isPrefixSetValid("10.9999"));
+        assertFalse(isPrefixSetValid("10.5072", "10.9999"));
     }
 
-    boolean isValid(String symbol) {
-        datacentre.setSymbol(symbol);
-        return super.isValidAnnotation(datacentre, MatchSymbolPrefix.class);
+    boolean isPrefixSetValid(String... prefixes) {
+        datacentre.setPrefixes(Utils.createPrefixes(prefixes));
+        return super.isValid(datacentre);
     }
 }

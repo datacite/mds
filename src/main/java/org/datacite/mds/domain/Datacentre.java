@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.persistence.Version;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -30,6 +31,7 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.ListOfDomains;
+import org.datacite.mds.validation.constraints.MatchPrefixes;
 import org.datacite.mds.validation.constraints.MatchSymbolPrefix;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Unique;
@@ -43,10 +45,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RooJavaBean
 @RooToString(excludeFields = { "quotaExceeded" })
 @RooEntity(finders = { "findDatacentresBySymbolEquals", "findDatacentresByNameLike" })
-@MatchSymbolPrefix
+@MatchPrefixes(groups = Datacentre.SecondLevelConstraint.class)
+@MatchSymbolPrefix(groups = Datacentre.SecondLevelConstraint.class)
 @Unique(field = "symbol")
 @Entity
 @XmlRootElement
+@GroupSequence({Datacentre.class, Datacentre.SecondLevelConstraint.class})
 public class Datacentre implements AllocatorOrDatacentre {
 
     private static Logger log4j = Logger.getLogger(Datacentre.class);
@@ -285,4 +289,6 @@ public class Datacentre implements AllocatorOrDatacentre {
     public void setDomains(String domains) {
         this.domains = Utils.normalizeCsv(domains, Arrays.asList(" ", "\n"), true);
     }
+    
+    public interface SecondLevelConstraint {};
 }
