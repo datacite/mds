@@ -5,6 +5,7 @@ import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.MagicAuthStringService;
+import org.datacite.mds.util.DomainUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -41,6 +42,7 @@ public class MailMessageFactory {
 
     public MailMessage createWelcomeDatacentreMail(Datacentre datacentre) {
         MailMessage mail = createMailWithTemplate(datacentre, templateWelcomeDatacentreMail);
+        mail.setCc(datacentre.getAllocator().getContactEmail());
         mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(datacentre));
         mail.replacePlaceholder("allocatorName", datacentre.getAllocator().getName());
         return mail;
@@ -48,6 +50,7 @@ public class MailMessageFactory {
 
     public MailMessage createWelcomeAllocatorMail(Allocator allocator) {
         MailMessage mail = createMailWithTemplate(allocator, templateWelcomeAllocatorMail);
+        mail.setCc(DomainUtils.getAdmin().getContactEmail());
         mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(allocator));
         return mail;
     }
