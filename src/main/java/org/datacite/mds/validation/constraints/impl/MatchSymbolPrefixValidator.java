@@ -16,10 +16,6 @@ public class MatchSymbolPrefixValidator implements ConstraintValidator<MatchSymb
     }
 
     public boolean isValid(Datacentre datacentre, ConstraintValidatorContext context) {
-        boolean isValidationUnneeded =  datacentre.getAllocator() == null || StringUtils.isEmpty(datacentre.getSymbol());
-        if (isValidationUnneeded)
-            return true;
-        
         String datacentreSymbol = datacentre.getSymbol();
         String allocatorSymbol = datacentre.getAllocator().getSymbol();
         

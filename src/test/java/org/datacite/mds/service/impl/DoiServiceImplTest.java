@@ -47,9 +47,10 @@ public class DoiServiceImplTest {
     @Before
     public void init() {
         Allocator allocator = createAllocator(ALLOCATOR_SYMBOL);
+        allocator.setPrefixes(createPrefixes(PREFIX));
         allocator.persist();
         datacentre = createDatacentre(DATACENTRE_SYMBOL, allocator);
-        datacentre.setPrefixes(createPrefixes(PREFIX));
+        datacentre.setPrefixes(allocator.getPrefixes());
         datacentre.setDomains(DOMAIN);
         datacentre.setDoiQuotaUsed(DOI_QUOTA_USED);
         datacentre.persist();
