@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.ListOfDomains;
+import org.datacite.mds.validation.constraints.MatchPrefixes;
 import org.datacite.mds.validation.constraints.MatchSymbolPrefix;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Unique;
@@ -43,6 +44,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RooJavaBean
 @RooToString(excludeFields = { "quotaExceeded" })
 @RooEntity(finders = { "findDatacentresBySymbolEquals", "findDatacentresByNameLike" })
+@MatchPrefixes
 @MatchSymbolPrefix
 @Unique(field = "symbol")
 @Entity
