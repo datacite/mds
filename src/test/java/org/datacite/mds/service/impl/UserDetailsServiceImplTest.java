@@ -61,7 +61,7 @@ public class UserDetailsServiceImplTest {
         user.setPassword(null);
         mockFindAllocatorOrDatacentre(user);
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getSymbol());
-        assertNull(userDetails);
+        assertFalse(userDetails.isCredentialsNonExpired());
     }
     
     private void mockFindAllocatorOrDatacentre(AllocatorOrDatacentre mockReturn) {

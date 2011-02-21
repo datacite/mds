@@ -56,8 +56,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         boolean isActive = BooleanUtils.toBoolean(user.getIsActive());
         log4j.debug("found " + symbol + " (" + role + ")");
 
+        boolean credentialsNonExpired = true;
         if (StringUtils.isEmpty(password)) {
-            return null;
+            password = "password must not be empty";
+            credentialsNonExpired = false;
         }
 
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
@@ -65,7 +67,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new User(symbol, password, isActive, // 
                 true, /* account not expired */
-                true, /* credentials not expired */
+                credentialsNonExpired, 
                 true, /* account not locked */
                 authorities);
 
