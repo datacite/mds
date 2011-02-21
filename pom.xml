@@ -150,16 +150,10 @@
 			<version>${spring.version}</version>
 		</dependency>
 	<dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>ojdbc14</artifactId>
-            <version>10.2.0.4</version>
-        </dependency>
-    <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.2.144</version>
-            <scope>test</scope>
-        </dependency>
+		<groupId>postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>8.4-702.jdbc4</version>
+	</dependency>    
     <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>

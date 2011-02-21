@@ -27,8 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RooEntity
 public class Metadata {
 
-    @Lob
-    @Column(name = "xml", columnDefinition = "BLOB NOT NULL")
     @ValidXML
     private byte[] xml;
 

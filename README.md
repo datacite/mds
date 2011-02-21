@@ -13,30 +13,35 @@ To use this software please go to [https://api.datacite.org](https://api.datacit
 
 ## Tools
 
-The developers of this package use Oracle XE but the project is based
-on Hibernate so it should be possible to use any SQL database.
+It's assumed you have PosgreSQL 8.4 and Roo 1.1 installed. You also
+will need Maven 2.2.1 and JDK 6 in your system (OpenJDK from Ubuntu
+works fine).
 
-This project is uses Spring Roo for code generation. You don't need
-Roo to run the code. Although you will most likely need it for
-development.
+You don't need Roo to run the code. Although you will most likely need
+it for development.
 
-It's assumed you have Oracle XE Universal and Roo 1.1 installed. You
-also will need Maven 2 and JDK 6 in your system.
+### PostgreSQL setup
+
+On Ubuntu:
+
+    sudo apt-get install postgresql postgresql-client pgadmin3
+
+The pgAdmin III is optional, use it if you like it.
+
+Once PostgreSQL is set up, create two databases (one for local
+deployment and one for testing)
+
+    sudo su - postgres
+    createuser -P -S -d -R datacite
+    createdb datacite
+    createuser -P -S -d -R datacite_test
+    createdb datacite_test
 
 ## Java dependencies
 
-Most dependencies are managed by Maven public repositories. There are
-two jars you need to download and add to your local maven repo
+Most dependencies are managed by Maven public repositories. There is
+one jar you need to download and add to your local maven repo
 manually.
-
-### Oracle JDBC driver
-
-get ojdbc14.jar from [Oracle](http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-10201-088211.html)
-
-and add it to maven local repo:
-
-    mvn install:install-file -Dfile=ojdbc14.jar -DgroupId=com.oracle \
-     -Dversion=10.2.0.4 -Dpackaging=jar -DgeneratePom=true -DartifactId=ojdbc14
 
 #### Handle API client
 
@@ -95,30 +100,23 @@ values put there will be used for password hashing.
 
 ### src/main/resources/META-INF/spring/database.properties
 
-your database configuration. 
-
-SQL for creating user in Oracle:
-
-    create user datacite identified by <<HERE YOUR PASS>>;
-    grant connect, resource to datacite;
+your database configuration, password etc as you typed then creating
+the users.
 
 ### src/test/resources/META-INF/spring/database.properties
 
-your test database configuration. This database is recreated from scratch every time test run via "mvn clean test"
-
-SQL for creating user in Oracle:
-
-    create user datacite_test identified by <<HERE YOUR PASS>>;
-    grant connect, resource to datacite_test;
+your test database configuration. This database is recreated from
+scratch every time test run via "mvn clean test"
 
 ### src/main/resources/META-INF/spring/handle.properties
 
 Handle service authentication info. If you don't know what to put here
-check DataCite wiki.
+check DataCite wiki (only for members) or setup your own Handle
+Service.
 
 ### src/main/resources/META-INF/spring/email.properties
 
-your SMTP settings.
+your SMTP settings. Use your own SMPT or check DataCite wiki.
 
 ### src/main/resources/META-INF/spring/xml-validator.properties
 
