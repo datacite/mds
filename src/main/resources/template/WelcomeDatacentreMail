@@ -19,6 +19,10 @@ After successful login you can start to register DOIs for your datasets.
 Via the "User Info" link on the upper right corner you can e.g. see the
 list of domains and DOI prefixes you are allowed to use. 
 
+  Prefix(es): %prefixes%
+  
+  Domain(s): %domains%
+
 Kind regards,
   
 DataCite Metadata Store

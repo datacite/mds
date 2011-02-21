@@ -1,11 +1,14 @@
 package org.datacite.mds.mail;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.util.DomainUtils;
+import org.datacite.mds.util.Utils;
+import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -45,6 +48,9 @@ public class MailMessageFactory {
         mail.setCc(datacentre.getAllocator().getContactEmail());
         mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(datacentre));
         mail.replacePlaceholder("allocatorName", datacentre.getAllocator().getName());
+        String prefixes = Utils.collectionToString(datacentre.getPrefixes(), Converters.getSimplePrefixConverter());
+        mail.replacePlaceholder("prefixes", prefixes);
+        mail.replacePlaceholder("domains", datacentre.getDomains());
         return mail;
     }
 
