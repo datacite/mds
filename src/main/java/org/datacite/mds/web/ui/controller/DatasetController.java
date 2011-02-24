@@ -105,9 +105,9 @@ public class DatasetController {
         }
 
         if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
-            log.info("URL is set; try to mint the DOI");
             try {
                 handleService.create(dataset.getDoi(), dataset.getUrl());
+                log.info(dataset.getDatacentre().getSymbol() + " successfuly minted (via UI) " + dataset.getDoi());
             } catch (HandleException e) {
                 String message = "HandleService: " + e.getMessage();
                 FieldError error = new FieldError("", "doi", dataset.getDoi(), false, null, null, message);
@@ -128,13 +128,14 @@ public class DatasetController {
     @RequestMapping(method = RequestMethod.PUT)
     public String update(@Valid Dataset dataset, BindingResult result, Model model) {
         if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
-            log.info("URL is set; try to update the DOI");
             try {
                 handleService.update(dataset.getDoi(), dataset.getUrl());
+                log.info(dataset.getDatacentre().getSymbol() + " successfuly updated (via UI) " + dataset.getDoi());
             } catch (HandleException e) {
-                log.info("updating DOI failed; try to mint it");
+                log.debug("updating DOI failed; try to mint it");
                 try {
                     handleService.create(dataset.getDoi(), dataset.getUrl());
+                    log.info(dataset.getDatacentre().getSymbol() + " successfuly minted (via UI) " + dataset.getDoi());
                 } catch (HandleException e1) {
                     ObjectError error = new ObjectError("", "HandleService: " + e.getMessage());
                     result.addError(error);

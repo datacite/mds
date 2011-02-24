@@ -47,6 +47,7 @@ public class DoiServiceImpl implements DoiService {
         log4j.debug("trying handle registration: " + doi);
         if (!testMode && url != null && !"".equals(url)) {
             handleService.create(doi, url);
+            log4j.info(datacentre.getSymbol() + " successfuly minted " + doi);
         } else
             log4j.debug("TEST MODE or empty URL- minting skipped");
 
@@ -85,13 +86,11 @@ public class DoiServiceImpl implements DoiService {
 
         if (!testMode && url != null && !"".equals(url)) {
             handleService.update(doi, url);
-            log4j.debug("doi update: " + doi + " successful");
+            log4j.info(datacentre.getSymbol() + " successfuly updated " + doi);
         } else {
             log4j.debug("TEST MODE or empty URL- update skipped");
         }
 
         return dataset;
-    }
-    
-    
+    }    
 }

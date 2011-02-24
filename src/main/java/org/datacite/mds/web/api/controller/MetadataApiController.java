@@ -127,6 +127,7 @@ public class MetadataApiController implements ApiController {
             else
                 dataset.setIsActive(!dataset.getIsActive());
             dataset.merge();
+            log4j.info(datacentre.getSymbol() + " successfuly " + (wasActive ? "deactivated " : " activated ") + doi);
         }
 
         HttpHeaders headers = new HttpHeaders();

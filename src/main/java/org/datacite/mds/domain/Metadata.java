@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.apache.log4j.Logger;
 import org.datacite.mds.validation.constraints.ValidXML;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -26,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RooToString
 @RooEntity
 public class Metadata {
+	
+	private static Logger log4j = Logger.getLogger(Metadata.class);
 
     @ValidXML
     private byte[] xml;
@@ -61,6 +64,7 @@ public class Metadata {
         setCreated(new Date());
         getDataset().setUpdated(new Date());
         this.entityManager.persist(this);
+        log4j.info(getDataset().getDatacentre().getSymbol() + " successfuly stored metadata for " + getDataset().getDoi());
     }
 
     public static TypedQuery<Metadata> findMetadatasByDataset(Dataset dataset) {
