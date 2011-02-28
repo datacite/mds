@@ -3,10 +3,10 @@ package org.datacite.mds.service.impl;
 import java.util.concurrent.Future;
 
 import org.apache.log4j.Logger;
-import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -22,7 +22,12 @@ public class MailServiceImpl implements MailService {
 
     public void send(MailMessage mail) {
         log4j.info("Sending mail: " + mail);
-        mailSender.send(mail);
+        try {
+            mailSender.send(mail);
+        } catch (MailException e) {
+            log4j.warn(e.getMessage());
+            throw e;
+        }
     }
     
     @Async
