@@ -125,7 +125,7 @@ public class DatacentreController {
         datacentre.persist();
         
         MailMessage mail = mailMessageFactory.createWelcomeDatacentreMail(datacentre);
-        mailService.send(mail);
+        mailService.sendAsync(mail);
         
         return "redirect:/datacentres/" + datacentre.getId();
     }
