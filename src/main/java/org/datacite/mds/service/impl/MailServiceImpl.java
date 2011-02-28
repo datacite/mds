@@ -6,6 +6,7 @@ import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +26,11 @@ public class MailServiceImpl implements MailService {
                     + user.getContactEmail() + ">): " + mail.getSubject());
         }
         mailSender.send(mail);
+    }
+    
+    @Async
+    public void sendAsync(MailMessage mail) {
+        send(mail);
     }
 
 }
