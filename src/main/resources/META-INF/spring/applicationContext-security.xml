@@ -92,6 +92,9 @@
 	<!-- Don't seem to be able to create one without session?? -->
 	<bean id="securityContextPersistenceFilterWithASCFalse"
 		class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
+        <property name="securityContextRepository">
+            <bean class="org.datacite.mds.web.api.NullSecurityContextRepository"/>
+        </property>
 	</bean>
 
 	<bean id="securityContextPersistenceFilterWithASCTrue"
