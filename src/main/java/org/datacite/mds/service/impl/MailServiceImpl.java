@@ -21,13 +21,7 @@ public class MailServiceImpl implements MailService {
     MailSender mailSender;
 
     public void send(MailMessage mail) {
-        AllocatorOrDatacentre user = mail.getUser();
-        if (user == null) {
-            log4j.info("Sending mail to " + mail.getTo() + ": " + mail.getSubject());
-        } else {
-            log4j.info("Sending mail to " + user.getSymbol() + " (" + user.getContactName() + " <"
-                    + user.getContactEmail() + ">): " + mail.getSubject());
-        }
+        log4j.info("Sending mail: " + mail);
         mailSender.send(mail);
     }
     
