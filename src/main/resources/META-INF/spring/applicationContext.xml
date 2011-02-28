@@ -71,6 +71,12 @@
         <property name="host" value="${email.host}"/>
         <property name="username" value="${email.username}"/>
         <property name="password" value="${email.password}"/>
+        <property name="javaMailProperties">
+           <props>
+              <prop key="mail.smtp.timeout">${email.timeout}</prop>
+              <prop key="mail.smtp.connectiontimeout">${email.timeout}</prop>
+           </props>
+        </property>
     </bean>
     <bean class="org.datacite.mds.validation.constraints.impl.ValidXMLValidator" scope="prototype">
         <property name="xsd" value="${xml.schema.default}"/>
