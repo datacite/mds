@@ -1,6 +1,7 @@
 package org.datacite.mds.mail;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.commons.io.FileUtils;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
@@ -49,7 +50,7 @@ public class MailMessage extends SimpleMailMessage {
     @Override
     public String toString() {
         if (user == null) {
-            return getTo() + ": " + getSubject();
+            return Arrays.toString(getTo()) + ": " + getSubject();
         } else {
             return user.getSymbol() + " (" + user.getContactName() + " <"
                     + user.getContactEmail() + ">): " + getSubject();
