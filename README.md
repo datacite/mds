@@ -144,20 +144,11 @@ Now kill tomcat and change src/main/resources/META-INF/persistence.xml
 ### Creating user accounts
 
 To login and create accounts for the users you need to insert admin
-account directly to the database.
+account. Therefore run
 
-First hash your password:
-
-    echo -n password{salt}| sha256sum 
-
-Then use this SQL:
-
-    INSERT INTO ALLOCATOR 
-    (ID, CONTACT_EMAIL, CONTACT_NAME, DOI_QUOTA_ALLOWED, 
-    DOI_QUOTA_USED, IS_ACTIVE, NAME, PASSWORD, ROLE_NAME, SYMBOL, VERSION) 
-    VALUES 
-    (0, '<<YOUR EMAIL HERE>>', 'Admin', '0', '0', '1', 
-    'Admin', '<<YOUR HASHED PASSWORD HERE>>', 'ROLE_ADMIN', 'ADMIN', '1');
+    mvn exec:java -Dexec.mainClass=org.datacite.mds.tools.AdminAccountCreator
+    
+You will be asked to specify symbol, password and e-mail for the admin account.
 
 ### That's all!
 
