@@ -11,12 +11,10 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.datacite.mds.web.ui.Converters;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import org.springframework.core.Conventions;
 import org.springframework.core.convert.converter.Converter;
 
 /**

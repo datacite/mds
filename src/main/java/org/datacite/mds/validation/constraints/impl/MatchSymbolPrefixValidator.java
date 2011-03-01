@@ -3,7 +3,6 @@ package org.datacite.mds.validation.constraints.impl;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.MatchSymbolPrefix;

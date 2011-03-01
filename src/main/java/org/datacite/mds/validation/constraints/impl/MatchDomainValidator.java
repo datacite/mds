@@ -16,9 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Dataset> {
     String defaultMessage;
 
-    @Autowired
-    ValidationHelper validationHelper;
-
     public void initialize(MatchDomain constraintAnnotation) {
         defaultMessage = constraintAnnotation.message();
     }

@@ -2,10 +2,8 @@ package org.datacite.mds.domain;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 import javax.persistence.Temporal;
