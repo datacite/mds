@@ -9,9 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.util.ValidationUtils;
-import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.validation.constraints.MatchDomain;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Dataset> {
     String defaultMessage;

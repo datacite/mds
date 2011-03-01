@@ -76,7 +76,7 @@ public class SecurityUtils {
      * Checks if a Datacentre still has available DOIs
      * 
      * @param datacentre
-     * @throws ForbiddenException
+     * @throws SecurityException
      *             Datacentre run out of quota
      */
     public static void checkQuota(Datacentre datacentre) throws SecurityException {

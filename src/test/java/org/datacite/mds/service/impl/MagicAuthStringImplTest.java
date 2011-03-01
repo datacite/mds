@@ -12,7 +12,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.test.Utils;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;

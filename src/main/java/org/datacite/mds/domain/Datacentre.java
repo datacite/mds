@@ -202,7 +202,7 @@ public class Datacentre implements AllocatorOrDatacentre {
             return false;
         
         String qlString = "select doiQuotaAllowed - doiQuotaUsed from Datacentre o where id = :id";
-        Integer diff = (Integer)entityManager().createQuery(qlString).setParameter("id", getId()).getSingleResult();
+        Integer diff = (Integer) entityManager().createQuery(qlString).setParameter("id", getId()).getSingleResult();
         
         return diff <= 0;
     }

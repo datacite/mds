@@ -55,17 +55,17 @@ public @interface Unique {
     /**
      * @return name of the field which should be unique
      */
-    public String field();
+    String field();
 
     /**
      * @return name of entity's id field (defaults to "id")
      */
-    public String idField() default "id";
+    String idField() default "id";
 
-    public abstract String message() default "{org.datacite.mds.validation.constraints.Unique.message}";
+    String message() default "{org.datacite.mds.validation.constraints.Unique.message}";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }

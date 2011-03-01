@@ -59,7 +59,7 @@ public class AllocatorController {
         return "allocators/show";
     }
 
-	@RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Allocator allocator, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);

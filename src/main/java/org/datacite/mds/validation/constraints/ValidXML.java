@@ -36,12 +36,12 @@ public @interface ValidXML {
      * 
      * @return
      */
-    public abstract String xsd() default "";
+    String xsd() default "";
 
-    public abstract String message() default "{org.datacite.mds.validation.constraints.ValidXML.message}";
+    String message() default "{org.datacite.mds.validation.constraints.ValidXML.message}";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }

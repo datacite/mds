@@ -22,9 +22,9 @@ import org.datacite.mds.validation.constraints.impl.EmailValidator;
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Email {
-    public abstract String message() default "{org.hibernate.validator.constraints.Email.message}";
+    String message() default "{org.hibernate.validator.constraints.Email.message}";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

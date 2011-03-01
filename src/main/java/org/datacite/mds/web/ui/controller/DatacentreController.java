@@ -59,6 +59,7 @@ public class DatacentreController {
         return SecurityUtils.getCurrentAllocator();
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model model) {
         Allocator allocator = getCurrentAllocator();
@@ -116,7 +117,7 @@ public class DatacentreController {
         return "datacentres/show";
     }
 
-	@RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);

@@ -47,23 +47,23 @@ import org.datacite.mds.validation.constraints.impl.SymbolValidator;
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Symbol {
-    public enum Type {
+    enum Type {
         ALLOCATOR, DATACENTRE
     }
 
     /**
      * the symbol types to accept
      */
-    public abstract Type[] value();
+    Type[] value();
 
     /**
      * do a database lookup for existance of the symbol
      */
-    public abstract boolean hasToExist() default false;
+    boolean hasToExist() default false;
 
-    public abstract String message() default "";
+    String message() default "";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

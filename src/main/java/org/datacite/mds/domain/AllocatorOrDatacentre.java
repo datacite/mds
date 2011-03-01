@@ -2,29 +2,29 @@ package org.datacite.mds.domain;
 
 public interface AllocatorOrDatacentre {
     
-    public AllocatorOrDatacentre merge();
+    AllocatorOrDatacentre merge();
     
-    public void persist();
+    void persist();
 
-    public Boolean getIsActive();
+    Boolean getIsActive();
     
-    public String getRoleName();
+    String getRoleName();
     
-    public String getSymbol();
+    String getSymbol();
     
-    public String getContactName();
+    String getContactName();
 
-    public String getContactEmail();
+    String getContactEmail();
     
-    public String getPassword();
+    String getPassword();
     
-    public void setPassword(String password);
+    void setPassword(String password);
     
     /**
      * calculate String to be used for magic auth key
      * 
      * @return (unhashed) base part of the magic auth string
      */
-    public String getBaseAuthString();
+    String getBaseAuthString();
 
 }

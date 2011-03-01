@@ -4,13 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import javax.validation.constraints.AssertTrue;
-
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.SetUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;

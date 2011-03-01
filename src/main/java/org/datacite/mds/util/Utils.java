@@ -180,12 +180,12 @@ public class Utils {
         return result;
     }
 
-    public static <T> String collectionToString(Collection<T> collection, Converter<T,String> converter) {
+    public static <T> String collectionToString(Collection<T> collection, Converter<T, String> converter) {
         List<String> list = new ArrayList<String>();
         for (T entry : collection) {
             list.add(converter.convert(entry));
         }
-        return StringUtils.join(list,",");
+        return StringUtils.join(list, ",");
     }
 
 }

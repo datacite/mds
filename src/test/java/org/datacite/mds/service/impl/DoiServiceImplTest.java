@@ -10,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
-import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.web.api.NotFoundException;

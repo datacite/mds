@@ -25,9 +25,9 @@ import org.datacite.mds.validation.constraints.impl.MatchDoiPrefixValidator;
 @Target( { ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MatchDoiPrefix {
-    public abstract String message() default "{org.datacite.mds.validation.constraints.MatchDoiPrefix.message}";
+    String message() default "{org.datacite.mds.validation.constraints.MatchDoiPrefix.message}";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }
