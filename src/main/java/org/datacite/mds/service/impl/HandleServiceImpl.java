@@ -13,6 +13,7 @@ import net.handle.hdllib.HandleValue;
 import net.handle.hdllib.ModifyValueRequest;
 import net.handle.hdllib.SecretKeyAuthenticationInfo;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
@@ -43,7 +44,7 @@ public class HandleServiceImpl implements HandleService {
     HandleResolver resolver = new HandleResolver();
 
     public void create(String doi, String url) throws HandleException {
-        if (doi == null || url == null || "".equals(doi) || "".equals(url))
+        if (StringUtils.isEmpty(doi) || StringUtils.isEmpty(url))
             throw new IllegalArgumentException("DOI and URL cannot be empty");
 
         resolver.traceMessages = traceMessages;
@@ -90,7 +91,7 @@ public class HandleServiceImpl implements HandleService {
     }
 
     public void update(String doi, String newUrl) throws HandleException {
-        if (doi == null || newUrl == null || "".equals(doi) || "".equals(newUrl))
+        if (StringUtils.isEmpty(doi) || StringUtils.isEmpty(newUrl))
             throw new IllegalArgumentException("DOI and URL cannot be empty");
 
         log4j.debug("update Handle: DOI: " + doi + " URL: " + newUrl);

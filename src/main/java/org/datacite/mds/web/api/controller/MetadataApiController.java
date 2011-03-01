@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -120,7 +121,8 @@ public class MetadataApiController implements ApiController {
         if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
             throw new SecurityException("cannot delete DOI which belongs to another party");
         
-        boolean wasActive = dataset.getIsActive() == Boolean.TRUE;
+        
+        boolean wasActive = BooleanUtils.isTrue(dataset.getIsActive());
         if (!testMode) {
             if (dataset.getIsActive() == null)
                 dataset.setIsActive(false);
