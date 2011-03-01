@@ -68,7 +68,7 @@ public class AllocatorController {
         allocator.persist();
         
         MailMessage mail = mailMessageFactory.createWelcomeAllocatorMail(allocator);
-        mailService.send(mail);
+        mailService.sendAsync(mail);
         
         return "redirect:/allocators/" + allocator.getId();
     }

@@ -1,6 +1,7 @@
 #Updated at Wed Sep 29 16:32:16 BST 2010
 #Wed Sep 29 16:32:16 BST 2010
 email.host=mail.example.com
+email.timeout=10000
 email.username=<<username>>
 email.password=<<password>>
 email.from=do-not-reply@datacite.org

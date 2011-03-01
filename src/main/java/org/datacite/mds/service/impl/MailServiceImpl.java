@@ -1,11 +1,15 @@
 package org.datacite.mds.service.impl;
 
+import java.util.concurrent.Future;
+
 import org.apache.log4j.Logger;
-import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,14 +21,19 @@ public class MailServiceImpl implements MailService {
     MailSender mailSender;
 
     public void send(MailMessage mail) {
-        AllocatorOrDatacentre user = mail.getUser();
-        if (user == null) {
-            log4j.info("Sending mail to " + mail.getTo() + ": " + mail.getSubject());
-        } else {
-            log4j.info("Sending mail to " + user.getSymbol() + " (" + user.getContactName() + " <"
-                    + user.getContactEmail() + ">): " + mail.getSubject());
+        log4j.info("Sending mail: " + mail);
+        try {
+            mailSender.send(mail);
+        } catch (MailException e) {
+            log4j.warn(e.getMessage());
+            throw e;
         }
-        mailSender.send(mail);
+    }
+    
+    @Async
+    public Future<Object> sendAsync(MailMessage mail) {
+        send(mail);
+        return new AsyncResult<Object>(null);
     }
 
 }
