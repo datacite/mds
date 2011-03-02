@@ -50,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Unique(field = "symbol")
 @Entity
 @XmlRootElement
-@GroupSequence({Datacentre.class, Datacentre.SecondLevelConstraint.class})
+@GroupSequence({ Datacentre.class, Datacentre.SecondLevelConstraint.class })
 public class Datacentre implements AllocatorOrDatacentre {
 
     private static Logger log4j = Logger.getLogger(Datacentre.class);

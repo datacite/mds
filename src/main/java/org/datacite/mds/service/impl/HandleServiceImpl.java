@@ -106,7 +106,7 @@ public class HandleServiceImpl implements HandleService {
                             newUrl.getBytes(DEFAULT_ENCODING),
                             HandleValue.TTL_TYPE_RELATIVE, 86400, timestamp, null, true, true, true, false) };
 
-            if(!dummyMode) {
+            if (!dummyMode) {
                 val = resolver.resolveHandle(doi, new String[] { "URL" }, null);
                 if (val.length != 1) {
                     String msg = "Handle not found";
@@ -126,7 +126,7 @@ public class HandleServiceImpl implements HandleService {
 
             ModifyValueRequest req = new ModifyValueRequest(doi.getBytes(DEFAULT_ENCODING), val, authInfo);
 
-            if(!dummyMode){
+            if (!dummyMode) {
                 AbstractResponse response = resolver.processRequest(req);
 
                 String msg = AbstractMessage.getResponseCodeMessage(response.responseCode);

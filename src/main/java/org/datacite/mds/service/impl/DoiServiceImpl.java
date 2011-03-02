@@ -55,7 +55,7 @@ public class DoiServiceImpl implements DoiService {
         datacentre.incQuotaUsed(Datacentre.ForceRefresh.YES);
 
         if (!testMode) {
-            if (dataset.getId()==null) {
+            if (dataset.getId() == null) {
                 dataset.persist();
             } else {
                 dataset.merge();

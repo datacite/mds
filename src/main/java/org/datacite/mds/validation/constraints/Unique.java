@@ -47,7 +47,7 @@ import org.datacite.mds.validation.constraints.impl.UniqueValidator;
  */
 @Documented
 @Constraint(validatedBy = UniqueValidator.class)
-@Target( { ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @ReportAsSingleViolation
 public @interface Unique {
