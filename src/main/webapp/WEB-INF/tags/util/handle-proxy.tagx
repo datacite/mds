@@ -5,7 +5,7 @@
   <jsp:directive.attribute name="redirect" type="java.lang.Boolean" required="false" description="Indicates to redirect to the resolved URL (defaults to true)" />
   <jsp:directive.attribute name="types" type="java.lang.String" required="false" description="comma separated list of handle types" />
   
-  <c:set value="http://api.datacite.org:8000" var="proxy_url"/>
+  <c:set value="${properties['link.handleProxy']}" var="proxy_url"/>
   
   <c:choose>
     <c:when test="${empty redirect or redirect}">
