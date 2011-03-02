@@ -5,6 +5,10 @@
 	<context:component-scan base-package="org.datacite.mds" use-default-filters="false">
 		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
 	</context:component-scan>
+  
+    <bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+      <property name="locations" value="WEB-INF/spring/*.properties"/>
+    </bean>
 	
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods
 	     Also registers default Formatters and Validators for use across all @Controllers -->
@@ -62,6 +66,11 @@
 	<bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver" id="multipartResolver"/>
 <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
     <property name="viewClass" value="org.springframework.web.servlet.view.tiles2.TilesView"/>
+    <property name="attributes">
+       <map>
+          <entry key="properties" value-ref="properties"></entry>
+       </map>
+    </property>
   </bean>
     <bean class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" id="tilesConfigurer">
     <property name="definitions">
