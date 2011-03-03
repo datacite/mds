@@ -74,10 +74,10 @@ public class ChangePasswordController {
 
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             // autologin if not logged in already
-            log4j.info("autologin as '" + symbol + "'");
+            log4j.debug("autologin as '" + symbol + "'");
             login(symbol, changePasswordModel.getFirst(), request);
         } else {
-            log4j.info("no autologin because already logged in");
+            log4j.debug("no autologin because already logged in");
         }
 
         model.addAttribute("symbol", symbol);
