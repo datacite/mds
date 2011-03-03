@@ -136,7 +136,6 @@ If set to "true" or "1" the request will not change the database nor will the DO
 <code>Accept=application/xml</code> 
 <h4>Request parameters</h4> 
 <code>doi</code> (mandatory) - DOI for which metadata is requested
-<p><code>url</code> (optional) - if present DOI will be updated, if not present or empty - DOI will not be updated</p>
 <h4>Request body</h4> 
 empty
 <h4>Response headers</h4>
