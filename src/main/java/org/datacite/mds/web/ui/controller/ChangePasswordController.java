@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.util.DomainUtils;
+import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.web.ui.model.ChangePasswordModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,16 +69,17 @@ public class ChangePasswordController {
             return "password/change";
         }
 
-        user.setPassword(passwordEncoder.encodePassword(changePasswordModel.getFirst(), null));
+        String password = changePasswordModel.getFirst();
+        String encodedPassword = passwordEncoder.encodePassword(password, null);
+        user.setPassword(encodedPassword);
         user.merge();
         log4j.info("password succesfully changed for '" + symbol + "'");
 
-        if (SecurityContextHolder.getContext().getAuthentication() == null) {
-            // autologin if not logged in already
-            log4j.debug("autologin as '" + symbol + "'");
-            login(symbol, changePasswordModel.getFirst(), request);
-        } else {
+        if (SecurityUtils.isLoggedIn()) {
             log4j.debug("no autologin because already logged in");
+        } else {
+            log4j.debug("autologin as '" + symbol + "'");
+            login(symbol, password, request);
         }
 
         model.addAttribute("symbol", symbol);

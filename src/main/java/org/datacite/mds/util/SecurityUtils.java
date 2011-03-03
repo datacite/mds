@@ -86,6 +86,10 @@ public class SecurityUtils {
             throw new SecurityException(message);
         }
     }
+    
+    public static boolean isLoggedIn() {
+        return getCurrentSymbol() != null;
+    }
 
     /**
      * get the current logged in symbol
