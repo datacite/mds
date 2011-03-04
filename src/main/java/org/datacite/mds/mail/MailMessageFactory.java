@@ -47,7 +47,7 @@ public class MailMessageFactory {
         mail.setCc(datacentre.getAllocator().getContactEmail());
         mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(datacentre));
         mail.replacePlaceholder("allocatorName", datacentre.getAllocator().getName());
-        String prefixes = Utils.collectionToString(datacentre.getPrefixes(), Converters.getSimplePrefixConverter());
+        String prefixes = Utils.convertCollectionToCsv(datacentre.getPrefixes(), Converters.getSimplePrefixConverter());
         mail.replacePlaceholder("prefixes", prefixes);
         mail.replacePlaceholder("domains", datacentre.getDomains());
         return mail;

@@ -104,14 +104,15 @@ public class UtilsTest {
     }
     
     @Test
-    public void testCollectionToString() {
-        String str = Utils.collectionToString(testCollection, new SimpleConverter());
-        assertEquals("#foo#,#42#,#bar#", str);
+    public void testConvertCollectionToCsv() {
+        String str = Utils.convertCollectionToCsv(testCollection, new SimpleConverter());
+        String expect = "#foo#" + Utils.CSV_SEPARATOR + "#42#" + Utils.CSV_SEPARATOR + "#bar#"; 
+        assertEquals(expect, str);
     }
 
     @Test
-    public void testCollectionToStringNullCollection() {
-        String str = Utils.collectionToString(null, new SimpleConverter());
+    public void testConvertCollectionToCsvNullCollection() {
+        String str = Utils.convertCollectionToCsv(null, new SimpleConverter());
         assertNull("", str);
     }
     
