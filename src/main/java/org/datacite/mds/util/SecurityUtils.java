@@ -24,20 +24,10 @@ public class SecurityUtils {
      *             Allocator not active
      */
     public static Allocator getCurrentAllocatorWithExceptions() throws SecurityException {
-        String symbol = getCurrentSymbol();
-        if (symbol == null) {
-            throw new SecurityException("please log in");
-        }
-
         Allocator allocator = getCurrentAllocator();
 
         if (allocator == null) {
             throw new SecurityException("allocator not registered");
-        }
-
-        if (!allocator.getIsActive()) {
-            log4j.warn("allocator is inactive: " + symbol);
-            throw new SecurityException("allocator not activated");
         }
 
         return allocator;
@@ -53,20 +43,10 @@ public class SecurityUtils {
      *             Datacentre not active
      */
     public static Datacentre getCurrentDatacentreWithException() throws SecurityException {
-        String symbol = SecurityUtils.getCurrentSymbol();
-        if (symbol == null) {
-            throw new SecurityException("please log in");
-        }
-
         Datacentre datacentre = getCurrentDatacentre();
         
         if (datacentre == null) {
             throw new SecurityException("datacentre not registered");
-        }
-
-        if (!datacentre.getIsActive()) {
-            log4j.warn("datacentre is inactive: " + symbol);
-            throw new SecurityException("datacentre not activated");
         }
 
         return datacentre;
