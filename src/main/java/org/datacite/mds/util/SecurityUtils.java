@@ -70,6 +70,15 @@ public class SecurityUtils {
     public static boolean isLoggedIn() {
         return getCurrentSymbol() != null;
     }
+    
+    public static boolean isLoggedInAsAllocator() {
+        return getCurrentAllocatorOrNull() != null;
+    }
+
+    public static boolean isLoggedInAsDatacentre() {
+        return getCurrentDatacentreOrNull() != null;
+    }
+
 
     /**
      * get the current logged in symbol
@@ -92,7 +101,7 @@ public class SecurityUtils {
      * 
      * @return allocator or null if not logged in (as a allocator)
      */
-    public static Allocator getCurrentAllocatorOrNull() {
+    static Allocator getCurrentAllocatorOrNull() {
         String symbol = getCurrentSymbol();
         return Allocator.findAllocatorBySymbol(symbol);
     }
@@ -102,9 +111,10 @@ public class SecurityUtils {
      * 
      * @return datacentre or null if not logged in (as a datacentre)
      */
-    public static Datacentre getCurrentDatacentreOrNull() {
+    static Datacentre getCurrentDatacentreOrNull() {
         String symbol = getCurrentSymbol();
         return Datacentre.findDatacentreBySymbol(symbol);
     }
+    
 
 }

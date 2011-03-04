@@ -4,6 +4,7 @@ import junit.framework.Assert;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.test.Utils;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +37,7 @@ public class UserInfoControllerTest {
     }
     
     @Test
-    public void userinfoAllocator() {
+    public void userinfoAllocator() throws Exception {
         Utils.login(allocator);
         String view = controller.userinfo(model);
         Assert.assertEquals("userinfo", view);
@@ -45,7 +46,7 @@ public class UserInfoControllerTest {
     }
 
     @Test
-    public void userinfoDatacentre() {
+    public void userinfoDatacentre() throws Exception {
         Utils.login(datacentre);
         String view = controller.userinfo(model);
         Assert.assertEquals("userinfo", view);
@@ -54,7 +55,7 @@ public class UserInfoControllerTest {
     }
     
     @Test
-    public void userinfoNotLoggedIn() {
+    public void userinfoNotLoggedIn() throws Exception {
         Utils.login(null);
         String view = controller.userinfo(model);
         Assert.assertEquals("userinfo", view);
@@ -63,11 +64,13 @@ public class UserInfoControllerTest {
     
     void checkModelAttributeAllocator() {
         Allocator modelAllocator = (Allocator) model.asMap().get("allocator");
+        Assert.assertNotNull(modelAllocator);
         Assert.assertEquals(allocator.getSymbol(), modelAllocator.getSymbol());
     }
     
     void checkModelAttributeDatacentre() {
         Datacentre modelDatacentre = (Datacentre) model.asMap().get("datacentre");
+        Assert.assertNotNull(modelDatacentre);
         Assert.assertEquals(datacentre.getSymbol(), modelDatacentre.getSymbol());
     }
     
