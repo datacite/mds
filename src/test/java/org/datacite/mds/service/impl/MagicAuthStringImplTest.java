@@ -11,7 +11,7 @@ import java.util.Date;
 import org.apache.commons.lang.time.DateUtils;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -26,7 +26,7 @@ public class MagicAuthStringImplTest {
     
     MagicAuthStringService service = new MagicAuthStringServiceImpl();
     
-    AllocatorOrDatacentre user = Utils.createAllocator("AL");
+    AllocatorOrDatacentre user = TestUtils.createAllocator("AL");
     
     Date today = new Date();
     Date tomorrow = DateUtils.addDays(today, 1);

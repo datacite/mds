@@ -7,7 +7,7 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.DeletedException;
 import org.datacite.mds.web.api.NotFoundException;
@@ -47,26 +47,26 @@ public class MetadataApiControllerTest {
 		metadataApiController.doiService = doiService;
 		metadataApiController.validationHelper = validationHelper;
 
-		allocator = Utils.createAllocator(allocatorSymbol);
-		allocator.setPrefixes(Utils.createPrefixes(prefix));
+		allocator = TestUtils.createAllocator(allocatorSymbol);
+		allocator.setPrefixes(TestUtils.createPrefixes(prefix));
 		allocator.persist();
 
-		datacentre = Utils.createDatacentre(datacentreSymbol, allocator);
+		datacentre = TestUtils.createDatacentre(datacentreSymbol, allocator);
 		datacentre.setPrefixes(allocator.getPrefixes());
 		datacentre.persist();
 
-		dataset = Utils.createDataset(doi, datacentre);
+		dataset = TestUtils.createDataset(doi, datacentre);
 		dataset.setIsActive(true);
 		dataset.persist();
 
 		if (!noMeta) {
 			metadata = new Metadata();
 			metadata.setDataset(dataset);			
-			metadata.setXml(Utils.getTestMetadata());
+			metadata.setXml(TestUtils.getTestMetadata());
 			metadata.persist();
 		}
 
-		Utils.login(datacentre);
+		TestUtils.login(datacentre);
 	}
 
 	@Test(expected = NotFoundException.class)
@@ -91,7 +91,7 @@ public class MetadataApiControllerTest {
 	@Test
 	public void testCreateOrUpdate() throws Exception {
 		initDb(false);
-		String xmlAsString = new String(Utils.getTestMetadata(), "UTF-8");
+		String xmlAsString = new String(TestUtils.getTestMetadata(), "UTF-8");
 		String url = "http://www.example.com";
 		MockHttpServletRequest httpRequest = new MockHttpServletRequest();
 		httpRequest.setMethod("PUT");
@@ -102,7 +102,7 @@ public class MetadataApiControllerTest {
 	@Test
 	public void testCreateOrUpdateTestMode() throws Exception {
 		initDb(false);
-		String xmlAsString = new String(Utils.getTestMetadata(), "UTF-8");
+		String xmlAsString = new String(TestUtils.getTestMetadata(), "UTF-8");
 		String url = "http://www.example.com";
 		MockHttpServletRequest httpRequest = new MockHttpServletRequest();
 		httpRequest.setMethod("PUT");

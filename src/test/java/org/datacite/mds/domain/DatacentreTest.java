@@ -2,7 +2,7 @@ package org.datacite.mds.domain;
 
 import static org.junit.Assert.*;
 
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.Rollback;
@@ -21,9 +21,9 @@ public class DatacentreTest {
         Datacentre datacentre;
         Integer expectedQuota;
 
-        Allocator allocator = Utils.createAllocator("AL");
+        Allocator allocator = TestUtils.createAllocator("AL");
         allocator.persist();
-        datacentre = Utils.createDatacentre("AL.DC", allocator);
+        datacentre = TestUtils.createDatacentre("AL.DC", allocator);
         datacentre.setDoiQuotaUsed(42);
         expectedQuota = 43;
         datacentre.persist();
@@ -41,9 +41,9 @@ public class DatacentreTest {
     public void testIsQuotaExceeded() {
         Datacentre datacentre;
 
-        Allocator allocator = Utils.createAllocator("AL");
+        Allocator allocator = TestUtils.createAllocator("AL");
         allocator.persist();
-        datacentre = Utils.createDatacentre("AL.DC", allocator);
+        datacentre = TestUtils.createDatacentre("AL.DC", allocator);
         datacentre.setDoiQuotaUsed(42);
         datacentre.setDoiQuotaAllowed(43);
         datacentre.persist();

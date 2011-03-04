@@ -1,10 +1,10 @@
 package org.datacite.mds.service.impl;
 
-import static org.datacite.mds.test.Utils.createAllocator;
-import static org.datacite.mds.test.Utils.createDatacentre;
-import static org.datacite.mds.test.Utils.createDataset;
-import static org.datacite.mds.test.Utils.createPrefixes;
-import static org.datacite.mds.test.Utils.login;
+import static org.datacite.mds.test.TestUtils.createAllocator;
+import static org.datacite.mds.test.TestUtils.createDatacentre;
+import static org.datacite.mds.test.TestUtils.createDataset;
+import static org.datacite.mds.test.TestUtils.createPrefixes;
+import static org.datacite.mds.test.TestUtils.login;
 import static org.junit.Assert.assertEquals;
 
 import org.datacite.mds.domain.Allocator;

@@ -12,7 +12,7 @@ import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MailService;
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.web.ui.model.ChangePasswordMailModel;
 import org.easymock.Capture;
 import org.junit.Before;
@@ -60,7 +60,7 @@ public class ChangePasswordMailControllerTest {
         model = new ExtendedModelMap();
         result = new BeanPropertyBindingResult(changePasswordMailModel, "");
         
-        allocator = Utils.createAllocator(symbol);
+        allocator = TestUtils.createAllocator(symbol);
         allocator.persist();
     }
 

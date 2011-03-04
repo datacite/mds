@@ -11,6 +11,7 @@ import org.apache.commons.collections.SetUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,13 +35,13 @@ public class DomainUtilsTest {
 
     @Before
     public void init() {
-        allocator1 = org.datacite.mds.test.Utils.createAllocator(ALLOCATOR1_SYMBOL);
+        allocator1 = TestUtils.createAllocator(ALLOCATOR1_SYMBOL);
         allocator1.persist();
-        allocator2 = org.datacite.mds.test.Utils.createAllocator(ALLOCATOR2_SYMBOL);
+        allocator2 = TestUtils.createAllocator(ALLOCATOR2_SYMBOL);
         allocator2.persist();
-        datacentre1 = org.datacite.mds.test.Utils.createDatacentre(DATACENTRE1_SYMBOL, allocator1);
+        datacentre1 = TestUtils.createDatacentre(DATACENTRE1_SYMBOL, allocator1);
         datacentre1.persist();
-        datacentre2 = org.datacite.mds.test.Utils.createDatacentre(DATACENTRE2_SYMBOL, allocator1);
+        datacentre2 = TestUtils.createDatacentre(DATACENTRE2_SYMBOL, allocator1);
         datacentre2.persist();
     }
 
@@ -71,4 +72,5 @@ public class DomainUtilsTest {
         
         assertTrue(SetUtils.isEqualSet(expectedSymbols, retrievedSymbols));
     }
+    
 }

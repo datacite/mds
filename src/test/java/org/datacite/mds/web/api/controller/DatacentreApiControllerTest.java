@@ -1,9 +1,9 @@
 package org.datacite.mds.web.api.controller;
 
-import static org.datacite.mds.test.Utils.createAllocator;
-import static org.datacite.mds.test.Utils.createDatacentre;
-import static org.datacite.mds.test.Utils.createPrefixes;
-import static org.datacite.mds.test.Utils.login;
+import static org.datacite.mds.test.TestUtils.createAllocator;
+import static org.datacite.mds.test.TestUtils.createDatacentre;
+import static org.datacite.mds.test.TestUtils.createPrefixes;
+import static org.datacite.mds.test.TestUtils.login;
 import static org.junit.Assert.assertEquals;
 
 import org.datacite.mds.domain.Allocator;

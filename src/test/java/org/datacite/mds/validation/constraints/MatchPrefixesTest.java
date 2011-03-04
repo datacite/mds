@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,10 +20,10 @@ public class MatchPrefixesTest extends AbstractContraintsTest {
 
     @Before
     public void init() {
-        Allocator allocator = Utils.createAllocator("AL");
-        datacentre = Utils.createDatacentre("AL.DC", allocator);
+        Allocator allocator = TestUtils.createAllocator("AL");
+        datacentre = TestUtils.createDatacentre("AL.DC", allocator);
         
-        allocator.setPrefixes(Utils.createPrefixes("10.5072", "10.5073"));
+        allocator.setPrefixes(TestUtils.createPrefixes("10.5072", "10.5073"));
     }
 
     @Test
@@ -36,7 +36,7 @@ public class MatchPrefixesTest extends AbstractContraintsTest {
     }
 
     boolean isPrefixSetValid(String... prefixes) {
-        datacentre.setPrefixes(Utils.createPrefixes(prefixes));
+        datacentre.setPrefixes(TestUtils.createPrefixes(prefixes));
         return super.isValid(datacentre);
     }
 }

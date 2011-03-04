@@ -2,7 +2,7 @@ package org.datacite.mds.web.ui.controller;
 
 import junit.framework.Assert;
 
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.security.authentication.TestingAuthenticationToken;
@@ -23,7 +23,7 @@ public class LogoutOrExitControllerTest {
     
     @Test
     public void testNonSwitchedUser() {
-        Utils.setUsernamePassword("foo", "bar");
+        TestUtils.setUsernamePassword("foo", "bar");
         String view = controller.logoutOrExit();
         Assert.assertEquals("redirect:/resources/j_spring_security_logout", view);
     }

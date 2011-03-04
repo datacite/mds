@@ -5,7 +5,7 @@ import junit.framework.Assert;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.SecurityException;
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,16 +29,16 @@ public class UserInfoControllerTest {
 
     @Before
     public void init() {
-        allocator = Utils.createAllocator("AL");
+        allocator = TestUtils.createAllocator("AL");
         allocator.persist();
-        datacentre = Utils.createDatacentre("AL.DC", allocator);
+        datacentre = TestUtils.createDatacentre("AL.DC", allocator);
         datacentre.persist();
         model = new ExtendedModelMap();
     }
     
     @Test
     public void userinfoAllocator() throws Exception {
-        Utils.login(allocator);
+        TestUtils.login(allocator);
         String view = controller.userinfo(model);
         Assert.assertEquals("userinfo", view);
         checkModelAttributeAllocator();
@@ -47,7 +47,7 @@ public class UserInfoControllerTest {
 
     @Test
     public void userinfoDatacentre() throws Exception {
-        Utils.login(datacentre);
+        TestUtils.login(datacentre);
         String view = controller.userinfo(model);
         Assert.assertEquals("userinfo", view);
         checkModelAttributeAllocator();
@@ -56,7 +56,7 @@ public class UserInfoControllerTest {
     
     @Test
     public void userinfoNotLoggedIn() throws Exception {
-        Utils.login(null);
+        TestUtils.login(null);
         String view = controller.userinfo(model);
         Assert.assertEquals("userinfo", view);
         Assert.assertTrue(model.asMap().isEmpty());

@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +20,8 @@ public class MatchSymbolPrefixTest extends AbstractContraintsTest {
 
     @Before
     public void init() {
-        Allocator allocator = Utils.createAllocator("AL");
-        datacentre = Utils.createDatacentre("AL.DC", allocator);
+        Allocator allocator = TestUtils.createAllocator("AL");
+        datacentre = TestUtils.createDatacentre("AL.DC", allocator);
     }
 
     @Test

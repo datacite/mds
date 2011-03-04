@@ -7,7 +7,7 @@ import junit.framework.Assert;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.model.ChangePasswordModel;
 import org.junit.Before;
@@ -60,7 +60,7 @@ public class ChangePasswordControllerTest {
         controller.passwordEncoder = passwordEncoder;
         controller.authenticationManager = new AuthenticationManagerStub();
 
-        user = Utils.createAllocator(symbol);
+        user = TestUtils.createAllocator(symbol);
         user.setPassword(oldPassword);
         user.persist();
 
@@ -91,7 +91,7 @@ public class ChangePasswordControllerTest {
 
     @Test
     public void createFormUnknownSymbol() {
-        AllocatorOrDatacentre unknown_user = Utils.createAllocator("UNKNOWN");
+        AllocatorOrDatacentre unknown_user = TestUtils.createAllocator("UNKNOWN");
         String auth = magicAuthStringService.getCurrentAuthString(unknown_user);
         String symbol = unknown_user.getSymbol();
         String view = controller.createForm(symbol, auth, model);
@@ -108,7 +108,7 @@ public class ChangePasswordControllerTest {
 
     @Test
     public void changePasswordWhenNotLoggedIn() {
-        Utils.login(null);
+        TestUtils.login(null);
         changePassword();
         checkLoggedInAs(symbol);
     }
@@ -116,8 +116,8 @@ public class ChangePasswordControllerTest {
     @Test
     public void changePasswordWhenLoggedIn() {
         String symbol = "ANOTHER";
-        Allocator anotherUser = Utils.createAllocator(symbol);
-        Utils.login(anotherUser);
+        Allocator anotherUser = TestUtils.createAllocator(symbol);
+        TestUtils.login(anotherUser);
         changePassword();
         checkLoggedInAs(symbol);
     }
@@ -140,7 +140,7 @@ public class ChangePasswordControllerTest {
 
     @Test
     public void changePasswordUnknownSymbol() {
-        AllocatorOrDatacentre unknown_user = Utils.createAllocator("UNKNOWN");
+        AllocatorOrDatacentre unknown_user = TestUtils.createAllocator("UNKNOWN");
         String auth = magicAuthStringService.getCurrentAuthString(unknown_user);
         String symbol = unknown_user.getSymbol();
         String view = controller.changePassword(changePasswordModel, result, symbol, auth, model, request);
@@ -153,7 +153,7 @@ public class ChangePasswordControllerTest {
     }
     
     void checkLoggedInAs(String symbol) {
-        Assert.assertEquals(symbol, Utils.getCurrentUsername());
+        Assert.assertEquals(symbol, TestUtils.getCurrentUsername());
     }
 
     class AuthenticationManagerStub implements AuthenticationManager {

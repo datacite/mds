@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.DoiService;
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.validation.ValidationException;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,15 +37,15 @@ public class DoiApiControllerTest {
     public void setUp() throws Exception {
         doiApiController.doiService = this.doiService;
         
-        allocator = Utils.createAllocator(allocatorSymbol);
-        allocator.setPrefixes(Utils.createPrefixes("10.5072"));
+        allocator = TestUtils.createAllocator(allocatorSymbol);
+        allocator.setPrefixes(TestUtils.createPrefixes("10.5072"));
         allocator.persist();
 
-        datacentre = Utils.createDatacentre(datacentreSymbol, allocator);
+        datacentre = TestUtils.createDatacentre(datacentreSymbol, allocator);
         datacentre.setPrefixes(allocator.getPrefixes());    
         datacentre.persist();
 
-        Utils.login(datacentre);
+        TestUtils.login(datacentre);
     }    
 
     @Test

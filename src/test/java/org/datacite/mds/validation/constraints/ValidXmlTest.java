@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-import org.datacite.mds.test.Utils;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Test;
 
 public class ValidXmlTest extends AbstractContraintsTest {
@@ -14,7 +14,7 @@ public class ValidXmlTest extends AbstractContraintsTest {
 
     @Test
     public void test() throws IOException {
-        assertTrue(isValid(Utils.getTestMetadata()));
+        assertTrue(isValid(TestUtils.getTestMetadata()));
         assertFalse(isValid("<a></b>"));
     }
     

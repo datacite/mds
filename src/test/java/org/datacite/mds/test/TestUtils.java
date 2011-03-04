@@ -14,7 +14,7 @@ import org.datacite.mds.domain.Prefix;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-public class Utils {
+public class TestUtils {
 
     public static void setUsernamePassword(String username, String password) {
         SecurityContextHolder.getContext().setAuthentication(
@@ -90,7 +90,7 @@ public class Utils {
     }
 
 	public static byte[] getTestMetadata() throws IOException {
-		InputStream in = Utils.class.getClassLoader().getResourceAsStream(
+		InputStream in = TestUtils.class.getClassLoader().getResourceAsStream(
 				"datacite-metadata-sample-v2.0.xml");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		try {
