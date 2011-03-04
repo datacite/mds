@@ -25,9 +25,9 @@ import org.datacite.mds.validation.constraints.impl.MatchSymbolPrefixValidator;
 @Target( { ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MatchSymbolPrefix {
-    public abstract String message() default "{org.datacite.mds.validation.constraints.MatchSymbolPrefix.message}";
+    String message() default "{org.datacite.mds.validation.constraints.MatchSymbolPrefix.message}";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

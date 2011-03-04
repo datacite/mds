@@ -13,6 +13,7 @@ import net.handle.hdllib.HandleValue;
 import net.handle.hdllib.ModifyValueRequest;
 import net.handle.hdllib.SecretKeyAuthenticationInfo;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
@@ -43,7 +44,7 @@ public class HandleServiceImpl implements HandleService {
     HandleResolver resolver = new HandleResolver();
 
     public void create(String doi, String url) throws HandleException {
-        if (doi == null || url == null || "".equals(doi) || "".equals(url))
+        if (StringUtils.isEmpty(doi) || StringUtils.isEmpty(url))
             throw new IllegalArgumentException("DOI and URL cannot be empty");
 
         resolver.traceMessages = traceMessages;
@@ -90,7 +91,7 @@ public class HandleServiceImpl implements HandleService {
     }
 
     public void update(String doi, String newUrl) throws HandleException {
-        if (doi == null || newUrl == null || "".equals(doi) || "".equals(newUrl))
+        if (StringUtils.isEmpty(doi) || StringUtils.isEmpty(newUrl))
             throw new IllegalArgumentException("DOI and URL cannot be empty");
 
         log4j.debug("update Handle: DOI: " + doi + " URL: " + newUrl);
@@ -105,7 +106,7 @@ public class HandleServiceImpl implements HandleService {
                             newUrl.getBytes(DEFAULT_ENCODING),
                             HandleValue.TTL_TYPE_RELATIVE, 86400, timestamp, null, true, true, true, false) };
 
-            if(!dummyMode) {
+            if (!dummyMode) {
                 val = resolver.resolveHandle(doi, new String[] { "URL" }, null);
                 if (val.length != 1) {
                     String msg = "Handle not found";
@@ -125,7 +126,7 @@ public class HandleServiceImpl implements HandleService {
 
             ModifyValueRequest req = new ModifyValueRequest(doi.getBytes(DEFAULT_ENCODING), val, authInfo);
 
-            if(!dummyMode){
+            if (!dummyMode) {
                 AbstractResponse response = resolver.processRequest(req);
 
                 String msg = AbstractMessage.getResponseCodeMessage(response.responseCode);

@@ -23,9 +23,9 @@ import org.datacite.mds.validation.constraints.impl.DoiValidator;
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Doi {
-    public abstract String message() default "{org.datacite.mds.validation.constraints.Doi.message}";
+    String message() default "{org.datacite.mds.validation.constraints.Doi.message}";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

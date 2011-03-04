@@ -22,9 +22,9 @@ import org.datacite.mds.validation.constraints.impl.MatchPrefixesValidator;
 @Target( { ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MatchPrefixes {
-    public abstract String message() default "{org.datacite.mds.validation.constraints.MatchPrefixes.message}";
+    String message() default "{org.datacite.mds.validation.constraints.MatchPrefixes.message}";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

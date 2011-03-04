@@ -4,13 +4,11 @@
 package org.datacite.mds.web.ui.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.Long;
-import java.lang.String;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.datacite.mds.domain.Allocator;
+
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.domain.Prefix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;

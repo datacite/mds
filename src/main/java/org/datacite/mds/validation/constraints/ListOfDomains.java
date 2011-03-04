@@ -20,9 +20,9 @@ import org.datacite.mds.validation.constraints.impl.ListOfDomainsValidator;
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ListOfDomains {
-    public abstract String message() default "{org.datacite.mds.validation.constraints.ListOfDomains.message}";
+    String message() default "{org.datacite.mds.validation.constraints.ListOfDomains.message}";
 
-    public abstract Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-    public abstract Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 }

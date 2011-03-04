@@ -10,7 +10,6 @@ import org.datacite.mds.service.MailService;
 import org.datacite.mds.util.DomainUtils;
 import org.datacite.mds.web.ui.model.ChangePasswordMailModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

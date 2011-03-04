@@ -10,7 +10,6 @@ import org.datacite.mds.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 /**
@@ -34,7 +33,7 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
     public ApiHandlerExceptionResolver() {
         super();
         setOrder(HIGHEST_PRECEDENCE); // ensure this resolver is fired first
-        Class[] handlers = { ApiController.class };
+        Class<?>[] handlers = { ApiController.class };
         setMappedHandlerClasses(handlers); // use our API controller classes
     }
 

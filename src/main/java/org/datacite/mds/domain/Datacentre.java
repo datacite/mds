@@ -50,7 +50,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Unique(field = "symbol")
 @Entity
 @XmlRootElement
-@GroupSequence({Datacentre.class, Datacentre.SecondLevelConstraint.class})
+@GroupSequence({ Datacentre.class, Datacentre.SecondLevelConstraint.class })
 public class Datacentre implements AllocatorOrDatacentre {
 
     private static Logger log4j = Logger.getLogger(Datacentre.class);
@@ -202,7 +202,7 @@ public class Datacentre implements AllocatorOrDatacentre {
             return false;
         
         String qlString = "select doiQuotaAllowed - doiQuotaUsed from Datacentre o where id = :id";
-        Integer diff = (Integer)entityManager().createQuery(qlString).setParameter("id", getId()).getSingleResult();
+        Integer diff = (Integer) entityManager().createQuery(qlString).setParameter("id", getId()).getSingleResult();
         
         return diff <= 0;
     }

@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @MatchDoiPrefix
 @MatchDomain(groups = Dataset.SecondLevelConstraint.class)
 @Unique(field = "doi")
-@GroupSequence({Dataset.class, Dataset.SecondLevelConstraint.class})
+@GroupSequence({ Dataset.class, Dataset.SecondLevelConstraint.class })
 public class Dataset {
     
     private static Logger log4j = Logger.getLogger(Dataset.class);

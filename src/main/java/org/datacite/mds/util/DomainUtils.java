@@ -1,6 +1,5 @@
 package org.datacite.mds.util;
 
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 

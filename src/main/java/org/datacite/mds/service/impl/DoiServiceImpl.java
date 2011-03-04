@@ -1,5 +1,6 @@
 package org.datacite.mds.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -45,7 +46,7 @@ public class DoiServiceImpl implements DoiService {
         validationHelper.validate(dataset);
 
         log4j.debug("trying handle registration: " + doi);
-        if (!testMode && url != null && !"".equals(url)) {
+        if (!testMode && StringUtils.isNotEmpty(url)) {
             handleService.create(doi, url);
             log4j.info(datacentre.getSymbol() + " successfuly minted " + doi);
         } else
@@ -54,7 +55,7 @@ public class DoiServiceImpl implements DoiService {
         datacentre.incQuotaUsed(Datacentre.ForceRefresh.YES);
 
         if (!testMode) {
-            if (dataset.getId()==null) {
+            if (dataset.getId() == null) {
                 dataset.persist();
             } else {
                 dataset.merge();
@@ -84,7 +85,7 @@ public class DoiServiceImpl implements DoiService {
             throw new SecurityException(message);
         }
 
-        if (!testMode && url != null && !"".equals(url)) {
+        if (!testMode && StringUtils.isNotEmpty(url)) {
             handleService.update(doi, url);
             log4j.info(datacentre.getSymbol() + " successfuly updated " + doi);
         } else {

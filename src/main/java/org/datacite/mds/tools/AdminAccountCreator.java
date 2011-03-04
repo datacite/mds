@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AdminAccountCreator {
     
-    private static final String APPLICATION_CONTEXT="META-INF/spring/applicationContext.xml";
+    private static final String APPLICATION_CONTEXT = "META-INF/spring/applicationContext.xml";
     
     private final String ADMIN_DEFAULT_SYMBOL = "ADMIN";
     private final String ADMIN_ROLE_NAME = "ROLE_ADMIN";

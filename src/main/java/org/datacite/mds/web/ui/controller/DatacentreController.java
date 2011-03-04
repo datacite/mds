@@ -64,6 +64,7 @@ public class DatacentreController {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model model) {
         Allocator allocator = getCurrentAllocator();
@@ -115,13 +116,13 @@ public class DatacentreController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {
         Datacentre datacentre = Datacentre.findDatacentre(id);
-        model.addAttribute("datacentre", datacentre );
+        model.addAttribute("datacentre", datacentre);
         model.addAttribute("itemId", id);
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
         return "datacentres/show";
     }
 
-	@RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
