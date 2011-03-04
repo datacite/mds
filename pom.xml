@@ -509,7 +509,10 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.5</version>
 				<configuration>
-					<excludes>
+                    <includes>
+                      <include>**/*Test.java</include>
+                    </includes>
+        			<excludes>
 						<exclude>**/*_Roo_*</exclude>
 					</excludes>
 				</configuration>
