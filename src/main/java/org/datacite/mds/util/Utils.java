@@ -181,6 +181,8 @@ public class Utils {
     }
 
     public static <T> String collectionToString(Collection<T> collection, Converter<T, String> converter) {
+        if (collection == null)
+            return null;
         List<String> list = new ArrayList<String>();
         for (T entry : collection) {
             list.add(converter.convert(entry));
