@@ -35,8 +35,8 @@ public class SecurityUtilsTest {
         Utils.logout();
         Assert.assertFalse(SecurityUtils.isLoggedIn());
         Assert.assertNull(SecurityUtils.getCurrentSymbol());
-        Assert.assertNull(SecurityUtils.getCurrentAllocator());
-        Assert.assertNull(SecurityUtils.getCurrentDatacentre());
+        Assert.assertNull(SecurityUtils.getCurrentAllocatorOrNull());
+        Assert.assertNull(SecurityUtils.getCurrentDatacentreOrNull());
     }
 
     @Test
@@ -44,8 +44,8 @@ public class SecurityUtilsTest {
         Utils.login(allocator);
         Assert.assertTrue(SecurityUtils.isLoggedIn());
         Assert.assertEquals(allocator.getSymbol(), SecurityUtils.getCurrentSymbol());
-        Assert.assertEquals(allocator, SecurityUtils.getCurrentAllocator());
-        Assert.assertNull(SecurityUtils.getCurrentDatacentre());
+        Assert.assertEquals(allocator, SecurityUtils.getCurrentAllocatorOrNull());
+        Assert.assertNull(SecurityUtils.getCurrentDatacentreOrNull());
     }
 
     @Test
@@ -53,8 +53,8 @@ public class SecurityUtilsTest {
         Utils.login(datacentre);
         Assert.assertTrue(SecurityUtils.isLoggedIn());
         Assert.assertEquals(datacentre.getSymbol(), SecurityUtils.getCurrentSymbol());
-        Assert.assertEquals(datacentre, SecurityUtils.getCurrentDatacentre());
-        Assert.assertNull(SecurityUtils.getCurrentAllocator());
+        Assert.assertEquals(datacentre, SecurityUtils.getCurrentDatacentreOrNull());
+        Assert.assertNull(SecurityUtils.getCurrentAllocatorOrNull());
     }
 
     @Test(expected = SecurityException.class)
@@ -77,39 +77,39 @@ public class SecurityUtilsTest {
     }
     
     @Test
-    public void testGetCurrentDatacentreWithExceptions() throws SecurityException {
+    public void testGetCurrentDatacentre() throws SecurityException {
         Utils.login(datacentre);
-        SecurityUtils.getCurrentDatacentreWithException();
+        SecurityUtils.getCurrentDatacentre();
     }
 
     @Test(expected = SecurityException.class)
-    public void testGetCurrentDatacentreWithExceptions_NotLoggedIn() throws SecurityException {
+    public void testGetCurrentDatacentre_NotLoggedIn() throws SecurityException {
         Utils.logout();
-        SecurityUtils.getCurrentDatacentreWithException();
+        SecurityUtils.getCurrentDatacentre();
     }
 
     @Test(expected = SecurityException.class)
-    public void testGetCurrentDatacentreWithExceptions_LoggedInAsAllocator() throws SecurityException {
+    public void testGetCurrentDatacentre_LoggedInAsAllocator() throws SecurityException {
         Utils.login(allocator);
-        SecurityUtils.getCurrentDatacentreWithException();
+        SecurityUtils.getCurrentDatacentre();
     }
 
     @Test
-    public void testGetCurrentAllocatorWithExceptions() throws SecurityException {
+    public void testGetCurrentAllocator() throws SecurityException {
         Utils.login(allocator);
-        SecurityUtils.getCurrentAllocatorWithExceptions();
+        SecurityUtils.getCurrentAllocator();
     }
 
     @Test(expected = SecurityException.class)
-    public void testGetCurrentAllocatorWithExceptions_NotLoggedIn() throws SecurityException {
+    public void testGetCurrentAllocator_NotLoggedIn() throws SecurityException {
         Utils.logout();
-        SecurityUtils.getCurrentAllocatorWithExceptions();
+        SecurityUtils.getCurrentAllocator();
     }
 
     @Test(expected = SecurityException.class)
-    public void testGetCurrentAllocatorWithExceptions_LoggedInAsDatacentre() throws SecurityException {
+    public void testGetCurrentAllocator_LoggedInAsDatacentre() throws SecurityException {
         Utils.login(datacentre);
-        SecurityUtils.getCurrentAllocatorWithExceptions();
+        SecurityUtils.getCurrentAllocator();
     }
 
 

@@ -23,8 +23,8 @@ public class SecurityUtils {
      *             when no login info, no Allocator with such symbol or
      *             Allocator not active
      */
-    public static Allocator getCurrentAllocatorWithExceptions() throws SecurityException {
-        Allocator allocator = getCurrentAllocator();
+    public static Allocator getCurrentAllocator() throws SecurityException {
+        Allocator allocator = getCurrentAllocatorOrNull();
 
         if (allocator == null) {
             throw new SecurityException("allocator not registered");
@@ -42,8 +42,8 @@ public class SecurityUtils {
      *             when no login info, no Datacentre with such symbol or
      *             Datacentre not active
      */
-    public static Datacentre getCurrentDatacentreWithException() throws SecurityException {
-        Datacentre datacentre = getCurrentDatacentre();
+    public static Datacentre getCurrentDatacentre() throws SecurityException {
+        Datacentre datacentre = getCurrentDatacentreOrNull();
         
         if (datacentre == null) {
             throw new SecurityException("datacentre not registered");
@@ -92,7 +92,7 @@ public class SecurityUtils {
      * 
      * @return allocator or null if not logged in (as a allocator)
      */
-    public static Allocator getCurrentAllocator() {
+    public static Allocator getCurrentAllocatorOrNull() {
         String symbol = getCurrentSymbol();
         return Allocator.findAllocatorBySymbol(symbol);
     }
@@ -102,7 +102,7 @@ public class SecurityUtils {
      * 
      * @return datacentre or null if not logged in (as a datacentre)
      */
-    public static Datacentre getCurrentDatacentre() {
+    public static Datacentre getCurrentDatacentreOrNull() {
         String symbol = getCurrentSymbol();
         return Datacentre.findDatacentreBySymbol(symbol);
     }

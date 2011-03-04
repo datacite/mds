@@ -26,7 +26,7 @@ public class DoiServiceImpl implements DoiService {
     ValidationHelper validationHelper;
 
     public Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException {
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
 
         SecurityUtils.checkQuota(datacentre);
 
@@ -68,7 +68,7 @@ public class DoiServiceImpl implements DoiService {
     }
 
     public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException, NotFoundException {
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
 
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null) {

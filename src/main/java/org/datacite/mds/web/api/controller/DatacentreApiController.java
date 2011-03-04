@@ -45,7 +45,7 @@ public class DatacentreApiController implements ApiController {
         if (datacentre == null)
             throw new NotFoundException("Datacentre not found");
 
-        Allocator allocator = SecurityUtils.getCurrentAllocatorWithExceptions();
+        Allocator allocator = SecurityUtils.getCurrentAllocator();
 
         compareAllocator(datacentre, allocator);
 
@@ -62,7 +62,7 @@ public class DatacentreApiController implements ApiController {
 
         convertPrefixesToPersistentPrefixes(requestDatacentre);
 
-        Allocator currentAllocator = SecurityUtils.getCurrentAllocatorWithExceptions();
+        Allocator currentAllocator = SecurityUtils.getCurrentAllocator();
         Datacentre persistentDatacentre = Datacentre.findDatacentreBySymbol(requestDatacentre.getSymbol());
 
         if (persistentDatacentre == null) {

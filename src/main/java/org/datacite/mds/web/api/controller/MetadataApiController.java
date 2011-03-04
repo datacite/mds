@@ -42,7 +42,7 @@ public class MetadataApiController implements ApiController {
 
     @RequestMapping(value = "metadata", method = RequestMethod.GET)
     public ResponseEntity<? extends Object> get(@RequestParam String doi) throws SecurityException, NotFoundException, DeletedException {
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
         
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
@@ -111,7 +111,7 @@ public class MetadataApiController implements ApiController {
         if (testMode == null)
             testMode = false;
 
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentreWithException();
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
 
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)

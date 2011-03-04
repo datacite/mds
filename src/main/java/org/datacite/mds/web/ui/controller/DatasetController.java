@@ -68,14 +68,14 @@ public class DatasetController {
     }
 
     @ModelAttribute("datacentres")
-    public Collection<Datacentre> populateDatacentres() {
+    public Collection<Datacentre> populateDatacentres() throws SecurityException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
         return Arrays.asList(datacentre);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(@RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size, Model model) {
+            @RequestParam(value = "size", required = false) Integer size, Model model) throws SecurityException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();

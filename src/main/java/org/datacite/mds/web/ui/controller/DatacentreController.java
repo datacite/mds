@@ -16,6 +16,7 @@ import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
+import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,11 @@ public class DatacentreController {
 
     @Transactional
     private Allocator getCurrentAllocator() {
-        return SecurityUtils.getCurrentAllocator();
+        try {
+            return SecurityUtils.getCurrentAllocator();
+        } catch (SecurityException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @RequestMapping(params = "form", method = RequestMethod.GET)
