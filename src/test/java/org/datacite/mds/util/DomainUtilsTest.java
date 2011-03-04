@@ -29,7 +29,7 @@ public class DomainUtilsTest {
     String DATACENTRE1_SYMBOL = "AL1.DC1";
     String DATACENTRE2_SYMBOL = "AL1.DC2";
     String OTHER_SYMBOL = "AL42";
-    
+
     Allocator allocator1, allocator2;
     Datacentre datacentre1, datacentre2;
 
@@ -69,8 +69,21 @@ public class DomainUtilsTest {
         expectedSymbols.add(DATACENTRE2_SYMBOL);
         expectedSymbols.add(ALLOCATOR1_SYMBOL);
         expectedSymbols.add(ALLOCATOR2_SYMBOL);
-        
+
         assertTrue(SetUtils.isEqualSet(expectedSymbols, retrievedSymbols));
     }
+
+    @Test
+    public void testGetAdmin() {
+        Allocator admin = TestUtils.createAllocator("ADMIN");
+        admin.setRoleName("ROLE_ADMIN");
+        admin.persist();
+        assertEquals(admin, DomainUtils.getAdmin());
+    }
     
+    @Test
+    public void testGetAdmin_NonExisting() {
+        assertNull(DomainUtils.getAdmin());
+    }
+
 }
