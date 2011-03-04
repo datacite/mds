@@ -45,7 +45,7 @@ public class ValidationUtils {
 
     /**
      * <p>
-     * Copy a validation error from a field to the object itself. This makes
+     * Copy a validation error from a field to another field. This makes
      * sense for fields not rendered but might cause a validation error
      * (typically a assertTrue Annotation on method level)
      * </p>
@@ -56,17 +56,11 @@ public class ValidationUtils {
      * 
      * @param result
      *            binding result
-     * @param field
-     *            name of field to be copied to object level
+     * @param fromfield
+     *            name of field to be copied from
+     * @param toField
+     *            name of field to be copied to
      */
-    public static void copyFieldErrorToObject(BindingResult result, String field) {
-        FieldError fieldError = result.getFieldError(field);
-        if (fieldError != null) {
-            ObjectError error = new ObjectError(fieldError.getObjectName(), fieldError.getDefaultMessage());
-            result.addError(error);
-        }
-    }
-
     public static void copyFieldErrorToField(BindingResult result, String fromField, String toField) {
         FieldError fieldError = result.getFieldError(fromField);
         if (fieldError != null) {
