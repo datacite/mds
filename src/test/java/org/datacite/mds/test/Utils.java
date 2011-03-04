@@ -21,6 +21,10 @@ public class Utils {
                 new UsernamePasswordAuthenticationToken(username, password));
     }
     
+    public static String getCurrentUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+    
     public static void logout() {
         SecurityContextHolder.getContext().setAuthentication(null);
     }

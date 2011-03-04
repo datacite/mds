@@ -13,62 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class SecurityUtils {
 
     private static Logger log4j = Logger.getLogger(SecurityUtils.class);
-
-    /**
-     * retrieves Allocator object matching symbol used for logging into
-     * application
-     * 
-     * @return Allocator object
-     * @throws SecurityException
-     *             when no login info, no Allocator with such symbol or
-     *             Allocator not active
-     */
-    public static Allocator getCurrentAllocator() throws SecurityException {
-        Allocator allocator = getCurrentAllocatorOrNull();
-
-        if (allocator == null) {
-            throw new SecurityException("allocator not registered");
-        }
-
-        return allocator;
-    }
-
-    /**
-     * retrieves Datacentre object matching symbol used for logging into
-     * application with Datacentre's symbol
-     * 
-     * @return Datacentre object
-     * @throws SecurityException
-     *             when no login info, no Datacentre with such symbol or
-     *             Datacentre not active
-     */
-    public static Datacentre getCurrentDatacentre() throws SecurityException {
-        Datacentre datacentre = getCurrentDatacentreOrNull();
-        
-        if (datacentre == null) {
-            throw new SecurityException("datacentre not registered");
-        }
-
-        return datacentre;
-    }
-
-    /**
-     * Checks if a Datacentre still has available DOIs
-     * 
-     * @param datacentre
-     * @throws ForbiddenException
-     *             Datacentre run out of quota
-     */
-    public static void checkQuota(Datacentre datacentre) throws SecurityException {
-        if (datacentre.isQuotaExceeded()) {
-            String message = "datacentre quota exceeded: " + datacentre.getSymbol();
-            log4j.info(message);
-            throw new SecurityException(message);
-        }
-    }
     
     public static boolean isLoggedIn() {
-        return getCurrentSymbol() != null;
+        return getCurrentSymbolOrNull() != null;
     }
     
     public static boolean isLoggedInAsAllocator() {
@@ -78,14 +25,50 @@ public class SecurityUtils {
     public static boolean isLoggedInAsDatacentre() {
         return getCurrentDatacentreOrNull() != null;
     }
-
+  
+    /**
+     * retrieves Allocator object matching symbol used for logging into
+     * application
+     * 
+     * @return Allocator object
+     * @throws SecurityException 
+     *             when not logged in as Allocator
+     */
+    public static Allocator getCurrentAllocator() throws SecurityException {
+        Allocator allocator = getCurrentAllocatorOrNull();
+        if (allocator == null) {
+            throw new SecurityException("allocator not registered");
+        }
+        return allocator;
+    }
 
     /**
-     * get the current logged in symbol
+     * retrieves Datacentre object matching symbol used for logging into
+     * application with Datacentre's symbol
      * 
-     * @return login symbol or null if not logged in
+     * @return Datacentre object
+     * @throws SecurityException
+     *             when not logged in as Datacentre
      */
-    public static String getCurrentSymbol() {
+    public static Datacentre getCurrentDatacentre() throws SecurityException {
+        Datacentre datacentre = getCurrentDatacentreOrNull();
+        if (datacentre == null) {
+            throw new SecurityException("datacentre not registered");
+        }
+        return datacentre;
+    }
+    
+    private static Allocator getCurrentAllocatorOrNull() {
+        String symbol = getCurrentSymbolOrNull();
+        return Allocator.findAllocatorBySymbol(symbol);
+    }
+
+    private static Datacentre getCurrentDatacentreOrNull() {
+        String symbol = getCurrentSymbolOrNull();
+        return Datacentre.findDatacentreBySymbol(symbol);
+    }
+    
+    private static String getCurrentSymbolOrNull() {
         log4j.debug("get current auth");
         Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
         if (currentAuth == null) {
@@ -97,24 +80,18 @@ public class SecurityUtils {
     }
 
     /**
-     * get the current logged in allocator
+     * Checks if a Datacentre still has available DOIs
      * 
-     * @return allocator or null if not logged in (as a allocator)
+     * @param datacentre
+     * @throws SecurityException
+     *             Datacentre run out of quota
      */
-    static Allocator getCurrentAllocatorOrNull() {
-        String symbol = getCurrentSymbol();
-        return Allocator.findAllocatorBySymbol(symbol);
+    public static void checkQuota(Datacentre datacentre) throws SecurityException {
+        if (datacentre.isQuotaExceeded()) {
+            String message = "datacentre quota exceeded: " + datacentre.getSymbol();
+            log4j.info(message);
+            throw new SecurityException(message);
+        }
     }
-
-    /**
-     * get the current logged in datacentre
-     * 
-     * @return datacentre or null if not logged in (as a datacentre)
-     */
-    static Datacentre getCurrentDatacentreOrNull() {
-        String symbol = getCurrentSymbol();
-        return Datacentre.findDatacentreBySymbol(symbol);
-    }
-    
 
 }

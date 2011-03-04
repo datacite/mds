@@ -153,7 +153,7 @@ public class ChangePasswordControllerTest {
     }
     
     void checkLoggedInAs(String symbol) {
-        Assert.assertEquals(symbol, SecurityUtils.getCurrentSymbol());
+        Assert.assertEquals(symbol, Utils.getCurrentUsername());
     }
 
     class AuthenticationManagerStub implements AuthenticationManager {

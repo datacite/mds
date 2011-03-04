@@ -34,27 +34,24 @@ public class SecurityUtilsTest {
     public void testNotLoggedIn() {
         Utils.logout();
         Assert.assertFalse(SecurityUtils.isLoggedIn());
-        Assert.assertNull(SecurityUtils.getCurrentSymbol());
-        Assert.assertNull(SecurityUtils.getCurrentAllocatorOrNull());
-        Assert.assertNull(SecurityUtils.getCurrentDatacentreOrNull());
+        Assert.assertFalse(SecurityUtils.isLoggedInAsAllocator());
+        Assert.assertFalse(SecurityUtils.isLoggedInAsDatacentre());
     }
 
     @Test
     public void testLoggedInAsAllocator() {
         Utils.login(allocator);
         Assert.assertTrue(SecurityUtils.isLoggedIn());
-        Assert.assertEquals(allocator.getSymbol(), SecurityUtils.getCurrentSymbol());
-        Assert.assertEquals(allocator, SecurityUtils.getCurrentAllocatorOrNull());
-        Assert.assertNull(SecurityUtils.getCurrentDatacentreOrNull());
+        Assert.assertTrue(SecurityUtils.isLoggedInAsAllocator());
+        Assert.assertFalse(SecurityUtils.isLoggedInAsDatacentre());
     }
 
     @Test
     public void testLoggedInAsDatacentre() {
         Utils.login(datacentre);
         Assert.assertTrue(SecurityUtils.isLoggedIn());
-        Assert.assertEquals(datacentre.getSymbol(), SecurityUtils.getCurrentSymbol());
-        Assert.assertEquals(datacentre, SecurityUtils.getCurrentDatacentreOrNull());
-        Assert.assertNull(SecurityUtils.getCurrentAllocatorOrNull());
+        Assert.assertFalse(SecurityUtils.isLoggedInAsAllocator());
+        Assert.assertTrue(SecurityUtils.isLoggedInAsDatacentre());
     }
 
     @Test(expected = SecurityException.class)
