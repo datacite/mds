@@ -8,7 +8,6 @@ import javax.validation.ConstraintValidatorContext;
 import org.apache.commons.validator.UrlValidator;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 
 /**
  * Util class with validation related static methods.
