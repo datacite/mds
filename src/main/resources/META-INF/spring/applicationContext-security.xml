@@ -67,10 +67,10 @@
     <bean id="passwordEncoder" class="org.datacite.mds.service.impl.PasswordEncoderImpl" />
 
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider user-service-ref='myUserDetailsService'>
+        <security:authentication-provider user-service-ref='myMasterUserDetailsService'>
             <security:password-encoder ref="passwordEncoder" />
         </security:authentication-provider>
-        <security:authentication-provider user-service-ref='myMasterUserDetailsService'>
+        <security:authentication-provider user-service-ref='myUserDetailsService'>
             <security:password-encoder ref="passwordEncoder" />
         </security:authentication-provider>
         <security:authentication-provider ref='rememberMeAuthenticationProvider' />
