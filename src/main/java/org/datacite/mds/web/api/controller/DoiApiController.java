@@ -1,7 +1,5 @@
 package org.datacite.mds.web.api.controller;
 
-import java.util.Arrays;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
@@ -36,6 +34,7 @@ public class DoiApiController implements ApiController {
             @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest)
             throws ValidationException, HandleException, SecurityException, NotFoundException {
         String method = httpRequest.getMethod();
+        
         if (testMode == null)
             testMode = false;
         
@@ -45,14 +44,17 @@ public class DoiApiController implements ApiController {
 
         log4j.debug("*****" + method + " doi: " + doi + ", url: " + url + " \ntestMode = " + testMode);
 
+        HttpStatus httpStatus; 
         if (method.equals("POST")) {
             doiService.create(doi, url, testMode);
+            httpStatus = HttpStatus.CREATED;
         } else { // PUT
             doiService.update(doi, url, testMode);
+            httpStatus = HttpStatus.OK;
         }
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<String>("OK", headers, method.equals("POST") ? HttpStatus.CREATED : HttpStatus.OK);
+        return new ResponseEntity<String>("OK", headers, httpStatus);
     }
     
     private String[] getBodyLines(String body) throws ValidationException {
