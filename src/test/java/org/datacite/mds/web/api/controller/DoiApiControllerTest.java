@@ -50,56 +50,55 @@ public class DoiApiControllerTest {
 
     @Test
     public void testCreateOrUpdatePost() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setMethod("POST");
-        ResponseEntity<? extends Object> response = doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", false, request);
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-
+        HttpStatus statusCode = post("10.5072/1111\nhttp://www.example.com", false);
+        assertEquals(HttpStatus.CREATED, statusCode);
     }    
 
     @Test
     public void testCreateOrUpdatePut() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setMethod("POST");
-        ResponseEntity<? extends Object> response = doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com", false, request);
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        request.setMethod("PUT");
-        response = doiApiController.createOrUpdate("10.5072/1111\nhttp://www.example.com/aaa", false, request);
-		assertEquals(HttpStatus.OK, response.getStatusCode());
+        HttpStatus statusCode = post("10.5072/1111\nhttp://www.example.com", false);
+        assertEquals(HttpStatus.CREATED, statusCode);
+        statusCode = put("10.5072/1111\nhttp://www.example.com/aaa", false);
+	assertEquals(HttpStatus.OK, statusCode);
     }        
     
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateNonValid() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setMethod("POST");
-        doiApiController.createOrUpdate("", null, request);
+        post("", null);
     }
     
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateNonValid2() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setMethod("POST");
-        doiApiController.createOrUpdate("\n", null, request);
+        post("\n", null);
     }
 
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateNonValid2a() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setMethod("POST");
-        doiApiController.createOrUpdate("\n\n", null, request);
+        post("\n\n", null);
     }
     
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateNonValid3() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setMethod("POST");
-        doiApiController.createOrUpdate("10.5072/qqq\n", null, request);
+        post("10.5072/qqq\n", null);
     }
 
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateNonValid4() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setMethod("POST");
-        doiApiController.createOrUpdate("\nhttp://www.example.com/aaa", true, request);
+        post("\nhttp://www.example.com/aaa", true);
     }    
+    
+    private HttpStatus post(String body, Boolean testMode) throws Exception {
+        return request("POST", body, testMode);
+    }
+    
+    private HttpStatus put(String body, Boolean testMode) throws Exception {
+        return request("PUT", body, testMode);
+    }
+    
+    private HttpStatus request(String method, String body, Boolean testMode) throws Exception {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setMethod(method);
+        ResponseEntity<? extends Object> response = doiApiController.createOrUpdate(body, testMode, request);
+        return response.getStatusCode();
+    }
 }
