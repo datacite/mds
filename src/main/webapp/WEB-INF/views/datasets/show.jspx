@@ -4,6 +4,7 @@
     <page:show delete="false" id="ps_org_datacite_mds_domain_Dataset" object="${dataset}" path="/datasets" z="GTOIDp28o0CtA9jRRKQT81aO7fc=">
         <util:handle-proxy doi="${dataset.doi}" redirect="true" types="URL"/>
         <field:display field="doi" id="s_org_datacite_mds_domain_Dataset_doi" link="javascript:resolveDoi()" object="${dataset}" z="user-managed"/>
+        <util:comment messageCode="handle_latency_info"/>
         <field:display field="isActive" id="s_org_datacite_mds_domain_Dataset_isActive" object="${dataset}" z="+iKflUoWmGCa+/BloB8nbPxnrbI="/>
         <field:display field="isRefQuality" id="s_org_datacite_mds_domain_Dataset_isRefQuality" object="${dataset}" z="Pa2TcTvIA3/kRn3GSb4afhSP7vE="/>
         <field:display field="lastLandingPageStatus" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatus" object="${dataset}" z="7qyzkqnseKzwOGknAcd9LKcUfgQ="/>
