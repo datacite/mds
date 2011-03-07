@@ -1,7 +1,10 @@
 package org.datacite.mds.web.api.controller;
 
+import java.util.Arrays;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
@@ -35,13 +38,10 @@ public class DoiApiController implements ApiController {
         String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;
-
-        if (body.indexOf("\n") == -1 || body.indexOf("\n") != body.lastIndexOf("\n")
-                || body.indexOf("\n") == body.length() - 1 || body.indexOf("\n") == 0)
-            throw new ValidationException("request body must contain exactly two lines: DOI and URL");
-
-        String doi = body.substring(0, body.indexOf("\n"));
-        String url = body.substring(body.indexOf("\n") + 1, body.length());
+        
+        String[] lines = getBodyLines(body);
+        String doi = lines[0];
+        String url = lines[1];
 
         log4j.debug("*****" + method + " doi: " + doi + ", url: " + url + " \ntestMode = " + testMode);
 
@@ -53,5 +53,16 @@ public class DoiApiController implements ApiController {
 
         HttpHeaders headers = new HttpHeaders();
         return new ResponseEntity<String>("OK", headers, method.equals("POST") ? HttpStatus.CREATED : HttpStatus.OK);
+    }
+    
+    private String[] getBodyLines(String body) throws ValidationException {
+        String[] lines = body.split("\\r?\\n",3);
+        
+        boolean hasTwoLines = lines.length == 2 || (lines.length == 3 && StringUtils.isEmpty(lines[2]));
+        boolean areFieldsEmpty = StringUtils.isEmpty(lines[0]) || StringUtils.isEmpty(lines[1]);
+        
+        if (!hasTwoLines || areFieldsEmpty)
+            throw new ValidationException("request body must contain exactly two lines: DOI and URL");
+        return lines;
     }
 }
