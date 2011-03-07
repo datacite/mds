@@ -93,6 +93,13 @@ public class MetadataApiControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
+    @Test(expected = SecurityException.class)
+    public void testGetForeignDataset() throws Exception {
+        initDb(false);
+        TestUtils.login(datacentre2);
+        metadataApiController.get(doi);
+    }
+
     @Test
     public void testCreateOrUpdate() throws Exception {
         initDb(false);
@@ -125,8 +132,7 @@ public class MetadataApiControllerTest {
         String url = "http://www.example.com";
         MockHttpServletRequest httpRequest = new MockHttpServletRequest();
         httpRequest.setMethod("PUT");
-        ResponseEntity<? extends Object> response = metadataApiController.createOrUpdate(xmlAsString, doi, url, false,
-                httpRequest);
+        metadataApiController.createOrUpdate(xmlAsString, doi, url, false, httpRequest);
     }
 
     @Test
