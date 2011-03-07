@@ -31,7 +31,21 @@ public class DoiApiControllerTest {
         HttpStatus statusCode = post(doi + "\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
-    
+
+    @Test
+    public void testCreateOrUpdatePostCRLF() throws Exception {
+        expectDoiServiceCreate();
+        HttpStatus statusCode = post(doi + "\r\n" + url, false);
+        assertEquals(HttpStatus.CREATED, statusCode);
+    }
+
+    @Test
+    public void testCreateOrUpdatePostTrailingNewLine() throws Exception {
+        expectDoiServiceCreate();
+        HttpStatus statusCode = post(doi + "\n" + url + "\n", false);
+        assertEquals(HttpStatus.CREATED, statusCode);
+    }
+
     @Test
     public void testCreateOrUpdatePut() throws Exception {
         expectDoiServiceCreate();
@@ -45,38 +59,51 @@ public class DoiApiControllerTest {
     }        
     
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateNonValid() throws Exception {
+    public void testCreateOrUpdateEmptyBody() throws Exception {
         post("", null);
     }
     
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateNonValid2() throws Exception {
+    public void testCreateOrUpdateEmptyLines1() throws Exception {
         post("\n", null);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateNonValid2a() throws Exception {
+    public void testCreateOrUpdateEmptyLines2() throws Exception {
         post("\n\n", null);
     }
     
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateNonValid3() throws Exception {
+    public void testCreateOrUpdateEmptyUrl() throws Exception {
         post(doi + "\n", null);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateNonValid4() throws Exception {
+    public void testCreateOrUpdateEmptyDoi() throws Exception {
         post("\n" + url, true);
     }
-    
+
+    @Test(expected = ValidationException.class)
+    public void testCreateOrUpdateIntermediateEmptyLine() throws Exception {
+        post(doi + "\n\n" + url, true);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void testCreateOrUpdateBodyWithManyTrailingNewlines() throws Exception {
+        post(doi + "\n" + url + "\n\n", true);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void testCreateOrUpdateBodyWithThreeLines() throws Exception {
+        post(doi + "\n" + url + "\n" + "foobar", true);
+    }
+
     private void expectDoiServiceCreate() throws Exception {
         expect(mockDoiService.create(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
-        replay(mockDoiService);
     }
 
     private void expectDoiServiceUpdate() throws Exception {
         expect(mockDoiService.update(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
-        replay(mockDoiService);
     }
 
     private HttpStatus post(String body, Boolean testMode) throws Exception {
@@ -88,6 +115,7 @@ public class DoiApiControllerTest {
     }
     
     private HttpStatus request(String method, String body, Boolean testMode) throws Exception {
+        replay(mockDoiService);
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setMethod(method);
         ResponseEntity<? extends Object> response = doiApiController.createOrUpdate(body, testMode, request);
