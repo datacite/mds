@@ -1,64 +1,46 @@
 package org.datacite.mds.web.api.controller;
 
+import static org.easymock.EasyMock.*;
 import static org.junit.Assert.assertEquals;
 
-import org.datacite.mds.domain.Allocator;
-import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.DoiService;
-import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.validation.ValidationException;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/META-INF/spring/applicationContext.xml")
-@Transactional
 public class DoiApiControllerTest {
     
-    @Autowired DoiService doiService;
-
     DoiApiController doiApiController = new DoiApiController();
+    DoiService mockDoiService;
     
-    String allocatorSymbol = "TEST";
-    String datacentreSymbol = allocatorSymbol + ".TEST";
+    String doi = "10.5072/1111";
+    String url = "http://example.com";
 
-    Allocator allocator;
-    Datacentre datacentre;    
-    
     @Before
     public void setUp() throws Exception {
-        doiApiController.doiService = this.doiService;
-        
-        allocator = TestUtils.createAllocator(allocatorSymbol);
-        allocator.setPrefixes(TestUtils.createPrefixes("10.5072"));
-        allocator.persist();
-
-        datacentre = TestUtils.createDatacentre(datacentreSymbol, allocator);
-        datacentre.setPrefixes(allocator.getPrefixes());    
-        datacentre.persist();
-
-        TestUtils.login(datacentre);
+        mockDoiService = createMock(DoiService.class);
+        doiApiController.doiService = this.mockDoiService;
     }    
 
     @Test
     public void testCreateOrUpdatePost() throws Exception {
-        HttpStatus statusCode = post("10.5072/1111\nhttp://www.example.com", false);
+        expectDoiServiceCreate();
+        HttpStatus statusCode = post(doi + "\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
-    }    
-
+    }
+    
     @Test
     public void testCreateOrUpdatePut() throws Exception {
-        HttpStatus statusCode = post("10.5072/1111\nhttp://www.example.com", false);
+        expectDoiServiceCreate();
+        HttpStatus statusCode = post(doi + "\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
-        statusCode = put("10.5072/1111\nhttp://www.example.com/aaa", false);
+        
+        reset(mockDoiService);
+        expectDoiServiceUpdate();
+        statusCode = put(doi + "\n" + url, false);
 	assertEquals(HttpStatus.OK, statusCode);
     }        
     
@@ -79,14 +61,24 @@ public class DoiApiControllerTest {
     
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateNonValid3() throws Exception {
-        post("10.5072/qqq\n", null);
+        post(doi + "\n", null);
     }
 
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateNonValid4() throws Exception {
-        post("\nhttp://www.example.com/aaa", true);
-    }    
+        post("\n" + url, true);
+    }
     
+    private void expectDoiServiceCreate() throws Exception {
+        expect(mockDoiService.create(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
+        replay(mockDoiService);
+    }
+
+    private void expectDoiServiceUpdate() throws Exception {
+        expect(mockDoiService.update(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
+        replay(mockDoiService);
+    }
+
     private HttpStatus post(String body, Boolean testMode) throws Exception {
         return request("POST", body, testMode);
     }
@@ -99,6 +91,7 @@ public class DoiApiControllerTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setMethod(method);
         ResponseEntity<? extends Object> response = doiApiController.createOrUpdate(body, testMode, request);
+        verify(mockDoiService);
         return response.getStatusCode();
     }
 }
