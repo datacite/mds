@@ -3,6 +3,7 @@ package org.datacite.mds.util;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.SecurityException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -92,6 +93,11 @@ public class SecurityUtils {
             log4j.info(message);
             throw new SecurityException(message);
         }
+    }
+    
+    public static void checkDatasetOwnership(Dataset dataset, Datacentre datacentre) throws SecurityException {
+        if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
+            throw new SecurityException("cannot access dataset which belongs to another party");
     }
 
 }

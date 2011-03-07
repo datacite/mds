@@ -37,9 +37,7 @@ public class DoiServiceImpl implements DoiService {
             dataset.setDatacentre(datacentre);
             dataset.setDoi(doi);
         } else {
-            if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol())) {
-                throw new SecurityException("cannot mint DOI which belongs to another party");
-            }
+            SecurityUtils.checkDatasetOwnership(dataset, datacentre);
         }
 
         dataset.setUrl(url);
@@ -79,11 +77,7 @@ public class DoiServiceImpl implements DoiService {
 
         validationHelper.validate(dataset);
 
-        if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol())) {
-            String message = "cannot update DOI which belongs to another party";
-            log4j.warn(datacentre.getSymbol() + " " + message + ", DOI: " + dataset.getDoi());
-            throw new SecurityException(message);
-        }
+        SecurityUtils.checkDatasetOwnership(dataset, datacentre);
 
         if (!testMode && StringUtils.isNotEmpty(url)) {
             handleService.update(doi, url);

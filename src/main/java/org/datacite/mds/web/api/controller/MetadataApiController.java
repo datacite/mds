@@ -49,8 +49,7 @@ public class MetadataApiController implements ApiController {
         if (dataset == null)
             throw new NotFoundException("DOI doesn't exist");
 
-        if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
-            throw new SecurityException("cannot retrieve metadata which belongs to another party");
+        SecurityUtils.checkDatasetOwnership(dataset, datacentre);
 
         if (!dataset.getIsActive())
             throw new DeletedException("dataset inactive");
@@ -118,9 +117,7 @@ public class MetadataApiController implements ApiController {
         if (dataset == null)
             throw new NotFoundException("DOI doesn't exist");
 
-        if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
-            throw new SecurityException("cannot delete DOI which belongs to another party");
-        
+        SecurityUtils.checkDatasetOwnership(dataset, datacentre);
         
         boolean wasActive = BooleanUtils.isTrue(dataset.getIsActive());
         if (!testMode) {
