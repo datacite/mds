@@ -25,6 +25,7 @@ public class HandleServiceImplTest {
     
     private static final String doi = "10.5072/test";
     private static final String url = "http://example.com";
+    
 
     @Before
     public void setup() {
@@ -59,13 +60,22 @@ public class HandleServiceImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateIllegalArgument1() throws HandleException {
-        service.create(null, null);
+    public void testCreateEmptyDoi() throws HandleException {
+        service.create("", url);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testCreateIllegalArgument2() throws HandleException {
-        service.create("", "");
+    public void testCreateNullDoi() throws HandleException {
+        service.create(null, url);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateEmptyUrl() throws HandleException {
+        service.create(doi, "");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testCreateNullUrl() throws HandleException {
+        service.create(doi, null);
     }
 
     @Test
@@ -100,15 +110,24 @@ public class HandleServiceImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdateIllegalArgument1() throws HandleException {
-        service.update(null, null);
+    public void testUpdateEmptyDoi() throws HandleException {
+        service.update("", url);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testUpdateIllegalArgument2() throws HandleException {
-        service.update("", "");
+    public void testUpdateNullDoi() throws HandleException {
+        service.update(null, url);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateEmptyUrl() throws HandleException {
+        service.update(doi, "");
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testUpdateNullUrl() throws HandleException {
+        service.update(doi, null);
+    }
+    
     void mockResponseCode(int respondeCode) throws net.handle.hdllib.HandleException {
         GenericResponse response = new GenericResponse(0, respondeCode);
         expect(service.resolver.processRequest(anyObject(AbstractRequest.class))).andReturn(response);
