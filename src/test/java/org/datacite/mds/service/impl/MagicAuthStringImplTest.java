@@ -12,6 +12,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.test.TestUtils;
+import org.easymock.EasyMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.easymock.PowerMock;
@@ -73,6 +74,15 @@ public class MagicAuthStringImplTest {
         assertFalse(service.isValidAuthString(null, "foobar"));
         assertFalse(service.isValidAuthString(user, null));
         assertTrue(service.getValidAuthStrings(null).isEmpty());
+    }
+    
+    @Test
+    public void testEmptyBasicAuthString() {
+        AllocatorOrDatacentre mockUser = EasyMock.createMock(AllocatorOrDatacentre.class);
+        EasyMock.expect(mockUser.getBaseAuthString()).andReturn(null);
+        EasyMock.replay(mockUser);
+        assertNull(service.getCurrentAuthString(mockUser));
+        EasyMock.verify(mockUser);
     }
     
     
