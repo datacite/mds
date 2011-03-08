@@ -1,6 +1,6 @@
 package org.datacite.mds.service.impl;
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 
 import net.handle.hdllib.AbstractMessage;
 import net.handle.hdllib.AbstractResponse;
@@ -37,7 +37,7 @@ public class HandleServiceImpl implements HandleService {
 
     private static final int ADMIN_RECORD_INDEX = 100;
 
-    private static final String DEFAULT_ENCODING = "UTF8";
+    private static final Charset DEFAULT_ENCODING = Charset.forName("UTF8");
 
     static final Logger log4j = Logger.getLogger(HandleServiceImpl.class);
 
@@ -80,9 +80,6 @@ public class HandleServiceImpl implements HandleService {
             } else {
                 log4j.debug("response code from Handle request: none - dummyMode on");
             }
-        } catch (UnsupportedEncodingException e) {
-            log4j.error("UnsupportedEncodingException", e);
-            throw new RuntimeException("UnsupportedEncodingException", e);
         } catch (net.handle.hdllib.HandleException e) {
             String message = "tried to register handle " + doi + " but failed: " + e.getMessage();
             log4j.error(message, e);
@@ -142,9 +139,6 @@ public class HandleServiceImpl implements HandleService {
         } catch (net.handle.hdllib.HandleException e) {
             String message = "tried to update handle " + doi + " but failed: " + e.getMessage();
             throw new HandleException(message, e);
-        } catch (UnsupportedEncodingException e) {
-            log4j.error("UnsupportedEncodingException", e);
-            throw new RuntimeException("UnsupportedEncodigException", e);
         }
     }
 }
