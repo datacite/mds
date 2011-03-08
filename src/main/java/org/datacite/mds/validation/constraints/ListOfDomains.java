@@ -21,6 +21,8 @@ import org.datacite.mds.validation.constraints.impl.ListOfDomainsValidator;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ListOfDomains {
     String message() default "{org.datacite.mds.validation.constraints.ListOfDomains.message}";
+    
+    String wildCard() default "*";
 
     Class<?>[] groups() default {};
 

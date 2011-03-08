@@ -26,6 +26,8 @@ import org.datacite.mds.validation.constraints.impl.MatchDomainValidator;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MatchDomain {
     String message() default "{org.datacite.mds.validation.constraints.MatchDomain.message}";
+    
+    String wildCard() default "*";
 
     Class<?>[] groups() default {};
 

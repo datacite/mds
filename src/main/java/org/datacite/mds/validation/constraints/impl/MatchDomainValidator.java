@@ -13,9 +13,11 @@ import org.datacite.mds.validation.constraints.MatchDomain;
 
 public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Dataset> {
     String defaultMessage;
+    String wildCard;
 
     public void initialize(MatchDomain constraintAnnotation) {
         defaultMessage = constraintAnnotation.message();
+        wildCard = constraintAnnotation.wildCard();
     }
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
@@ -28,7 +30,9 @@ public class MatchDomainValidator implements ConstraintValidator<MatchDomain, Da
         
         for (String domain : allowedDomains) {
             domain = domain.toLowerCase();
-            if (hostname.equals(domain) || hostname.endsWith("." + domain)) {
+            boolean matchWildCard = Utils.wildCardMatch(hostname, domain, wildCard);
+            boolean matchSubDomain = Utils.wildCardMatch(hostname, "*." + domain, wildCard); 
+            if (matchWildCard || matchSubDomain) {
                 return true;
             }
         }

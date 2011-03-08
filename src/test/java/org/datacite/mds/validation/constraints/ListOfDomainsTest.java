@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class ListOfDomainsTest extends AbstractContraintsTest {
-    @ListOfDomains
+    @ListOfDomains(wildCard = "#")
     String domains;
 
     @Test
@@ -19,6 +19,11 @@ public class ListOfDomainsTest extends AbstractContraintsTest {
         assertFalse(isValid("example.com/path"));
         assertFalse(isValid("http://example.com"));
         assertTrue(isValid("example.org,foo.bar.org,a.b.c.de"));
+
+        assertTrue(isValid("#"));
+        assertTrue(isValid("#.com"));
+        assertTrue(isValid("example.com,#.org"));
+        assertFalse(isValid("example.com,#.org,net"));
     }
 
     boolean isValid(String domains) {

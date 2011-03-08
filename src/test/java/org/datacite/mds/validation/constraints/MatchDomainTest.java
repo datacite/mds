@@ -21,7 +21,7 @@ public class MatchDomainTest extends AbstractContraintsTest {
     public void init() {
         // create simple datacentre with two allowed domains
         Datacentre datacentre = new Datacentre();
-        datacentre.setDomains("test.ORG,sub.domain.net");
+        datacentre.setDomains("test.ORG,sub.domain.net,*.com, *.eXample.*");
         dataset = new Dataset();
         dataset.setDatacentre(datacentre);
     }
@@ -39,7 +39,12 @@ public class MatchDomainTest extends AbstractContraintsTest {
         assertTrue(isValid("http://sub.domain.net/path"));
         assertFalse(isValid("http://subsub.domain.net/path"));
         assertTrue(isValid("http://sub.SUB.domain.net/path"));
-        
+
+        assertTrue(isValid("http://foobar.com"));
+        assertTrue(isValid("http://SUB.foobar.com"));
+        assertTrue(isValid("http://sub.Example.net"));
+        assertFalse(isValid("http://example.net"));
+
         dataset.setDatacentre(null);
         assertTrue(isValid("foobar"));
     }
