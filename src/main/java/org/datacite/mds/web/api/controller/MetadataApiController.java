@@ -119,12 +119,9 @@ public class MetadataApiController implements ApiController {
 
         SecurityUtils.checkDatasetOwnership(dataset, datacentre);
         
-        boolean wasActive = BooleanUtils.isTrue(dataset.getIsActive());
+        boolean wasActive = BooleanUtils.isNotFalse(dataset.getIsActive());
         if (!testMode) {
-            if (dataset.getIsActive() == null)
-                dataset.setIsActive(false);
-            else
-                dataset.setIsActive(!dataset.getIsActive());
+            dataset.setIsActive(!wasActive);
             dataset.merge();
             log4j.info(datacentre.getSymbol() + " successfuly " + (wasActive ? "deactivated " : " activated ") + doi);
         }
