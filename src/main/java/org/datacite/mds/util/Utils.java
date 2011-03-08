@@ -22,7 +22,7 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class Utils {
 
-    private static final String AZ_LOWER_CASE = "abcdefghijklmnopqrstuvxyz";
+    private static final String AZ_LOWER_CASE = "abcdefghijklmnopqrstuvwxyz";
     private static final String AZ_UPPER_CASE = AZ_LOWER_CASE.toUpperCase(Locale.ENGLISH);
 
     public static final Character CSV_SEPARATOR = ',';
