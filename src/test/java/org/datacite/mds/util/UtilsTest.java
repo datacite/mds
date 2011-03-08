@@ -1,6 +1,7 @@
 package org.datacite.mds.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -129,6 +130,29 @@ public class UtilsTest {
         public String convert(Object source) {
             return "#" + source.toString() + "#";
         }
+    }
+    
+    @Test
+    public void testWildCardMatch() {
+        assertFalse(Utils.wildCardMatch("abcdefg", "", "*"));
+        
+        assertTrue(Utils.wildCardMatch("abcdefg", "abcdefg", "*"));
+        assertTrue(Utils.wildCardMatch("abcde*fg", "*", "*"));
+        
+        assertTrue(Utils.wildCardMatch("abcde*fg", "ab*", "*"));
+        assertTrue(Utils.wildCardMatch("abcde*fg", "*cd*", "*"));
+        assertTrue(Utils.wildCardMatch("abcde*fg", "*fg", "*"));
+        
+        assertTrue(Utils.wildCardMatch("abcde*fg", "*b*d*", "*"));
+        assertTrue(Utils.wildCardMatch("abcde*fg", "a*b*c*d*e*f*g", "*"));
+        assertTrue(Utils.wildCardMatch("abcde*fg", "a***g", "*"));
+        
+        assertFalse(Utils.wildCardMatch("abc*defg", "b*", "*"));
+        assertFalse(Utils.wildCardMatch("abc*defg", "*z*", "*"));
+
+        assertFalse(Utils.wildCardMatch("abc*defg", "abc", "*"));
+        assertFalse(Utils.wildCardMatch("abc*defg", "de", "*"));
+        assertFalse(Utils.wildCardMatch("abc*defg", "fg", "*"));
     }
 
 }

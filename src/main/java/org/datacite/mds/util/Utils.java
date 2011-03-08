@@ -1,5 +1,6 @@
 package org.datacite.mds.util;
 
+import java.awt.datatransfer.StringSelection;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -188,6 +189,28 @@ public class Utils {
             list.add(converter.convert(entry));
         }
         return StringUtils.join(list, CSV_SEPARATOR);
+    }
+    
+    public static boolean wildCardMatch(String text, String pattern, String wildCard) {
+        if (StringUtils.isEmpty(pattern))
+            return false;
+        String[] parts = StringUtils.splitByWholeSeparator(pattern, wildCard);
+
+        String firstPart = parts[0];
+        String lastPart = parts[parts.length-1];
+        boolean leftMatch = pattern.startsWith(wildCard) || text.startsWith(firstPart);
+        boolean rightMatch = pattern.endsWith(wildCard) || text.endsWith(lastPart);
+        if (!leftMatch || !rightMatch)
+            return false;
+                
+        for (String part : parts) {
+            int pos = text.indexOf(part); 
+            if (pos == -1) 
+                return false;
+            text = text.substring(pos + part.length());
+        }
+        
+        return true;
     }
 
 }
