@@ -68,7 +68,7 @@ public class MetadataApiController implements ApiController {
                                              @RequestParam String doi,
                                              @RequestParam(required = false) String url, 
                                              @RequestParam(required = false) Boolean testMode,
-                                             HttpServletRequest httpRequest) throws ValidationException, NotFoundException, HandleException, SecurityException, UnsupportedEncodingException {
+                                             HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
 
         String method = httpRequest.getMethod();
         String logPrefix = "*****" + method + " metadata: ";
@@ -88,7 +88,14 @@ public class MetadataApiController implements ApiController {
         if (method.equals("POST")) {
             dataset = doiService.create(doi, url, testMode);
         } else { // PUT
-            dataset = doiService.update(doi, url, testMode);
+            try {
+				dataset = doiService.update(doi, url, testMode);
+			} catch (NotFoundException e) {
+				// This is workaround for 3rd parties who wants to integrate
+				// with MDS but are not able to figure out of metadata was
+				// already stored in MDS
+				dataset = doiService.create(doi, url, testMode);
+			}
         }
 
         log4j.debug(logPrefix + "dataset id = " + dataset.getId());

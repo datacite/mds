@@ -404,7 +404,11 @@ print $response->content;
 </util:tabs>
 
 <h3>PUT</h3>
-<p>This request adds a new version of metadata for existing dataset. The request body must contain valid XML. There is a request parameter doi. If optional parameter url exists, a DOI will be updated.</p>
+<p>This request adds a new version of metadata for existing dataset. The request body must contain valid XML. There
+ is a request parameter doi. If optional parameter url exists, a DOI will be updated.</p>
+<p>This method will behave as POST (above) if specified DOI was not present in the database - this requirement
+ stems from the fact that some users cannot determine if the first version of metadata was already stored or not. You 
+ still should strive to use POST and PUT as they were intended.</p>
 <code>Content-Type=application/xml;charset=UTF-8</code> 
 <h4>Request parameters</h4> 
 <p><code>doi</code> (mandatory) - DOI</p>
