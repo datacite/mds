@@ -89,13 +89,13 @@ public class MetadataApiController implements ApiController {
             dataset = doiService.create(doi, url, testMode);
         } else { // PUT
             try {
-				dataset = doiService.update(doi, url, testMode);
-			} catch (NotFoundException e) {
-				// This is workaround for 3rd parties who wants to integrate
-				// with MDS but are not able to figure out of metadata was
-				// already stored in MDS
-				dataset = doiService.create(doi, url, testMode);
-			}
+                dataset = doiService.update(doi, url, testMode);
+            } catch (NotFoundException e) {
+                // This is workaround for 3rd parties who wants to integrate
+                // with MDS but are not able to figure out of metadata was
+                // already stored in MDS
+                dataset = doiService.create(doi, url, testMode);
+            }
         }
 
         log4j.debug(logPrefix + "dataset id = " + dataset.getId());
