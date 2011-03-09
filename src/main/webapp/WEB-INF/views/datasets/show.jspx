@@ -7,9 +7,11 @@
         <util:comment messageCode="handle_latency_info"/>
         <field:display field="isActive" id="s_org_datacite_mds_domain_Dataset_isActive" object="${dataset}" z="+iKflUoWmGCa+/BloB8nbPxnrbI="/>
         <field:display field="isRefQuality" id="s_org_datacite_mds_domain_Dataset_isRefQuality" object="${dataset}" z="Pa2TcTvIA3/kRn3GSb4afhSP7vE="/>
-        <field:display field="lastLandingPageStatus" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatus" object="${dataset}" z="7qyzkqnseKzwOGknAcd9LKcUfgQ="/>
-        <field:display date="true" dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" object="${dataset}" z="RjT/GCkZDucN6TyaWGcAEzIq6jM="/>
-        <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
+        <util:hide>
+          <field:display field="lastLandingPageStatus" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatus" object="${dataset}" z="7qyzkqnseKzwOGknAcd9LKcUfgQ="/>
+          <field:display date="true" dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" object="${dataset}" z="RjT/GCkZDucN6TyaWGcAEzIq6jM="/>
+          <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
+        </util:hide>
         <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="false" z="user-managed"/>
         <field:display field="url" id="s_org_datacite_mds_domain_Dataset_url" object="${dataset}" render="false" z="user-managed"/>
         <field:display date="true" dateTimePattern="${dataset_created_date_format}" field="created" id="s_org_datacite_mds_domain_Dataset_created" object="${dataset}" z="d0NVtjb9qN+UTT5MHEFzN9SMDzU="/>
