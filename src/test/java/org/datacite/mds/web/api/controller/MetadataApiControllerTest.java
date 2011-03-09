@@ -119,7 +119,7 @@ public class MetadataApiControllerTest {
         return response.getStatusCode();
     }
     
-    @Test(expected = NotFoundException.class)
+    @Test
     public void testCreateOrUpdateNonExistingDatasetPUT() throws Exception {
         metadata.remove();
         dataset.remove();
