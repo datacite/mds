@@ -2,16 +2,21 @@ package org.datacite.mds.web.api.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.UnsupportedEncodingException;
+
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
+import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.test.TestUtils;
+import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.DeletedException;
 import org.datacite.mds.web.api.NotFoundException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +43,8 @@ public class MetadataApiControllerTest {
     String datacentreSymbol = allocatorSymbol + ".TEST";
     String prefix = "10.5072";
     String doi = prefix + "/1";
+    String url = "http://example.com";
+    String xml;
 
     Allocator allocator;
     Datacentre datacentre;
@@ -45,7 +52,8 @@ public class MetadataApiControllerTest {
     Dataset dataset;
     Metadata metadata;
 
-    public void initDb(boolean noMeta) throws Exception {
+    @Before
+    public void init() throws Exception {
         metadataApiController.doiService = doiService;
         metadataApiController.validationHelper = validationHelper;
 
@@ -64,119 +72,96 @@ public class MetadataApiControllerTest {
         dataset.setIsActive(true);
         dataset.persist();
 
-        if (!noMeta) {
-            metadata = new Metadata();
-            metadata.setDataset(dataset);
-            metadata.setXml(TestUtils.getTestMetadata());
-            metadata.persist();
-        }
+        metadata = new Metadata();
+        metadata.setDataset(dataset);
+        metadata.setXml(TestUtils.getTestMetadata());
+        metadata.persist();
+        
+        xml = new String(metadata.getXml(), "UTF-8");
 
         TestUtils.login(datacentre);
     }
-
+    
     @Test(expected = NotFoundException.class)
     public void testGet404() throws Exception {
-        initDb(true);
+        metadata.remove();
         metadataApiController.get(doi);
     }
 
     @Test(expected = NotFoundException.class)
     public void testGetNoDoi() throws Exception {
-        initDb(true);
         metadataApiController.get(doi + 1);
     }
 
     @Test
     public void testGet() throws Exception {
-        initDb(false);
         ResponseEntity<? extends Object> response = metadataApiController.get(doi);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test(expected = SecurityException.class)
     public void testGetForeignDataset() throws Exception {
-        initDb(false);
         TestUtils.login(datacentre2);
         metadataApiController.get(doi);
     }
 
     @Test
     public void testCreateOrUpdate() throws Exception {
-        initDb(false);
-        String xmlAsString = new String(TestUtils.getTestMetadata(), "UTF-8");
-        String url = "http://www.example.com";
+        HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, doi, url, null);
+        assertEquals(HttpStatus.CREATED, responseStatus);
+    }
+    
+    private HttpStatus createOrUpdateWithMethod(String method, String body, String doi, String url, Boolean testMode) throws Exception {
         MockHttpServletRequest httpRequest = new MockHttpServletRequest();
-        httpRequest.setMethod("PUT");
-        ResponseEntity<? extends Object> response = metadataApiController.createOrUpdate(xmlAsString, doi, url, null,
+        httpRequest.setMethod(method);
+        ResponseEntity<? extends Object> response = metadataApiController.createOrUpdate(body, doi, url, testMode,
                 httpRequest);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        return response.getStatusCode();
     }
 
     @Test
     public void testCreateOrUpdateTestMode() throws Exception {
-        initDb(false);
-        String xmlAsString = new String(TestUtils.getTestMetadata(), "UTF-8");
-        String url = "http://www.example.com";
-        MockHttpServletRequest httpRequest = new MockHttpServletRequest();
-        httpRequest.setMethod("PUT");
-        ResponseEntity<? extends Object> response = metadataApiController.createOrUpdate(xmlAsString, doi, url, true,
-                httpRequest);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, doi, url, true);
+        assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
     @Test(expected = SecurityException.class)
     public void testCreateOrUpdateForeignDataset() throws Exception {
-        initDb(true);
         TestUtils.login(datacentre2);
-        String xmlAsString = new String(TestUtils.getTestMetadata(), "UTF-8");
-        String url = "http://www.example.com";
-        MockHttpServletRequest httpRequest = new MockHttpServletRequest();
-        httpRequest.setMethod("PUT");
-        metadataApiController.createOrUpdate(xmlAsString, doi, url, false, httpRequest);
+        createOrUpdateWithMethod("PUT", xml, doi, url, false);
     }
 
     @Test
     public void testCreateOrUpdatePOST() throws Exception {
-        initDb(false);
-        String xmlAsString = new String(metadata.getXml(), "UTF-8");
-        String url = "http://www.example.com";
-        MockHttpServletRequest httpRequest = new MockHttpServletRequest();
-        httpRequest.setMethod("POST");
-        ResponseEntity<? extends Object> response = metadataApiController.createOrUpdate(xmlAsString, doi, url, false,
-                httpRequest);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        HttpStatus responseStatus = createOrUpdateWithMethod("POST", xml, doi, url, false);
+        assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
     @Test
     public void testDelete() throws Exception {
-        initDb(false);
         ResponseEntity<? extends Object> response = metadataApiController.delete(doi, null);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test(expected = SecurityException.class)
     public void testDeleteForeignDataset() throws Exception {
-        initDb(false);
         TestUtils.login(datacentre2);
-        ResponseEntity<? extends Object> response = metadataApiController.delete(doi, null);
+        metadataApiController.delete(doi, null);
     }
 
     @Test(expected = NotFoundException.class)
     public void testDelete404() throws Exception {
-        initDb(false);
         metadataApiController.delete(doi + 1, false);
     }
 
     @Test
     public void testDeleteTestMode() throws Exception {
-        initDb(false);
         ResponseEntity<? extends Object> response = metadataApiController.delete(doi, true);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void testUnDelete() throws Exception {
-        initDb(false);
         ResponseEntity<? extends Object> response = metadataApiController.delete(doi, false);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         response = metadataApiController.delete(doi, false);
@@ -186,7 +171,6 @@ public class MetadataApiControllerTest {
 
     @Test(expected = DeletedException.class)
     public void testGetDeleted() throws Exception {
-        initDb(false);
         metadataApiController.delete(doi, false);
         metadataApiController.get(doi);
     }
