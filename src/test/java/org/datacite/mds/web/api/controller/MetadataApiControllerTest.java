@@ -106,7 +106,7 @@ public class MetadataApiControllerTest {
     }
 
     @Test
-    public void testCreateOrUpdate() throws Exception {
+    public void testCreateOrUpdateExistingDatasetPUT() throws Exception {
         HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, doi, url, null);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
@@ -118,21 +118,37 @@ public class MetadataApiControllerTest {
                 httpRequest);
         return response.getStatusCode();
     }
+    
+    @Test(expected = NotFoundException.class)
+    public void testCreateOrUpdateNonExistingDatasetPUT() throws Exception {
+        metadata.remove();
+        dataset.remove();
+        HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, doi, url, false);
+        assertEquals(HttpStatus.CREATED, responseStatus);
+    }
 
     @Test
-    public void testCreateOrUpdateTestMode() throws Exception {
+    public void testCreateOrUpdateTestModePUT() throws Exception {
         HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, doi, url, true);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
     @Test(expected = SecurityException.class)
-    public void testCreateOrUpdateForeignDataset() throws Exception {
+    public void testCreateOrUpdateForeignDatasetPUT() throws Exception {
         TestUtils.login(datacentre2);
         createOrUpdateWithMethod("PUT", xml, doi, url, false);
     }
 
     @Test
     public void testCreateOrUpdatePOST() throws Exception {
+        HttpStatus responseStatus = createOrUpdateWithMethod("POST", xml, doi, url, false);
+        assertEquals(HttpStatus.CREATED, responseStatus);
+    }
+
+    @Test
+    public void testCreateOrUpdateNonExistingDatasetPOST() throws Exception {
+        metadata.remove();
+        dataset.remove();
         HttpStatus responseStatus = createOrUpdateWithMethod("POST", xml, doi, url, false);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
