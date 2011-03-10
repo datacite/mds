@@ -13,6 +13,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.validation.constraints.MatchDoi;
 import org.datacite.mds.validation.constraints.ValidXML;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RooJavaBean
 @RooToString
 @RooEntity
+@MatchDoi
 public class Metadata {
 
     private static Logger log4j = Logger.getLogger(Metadata.class);
