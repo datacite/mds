@@ -12,6 +12,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Metadata;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.MatchDoi;
 import org.xml.sax.InputSource;
@@ -21,15 +22,14 @@ public class MatchDoiValidator implements ConstraintValidator<MatchDoi, Metadata
 
     XPathExpression xPathExpression;
     String xPath = "//identifier[@identifierType='DOI']";
-    
-    
+
     public void initialize(MatchDoi constraintAnnotation) {
         defaultMessage = constraintAnnotation.message();
         initXPath();
     }
-    
+
     private void initXPath() {
-        XPathFactory factory = XPathFactory.newInstance(); 
+        XPathFactory factory = XPathFactory.newInstance();
         XPath xPath = factory.newXPath();
         try {
             xPathExpression = xPath.compile(this.xPath);
@@ -45,19 +45,18 @@ public class MatchDoiValidator implements ConstraintValidator<MatchDoi, Metadata
         String doiFromXml;
         try {
             doiFromXml = getDoiFromXml(metadata);
+            doiFromXml = Utils.normalizeDoi(doiFromXml);
         } catch (XPathExpressionException e) {
             return false;
         }
-        System.out.println(metadata.getDataset());
-        System.out.println(doiFromDataset + " ?= " + doiFromXml);
-        boolean isValid = StringUtils.equals(doiFromDataset, doiFromXml); 
+        boolean isValid = StringUtils.equals(doiFromDataset, doiFromXml);
         return isValid;
     }
-    
-    private String getDoiFromXml(Metadata metadata) throws XPathExpressionException  {
+
+    private String getDoiFromXml(Metadata metadata) throws XPathExpressionException {
         byte[] xml = metadata.getXml();
         InputStream stream = new ByteArrayInputStream(xml);
-        InputSource source = new InputSource(stream); 
+        InputSource source = new InputSource(stream);
         String doi = xPathExpression.evaluate(source);
         return doi;
     }
