@@ -76,10 +76,13 @@ public class MetadataApiController implements ApiController {
             testMode = false;
 
         log4j.debug(logPrefix + doi + ", url: " + url + " \ntestMode = " + testMode);
+        
+        Dataset dummyDataset = new Dataset();
+        dummyDataset.setDoi(doi);
 
         Metadata metadata = new Metadata();
         metadata.setXml(body.getBytes("UTF-8"));
-        metadata.setDataset(new Dataset());
+        metadata.setDataset(dummyDataset);
         
         validationHelper.validate(metadata);
         
