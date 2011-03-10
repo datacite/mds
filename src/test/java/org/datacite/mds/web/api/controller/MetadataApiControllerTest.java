@@ -12,6 +12,7 @@ import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.test.TestUtils;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.DeletedException;
@@ -41,8 +42,7 @@ public class MetadataApiControllerTest {
 
     String allocatorSymbol = "TEST";
     String datacentreSymbol = allocatorSymbol + ".TEST";
-    String prefix = "10.5072";
-    String doi = prefix + "/1";
+    String doi = "10.1594/WDCC/CCSRNIES_SRES_B2";
     String url = "http://example.com";
     String xml;
 
@@ -56,6 +56,8 @@ public class MetadataApiControllerTest {
     public void init() throws Exception {
         metadataApiController.doiService = doiService;
         metadataApiController.validationHelper = validationHelper;
+        
+        String prefix = Utils.getDoiPrefix(doi);
 
         allocator = TestUtils.createAllocator(allocatorSymbol);
         allocator.setPrefixes(TestUtils.createPrefixes(prefix));
