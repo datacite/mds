@@ -15,13 +15,16 @@ import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.MatchDoi;
+import org.springframework.beans.factory.annotation.Value;
 import org.xml.sax.InputSource;
 
 public class MatchDoiValidator implements ConstraintValidator<MatchDoi, Metadata> {
     String defaultMessage;
 
+    @Value("${xml.schema.default.doiXPath}")
+    String xPath;
+
     XPathExpression xPathExpression;
-    String xPath = "//identifier[@identifierType='DOI']";
 
     public void initialize(MatchDoi constraintAnnotation) {
         defaultMessage = constraintAnnotation.message();

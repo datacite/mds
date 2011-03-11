@@ -1,2 +1,3 @@
 xml.validation=true
 xml.schema.default=http://datacite.org/schema/datacite-metadata-v2.0.xsd
+xml.schema.default.doiXPath=//identifier[@identifierType='DOI']
