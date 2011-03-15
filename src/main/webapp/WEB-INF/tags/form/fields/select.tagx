@@ -11,6 +11,7 @@
   <jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" description="Indicates if this field is required (default false)" />
   <jsp:directive.attribute name="disabled" type="java.lang.Boolean" required="false" description="Specify if this field should be enabled" />
   <jsp:directive.attribute name="multiple" type="java.lang.Boolean" required="false" description="Specify if the select box should allow multiple selections" />
+  <jsp:directive.attribute name="twosided" type="java.lang.Boolean" required="false" description="Use two sided multi select (default true); has no effect if multiple=false" />
   <jsp:directive.attribute name="disableFormBinding" type="java.lang.Boolean" required="false" description="Set to true to disable Spring form binding" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
@@ -35,6 +36,10 @@
 
     <c:if test="${empty multiple}">
       <c:set value="false" var="multiple" />
+    </c:if>
+    
+    <c:if test="${empty twosided}">
+      <c:set value="true" var="twosided" />
     </c:if>
     
     <c:set var="sec_field">
@@ -88,6 +93,17 @@
           <c:choose>
             <c:when test="${multiple == false}">
               <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType: 'dijit.form.FilteringSelect', widgetAttrs : {hasDownArrow : ! ${readonly}, readOnly: ${readonly}}})); </script>
+            </c:when>
+            <c:when test="${twosided}">
+              <spring:url value="/resources/js/jquery.twosidedmultiselect.js" var="tsms_url" />
+              <script src="${tsms_url}" type="text/javascript"><!-- required for FF3 and Opera --></script>
+              <script type="text/javascript">
+                 $(document).ready(function() {
+                   select = $("#_${sec_field}_id");
+                   $(select).wrap('<div class="tsmswrapper"/>');
+                   $(select).twosidedmultiselect();
+                 });
+              </script>
             </c:when>
             <!-- disabled due to http://jira.springframework.org/browse/ROO-909 <c:otherwise> <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${field}_id', widgetType: 'dijit.form.MultiSelect', widgetAttrs : {}})); </script> </c:otherwise> -->
           </c:choose>

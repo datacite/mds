@@ -505,3 +505,39 @@ pre {
 .tabStripButton { 
     display: none
 }
+
+/* twosided multiselect */
+
+.tsmswrapper {
+    width: 300px;
+    float: left;
+}
+
+.tsmsselect {
+    width: 40%;
+    float: left;
+}
+
+.tsmsselect select {
+    width: 100%;
+}
+
+.tsmsoptions {
+    width: 20%;
+    float: left;
+}
+
+.tsmsoptions p {
+    margin: 2px;
+    text-align: center;
+    font-size: larger;
+    cursor: pointer;
+}
+
+.tsmsoptions p:hover {
+    color: White;
+    background-color: Silver;
+}
+                
+    
+            
