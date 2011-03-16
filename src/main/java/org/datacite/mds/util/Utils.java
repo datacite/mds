@@ -1,6 +1,5 @@
 package org.datacite.mds.util;
 
-import java.awt.datatransfer.StringSelection;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,6 +11,7 @@ import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
@@ -211,6 +211,13 @@ public class Utils {
         }
         
         return true;
+    }
+    
+    public static List<String> toSymbols(Collection<? extends AllocatorOrDatacentre> users) {
+        List<String> symbols = new ArrayList<String>();
+        for (AllocatorOrDatacentre user : users)
+            symbols.add(user.getSymbol());
+        return symbols;
     }
 
 }

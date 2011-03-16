@@ -1,5 +1,7 @@
 package org.datacite.mds.domain;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.DoiPrefix;
 import org.datacite.mds.validation.constraints.Unique;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -124,5 +127,26 @@ public class Prefix {
     public List<Allocator> getAllocators() {
         return Allocator.findAllocatorsByPrefix(this);
     }
+    
+    @Transient
+    public String getLabelWithAllocators() {
+        List<Allocator> allocators = getAllocators();
+        return getLabel(allocators);
+    }
+
+    @Transient
+    public String getLabelWithDatacentres() {
+        List<Datacentre> datacentres = Datacentre.findDatacentresByPrefix(this);
+        return getLabel(datacentres);
+    }
+
+    private String getLabel(List<? extends AllocatorOrDatacentre> users) {
+        List<String> symbols = Utils.toSymbols(users);
+        if (symbols.isEmpty())
+            return prefix;
+        else
+            return prefix + " " + symbols.toString();
+    }
+    
     
 }
