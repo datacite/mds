@@ -509,12 +509,11 @@ pre {
 /* twosided multiselect */
 
 .tsmswrapper {
-    width: 300px;
     float: left;
 }
 
 .tsmsselect {
-    width: 40%;
+    width: 300px;
     float: left;
 }
 
@@ -523,7 +522,7 @@ pre {
 }
 
 .tsmsoptions {
-    width: 20%;
+    width: 50px;
     float: left;
 }
 
