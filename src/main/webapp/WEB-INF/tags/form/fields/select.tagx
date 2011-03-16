@@ -7,6 +7,7 @@
   <jsp:directive.attribute name="items" type="java.util.Collection" required="true" description="The name of the collection displayed in the select box" />
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" description="The label used for this field, will default to a message bundle if not supplied" />
   <jsp:directive.attribute name="itemValue" type="java.lang.String" required="false" description="The identifier used as value in the select box (defaults to 'id' for non enum types)" />
+  <jsp:directive.attribute name="itemLabel" type="java.lang.String" required="false" description="The property used as label in the select box" />
   <jsp:directive.attribute name="readonly" type="java.lang.Boolean" required="false" description="Specify if this field should be readonly" />
   <jsp:directive.attribute name="required" type="java.lang.Boolean" required="false" description="Indicates if this field is required (default false)" />
   <jsp:directive.attribute name="disabled" type="java.lang.Boolean" required="false" description="Specify if this field should be enabled" />
@@ -83,7 +84,14 @@
                   </select>
                 </c:when>
                 <c:otherwise>
-                  <form:select id="_${sec_field}_id" items="${items}" path="${sec_field}" disabled="${disabled}" multiple="${multiple}" itemValue="${fn:escapeXml(itemValue)}" />
+                  <c:choose>
+                    <c:when test="${empty itemLabel}">
+                      <form:select id="_${sec_field}_id" items="${items}" path="${sec_field}" disabled="${disabled}" multiple="${multiple}" itemValue="${fn:escapeXml(itemValue)}" />
+                    </c:when>
+                    <c:otherwise>
+                      <form:select id="_${sec_field}_id" items="${items}" path="${sec_field}" disabled="${disabled}" multiple="${multiple}" itemValue="${fn:escapeXml(itemValue)}" itemLabel="${fn:escapeXml(itemLabel)}" />
+                    </c:otherwise>
+                  </c:choose>
                   <br />
                   <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
                 </c:otherwise>
