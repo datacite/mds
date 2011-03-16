@@ -539,5 +539,9 @@ pre {
     background-color: Silver;
 }
                 
-    
+.box ul {
+    margin: 0px;
+    padding-left: 20px;
+}
+              
             
