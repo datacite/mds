@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <c:set value="${not empty datacentre}" var="scopeDatacentre"/>
     <c:set value="${empty datacentre}" var="scopeAllocator"/>
@@ -16,7 +16,9 @@
     <page:show create="false" delete="false" id="ps_org_datacite_mds_userinfo_Permission" list="false" object="${allocator}" path="/datacentres" update="false" z="user-managed">
         <field:display field="domains" id="s_org_datacite_mds_domain_Datacentre_domains" object="${datacentre}" render="${scopeDatacentre}" z="user-managed"/>
         <field:display field="prefixes" id="s_org_datacite_mds_domain_Datacentre_prefixes" object="${datacentre}" render="${scopeDatacentre}" z="user-managed"/>
-        <field:display field="prefixes" id="s_org_datacite_mds_domain_Allocator_prefixes" object="${allocator}" render="${scopeAllocator}" z="user-managed"/>
+        <field:simple field="prefixes" id="s_org_datacite_mds_domain_Allocator_prefixes" render="${scopeAllocator}" z="user-managed">
+          <util:list items="${prefixes}"/>
+        </field:simple>
     </page:show>    
     <page:show create="false" delete="false" id="ps_org_datacite_mds_userinfo_Datacentre" list="false" object="${datacentre}" path="/datacentres" update="false" render="${scopeDatacentre}" z="user-managed">
         <field:display field="symbol" id="s_org_datacite_mds_domain_Datacentre_symbol" object="${datacentre}" z="user-managed"/>
