@@ -72,10 +72,6 @@ public class Metadata {
         setMetadataVersion(maxVersion + 1);
         setCreated(new Date());
         entityManager.persist(this);
-
-        Dataset refreshedDataset = Dataset.findDataset(getDataset().getId());
-        refreshedDataset.setUpdated(new Date());
-        entityManager.merge(refreshedDataset);
         
         log4j.info(getDataset().getDatacentre().getSymbol() + " successfuly stored metadata for " + getDataset().getDoi());
     }
