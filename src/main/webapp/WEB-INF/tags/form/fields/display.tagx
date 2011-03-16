@@ -1,4 +1,4 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
   <jsp:output omit-xml-declaration="yes" />
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" description="The identifier for this tag (do not change!)" />
@@ -11,12 +11,17 @@
   <jsp:directive.attribute name="link" type="java.lang.String" required="false" description="link to the given URL" />
   <jsp:directive.attribute name="linkTitle" type="java.lang.String" required="false" description="title param for the link" />
   <jsp:directive.attribute name="showPath" type="java.lang.String" required="false" description="path to show the reference entity" />
+  <jsp:directive.attribute name="useHtmlList" type="java.lang.Boolean" required="false" description="Indicate if collections are handled as html unordered lists (default 'true')" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
   <c:if test="${empty render or render}">
     <c:if test="${not empty object and empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
+    </c:if>
+    
+    <c:if test="${empty useHtmlList}">
+      <c:set value="true" var="useHtmlList"/>
     </c:if>
 
     <c:if test="${empty dateTimePattern}">
@@ -61,7 +66,15 @@
                 </a>
               </c:when>
               <c:otherwise>
-                <c:out value="${text}"/>
+                <spring:eval expression="object[field] instanceof T(java.util.Collection)" var="isCollection"/>
+                <c:choose>
+                  <c:when test="${useHtmlList and isCollection}">
+                    <util:list items="${object[field]}"/>
+                  </c:when>
+                  <c:otherwise>
+                    <c:out value="${text}"/>
+                  </c:otherwise>
+                </c:choose>
               </c:otherwise>
             </c:choose>
             <c:if test="${not empty showPath}">
