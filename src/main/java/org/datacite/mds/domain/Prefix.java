@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -118,4 +119,10 @@ public class Prefix {
             return false;
         return true;
     }
+
+    @Transient
+    public List<Allocator> getAllocators() {
+        return Allocator.findAllocatorsByPrefix(this);
+    }
+    
 }

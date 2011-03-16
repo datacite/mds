@@ -15,7 +15,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.log4j.Logger;
+import org.datacite.mds.util.Predicates;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Unique;
@@ -131,6 +134,14 @@ public class Allocator implements AllocatorOrDatacentre {
             return null;
         }
     }
+    
+    public static List<Allocator> findAllocatorsByPrefix (Prefix prefix) {
+        List<Allocator> list = findAllAllocators();
+        Predicate containsPrefix = Predicates.getAllocatorOrDatacentreContainsPrefixPredicate(prefix);
+        CollectionUtils.filter(list, containsPrefix);
+        return list;
+    }
+
 
     /**
      * calculate String to be used for magic auth key

@@ -1,5 +1,7 @@
 package org.datacite.mds.domain;
 
+import java.util.Set;
+
 public interface AllocatorOrDatacentre {
     
     AllocatorOrDatacentre merge();
@@ -26,5 +28,7 @@ public interface AllocatorOrDatacentre {
      * @return (unhashed) base part of the magic auth string
      */
     String getBaseAuthString();
+    
+    Set<Prefix> getPrefixes();
 
 }
