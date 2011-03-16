@@ -102,17 +102,18 @@
 			$This.attr("id", modifiedName).attr("name", modifiedName);
 			
 			// Create our element to hold the selections and the buttons for moving elements
-			var htmlBlock = "<div class=\"" + nameModifier + "options\">" +
-			"<p class=\"AddOne\" rel=\"" + newId + "\" title=\"Add Selected\">&rsaquo;</p>" +
-			"<p class=\"AddAll\" rel=\"" + newId + "\" title=\"Add All\">&raquo;</p>" +
-			"<p class=\"RemoveOne\" rel=\"" + newId + "\" title=\"Remove Selected\">&lsaquo;</p>" +
-			"<p class=\"RemoveAll\" rel=\"" + newId + "\" title=\"Remove All\">&laquo;</p>" +
-			"</div>" +
-			"<div class=\"" + nameModifier + "select\">" +
+			var navBlock = "<div class=\"" + nameModifier + "options\">" +
+			"<p class=\"AddOne\" rel=\"" + newId + "\" title=\"Add Selected\">&lsaquo;</p>" +
+			"<p class=\"AddAll\" rel=\"" + newId + "\" title=\"Add All\">&laquo;</p>" +
+			"<p class=\"RemoveOne\" rel=\"" + newId + "\" title=\"Remove Selected\">&rsaquo;</p>" +
+			"<p class=\"RemoveAll\" rel=\"" + newId + "\" title=\"Remove All\">&raquo;</p>" +
+			"</div>";
+			var selectBlock = "<div class=\"" + nameModifier + "select\">" +
 			"<select name=\"" + originalName + arrayName + "\" id=\"" + newId + "\" size=\"" + size + "\"multiple=\"multiple\" size=\"8\" class=\"" + originalClass + "TakeOver\"></select>" +
 			"</div>";
 	
-			$This.after(htmlBlock);
+			$This.before(selectBlock);
+			$This.before(navBlock);
 			$This.wrap("<div class=\"" + nameModifier + "select\" />");
 			
 			// Move existing selection to our elements
