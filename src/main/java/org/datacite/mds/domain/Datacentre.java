@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.log4j.Logger;
-import org.datacite.mds.util.Predicates;
+import org.datacite.mds.util.FilterPredicates;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.ListOfDomains;
@@ -295,7 +295,7 @@ public class Datacentre implements AllocatorOrDatacentre {
     
     public static List<Datacentre> findDatacentresByPrefix (Prefix prefix) {
         List<Datacentre> list = findAllDatacentres();
-        Predicate containsPrefix = Predicates.getAllocatorOrDatacentreContainsPrefixPredicate(prefix);
+        Predicate containsPrefix = FilterPredicates.getAllocatorOrDatacentreContainsPrefixPredicate(prefix);
         CollectionUtils.filter(list, containsPrefix);
         return list;
     }

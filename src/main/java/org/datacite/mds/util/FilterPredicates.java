@@ -4,7 +4,7 @@ import org.apache.commons.collections.Predicate;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Prefix;
 
-public class Predicates {
+public class FilterPredicates {
 
     public static Predicate getAllocatorOrDatacentreContainsPrefixPredicate(final Prefix prefix) {
         return new Predicate() {
