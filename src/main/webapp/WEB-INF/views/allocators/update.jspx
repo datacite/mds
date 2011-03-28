@@ -13,8 +13,8 @@
         <util:hide>
           <field:input field="roleName" id="c_org_datacite_mds_domain_Allocator_roleName" z="26Re+lbjoL5yhQzeHWO4YLIQkoo="/>
           <field:input field="password" id="c_org_datacite_mds_domain_Allocator_password" z="ULSM8btsFMG1/apDOfmcxzS6s2A="/>
-          <field:datetime dateTimePattern="${allocator_created_date_format}" field="created" id="c_org_datacite_mds_domain_Allocator_created" z="user-managed"/>
-          <field:datetime dateTimePattern="${allocator_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Allocator_updated" z="user-managed"/>
+          <field:input field="created" id="c_org_datacite_mds_domain_Allocator_created" z="user-managed"/>
+          <field:input field="updated" id="c_org_datacite_mds_domain_Allocator_updated" z="user-managed"/>
         </util:hide>
     </form:update>
 </div>

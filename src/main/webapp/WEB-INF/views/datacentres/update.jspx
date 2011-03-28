@@ -18,8 +18,8 @@
           <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" z="IiIfjcIiVFTDLjKbuE73lkxkuL0="/>
           <field:input field="password" id="c_org_datacite_mds_domain_Datacentre_password" z="JKR2n/5V0AGqVCP0XpXk2yTU6eI="/>
           <field:select field="allocator" id="c_org_datacite_mds_domain_Datacentre_allocator" itemValue="id" items="${allocators}" path="/allocators" required="true" z="Q9xGvmtIB6OgOU1WwA/0MeAzLEw="/>
-          <field:datetime dateTimePattern="${datacentre_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" z="user-managed"/>
-          <field:datetime dateTimePattern="${datacentre_created_date_format}" field="created" id="c_org_datacite_mds_domain_Datacentre_created" z="user-managed"/>
+          <field:input field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" z="user-managed"/>
+          <field:input field="created" id="c_org_datacite_mds_domain_Datacentre_created" z="user-managed"/>
         </util:hide>
     </form:update>
 </div>
