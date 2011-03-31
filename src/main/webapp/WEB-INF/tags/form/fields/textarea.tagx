@@ -39,7 +39,7 @@
       <br />
       <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
       <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType : 'dijit.form.SimpleTextarea', widgetAttrs : {disabled : ${disabled}}})); </script>
-      <util:tooltip id="_${sec_field}_id" messageCode="tooltip_${fn:toLowerCase(fn:substringAfter(id,'_'))}" messageText="${label}"/>
+      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" messageText="${label}"/>
     </div>
     <br />
 

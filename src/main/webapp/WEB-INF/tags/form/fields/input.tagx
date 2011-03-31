@@ -85,7 +85,7 @@
         </c:set>
         Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType : 'dijit.form.TextBox', widgetAttrs : {promptMessage: '${sec_field_validation}', invalidMessage: '${sec_field_invalid}', required: ${required}}})); 
       </script>
-      <util:tooltip id="_${sec_field}_id" messageCode="tooltip_${fn:toLowerCase(fn:substringAfter(id,'_'))}" messageText="${label}"/>
+      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" messageText="${label}"/>
     </div>
     <br />
   </c:if>

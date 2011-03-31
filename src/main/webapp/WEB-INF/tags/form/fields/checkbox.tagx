@@ -37,7 +37,7 @@
           <form:checkbox id="_${sec_field}_id" path="${sec_field}"/>
         </c:otherwise>
       </c:choose>
-      <util:tooltip id="_${sec_field}_id" messageCode="tooltip_${fn:toLowerCase(fn:substringAfter(id,'_'))}" messageText="${label}"/>
+      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" messageText="${label}"/>
     </div>
     <br />
   </c:if>
