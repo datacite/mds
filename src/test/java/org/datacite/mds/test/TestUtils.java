@@ -3,6 +3,7 @@ package org.datacite.mds.test;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,16 +16,31 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class TestUtils {
+
     
+    /**
+     * call a constructor of a given class even if it's private.
+     * @param cls
+     */
+    public static void callConstructor(final Class<?> cls) {
+        final Constructor<?> c = cls.getDeclaredConstructors()[0];
+        c.setAccessible(true);
+        try {
+            final Object n = c.newInstance((Object[]) null);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     public static void setUsernamePassword(String username, String password) {
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(username, password));
     }
-    
+
     public static String getCurrentUsername() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
-    
+
     public static void logout() {
         SecurityContextHolder.getContext().setAuthentication(null);
     }
@@ -89,21 +105,20 @@ public abstract class TestUtils {
         return prefixSet;
     }
 
-	public static byte[] getTestMetadata() throws IOException {
-		InputStream in = TestUtils.class.getClassLoader().getResourceAsStream(
-				"datacite-metadata-sample-v2.0.xml");
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try {
-			byte[] buffer = new byte[1024];
-			int n;
-			while ((n = in.read(buffer)) != -1) {
-				out.write(buffer, 0, n);
-			}
+    public static byte[] getTestMetadata() throws IOException {
+        InputStream in = TestUtils.class.getClassLoader().getResourceAsStream("datacite-metadata-sample-v2.0.xml");
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            byte[] buffer = new byte[1024];
+            int n;
+            while ((n = in.read(buffer)) != -1) {
+                out.write(buffer, 0, n);
+            }
 
-			return out.toByteArray();
-		} finally {
-			in.close();
-			out.close();
-		}
-	}
+            return out.toByteArray();
+        } finally {
+            in.close();
+            out.close();
+        }
+    }
 }

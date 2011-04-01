@@ -33,5 +33,11 @@ public class FilterPredicatesTest {
         predicate = FilterPredicates.getAllocatorOrDatacentreContainsPrefixPredicate(anotherPrefix);
         assertFalse(predicate.evaluate(allocator));
         assertFalse(predicate.evaluate(datacentre));
-}
+    }
+    
+    @Test
+    public void callConstructor() {
+        TestUtils.callConstructor(FilterPredicates.class);
+    }
+
 }

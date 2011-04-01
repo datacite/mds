@@ -85,5 +85,10 @@ public class DomainUtilsTest {
     public void testGetAdmin_NonExisting() {
         assertNull(DomainUtils.getAdmin());
     }
+    
+    @Test
+    public void callConstructor() {
+        TestUtils.callConstructor(DomainUtils.class);
+    }
 
 }

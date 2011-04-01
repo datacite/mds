@@ -2,6 +2,7 @@ package org.datacite.mds.util;
 
 import static org.junit.Assert.*;
 
+import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.util.ValidationUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,4 +58,10 @@ public class ValidationUtilsTest {
         assertFalse(ValidationUtils.isHostname("test.de/path"));
         assertFalse(ValidationUtils.isHostname("http://test.de"));
     }
+    
+    @Test
+    public void callConstructor() {
+        TestUtils.callConstructor(ValidationUtils.class);
+    }
+
 }
