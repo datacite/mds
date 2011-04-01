@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.datacite.mds.service.HandleException;
+import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MissingServletRequestParameterException;
