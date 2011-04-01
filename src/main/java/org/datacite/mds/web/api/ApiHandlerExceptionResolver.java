@@ -5,8 +5,9 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.datacite.mds.service.HandleException;
-import org.datacite.mds.service.SecurityException;
+//import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -72,19 +73,10 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         } else if (ex instanceof DeletedException) {
             response.sendError(HttpServletResponse.SC_GONE, ex.getMessage());
         } else {
-            logCauses(ex);
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "uncaught exception");
+            logger.warn("uncaught exception: " + ExceptionUtils.getThrowableList(ex));
+            String message = "uncaught exception (" + ex.getMessage() + ")";
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message);
         }
-    }
-
-    private void logCauses(Exception ex) {
-        String causes = ex.getMessage();
-        Throwable t = ex;
-        while (t.getCause() != null) {
-            causes += " --> " + t.getCause().getMessage();
-            t = t.getCause();
-        }
-        logger.debug(causes);
     }
 
     @Override
