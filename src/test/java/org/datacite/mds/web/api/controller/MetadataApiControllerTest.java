@@ -122,6 +122,12 @@ public class MetadataApiControllerTest {
         metadataApiController.get(doi);
     }
 
+    @Test(expected = SecurityException.class)
+    public void testGetNotLoggedIn() throws Exception {
+        TestUtils.logout();
+        metadataApiController.get(doi);
+    }
+
     @Test
     public void testCreateOrUpdateExistingDatasetPUT() throws Exception {
         HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, doi, url, null);
