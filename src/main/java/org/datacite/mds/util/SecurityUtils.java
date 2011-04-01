@@ -40,7 +40,7 @@ public class SecurityUtils {
     public static Allocator getCurrentAllocator() throws SecurityException {
         Allocator allocator = getCurrentAllocatorOrNull();
         if (allocator == null) {
-            throw new SecurityException("allocator not registered");
+            throw new SecurityException("not logged in as a allocator");
         }
         return allocator;
     }
@@ -56,7 +56,7 @@ public class SecurityUtils {
     public static Datacentre getCurrentDatacentre() throws SecurityException {
         Datacentre datacentre = getCurrentDatacentreOrNull();
         if (datacentre == null) {
-            throw new SecurityException("datacentre not registered");
+            throw new SecurityException("not logged in as a datacentre");
         }
         return datacentre;
     }
@@ -64,7 +64,7 @@ public class SecurityUtils {
     public static AllocatorOrDatacentre getCurrentAllocatorOrDatacentre() throws SecurityException {
         AllocatorOrDatacentre user = getCurrentAllocatorOrDatacentreOrNull();
         if (user == null) {
-            throw new SecurityException("datacentre or allocator not registered");
+            throw new SecurityException("not logged in as a datacentre or allocator");
         }
         return user;
     }
