@@ -47,7 +47,7 @@ public class MetadataApiController implements ApiController {
         
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
-            throw new NotFoundException("DOI doesn't exist");
+            throw new NotFoundException("DOI is unknown to MDS");
 
         SecurityUtils.checkDatasetOwnership(dataset, datacentre);
 
