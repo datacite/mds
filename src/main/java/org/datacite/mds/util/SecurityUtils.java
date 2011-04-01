@@ -1,6 +1,8 @@
 package org.datacite.mds.util;
 
-import org.apache.commons.lang.ObjectUtils;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
@@ -119,6 +121,31 @@ public class SecurityUtils {
         String userSymbol = user.getSymbol();
         if (!(userSymbol.equals(datacentreSymbol) || userSymbol.equals(allocatorSymbol)))
             throw new SecurityException("cannot access dataset which belongs to another party");
+    }
+    
+    private static List<String> ROLES = new ArrayList<String>() {
+        {
+            add("ROLE_DATACENTRE");
+            add("ROLE_ALLOCATOR");
+            add("ROLE_ADMIN");
+            add("ROLE_DEV");
+        }
+    };
+    
+    public static boolean isUserSuperiorTo(AllocatorOrDatacentre superior, AllocatorOrDatacentre inferior) {
+        int superiorLevel = ROLES.indexOf(superior.getRoleName());
+        int inferiorLevel = ROLES.indexOf(inferior.getRoleName());
+        
+        if (superiorLevel <= inferiorLevel)
+            return false;
+        else if (superiorLevel >= ROLES.indexOf("ROLE_ADMIN"))
+            return true;
+        else if (inferior instanceof Datacentre) {
+            Datacentre datacentre = (Datacentre) inferior;
+            return datacentre.getAllocator() == superior;
+        } else 
+            return false;
+        
     }
 
 }

@@ -1,5 +1,10 @@
 package org.datacite.mds.util;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import javax.validation.constraints.AssertTrue;
+
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
@@ -107,6 +112,47 @@ public class SecurityUtilsTest {
     public void testGetCurrentAllocator_LoggedInAsDatacentre() throws SecurityException {
         TestUtils.login(datacentre);
         SecurityUtils.getCurrentAllocator();
+    }
+    
+    @Test
+    public void testIsUserSuperiorTo() {
+        Allocator admin = TestUtils.createAllocator("ADMIN");
+        admin.setRoleName("ROLE_ADMIN");
+        Allocator dev = TestUtils.createAllocator("DEV");
+        dev.setRoleName("ROLE_DEV");
+        Allocator allocator = TestUtils.createAllocator("AL");
+        Datacentre datacentre = TestUtils.createDatacentre("AL.DC", allocator);
+        Allocator allocator2 = TestUtils.createAllocator("AL2");
+        
+        assertFalse(SecurityUtils.isUserSuperiorTo(dev, dev));
+        assertTrue(SecurityUtils.isUserSuperiorTo(dev, admin));
+        assertTrue(SecurityUtils.isUserSuperiorTo(dev, allocator));
+        assertTrue(SecurityUtils.isUserSuperiorTo(dev, allocator2));
+        assertTrue(SecurityUtils.isUserSuperiorTo(dev, datacentre));
+        
+        assertFalse(SecurityUtils.isUserSuperiorTo(admin, dev));
+        assertFalse(SecurityUtils.isUserSuperiorTo(admin, admin));
+        assertTrue(SecurityUtils.isUserSuperiorTo(admin, allocator));
+        assertTrue(SecurityUtils.isUserSuperiorTo(admin, allocator2));
+        assertTrue(SecurityUtils.isUserSuperiorTo(admin, datacentre));
+
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator, dev));
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator, admin));
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator, allocator));
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator, allocator2));
+        assertTrue(SecurityUtils.isUserSuperiorTo(allocator, datacentre));
+
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator2, dev));
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator2, admin));
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator2, allocator));
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator2, allocator2));
+        assertFalse(SecurityUtils.isUserSuperiorTo(allocator2, datacentre));
+
+        assertFalse(SecurityUtils.isUserSuperiorTo(datacentre, dev));
+        assertFalse(SecurityUtils.isUserSuperiorTo(datacentre, admin));
+        assertFalse(SecurityUtils.isUserSuperiorTo(datacentre, allocator));
+        assertFalse(SecurityUtils.isUserSuperiorTo(datacentre, allocator2));
+        assertFalse(SecurityUtils.isUserSuperiorTo(datacentre, datacentre));
     }
 
 
