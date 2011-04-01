@@ -55,7 +55,7 @@
                                                                         
         
                 <!-- static content -->
-                <security:intercept-url pattern="/resources/j_spring_security_switch_user" access="ROLE_DEV" />
+                <security:intercept-url pattern="/resources/j_spring_security_switch_user" access="ROLE_DEV,ROLE_ADMIN,ROLE_ALLOCATOR" />
                 <security:intercept-url pattern="/resources/**" />
                 <security:intercept-url pattern="/static/**" />
 		        <security:intercept-url pattern="/**" />
@@ -82,7 +82,7 @@
         <property name="userDetailsService" ref="myUserDetailsService"/>
     </bean>
     
-    <bean id="switchUserProcessingFilter" class="org.springframework.security.web.authentication.switchuser.SwitchUserFilter">
+    <bean id="switchUserProcessingFilter" class="org.datacite.mds.web.ui.SwitchUserFilter">
         <property name="userDetailsService" ref="myUserDetailsService" />
         <property name="switchUserUrl" value="/resources/j_spring_security_switch_user" />
         <property name="exitUserUrl" value="/resources/j_spring_security_exit_user" />
