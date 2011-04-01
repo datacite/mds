@@ -215,6 +215,8 @@ public class Utils {
     
     public static List<String> toSymbols(Collection<? extends AllocatorOrDatacentre> users) {
         List<String> symbols = new ArrayList<String>();
+        if (users == null)
+            return symbols;
         for (AllocatorOrDatacentre user : users)
             symbols.add(user.getSymbol());
         return symbols;
