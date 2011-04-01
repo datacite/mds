@@ -11,6 +11,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
+import org.datacite.mds.domain.Datacentre;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Test;
 import org.springframework.core.convert.converter.Converter;
 
@@ -103,11 +107,11 @@ public class UtilsTest {
     public void formatXml_invalid() throws Exception {
         Utils.formatXML("<foo></bar>");
     }
-    
+
     @Test
     public void testConvertCollectionToCsv() {
         String str = Utils.convertCollectionToCsv(testCollection, new SimpleConverter());
-        String expect = "#foo#" + Utils.CSV_SEPARATOR + "#42#" + Utils.CSV_SEPARATOR + "#bar#"; 
+        String expect = "#foo#" + Utils.CSV_SEPARATOR + "#42#" + Utils.CSV_SEPARATOR + "#bar#";
         assertEquals(expect, str);
     }
 
@@ -116,7 +120,7 @@ public class UtilsTest {
         String str = Utils.convertCollectionToCsv(null, new SimpleConverter());
         assertNull("", str);
     }
-    
+
     private Collection<Object> testCollection = new ArrayList<Object>() {
         {
             add("foo");
@@ -131,28 +135,54 @@ public class UtilsTest {
             return "#" + source.toString() + "#";
         }
     }
-    
+
     @Test
     public void testWildCardMatch() {
         assertFalse(Utils.wildCardMatch("abcdefg", "", "*"));
-        
+
         assertTrue(Utils.wildCardMatch("abcdefg", "abcdefg", "*"));
         assertTrue(Utils.wildCardMatch("abcde*fg", "*", "*"));
-        
+
         assertTrue(Utils.wildCardMatch("abcde*fg", "ab*", "*"));
         assertTrue(Utils.wildCardMatch("abcde*fg", "*cd*", "*"));
         assertTrue(Utils.wildCardMatch("abcde*fg", "*fg", "*"));
-        
+
         assertTrue(Utils.wildCardMatch("abcde*fg", "*b*d*", "*"));
         assertTrue(Utils.wildCardMatch("abcde*fg", "a*b*c*d*e*f*g", "*"));
         assertTrue(Utils.wildCardMatch("abcde*fg", "a***g", "*"));
-        
+
         assertFalse(Utils.wildCardMatch("abc*defg", "b*", "*"));
         assertFalse(Utils.wildCardMatch("abc*defg", "*z*", "*"));
 
         assertFalse(Utils.wildCardMatch("abc*defg", "abc", "*"));
         assertFalse(Utils.wildCardMatch("abc*defg", "de", "*"));
         assertFalse(Utils.wildCardMatch("abc*defg", "fg", "*"));
+    }
+
+    @Test
+    public void testToSymbols() {
+        Collection<AllocatorOrDatacentre> users = new ArrayList<AllocatorOrDatacentre>();
+        Allocator allocator = TestUtils.createAllocator("AL");
+        Datacentre datacentre = TestUtils.createDatacentre("AL.DC", allocator);
+        users.add(datacentre);
+        users.add(allocator);
+        List<String> symbols = Utils.toSymbols(users);
+        assertEquals(2, symbols.size());
+        assertTrue(symbols.contains("AL"));
+        assertTrue(symbols.contains("AL.DC"));
+    }
+
+    @Test
+    public void testToSymbolsNull() {
+        List<String> symbols = Utils.toSymbols(null);
+        assertTrue(symbols.isEmpty());
+    }
+
+    @Test
+    public void testToSymbolsEmptyCollection() {
+        Collection<AllocatorOrDatacentre> users = new ArrayList<AllocatorOrDatacentre>();
+        List<String> symbols = Utils.toSymbols(users);
+        assertTrue(symbols.isEmpty());
     }
 
 }
