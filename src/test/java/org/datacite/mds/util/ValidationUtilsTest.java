@@ -48,6 +48,8 @@ public class ValidationUtilsTest {
 
     @Test
     public void testIsHostname() {
+        assertFalse(ValidationUtils.isHostname(null));
+        assertFalse(ValidationUtils.isHostname(""));
         assertTrue(ValidationUtils.isHostname("test.de"));
         assertTrue(ValidationUtils.isHostname("täst.de"));
         assertTrue(ValidationUtils.isHostname("xn--hxajbheg2az3al.de"));
@@ -56,6 +58,8 @@ public class ValidationUtilsTest {
         assertFalse(ValidationUtils.isHostname("täst"));
         assertFalse(ValidationUtils.isHostname("test.de:80"));
         assertFalse(ValidationUtils.isHostname("test.de/path"));
+        assertFalse(ValidationUtils.isHostname("test.de?query"));
+        assertFalse(ValidationUtils.isHostname("test.de#fragment"));
         assertFalse(ValidationUtils.isHostname("http://test.de"));
     }
     

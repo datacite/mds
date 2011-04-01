@@ -1,6 +1,7 @@
 package org.datacite.mds.util;
 
 import java.net.IDN;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.validation.ConstraintValidatorContext;
@@ -97,8 +98,8 @@ public class ValidationUtils {
                 // url should be valid, e.g. "test.t" or "com" should be fail
                 return false;
             }
-        } catch (Exception ex) {
-            // url should be well formed
+        } catch (MalformedURLException ex) {
+            // unreachable, because URL is always constructed with known protocol
             return false;
         }
         return true;
