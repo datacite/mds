@@ -1,7 +1,9 @@
 package org.datacite.mds.util;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.SecurityException;
@@ -14,11 +16,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 public class SecurityUtils {
 
     private static Logger log4j = Logger.getLogger(SecurityUtils.class);
-    
+
     public static boolean isLoggedIn() {
         return getCurrentSymbolOrNull() != null;
     }
-    
+
     public static boolean isLoggedInAsAllocator() {
         return getCurrentAllocatorOrNull() != null;
     }
@@ -26,13 +28,13 @@ public class SecurityUtils {
     public static boolean isLoggedInAsDatacentre() {
         return getCurrentDatacentreOrNull() != null;
     }
-  
+
     /**
      * retrieves Allocator object matching symbol used for logging into
      * application
      * 
      * @return Allocator object
-     * @throws SecurityException 
+     * @throws SecurityException
      *             when not logged in as Allocator
      */
     public static Allocator getCurrentAllocator() throws SecurityException {
@@ -58,7 +60,15 @@ public class SecurityUtils {
         }
         return datacentre;
     }
-    
+
+    public static AllocatorOrDatacentre getCurrentAllocatorOrDatacentre() throws SecurityException {
+        AllocatorOrDatacentre user = getCurrentAllocatorOrDatacentreOrNull();
+        if (user == null) {
+            throw new SecurityException("datacentre or allocator not registered");
+        }
+        return user;
+    }
+
     private static Allocator getCurrentAllocatorOrNull() {
         String symbol = getCurrentSymbolOrNull();
         return Allocator.findAllocatorBySymbol(symbol);
@@ -68,7 +78,15 @@ public class SecurityUtils {
         String symbol = getCurrentSymbolOrNull();
         return Datacentre.findDatacentreBySymbol(symbol);
     }
-    
+
+    private static AllocatorOrDatacentre getCurrentAllocatorOrDatacentreOrNull() {
+        Datacentre datacentre = getCurrentDatacentreOrNull();
+        if (datacentre != null)
+            return datacentre;
+        else
+            return getCurrentAllocatorOrNull();
+    }
+
     private static String getCurrentSymbolOrNull() {
         log4j.debug("get current auth");
         Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
@@ -94,9 +112,12 @@ public class SecurityUtils {
             throw new SecurityException(message);
         }
     }
-    
-    public static void checkDatasetOwnership(Dataset dataset, Datacentre datacentre) throws SecurityException {
-        if (!datacentre.getSymbol().equals(dataset.getDatacentre().getSymbol()))
+
+    public static void checkDatasetOwnership(Dataset dataset, AllocatorOrDatacentre user) throws SecurityException {
+        String datacentreSymbol = dataset.getDatacentre().getSymbol();
+        String allocatorSymbol = dataset.getDatacentre().getAllocator().getSymbol();
+        String userSymbol = user.getSymbol();
+        if (!(userSymbol.equals(datacentreSymbol) || userSymbol.equals(allocatorSymbol)))
             throw new SecurityException("cannot access dataset which belongs to another party");
     }
 

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
@@ -43,13 +44,13 @@ public class MetadataApiController implements ApiController {
 
     @RequestMapping(value = "metadata", method = RequestMethod.GET)
     public ResponseEntity<? extends Object> get(@RequestParam String doi) throws SecurityException, NotFoundException, DeletedException {
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
+        AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
         
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
             throw new NotFoundException("DOI is unknown to MDS");
 
-        SecurityUtils.checkDatasetOwnership(dataset, datacentre);
+        SecurityUtils.checkDatasetOwnership(dataset, user);
 
         if (!dataset.getIsActive())
             throw new DeletedException("dataset inactive");

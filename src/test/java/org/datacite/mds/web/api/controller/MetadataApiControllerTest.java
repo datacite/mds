@@ -106,6 +106,21 @@ public class MetadataApiControllerTest {
         TestUtils.login(datacentre2);
         metadataApiController.get(doi);
     }
+    
+    @Test
+    public void testGetAsAllocator() throws Exception {
+        TestUtils.login(allocator);
+        ResponseEntity<? extends Object> response = metadataApiController.get(doi);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+    
+    @Test(expected = SecurityException.class)
+    public void testGetAsForeignAllocator() throws Exception {
+        Allocator allocator2 = TestUtils.createAllocator("OTHER");
+        allocator2.persist();
+        TestUtils.login(allocator2);
+        metadataApiController.get(doi);
+    }
 
     @Test
     public void testCreateOrUpdateExistingDatasetPUT() throws Exception {
@@ -140,6 +155,12 @@ public class MetadataApiControllerTest {
         TestUtils.login(datacentre2);
         createOrUpdateWithMethod("PUT", xml, doi, url, false);
     }
+    
+    @Test(expected = SecurityException.class)
+    public void testCreateOrUpdateAsAllocator() throws Exception {
+        TestUtils.login(allocator);
+        createOrUpdateWithMethod("PUT", xml, doi, url, false);
+    }
 
     @Test
     public void testCreateOrUpdatePOST() throws Exception {
@@ -164,6 +185,12 @@ public class MetadataApiControllerTest {
     @Test(expected = SecurityException.class)
     public void testDeleteForeignDataset() throws Exception {
         TestUtils.login(datacentre2);
+        metadataApiController.delete(doi, null);
+    }
+
+    @Test(expected = SecurityException.class)
+    public void testDeleteAsAllocator() throws Exception {
+        TestUtils.login(allocator);
         metadataApiController.delete(doi, null);
     }
 

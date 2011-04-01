@@ -41,7 +41,7 @@
                 <!-- API -->
                 <security:intercept-url pattern="/datacentre/**" access="ROLE_ALLOCATOR" />
                 <security:intercept-url pattern="/doi/**" access="ROLE_DATACENTRE" />
-                <security:intercept-url pattern="/metadata/**" access="ROLE_DATACENTRE" />
+                <security:intercept-url pattern="/metadata/**" access="ROLE_DATACENTRE,ROLE_ALLOCATOR" />
                 <security:intercept-url pattern="/oaisource/**" access="ROLE_ADMIN,ROLE_DEV" />
                 
                 <!-- UI -->
