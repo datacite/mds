@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.datacite.mds.domain.Allocator;
@@ -19,6 +20,7 @@ import org.datacite.mds.service.MailService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.Converters;
+import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
@@ -123,12 +125,13 @@ public class DatacentreController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
+    public String create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
             return "datacentres/create";
         }
         datacentre.persist();
+        UiUtils.refreshSymbolsForSwitchUser(session);
         
         MailMessage mail = mailMessageFactory.createWelcomeDatacentreMail(datacentre);
         mailService.sendAsync(mail);

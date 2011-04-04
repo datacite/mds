@@ -2,6 +2,7 @@ package org.datacite.mds.web.ui.controller;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.datacite.mds.domain.Allocator;
@@ -10,6 +11,7 @@ import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
 import org.datacite.mds.web.ui.Converters;
+import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
@@ -60,12 +62,13 @@ public class AllocatorController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@Valid Allocator allocator, BindingResult result, Model model, HttpServletRequest request) {
+    public String create(@Valid Allocator allocator, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
             return "allocators/create";
         }
         allocator.persist();
+        UiUtils.refreshSymbolsForSwitchUser(session);
         
         MailMessage mail = mailMessageFactory.createWelcomeAllocatorMail(allocator);
         mailService.sendAsync(mail);
