@@ -33,11 +33,9 @@ public class UiUtilsTest {
 
     @Before
     public void init() {
-        admin = TestUtils.createAllocator("ADMIN");
-        admin.setRoleName("ROLE_ADMIN");
+        admin = TestUtils.createAdmin("ADMIN");
         admin.persist();
-        dev = TestUtils.createAllocator("DEV");
-        dev.setRoleName("ROLE_DEV");
+        dev = TestUtils.createDev("DEV");
         dev.persist();
         allocator = TestUtils.createAllocator("AL");
         allocator.persist();

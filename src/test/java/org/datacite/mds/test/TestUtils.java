@@ -66,6 +66,18 @@ public abstract class TestUtils {
         allocator.setRoleName("ROLE_ALLOCATOR");
         return allocator;
     }
+    
+    public static Allocator createAdmin(String symbol) {
+        Allocator admin = createAllocator(symbol);
+        admin.setRoleName("ROLE_ADMIN");
+        return admin;
+    }
+
+    public static Allocator createDev(String symbol) {
+        Allocator dev = createAllocator(symbol);
+        dev.setRoleName("ROLE_DEV");
+        return dev;
+    }
 
     public static Datacentre createDatacentre(String symbol, Allocator allocator) {
         Datacentre datacentre = new Datacentre();

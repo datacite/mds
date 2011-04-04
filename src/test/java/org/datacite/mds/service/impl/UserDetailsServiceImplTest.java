@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
+import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.util.DomainUtils;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -29,11 +30,7 @@ public class UserDetailsServiceImplTest {
 
     @Before
     public void init() {
-        user = new Allocator();
-        user.setSymbol("DUMMY");
-        user.setPassword("password");
-        user.setRoleName("MY_ROLE");
-        user.setIsActive(true);
+        user = TestUtils.createAllocator("DUMMY");
         PowerMock.mockStatic(DomainUtils.class);
     }
     

@@ -75,8 +75,7 @@ public class DomainUtilsTest {
 
     @Test
     public void testGetAdmin() {
-        Allocator admin = TestUtils.createAllocator("ADMIN");
-        admin.setRoleName("ROLE_ADMIN");
+        Allocator admin = TestUtils.createAdmin("ADMIN");
         admin.persist();
         assertEquals(admin, DomainUtils.getAdmin());
     }
