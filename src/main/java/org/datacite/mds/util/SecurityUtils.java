@@ -1,8 +1,11 @@
 package org.datacite.mds.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
@@ -122,7 +125,7 @@ public class SecurityUtils {
         if (!(userSymbol.equals(datacentreSymbol) || userSymbol.equals(allocatorSymbol)))
             throw new SecurityException("cannot access dataset which belongs to another party");
     }
-    
+
     private static List<String> ROLES = new ArrayList<String>() {
         {
             add("ROLE_DATACENTRE");
@@ -131,11 +134,11 @@ public class SecurityUtils {
             add("ROLE_DEV");
         }
     };
-    
+
     public static boolean isUserSuperiorTo(AllocatorOrDatacentre superior, AllocatorOrDatacentre inferior) {
         int superiorLevel = ROLES.indexOf(superior.getRoleName());
         int inferiorLevel = ROLES.indexOf(inferior.getRoleName());
-        
+
         if (superiorLevel <= inferiorLevel)
             return false;
         else if (superiorLevel >= ROLES.indexOf("ROLE_ADMIN"))
@@ -143,9 +146,25 @@ public class SecurityUtils {
         else if (inferior instanceof Datacentre) {
             Datacentre datacentre = (Datacentre) inferior;
             return datacentre.getAllocator() == superior;
-        } else 
+        } else
             return false;
-        
+    }
+
+    public static Collection<? extends AllocatorOrDatacentre> getDirectInferiorsOfCurrentAllocator() {
+        try {
+            Collection<? extends AllocatorOrDatacentre> users;
+            Allocator allocator = getCurrentAllocator();
+            if (allocator.getRoleName().equals("ROLE_ALLOCATOR"))
+                users = Datacentre.findAllDatacentresByAllocator(allocator);
+            else
+                users = Allocator.findAllAllocators();
+
+            Predicate inferiorPredicate = FilterPredicates.getAllocatorOrDatacentreIsInferiorOfPredicate(allocator);
+            CollectionUtils.filter(users, inferiorPredicate);
+            return users;
+        } catch (SecurityException e) {
+            return new ArrayList<AllocatorOrDatacentre>();
+        }
     }
 
 }

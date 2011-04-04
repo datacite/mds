@@ -15,5 +15,16 @@ public class FilterPredicates {
             }
         };
     }
+    
+    public static Predicate getAllocatorOrDatacentreIsInferiorOfPredicate(final AllocatorOrDatacentre superior) {
+        return new Predicate() {
+            @Override
+            public boolean evaluate(Object object) {
+                AllocatorOrDatacentre inferior = (AllocatorOrDatacentre) object;
+                return SecurityUtils.isUserSuperiorTo(superior, inferior);
+            }
+        };
+    }
+    
 
 }
