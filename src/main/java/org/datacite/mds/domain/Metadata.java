@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -45,9 +46,13 @@ public class Metadata {
     @JoinColumn
     private Dataset dataset;
 
+    @Transient
+    private Query maxMetaVerQuery;
+
     public static Integer findMaxMetadataVersionByDataset(Dataset dataset) {
         if (dataset == null)
             throw new IllegalArgumentException("The dataset argument is required");
+        
         EntityManager em = entityManager();
         Query q = em.createQuery("SELECT MAX(metadataVersion) FROM Metadata WHERE dataset = :dataset");
         q.setParameter("dataset", dataset);
@@ -59,11 +64,17 @@ public class Metadata {
     public void persist() {
         if (this.entityManager == null)
             this.entityManager = entityManager();
-        Integer maxVersion = findMaxMetadataVersionByDataset(getDataset());
+        if (maxMetaVerQuery == null)
+            maxMetaVerQuery = entityManager.
+              createQuery("SELECT MAX(metadataVersion) FROM Metadata WHERE dataset = :dataset");
+        
+        maxMetaVerQuery.setParameter("dataset", getDataset());
+        Integer max = (Integer) maxMetaVerQuery.getSingleResult();
+        Integer maxVersion = max == null ? -1 : max;
         setMetadataVersion(maxVersion + 1);
         setCreated(new Date());
-        getDataset().setUpdated(new Date());
-        this.entityManager.persist(this);
+        entityManager.persist(this);
+        
         log4j.info(getDataset().getDatacentre().getSymbol() + " successfuly stored metadata for " + getDataset().getDoi());
     }
 
