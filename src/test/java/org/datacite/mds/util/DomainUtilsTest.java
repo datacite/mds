@@ -36,13 +36,10 @@ public class DomainUtilsTest {
     @Before
     public void init() {
         allocator1 = TestUtils.createAllocator(ALLOCATOR1_SYMBOL);
-        allocator1.persist();
         allocator2 = TestUtils.createAllocator(ALLOCATOR2_SYMBOL);
-        allocator2.persist();
         datacentre1 = TestUtils.createDatacentre(DATACENTRE1_SYMBOL, allocator1);
-        datacentre1.persist();
         datacentre2 = TestUtils.createDatacentre(DATACENTRE2_SYMBOL, allocator1);
-        datacentre2.persist();
+        TestUtils.persist(allocator1, allocator2, datacentre1, datacentre2);
     }
 
     @Test

@@ -34,25 +34,21 @@ public class UiUtilsTest {
     @Before
     public void init() {
         admin = TestUtils.createAdmin("ADMIN");
-        admin.persist();
         dev = TestUtils.createDev("DEV");
-        dev.persist();
         allocator = TestUtils.createAllocator("AL");
-        allocator.persist();
         datacentre = TestUtils.createDatacentre("AL.DC", allocator);
-        datacentre.persist();
         allocator2 = TestUtils.createAllocator("AL2");
-        allocator2.persist();
+        TestUtils.persist(admin, dev, allocator, allocator2, datacentre);
         session = new MockHttpSession();
     }
-    
+
     @Test
     public void testRefreshSymbolsForSwitchUser() {
-        assertEquals(",ADMIN,AL,AL2",getSymbolsFor(dev));
-        assertEquals(",AL,AL2",getSymbolsFor(admin));
-        assertEquals(",AL.DC",getSymbolsFor(allocator));
-        assertEquals("",getSymbolsFor(allocator2));
-        assertEquals("",getSymbolsFor(datacentre));
+        assertEquals(",ADMIN,AL,AL2", getSymbolsFor(dev));
+        assertEquals(",AL,AL2", getSymbolsFor(admin));
+        assertEquals(",AL.DC", getSymbolsFor(allocator));
+        assertEquals("", getSymbolsFor(allocator2));
+        assertEquals("", getSymbolsFor(datacentre));
     }
 
     @SuppressWarnings("unchecked")
@@ -60,9 +56,9 @@ public class UiUtilsTest {
         TestUtils.login(user);
         UiUtils.refreshSymbolsForSwitchUser(session);
         Collection<String> symbols = (Collection<String>) session.getAttribute("symbols");
-        return StringUtils.join(symbols,",");
+        return StringUtils.join(symbols, ",");
     }
-    
+
     @Test
     public void callConstructor() {
         TestUtils.callConstructor(UiUtils.class);

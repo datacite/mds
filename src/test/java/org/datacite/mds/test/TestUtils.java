@@ -17,9 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 public abstract class TestUtils {
 
-    
     /**
      * call a constructor of a given class even if it's private.
+     * 
      * @param cls
      */
     public static void callConstructor(final Class<?> cls) {
@@ -53,6 +53,15 @@ public abstract class TestUtils {
         }
     }
 
+    public static void persist(Object... objects) {
+        for (Object object : objects) {
+            if (object instanceof AllocatorOrDatacentre)
+                ((AllocatorOrDatacentre) object).persist();
+            else
+                throw new IllegalArgumentException("unknown type");
+        }
+    }
+
     public static Allocator createAllocator(String symbol) {
         Allocator allocator = new Allocator();
         allocator.setSymbol(symbol);
@@ -66,7 +75,7 @@ public abstract class TestUtils {
         allocator.setRoleName("ROLE_ALLOCATOR");
         return allocator;
     }
-    
+
     public static Allocator createAdmin(String symbol) {
         Allocator admin = createAllocator(symbol);
         admin.setRoleName("ROLE_ADMIN");
