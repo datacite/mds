@@ -14,7 +14,7 @@
 
   <script language="JavaScript" type="text/javascript">
     dojo.require("dojox.highlight");
-    dojo.require("dojox.highlight.languages.${dojo_class}");
+    dojo.require("dojox.highlight.languages.${dojo_class}", true);
   </script>
 
   <c:set var="text"><jsp:doBody /></c:set>
