@@ -10,7 +10,7 @@ function autoTOC(rootId, tocId, depth, cssClassPrefix, anchorPrefix) {
 		var anchorName = anchorPrefix + "-" + anchor;
 		var cssClass = cssClassPrefix + "-h" + level;
 		var li = dojo.create("li", {
-			class : cssClass
+			"class" : cssClass
 		}, toc);
 		var link = dojo.create("a", {
 			href : "#" + anchorName,
