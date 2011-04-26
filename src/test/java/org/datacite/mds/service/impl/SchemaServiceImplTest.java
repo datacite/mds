@@ -1,6 +1,9 @@
 package org.datacite.mds.service.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import javax.xml.validation.Validator;
+
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.validation.ValidationException;
@@ -9,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXParseException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
@@ -39,5 +43,15 @@ public class SchemaServiceImplTest {
         String xml = "<root/>";
         metadata.setXml(xml.getBytes());
         String schemaLocation = service.getSchemaLocation(metadata);
+    }
+    
+    @Test
+    public void getSchemaValidator() throws Exception {
+        service.getSchemaValidator("http://datacite.org/schema/datacite-metadata-v2.1.xsd");
+    }
+
+    @Test(expected = SAXParseException.class)
+    public void getSchemaValidatorNonExisting() throws Exception {
+        service.getSchemaValidator("file://foobar.xsd");
     }
 }

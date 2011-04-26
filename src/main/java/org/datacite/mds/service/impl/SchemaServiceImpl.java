@@ -3,16 +3,22 @@ package org.datacite.mds.service.impl;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import javax.xml.stream.FactoryConfigurationError;
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.validation.ValidationException;
 import org.springframework.stereotype.Service;
+import org.xml.sax.SAXException;
 
 @Service
 public class SchemaServiceImpl implements SchemaService {
@@ -74,6 +80,15 @@ public class SchemaServiceImpl implements SchemaService {
                 return uri;
         }
         return null;
+    }
+
+    @Override
+    public Validator getSchemaValidator(String schemaLocation) throws SAXException {
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Source schemaSource = new StreamSource(schemaLocation);
+        Schema schema = schemaFactory.newSchema(schemaSource);
+        Validator validator = schema.newValidator();
+        return validator;
     }
 
 }
