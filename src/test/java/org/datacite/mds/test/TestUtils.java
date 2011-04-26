@@ -125,9 +125,21 @@ public abstract class TestUtils {
         }
         return prefixSet;
     }
-
+    
     public static byte[] getTestMetadata() throws IOException {
-        InputStream in = TestUtils.class.getClassLoader().getResourceAsStream("datacite-metadata-sample-v2.0.xml");
+        return getTestMetadata20();
+    }
+
+    public static byte[] getTestMetadata20() throws IOException {
+        return getTestMetadata("datacite-metadata-sample-v2.0.xml");
+    }
+    
+    public static byte[] getTestMetadata21() throws IOException {
+        return getTestMetadata("datacite-metadata-sample-v2.1.xml");
+    }
+    
+    private static byte[] getTestMetadata(String filename) throws IOException {
+        InputStream in = TestUtils.class.getClassLoader().getResourceAsStream(filename);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         try {
             byte[] buffer = new byte[1024];
