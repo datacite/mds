@@ -14,7 +14,6 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.apache.commons.lang.StringUtils;
-import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.validation.ValidationException;
 import org.springframework.stereotype.Service;
@@ -26,9 +25,9 @@ public class SchemaServiceImpl implements SchemaService {
     public static final String XSI_NAMESPACE_URI = "http://www.w3.org/2001/XMLSchema-instance";
 
     @Override
-    public String getSchemaLocation(Metadata metadata) throws ValidationException {
+    public String getSchemaLocation(byte[] xml) throws ValidationException {
         try {
-            XMLStreamReader xmlStreamReader = createStreamReader(metadata);
+            XMLStreamReader xmlStreamReader = createStreamReader(xml);
             seekRootElement(xmlStreamReader);
             return parseRootElement(xmlStreamReader);
         } catch (XMLStreamException e) {
@@ -37,10 +36,10 @@ public class SchemaServiceImpl implements SchemaService {
         }
     }
 
-    private XMLStreamReader createStreamReader(Metadata metadata) throws XMLStreamException {
-        InputStream xml = new ByteArrayInputStream(metadata.getXml());
+    private XMLStreamReader createStreamReader(byte[] xml) throws XMLStreamException {
+        InputStream xmlStream = new ByteArrayInputStream(xml);
         XMLInputFactory xmlInputFactory = XMLInputFactory.newInstance();
-        XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(xml);
+        XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(xmlStream);
         return xmlStreamReader;
     }
 
