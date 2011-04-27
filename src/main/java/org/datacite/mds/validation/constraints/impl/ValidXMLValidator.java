@@ -9,12 +9,14 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Validator;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.ValidXML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -29,6 +31,9 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
 
     boolean enabled;
     
+    @Value("${xml.schema.location.prefix}")
+    String schemaLocationPrefix;
+    
     @Autowired
     SchemaService schemaService;
 
@@ -38,6 +43,7 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
         }
         log.debug("init: xsd=" + getXsd());
         log.debug("init: enabled=" + isEnabled());
+        log.debug("init: schemaLocationPrefix=" + schemaLocationPrefix);
     }
 
     public boolean isValid(byte[] xml, ConstraintValidatorContext context) {
@@ -64,6 +70,8 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
     private void checkValidity(byte[] xml) throws Exception {
         String schemaLocation = schemaService.getSchemaLocation(xml);
         log.debug("schemaLocation=" + schemaLocation);
+        if (!StringUtils.startsWithIgnoreCase(schemaLocation, schemaLocationPrefix))
+            throw new Exception("schemaLocation does not start with '" + schemaLocationPrefix + "'");
         Validator validator = schemaService.getSchemaValidator(schemaLocation);
         InputStream xmlStream = new ByteArrayInputStream(xml);
         Source xmlSource = new StreamSource(xmlStream);
