@@ -63,7 +63,7 @@ A sample XML document describing metadata is presented here:</p>
 
 <util:highlight lang="xml">
 <![CDATA[
-<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="datacite-metadata-v2.0.xsd" lastMetadataUpdate="2006-05-04" metadataVersionNumber="1">
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://datacite.org/schema/datacite-metadata-v2.0.xsd" lastMetadataUpdate="2006-05-04" metadataVersionNumber="1">
 	<identifier identifierType="DOI">10.1594/WDCC/CCSRNIES_SRES_B2</identifier>
 	<creators>
 		<creator>
