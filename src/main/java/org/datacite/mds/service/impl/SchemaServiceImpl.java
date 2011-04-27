@@ -2,6 +2,8 @@ package org.datacite.mds.service.impl;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLInputFactory;
@@ -14,8 +16,10 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.validation.ValidationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -23,6 +27,17 @@ import org.xml.sax.SAXException;
 public class SchemaServiceImpl implements SchemaService {
 
     public static final String XSI_NAMESPACE_URI = "http://www.w3.org/2001/XMLSchema-instance";
+
+    private static Logger log4j = Logger.getLogger(SchemaServiceImpl.class);
+
+    Map<String, Validator> validatorCache;
+
+    @Value("${xml.schema.caching}")
+    boolean validatorCacheEnabled;
+
+    public SchemaServiceImpl() {
+        validatorCache = new ConcurrentHashMap<String, Validator>();
+    }
 
     @Override
     public String getSchemaLocation(byte[] xml) throws ValidationException {
@@ -55,7 +70,7 @@ public class SchemaServiceImpl implements SchemaService {
     private String parseRootElement(XMLStreamReader root) throws ValidationException {
         String location = null;
         String rootNamespace = root.getNamespaceURI();
-        
+
         if (StringUtils.isEmpty(rootNamespace)) {
             location = root.getAttributeValue(XSI_NAMESPACE_URI, "noNamespaceSchemaLocation");
         } else {
@@ -74,7 +89,7 @@ public class SchemaServiceImpl implements SchemaService {
         int maxIndex = locations.length - 1;
         for (int i = 0; i < maxIndex; i += 2) {
             String ns = locations[i];
-            String uri = locations[i+1];
+            String uri = locations[i + 1];
             if (StringUtils.equals(rootNamespace, ns))
                 return uri;
         }
@@ -83,6 +98,26 @@ public class SchemaServiceImpl implements SchemaService {
 
     @Override
     public Validator getSchemaValidator(String schemaLocation) throws SAXException {
+        if (validatorCacheEnabled)
+            return getCachedSchemaValidator(schemaLocation);
+        else
+            return getFreshSchemaValidator(schemaLocation);
+    }
+
+    private Validator getCachedSchemaValidator(String schemaLocation) throws SAXException {
+        Validator validator;
+        if (validatorCache.containsKey(schemaLocation)) {
+            log4j.debug("cache-hit for '" + schemaLocation + "'");
+            validator = validatorCache.get(schemaLocation);
+        } else {
+            log4j.debug("cache-miss for '" + schemaLocation + "'");
+            validator = getFreshSchemaValidator(schemaLocation);
+            validatorCache.put(schemaLocation, validator);
+        }
+        return validator;
+    }
+
+    private Validator getFreshSchemaValidator(String schemaLocation) throws SAXException {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Source schemaSource = new StreamSource(schemaLocation);
         Schema schema = schemaFactory.newSchema(schemaSource);
