@@ -22,7 +22,7 @@ public class SchemaServiceImplTest {
     public void testGetSchemaLocationNoNamespace() throws Exception {
         byte[] xml = TestUtils.getTestMetadata20();
         String schemaLocation = service.getSchemaLocation(xml);
-        assertEquals("datacite-metadata-v2.0.xsd", schemaLocation);
+        assertEquals("http://datacite.org/schema/datacite-metadata-v2.0.xsd", schemaLocation);
     }
     
     @Test
