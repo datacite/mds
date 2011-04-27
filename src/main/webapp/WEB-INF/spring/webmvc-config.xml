@@ -7,7 +7,12 @@
 	</context:component-scan>
   
     <bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-      <property name="locations" value="WEB-INF/spring/*.properties"/>
+      <property name="locations">
+        <array>
+          <value>WEB-INF/spring/*.properties</value>
+          <value>classpath:/META-INF/spring/xml-validator.properties</value>
+        </array>
+      </property>
     </bean>
 	
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods

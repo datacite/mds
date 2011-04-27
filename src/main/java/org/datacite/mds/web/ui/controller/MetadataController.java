@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.util.Utils;
-import org.datacite.mds.validation.constraints.impl.ValidXMLValidator;
 import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -35,7 +34,7 @@ public class MetadataController {
 
     @Autowired
     private GenericConversionService myConversionService;
-
+    
     @InitBinder
     void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
@@ -51,12 +50,6 @@ public class MetadataController {
     public Collection<Dataset> populateDatasets(@RequestParam(value = "dataset", required = false) Long datasetId) {
         Dataset dataset = Dataset.findDataset(datasetId);
         return Arrays.asList(dataset);
-    }
-
-    @ModelAttribute("xsd")
-    public String getXsd() {
-        // ugly; I was not able to use Springs @Value annotation
-        return new ValidXMLValidator().getXsd();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
