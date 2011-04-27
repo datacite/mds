@@ -10,5 +10,7 @@ public interface SchemaService {
     String getSchemaLocation(byte[] xml) throws ValidationException;
     
     Validator getSchemaValidator(String schemaLocation) throws SAXException;
+    
+    String getDoi(byte[] xml);
 
 }

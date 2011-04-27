@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -14,6 +15,10 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -21,6 +26,7 @@ import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 @Service
@@ -34,9 +40,25 @@ public class SchemaServiceImpl implements SchemaService {
 
     @Value("${xml.schema.caching}")
     boolean validatorCacheEnabled;
+    
+    @Value("${xml.schema.xpath.doi}")
+    String doiXPath;
+    
+    XPathExpression doiXPathExpression;
 
     public SchemaServiceImpl() {
         validatorCache = new ConcurrentHashMap<String, Validator>();
+    }
+    
+    @PostConstruct
+    private void initXPath() {
+        XPathFactory factory = XPathFactory.newInstance();
+        XPath xPath = factory.newXPath();
+        try {
+            doiXPathExpression = xPath.compile(doiXPath);
+        } catch (XPathExpressionException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -123,6 +145,19 @@ public class SchemaServiceImpl implements SchemaService {
         Schema schema = schemaFactory.newSchema(schemaSource);
         Validator validator = schema.newValidator();
         return validator;
+    }
+
+    @Override
+    public String getDoi(byte[] xml) {
+        InputStream stream = new ByteArrayInputStream(xml);
+        InputSource source = new InputSource(stream);
+        String doi = null;
+        try {
+            doi = doiXPathExpression.evaluate(source);
+        } catch (XPathExpressionException e) {
+            log4j.warn(e.getMessage());
+        }
+        return doi;
     }
 
 }
