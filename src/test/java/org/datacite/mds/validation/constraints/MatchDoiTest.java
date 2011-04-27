@@ -26,11 +26,18 @@ public class MatchDoiTest extends AbstractContraintsTest {
         Dataset dataset = new Dataset();
         metadata = new Metadata();
         metadata.setDataset(dataset);
-        metadata.setXml(TestUtils.getTestMetadata());
     }
 
     @Test
-    public void test() {
+    public void testVersion20() throws Exception {
+        metadata.setXml(TestUtils.getTestMetadata20());
+        assertTrue(isValid(doiFromXml)); 
+        assertFalse(isValid(doiFromXml + ".")); 
+    }
+
+    @Test
+    public void testVersion21() throws Exception {
+        metadata.setXml(TestUtils.getTestMetadata21());
         assertTrue(isValid(doiFromXml)); 
         assertFalse(isValid(doiFromXml + ".")); 
     }
