@@ -21,7 +21,7 @@ import org.xml.sax.InputSource;
 public class MatchDoiValidator implements ConstraintValidator<MatchDoi, Metadata> {
     String defaultMessage;
 
-    @Value("${xml.schema.default.doiXPath}")
+    @Value("${xml.schema.xpath.doi}")
     String xPath;
 
     XPathExpression xPathExpression;

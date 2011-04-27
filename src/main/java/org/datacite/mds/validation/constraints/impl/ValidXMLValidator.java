@@ -15,20 +15,17 @@ import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.ValidXML;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-@Configurable
 @Component
 public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> {
     Logger log = Logger.getLogger(ValidXMLValidator.class);
 
-    String xsd;
-
+    @Value("${xml.validation}")
     boolean enabled;
     
     @Value("${xml.schema.location.prefix}")
@@ -38,17 +35,13 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
     SchemaService schemaService;
 
     public void initialize(ValidXML constraintAnnotation) {
-        if (!constraintAnnotation.xsd().isEmpty()) {
-            this.xsd = constraintAnnotation.xsd();
-        }
-        log.debug("init: xsd=" + getXsd());
-        log.debug("init: enabled=" + isEnabled());
+        log.debug("init: enabled=" + enabled);
         log.debug("init: schemaLocationPrefix=" + schemaLocationPrefix);
     }
 
     public boolean isValid(byte[] xml, ConstraintValidatorContext context) {
         try {
-            if (isEnabled()) {
+            if (enabled) {
                 checkValidity(xml);
             } else {
                 log.debug("validation skipped; checking only for well-formedness");
@@ -76,22 +69,6 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
         InputStream xmlStream = new ByteArrayInputStream(xml);
         Source xmlSource = new StreamSource(xmlStream);
         validator.validate(xmlSource);
-    }
-
-    public String getXsd() {
-        return xsd;
-    }
-
-    public void setXsd(String xsd) {
-        this.xsd = xsd;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
 }

@@ -78,10 +78,6 @@
            </props>
         </property>
     </bean>
-    <bean class="org.datacite.mds.validation.constraints.impl.ValidXMLValidator" scope="prototype">
-        <property name="xsd" value="${xml.schema.default}"/>
-        <property name="enabled" value="${xml.validation}"/>
-    </bean>
     <task:annotation-driven mode="aspectj" executor="executor"/>
     <task:executor id="executor"/>
 </beans>
