@@ -13,7 +13,6 @@
         <class>org.datacite.mds.domain.Datacentre</class>
         <class>org.datacite.mds.domain.Dataset</class>
         <class>org.datacite.mds.domain.Metadata</class>
-        <class>org.datacite.mds.domain.OaiSource</class>
         <class>org.datacite.mds.domain.Prefix</class>
         <class>org.datacite.mds.validation.constraints.UniqueTestEntity</class>
     </persistence-unit>

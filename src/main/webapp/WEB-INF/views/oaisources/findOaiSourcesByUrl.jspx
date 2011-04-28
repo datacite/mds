@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
-    <jsp:output omit-xml-declaration="yes"/>
-    <form:find finderName="ByUrl" id="ff_org_datacite_mds_domain_OaiSource" path="/oaisources" z="4o/aX0S6qMxOPjtI5YAnPsNnEEU=">
-        <field:input disableFormBinding="true" field="url" id="f_org_datacite_mds_domain_OaiSource_url" required="true" z="/qGWUK/KO295MAf/HLgPoVtgImc="/>
-    </form:find>
-</div>
