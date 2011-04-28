@@ -75,4 +75,12 @@ public class AllocatorController {
         
         return "redirect:/allocators/" + allocator.getId();
     }
+
+    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
+    public String updateForm(@PathVariable("id") Long id, Model model) {
+        Allocator allocator = Allocator.findAllocator(id);
+        model.addAttribute("allocator", allocator);
+        model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(allocator));
+        return "allocators/update";
+    }
 }

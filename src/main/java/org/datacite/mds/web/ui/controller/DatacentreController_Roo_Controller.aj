@@ -35,12 +35,6 @@ privileged aspect DatacentreController_Roo_Controller {
         return "redirect:/datacentres/" + encodeUrlPathSegment(datacentre.getId().toString(), request);
     }
     
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String DatacentreController.updateForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("datacentre", Datacentre.findDatacentre(id));
-        return "datacentres/update";
-    }
-    
     @RequestMapping(params = { "find=BySymbolEquals", "form" }, method = RequestMethod.GET)
     public String DatacentreController.findDatacentresBySymbolEqualsForm(Model model) {
         return "datacentres/findDatacentresBySymbolEquals";

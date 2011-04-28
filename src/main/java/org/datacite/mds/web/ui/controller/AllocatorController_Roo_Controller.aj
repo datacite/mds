@@ -56,13 +56,7 @@ privileged aspect AllocatorController_Roo_Controller {
         allocator.merge();
         return "redirect:/allocators/" + encodeUrlPathSegment(allocator.getId().toString(), request);
     }
-    
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String AllocatorController.updateForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("allocator", Allocator.findAllocator(id));
-        return "allocators/update";
-    }
-    
+        
     @RequestMapping(params = { "find=BySymbolEquals", "form" }, method = RequestMethod.GET)
     public String AllocatorController.findAllocatorsBySymbolEqualsForm(Model model) {
         return "allocators/findAllocatorsBySymbolEquals";

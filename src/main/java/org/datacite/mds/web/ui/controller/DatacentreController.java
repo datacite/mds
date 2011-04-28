@@ -138,4 +138,12 @@ public class DatacentreController {
         
         return "redirect:/datacentres/" + datacentre.getId();
     }
+
+    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
+    public String updateForm(@PathVariable("id") Long id, Model model) {
+        Datacentre datacentre = Datacentre.findDatacentre(id);
+        model.addAttribute("datacentre", datacentre);
+        model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
+        return "datacentres/update";
+    }
 }
