@@ -15,20 +15,17 @@ import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.ValidXML;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-@Component
+@Configurable
 public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> {
     Logger log = Logger.getLogger(ValidXMLValidator.class);
 
-    @Value("${xml.validation}")
     boolean enabled;
     
-    @Value("${xml.schema.location.prefix}")
     String schemaLocationPrefix;
     
     @Autowired
@@ -37,6 +34,7 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
     public void initialize(ValidXML constraintAnnotation) {
         log.debug("init: enabled=" + enabled);
         log.debug("init: schemaLocationPrefix=" + schemaLocationPrefix);
+        log.debug("init: schemaService=" + schemaService);
     }
 
     public boolean isValid(byte[] xml, ConstraintValidatorContext context) {
@@ -69,6 +67,22 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
         InputStream xmlStream = new ByteArrayInputStream(xml);
         Source xmlSource = new StreamSource(xmlStream);
         validator.validate(xmlSource);
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getSchemaLocationPrefix() {
+        return schemaLocationPrefix;
+    }
+
+    public void setSchemaLocationPrefix(String schemaLocationPrefix) {
+        this.schemaLocationPrefix = schemaLocationPrefix;
     }
 
 }
