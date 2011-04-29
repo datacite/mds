@@ -25,10 +25,13 @@ sub main() {
       $resource = 'metadata';
       $content_type = 'application/xml;charset=UTF-8';
       $method = uc shift @ARGV or pod2usage("missing method");
-      my $doi = shift @ARGV or pod2usage("missing doi");
-      $query = "?doi=$doi";
-      my $url = shift @ARGV;
-      $query .= "&url=$url" if $url;
+      if ($method =~ "POST|PUT") {
+        my $url = shift @ARGV;
+        $query .= "?url=$url" if $url;
+      } else {
+        my $doi = shift @ARGV or pod2usage("missing doi");
+        $query = "?doi=$doi";
+      }
     }
     case "doi" {
       $resource = 'doi';
@@ -139,7 +142,8 @@ __END__
 
  Commands:
    doi <method> (<doi> <url> | '-')
-   metadata <method> <doi> [<url>]
+   metadata <POST|PUT> [<url>]
+   metadata <DELETE|GET> <doi>
  
    [ generic <method> <resource/params> ]
  

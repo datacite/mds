@@ -266,7 +266,6 @@ print $response->content;
 <h4>Request headers</h4> 
 <code>Content-Type=application/xml;charset=UTF-8</code> 
 <h4>Request parameters</h4> 
-<p><code>doi</code> (mandatory) - DOI</p>
 <p><code>url</code> (optional) - if present DOI will be minted, if not present or empty - DOI will not be minted</p>
 <h4>Request body</h4> 
 <p>UFT-8 encoded metadata</p>
@@ -286,17 +285,17 @@ try later and if problem persists please contact us</p>
 import httplib2, sys, base64, codecs
  
 if (len(sys.argv) < 5):
-    raise Exception('Please provide username, password, doi and location of metadata file')
+    raise Exception('Please provide username, password and location of metadata file')
  
 endpoint = 'https://api.datacite.org/metadata'
 
-body_unicode = codecs.open(sys.argv[4], 'r', encoding='utf-8').read()
+body_unicode = codecs.open(sys.argv[3], 'r', encoding='utf-8').read()
 
 print(body_unicode);
 
 h = httplib2.Http()
 auth_string = base64.encodestring(sys.argv[1] + ':' + sys.argv[2])
-response, content = h.request(endpoint + '?doi=' + sys.argv[3],
+response, content = h.request(endpoint,
                               'POST',
                               body = body_unicode.encode('utf-8'),
                               headers={'Content-Type':'application/xml;charset=UTF-8',
@@ -317,13 +316,13 @@ use Crypt::SSLeay;    # SSL for LWP
 
 my $endpoint = 'https://api.datacite.org/metadata';
 
-my ($user_name, $user_pass, $doi) = @ARGV
-  or die('Please provide username, password and doi; metadata is read from stdin');
+my ($user_name, $user_pass) = @ARGV
+  or die('Please provide username and password; metadata is read from stdin');
 
 my @body = <STDIN>;
 
 my $request = HTTP::Request->new(
-  POST => "$endpoint?doi=$doi",
+  POST => $endpoint,
   HTTP::Headers->new(
     'Content-Type' => 'application/xml;charset=UTF-8',
   ),
@@ -346,14 +345,12 @@ print $response->content;
 		
 		try{			
 			String restEndpoint = "https://api.datacite.org/metadata";
-			String doi = "[doi]";
 			String url = "[url]";
 			String username = "[username]";
 			String password = "[password]";
 			String metadata = "[metadata]";
 			
-			restEndpoint+= "?doi="+URLEncoder.encode(doi,"UTF-8");
-			restEndpoint+= (url!=null && url.trim().length()>0)?"&url="+URLEncoder.encode(url,"UTF-8"):"";
+			restEndpoint+= (url!=null && url.trim().length()>0)?"?url="+URLEncoder.encode(url,"UTF-8"):"";
 			
 			URL u = new URL(restEndpoint);
 			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
@@ -411,7 +408,6 @@ print $response->content;
  still should strive to use POST and PUT as they were intended.</p>
 <code>Content-Type=application/xml;charset=UTF-8</code> 
 <h4>Request parameters</h4> 
-<p><code>doi</code> (mandatory) - DOI</p>
 <p><code>url</code> (optional) - if present DOI's URL will be updated</p>
 <h4>Request body</h4> 
 <p>UFT-8 encoded metadata</p>
@@ -431,17 +427,17 @@ try later and if problem persists please contact us</p>
 import httplib2, sys, base64, codecs
  
 if (len(sys.argv) < 5):
-    raise Exception('Please provide username, password, doi and location of metadata file')
+    raise Exception('Please provide username, password and location of metadata file')
  
 endpoint = 'https://api.datacite.org/metadata'
 
-body_unicode = codecs.open(sys.argv[4], 'r', encoding='utf-8').read()
+body_unicode = codecs.open(sys.argv[3], 'r', encoding='utf-8').read()
 
 print(body_unicode);
 
 h = httplib2.Http()
 auth_string = base64.encodestring(sys.argv[1] + ':' + sys.argv[2])
-response, content = h.request(endpoint + '?doi=' + sys.argv[3],
+response, content = h.request(endpoint,
                               'PUT',
                               body = body_unicode.encode('utf-8'),
                               headers={'Content-Type':'application/xml;charset=UTF-8',
@@ -464,12 +460,12 @@ use Crypt::SSLeay;    # SSL for LWP
 my $endpoint = 'https://api.datacite.org/metadata';
 
 my ($user_name, $user_pass, $doi) = @ARGV
-  or die('Please provide username, password and doi; body is read from stdin');
+  or die('Please provide username and password; body is read from stdin');
 
 my @body = <STDIN>;
 
 my $request = HTTP::Request->new(
-  PUT => "$endpoint?doi=$doi",
+  PUT => $endpoint,
   HTTP::Headers->new(
     'Content-Type' => 'application/xml;charset=UTF-8',
   ),
@@ -492,14 +488,12 @@ print $response->content;
 		
 		try{			
 			String restEndpoint = "https://api.datacite.org/metadata";
-			String doi = "[doi]";
 			String url = "[url]";
 			String username = "[username]";
 			String password = "[password]";
 			String metadata = "[metadata]";			
 			
-			restEndpoint+= "?doi="+URLEncoder.encode(doi,"UTF-8");
-			restEndpoint+= (url!=null && url.trim().length()>0)?"&url="+URLEncoder.encode(url,"UTF-8"):"";
+			restEndpoint+= (url!=null && url.trim().length()>0)?"?url="+URLEncoder.encode(url,"UTF-8"):"";
 			
 			URL u = new URL(restEndpoint);
 			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
@@ -835,7 +829,7 @@ try later and if problem persists please contact us</p>
 import httplib2, sys, base64, codecs
  
 if (len(sys.argv) < 4):
-    raise Exception('Please provide username, password, location of doi-url file')
+    raise Exception('Please provide username, password and location of doi-url file')
  
 endpoint = 'https://api.datacite.org/doi'
 
