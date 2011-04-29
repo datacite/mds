@@ -7,6 +7,7 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
+import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.util.Utils;
@@ -33,6 +34,8 @@ public class MetadataApiControllerTest {
     DoiService doiService;
     @Autowired
     ValidationHelper validationHelper;
+    @Autowired
+    SchemaService schemaService;
 
     MetadataApiController metadataApiController = new MetadataApiController();
 
@@ -52,6 +55,7 @@ public class MetadataApiControllerTest {
     public void init() throws Exception {
         metadataApiController.doiService = doiService;
         metadataApiController.validationHelper = validationHelper;
+        metadataApiController.schemaService = schemaService;
         
         String prefix = Utils.getDoiPrefix(doi);
 
