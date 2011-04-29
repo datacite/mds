@@ -12,9 +12,9 @@
         <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" render="false" z="user-managed"/>
         <util:hide>
           <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
-          <field:datetime dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" z="user-managed"/>
-          <field:datetime dateTimePattern="${dataset_created_date_format}" field="created" id="c_org_datacite_mds_domain_Dataset_created" z="user-managed"/>
-          <field:datetime dateTimePattern="${dataset_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Dataset_updated" z="user-managed"/>
+          <field:input field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" z="user-managed"/>
+          <field:input field="created" id="c_org_datacite_mds_domain_Dataset_created" z="user-managed"/>
+          <field:input field="updated" id="c_org_datacite_mds_domain_Dataset_updated" z="user-managed"/>
         </util:hide>
     </form:update>
 </div>
