@@ -12,6 +12,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
+import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.validation.ValidationException;
@@ -41,6 +42,9 @@ public class MetadataApiController implements ApiController {
 
     @Autowired
     ValidationHelper validationHelper;
+    
+    @Autowired
+    SchemaService schemaService;
 
     @RequestMapping(value = "metadata", method = RequestMethod.GET)
     public ResponseEntity<? extends Object> get(@RequestParam String doi) throws SecurityException, NotFoundException, DeletedException {
@@ -65,9 +69,8 @@ public class MetadataApiController implements ApiController {
     }
     
     @RequestMapping(value = "metadata", method = { RequestMethod.PUT, RequestMethod.POST })
-        public ResponseEntity<String> createOrUpdate(@RequestBody String body, 
-                                             @RequestParam String doi,
-                                             @RequestParam(required = false) String url, 
+    public ResponseEntity<String> createOrUpdate(@RequestBody String body,
+                                             @RequestParam(required = false) String url,
                                              @RequestParam(required = false) Boolean testMode,
                                              HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
 
@@ -76,13 +79,16 @@ public class MetadataApiController implements ApiController {
         if (testMode == null)
             testMode = false;
 
-        log4j.debug(logPrefix + doi + ", url: " + url + " \ntestMode = " + testMode);
+        log4j.debug(logPrefix + "url: " + url + " \ntestMode = " + testMode);
+        
+        byte[] xml = body.getBytes("UTF-8");
+        String doi = schemaService.getDoi(xml);
         
         Dataset dummyDataset = new Dataset();
         dummyDataset.setDoi(doi);
 
         Metadata metadata = new Metadata();
-        metadata.setXml(body.getBytes("UTF-8"));
+        metadata.setXml(xml);
         metadata.setDataset(dummyDataset);
         
         validationHelper.validate(metadata);
