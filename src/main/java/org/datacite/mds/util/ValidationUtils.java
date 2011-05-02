@@ -3,9 +3,14 @@ package org.datacite.mds.util;
 import java.net.IDN;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Set;
 
 import javax.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintViolation;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.UrlValidator;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -45,9 +50,9 @@ public class ValidationUtils {
 
     /**
      * <p>
-     * Copy a validation error from a field to another field. This makes
-     * sense for fields not rendered but might cause a validation error
-     * (typically a assertTrue Annotation on method level)
+     * Copy a validation error from a field to another field. This makes sense
+     * for fields not rendered but might cause a validation error (typically a
+     * assertTrue Annotation on method level)
      * </p>
      * 
      * <p>
@@ -67,6 +72,15 @@ public class ValidationUtils {
             FieldError newError = new FieldError(fieldError.getObjectName(), toField, fieldError.getDefaultMessage());
             result.addError(newError);
         }
+    }
+
+    public static String collateViolationMessages(Set<ConstraintViolation<Object>> violations) {
+        Collection<String> messages = new ArrayList<String>();
+        for (ConstraintViolation<Object> violation : violations) {
+            messages.add("[" + violation.getPropertyPath() + "] " + violation.getMessage());
+        }
+        String messagesJoined = StringUtils.join(messages, "; ");
+        return StringUtils.defaultIfEmpty(messagesJoined, null);
     }
 
     /**
@@ -99,7 +113,8 @@ public class ValidationUtils {
                 return false;
             }
         } catch (MalformedURLException ex) {
-            // unreachable, because URL is always constructed with known protocol
+            // unreachable, because URL is always constructed with known
+            // protocol
             return false;
         }
         return true;
