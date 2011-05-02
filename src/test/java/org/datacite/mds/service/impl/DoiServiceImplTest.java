@@ -7,13 +7,14 @@ import static org.datacite.mds.test.TestUtils.createPrefixes;
 import static org.datacite.mds.test.TestUtils.login;
 import static org.junit.Assert.assertEquals;
 
+import javax.validation.ValidationException;
+
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
-import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.web.api.NotFoundException;
 import org.easymock.EasyMock;
 import org.junit.After;

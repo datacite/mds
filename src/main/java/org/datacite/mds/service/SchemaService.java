@@ -1,8 +1,8 @@
 package org.datacite.mds.service;
 
+import javax.validation.ValidationException;
 import javax.xml.validation.Validator;
 
-import org.datacite.mds.validation.ValidationException;
 import org.xml.sax.SAXException;
 
 public interface SchemaService {

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
@@ -13,7 +14,6 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
-import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
 import org.datacite.mds.web.api.NotFoundException;

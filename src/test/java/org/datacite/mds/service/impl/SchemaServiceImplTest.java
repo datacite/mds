@@ -2,8 +2,9 @@ package org.datacite.mds.service.impl;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.validation.ValidationException;
+
 import org.datacite.mds.test.TestUtils;
-import org.datacite.mds.validation.ValidationException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

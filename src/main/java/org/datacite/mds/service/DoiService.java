@@ -1,7 +1,8 @@
 package org.datacite.mds.service;
 
+import javax.validation.ValidationException;
+
 import org.datacite.mds.domain.Dataset;
-import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.web.api.NotFoundException;
 
 /**

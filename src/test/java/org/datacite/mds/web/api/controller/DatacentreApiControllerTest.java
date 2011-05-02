@@ -6,11 +6,12 @@ import static org.datacite.mds.test.TestUtils.createPrefixes;
 import static org.datacite.mds.test.TestUtils.login;
 import static org.junit.Assert.assertEquals;
 
+import javax.validation.ValidationException;
+
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.validation.ValidationHelper;
-import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.web.api.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;

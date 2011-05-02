@@ -3,6 +3,7 @@ package org.datacite.mds.web.api.controller;
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ValidationException;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.log4j.Logger;
@@ -15,7 +16,6 @@ import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
-import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
 import org.datacite.mds.web.api.DeletedException;

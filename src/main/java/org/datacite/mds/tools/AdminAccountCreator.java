@@ -2,10 +2,11 @@ package org.datacite.mds.tools;
 
 import java.io.Console;
 
+import javax.validation.ValidationException;
+
 import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.util.DomainUtils;
-import org.datacite.mds.validation.ValidationException;
 import org.datacite.mds.validation.ValidationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

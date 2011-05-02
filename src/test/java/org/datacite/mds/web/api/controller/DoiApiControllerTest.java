@@ -1,10 +1,17 @@
 package org.datacite.mds.web.api.controller;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.anyBoolean;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.reset;
+import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
+import javax.validation.ValidationException;
+
 import org.datacite.mds.service.DoiService;
-import org.datacite.mds.validation.ValidationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
