@@ -75,11 +75,11 @@ public class MetadataApiController implements ApiController {
                                              HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
 
         String method = httpRequest.getMethod();
-        String logPrefix = "*****" + method + " metadata: ";
         if (testMode == null)
             testMode = false;
+        String logPrefix = "*****" + method + " metadata (testMode=" + testMode + ") ";
 
-        log4j.debug(logPrefix + "url: " + url + " \ntestMode = " + testMode);
+        log4j.debug(logPrefix + "url: " + url);
         
         byte[] xml = body.getBytes("UTF-8");
         String doi = schemaService.getDoi(xml);
@@ -123,10 +123,9 @@ public class MetadataApiController implements ApiController {
     @RequestMapping(value = "metadata", method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam String doi,
             @RequestParam(required = false) Boolean testMode) throws SecurityException, NotFoundException {
-        log4j.debug("*****DELETE metadata: " + doi + " \ntestMode = " + testMode);
-
         if (testMode == null)
             testMode = false;
+        log4j.debug("*****DELETE metadata (testMode=" + testMode + ") " + doi);
 
         Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
 

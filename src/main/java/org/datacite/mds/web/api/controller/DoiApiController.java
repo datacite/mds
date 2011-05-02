@@ -42,7 +42,7 @@ public class DoiApiController implements ApiController {
         String doi = lines[0];
         String url = lines[1];
 
-        log4j.debug("*****" + method + " doi: " + doi + ", url: " + url + " \ntestMode = " + testMode);
+        log4j.debug("*****" + method + " doi (testMode=" + testMode + ") doi: " + doi + ", url: " + url);
 
         HttpStatus httpStatus; 
         if (method.equals("POST")) {
