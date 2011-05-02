@@ -71,7 +71,7 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
             String msg = ValidationUtils.collateViolationMessages(violations);
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
         } else if (ex instanceof ValidationException) {
-            handleCause(ex, response);
+            handleCause(ex, response, HttpServletResponse.SC_BAD_REQUEST);
         } else if (ex instanceof SecurityException) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
         } else if (ex instanceof NotFoundException) {
@@ -87,9 +87,12 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         }
     }
     
-    private void handleCause(Throwable ex, HttpServletResponse response) throws IOException {
+    private void handleCause(Throwable ex, HttpServletResponse response, int defaultResponseCode) throws IOException {
         Throwable cause = ex.getCause();
-        handleExceptions(cause, response);
+        if (cause == null) 
+            response.sendError(defaultResponseCode, ex.getMessage());
+        else
+            handleExceptions(cause, response);
     }
     
     @Override
