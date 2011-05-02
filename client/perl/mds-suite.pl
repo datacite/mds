@@ -43,6 +43,13 @@ sub main() {
         $content = "$doi\n$url";
       }
     }
+    case "datacentre" {
+      $resource = 'datacentre';
+      $content_type = 'application/xml;charset=UTF-8';
+      $method = uc shift @ARGV or pod2usage("missing method");
+      my $symbol = shift @ARGV or pod2usage("missing symbol");
+      $query = "?symbol=$symbol";
+    }
     case "generic" {
       $method = uc shift @ARGV or pod2usage("missing method");
       $resource = shift @ARGV or pod2usage("missing resource");
@@ -141,6 +148,7 @@ __END__
    -v          - verbose (display complete request and response)
 
  Commands:
+   datacentre <method> <symbol>
    doi <method> (<doi> <url> | '-')
    metadata <POST|PUT> [<url>]
    metadata <DELETE|GET> <doi>
