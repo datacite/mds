@@ -10,8 +10,10 @@ use Term::ReadKey;    # for password reading
 
 my $GLOBAL_SERVER     = 'api.datacite.org';
 my $LOCAL_SERVER      = 'localhost:8443/mds';
-my $DEFAULT_USER_NAME = 'TEST.TEST';
-my $DEFAULT_USER_PW   = '12345678';
+my $DEFAULT_DC_SYMBOL = 'TEST.TEST';
+my $DEFAULT_DC_PW     = '12345678';
+my $DEFAULT_AL_SYMBOL = 'TEST';
+my $DEFAULT_AL_PW     = '12345678';
 my %opts;             #Getopt::Std
 
 sub main() {
@@ -19,6 +21,8 @@ sub main() {
   pod2usage() if $opts{h};
 
   my ($resource, $method, $query, $content, $content_type);
+  my $default_user_name = $DEFAULT_DC_SYMBOL;
+  my $default_user_pw   = $DEFAULT_DC_PW;
   my $command = lc shift @ARGV or pod2usage("missing command");
   switch ($command) {
     case "metadata" {
@@ -45,6 +49,8 @@ sub main() {
     }
     case "datacentre" {
       $resource = 'datacentre';
+      $default_user_name = $DEFAULT_AL_SYMBOL;
+      $default_user_pw   = $DEFAULT_AL_PW;
       $content_type = 'application/xml;charset=UTF-8';
       $method = uc shift @ARGV or pod2usage("missing method");
       my $symbol = shift @ARGV or pod2usage("missing symbol");
@@ -63,8 +69,8 @@ sub main() {
       chomp $content;
   }
   
-  my $user_name = $opts{u} || $DEFAULT_USER_NAME;
-  my $user_pw = $opts{p} || ($opts{u} ? read_pw() : $DEFAULT_USER_PW);
+  my $user_name = $opts{u} || $default_user_name;
+  my $user_pw = $opts{p} || ($opts{u} ? read_pw() : $default_user_pw);
 
   my $domain = $opts{l} ? $LOCAL_SERVER : $GLOBAL_SERVER;
 
