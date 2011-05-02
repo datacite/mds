@@ -1,13 +1,17 @@
 package org.datacite.mds.web.api;
 
 import java.io.IOException;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.ValidationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -42,8 +46,6 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
     @Override
     protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler,
             Exception ex) {
-        logger.debug(ex);
-
         // call super method with wrapped response to return a reponse body with
         // a single line
         HttpServletResponse wrappedResponse = new ApiResponseWrapper(response);
@@ -61,9 +63,17 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         return new ModelAndView();
     }
 
-    private void handleExceptions(Exception ex, HttpServletResponse response) throws IOException {
+    private void handleExceptions(Throwable ex, HttpServletResponse response) throws IOException {
+        logger.debug(ex);
         if (ex instanceof ValidationException) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+            handleCause(ex,response);
+        } else if (ex instanceof ConstraintViolationException) {
+            ConstraintViolationException constraintException = (ConstraintViolationException) ex;
+            Set<ConstraintViolation<?>> violations = constraintException.getConstraintViolations();
+            String msg = ValidationUtils.collateViolationMessages(violations);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, msg);
+        } else if (ex instanceof javax.validation.ValidationException) {
+            handleCause(ex, response);
         } else if (ex instanceof SecurityException) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
         } else if (ex instanceof NotFoundException) {
@@ -78,7 +88,12 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message);
         }
     }
-
+    
+    private void handleCause(Throwable ex, HttpServletResponse response) throws IOException {
+        Throwable cause = ex.getCause();
+        handleExceptions(cause, response);
+    }
+    
     @Override
     protected ModelAndView handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
             HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

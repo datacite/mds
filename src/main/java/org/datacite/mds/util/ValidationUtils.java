@@ -74,9 +74,9 @@ public class ValidationUtils {
         }
     }
 
-    public static String collateViolationMessages(Set<ConstraintViolation<Object>> violations) {
+    public static String collateViolationMessages(Set<ConstraintViolation<?>> violations) {
         Collection<String> messages = new ArrayList<String>();
-        for (ConstraintViolation<Object> violation : violations) {
+        for (ConstraintViolation<?> violation : violations) {
             messages.add("[" + violation.getPropertyPath() + "] " + violation.getMessage());
         }
         String messagesJoined = StringUtils.join(messages, "; ");
