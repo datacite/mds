@@ -22,14 +22,14 @@ public class ApiResponseWrapper extends HttpServletResponseWrapper {
 
     @Override
     public void sendError(int sc, String msg) throws IOException {
-        log.debug("sendError(sc,msg)");
+        log.debug("sendError " + sc + ": " + msg);
         setStatus(sc);
         getWriter().println(msg);
     }
 
     @Override
     public void sendError(int sc) throws IOException {
-        log.debug("sendError(sc)");
+        log.debug("sendError " + sc);
         sendError(sc, "");
     }
 
