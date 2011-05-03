@@ -7,11 +7,10 @@ public abstract class AbstractTool {
     
     private static final String APPLICATION_CONTEXT = "META-INF/spring/applicationContext.xml";
     
-    private static final ApplicationContext context = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
-    
     @SuppressWarnings("unchecked")
     public static final void initAndRun(String[] args) {
         try {
+            ApplicationContext context = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
             String callingClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             Class<AbstractTool> callingClass = (Class<AbstractTool>) Class.forName(callingClassName);
             AbstractTool tool = context.getBean(callingClass);
