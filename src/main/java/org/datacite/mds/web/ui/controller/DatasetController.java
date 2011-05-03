@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
@@ -69,24 +70,29 @@ public class DatasetController {
 
     @ModelAttribute("datacentres")
     public Collection<Datacentre> populateDatacentres() throws SecurityException {
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
-        return Arrays.asList(datacentre);
+        if (SecurityUtils.isLoggedInAsDatacentre()) {
+            Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
+            return Arrays.asList(datacentre);
+        } else {
+            //TODO
+            return null;
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public String list(@RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size, Model model) throws SecurityException {
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
+        AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
-            model.addAttribute("datasets", Dataset.findDatasetEntriesByDatacentres(datacentre, page == null ? 0 : (page
+            model.addAttribute("datasets", Dataset.findDatasetEntriesByAllocatorOrDatacentre(user, page == null ? 0 : (page
                     .intValue() - 1)
                     * sizeNo, sizeNo));
-            float nrOfPages = (float) Dataset.countDatasetsByDatacentre(datacentre) / sizeNo;
+            float nrOfPages = (float) Dataset.countDatasetsByAllocatorOrDatacentre(user) / sizeNo;
             model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
                     : nrOfPages));
         } else {
-            model.addAttribute("datasets", Dataset.findDatasetsByDatacentres(datacentre));
+            model.addAttribute("datasets", Dataset.findDatasetsByAllocatorOrDatacentre(user));
         }
         return "datasets/list";
     }

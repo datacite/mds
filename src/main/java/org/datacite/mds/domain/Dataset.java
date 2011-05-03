@@ -77,27 +77,39 @@ public class Dataset {
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date updated;
 
-    private static TypedQuery<Dataset> queryDatasetsByDatacentre(Datacentre datacentre) {
+    private static TypedQuery<Dataset> queryDatasetsByAllocatorOrDatacentre(AllocatorOrDatacentre user) {
         EntityManager em = entityManager();
-        TypedQuery<Dataset> q = em.createQuery("SELECT Dataset FROM Dataset AS dataset WHERE dataset.datacentre = :datacentre", Dataset.class);
-        q.setParameter("datacentre", datacentre);
+        String hql;
+        if (user instanceof Datacentre) {
+            hql = "SELECT Dataset FROM Dataset AS dataset WHERE dataset.datacentre = :user";
+        } else {
+            hql = "SELECT Dataset FROM Dataset AS dataset WHERE dataset.datacentre.allocator = :user";
+        }
+        TypedQuery<Dataset> q = em.createQuery(hql, Dataset.class);
+        q.setParameter("user", user);
         return q;
     }
 
-    public static List<Dataset> findDatasetEntriesByDatacentres(Datacentre datacentre, int firstResult, int maxResults) {
-        TypedQuery<Dataset> q = queryDatasetsByDatacentre(datacentre);
+    public static List<Dataset> findDatasetEntriesByAllocatorOrDatacentre(AllocatorOrDatacentre user, int firstResult, int maxResults) {
+        TypedQuery<Dataset> q = queryDatasetsByAllocatorOrDatacentre(user);
         return q.setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
-    public static List<Dataset> findDatasetsByDatacentres(Datacentre datacentre) {
-        TypedQuery<Dataset> q = queryDatasetsByDatacentre(datacentre);
+    public static List<Dataset> findDatasetsByAllocatorOrDatacentre(AllocatorOrDatacentre user) {
+        TypedQuery<Dataset> q = queryDatasetsByAllocatorOrDatacentre(user);
         return q.getResultList();
     }
 
-    public static long countDatasetsByDatacentre(Datacentre datacentre) {
+    public static long countDatasetsByAllocatorOrDatacentre(AllocatorOrDatacentre user) {
         EntityManager em = entityManager();
-        TypedQuery<Long> q = em.createQuery("SELECT COUNT(*) FROM Dataset AS dataset WHERE dataset.datacentre = :datacentre", Long.class);
-        q.setParameter("datacentre", datacentre);
+        String hql;
+        if (user instanceof Allocator)
+            hql = "SELECT COUNT(*) FROM Dataset AS dataset WHERE dataset.datacentre.allocator = :user";
+        else
+            hql = "SELECT COUNT(*) FROM Dataset AS dataset WHERE dataset.datacentre = :user";
+        
+        TypedQuery<Long> q = em.createQuery(hql, Long.class);
+        q.setParameter("user", user);
         return q.getSingleResult();
     }
 

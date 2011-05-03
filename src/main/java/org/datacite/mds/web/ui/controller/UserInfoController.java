@@ -48,7 +48,7 @@ public class UserInfoController {
     private void addDatacentreToModel(Datacentre datacentre, Model model) {
         log.debug("userinfo for datacentre '" + datacentre.getSymbol() + "'");
         model.addAttribute("datacentre", datacentre);
-        model.addAttribute("countDatasets", Dataset.countDatasetsByDatacentre(datacentre));
+        model.addAttribute("countDatasets", Dataset.countDatasetsByAllocatorOrDatacentre(datacentre));
     }
 
     private void addAllocatorToModel(Allocator allocator, Model model) {
