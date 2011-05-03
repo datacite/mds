@@ -300,5 +300,11 @@ public class Datacentre implements AllocatorOrDatacentre {
         return list;
     }
     
+    private transient long countDatasets; 
+    
+    public long getCountDatasets() {
+        return Dataset.countDatasetsByAllocatorOrDatacentre(this);
+    }
+    
     public interface SecondLevelConstraint {};
 }

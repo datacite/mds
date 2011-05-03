@@ -141,6 +141,12 @@ public class Allocator implements AllocatorOrDatacentre {
         CollectionUtils.filter(list, containsPrefix);
         return list;
     }
+    
+    private transient long countDatasets; 
+    
+    public long getCountDatasets() {
+        return Dataset.countDatasetsByAllocatorOrDatacentre(this);
+    }
 
 
     /**
