@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -74,8 +75,8 @@ public class DatasetController {
             Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
             return Arrays.asList(datacentre);
         } else {
-            //TODO
-            return null;
+            Allocator allocator = SecurityUtils.getCurrentAllocator();
+            return Datacentre.findAllDatacentresByAllocator(allocator);
         }
     }
 
