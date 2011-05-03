@@ -2,6 +2,9 @@
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_datacite_mds_domain_Dataset" modelAttribute="dataset" path="/datasets" z="HBOwCYp6Yo6cFOcgr4ELuyHv6b0=">
+        <util:hide roles="ROLE_DATACENTRE">
+          <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
+        </util:hide>
         <util:comment messageCode="handle_latency_info"/>
         <field:input field="doi" id="c_org_datacite_mds_domain_Dataset_doi" readonly="true" required="true" z="user-managed"/>
         <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
@@ -11,7 +14,6 @@
         <field:input field="lastLandingPageStatus" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" max="510" min="100" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
         <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" render="false" z="user-managed"/>
         <util:hide>
-          <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
           <field:input field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" z="user-managed"/>
           <field:input field="created" id="c_org_datacite_mds_domain_Dataset_created" z="user-managed"/>
           <field:input field="updated" id="c_org_datacite_mds_domain_Dataset_updated" z="user-managed"/>
