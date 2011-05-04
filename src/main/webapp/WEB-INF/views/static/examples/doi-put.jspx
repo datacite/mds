@@ -27,9 +27,9 @@ if (response.status != 201):
     print str(response.status)
  
 print(content.decode('utf-8'))
-
 ]]>
 </util:highlight>
+<p><code>doi-url file</code> has to contain the request body, so a file with two lines: doi and url.</p>
 </util:tab>
 <util:tab title="perl">
 <util:highlight lang="perl">
@@ -123,7 +123,4 @@ print $response->content;
 </util:highlight>
 </util:tab>
 </util:tabs>
-
-<p><code>doi-url file</code> has to contain the request body, so a file with two lines: doi and url.</p>
-
 </jsp:root>

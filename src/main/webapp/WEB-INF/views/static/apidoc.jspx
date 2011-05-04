@@ -7,28 +7,41 @@
 
   <util:toc />
   
-<h1>DataCite API for datacentres</h1> <h2>Purpose</h2> <p>The purpose
+<h1>DataCite API for datacentres</h1>
+
+<h2>Purpose</h2>
+<p>The purpose
 of this document is to explain how to register datasets via our
 RESTful API. Registration is open for research organisations
 (datacentres) associated with DataCite members (allocators). Before
 you will be able to use our API you must apply for an account with our
-service - please contact your <a
-href="http://datacite.org/members.html" target="_">local
-allocator</a>.</p> <h2>Audience</h2> <p><b>This document and the API
+service - please contact your <a 
+href="http://datacite.org/members" target="_">local
+allocator</a>.</p> 
+
+<h2>Audience</h2>
+<p><b>This document and the API
 is meant for use by a technical audience.</b> You will need a working
-knowledge of programming and the HTTP protocol.</p> <h2>Overview</h2>
+knowledge of programming and the HTTP protocol.</p>
+
+<h2>Overview</h2>
 <p>The API is implemented in RESTful style. The <b>end point</b> you
-are going to use is:</p> <p class="indent"><code>https://api.datacite.org</code></p>
+are going to use is:</p>
+<p class="indent"><code>https://api.datacite.org</code></p>
 <p>At the moment there are <b>two resources</b>:</p>
-<p class="indent"><code>/doi</code></p> <p class="indent"><code>/metadata</code></p> <p>The URI
+<p class="indent"><code>/doi</code></p>
+<p class="indent"><code>/metadata</code></p>
+<p>The URI
 <code>https://api.datacite.org<b>/metadata</b></code> accepts requests
-with 4 HTTP methods: <code>GET</code>, <code>POST</code>, <code>PUT</code> and <code>DELETE</code></p> <p>The
-URI <code>https://api.datacite.org<b>/doi</b></code> accepts requests
-with 2 HTTP methods: <code>POST</code> and <code>PUT</code></p> <p>The meaning of
+with 4 HTTP methods: <code>GET</code>, <code>POST</code>, <code>PUT</code> and <code>DELETE</code></p>
+<p>The URI <code>https://api.datacite.org<b>/doi</b></code> accepts requests
+with 2 HTTP methods: <code>POST</code> and <code>PUT</code></p> 
+<p>The meaning of
 the HTTP verbs and request parameters/body will be explained in the
 reference section below.</p>
 
-<h3>Security</h3> All the traffic goes via HTTPS - please remember we
+<h3>Security</h3>
+All the traffic goes via HTTPS - please remember we
 do not support bare HTTP. All the requests to this system require HTTP
 Basic authentication header. You will get your username and password
 from your allocator. Each account have some constraints associated
