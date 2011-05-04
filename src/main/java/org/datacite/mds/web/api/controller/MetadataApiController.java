@@ -70,7 +70,6 @@ public class MetadataApiController implements ApiController {
     
     @RequestMapping(value = "metadata", method = { RequestMethod.PUT, RequestMethod.POST })
     public ResponseEntity<String> createOrUpdate(@RequestBody String body,
-                                             @RequestParam(required = false) String url,
                                              @RequestParam(required = false) Boolean testMode,
                                              HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
 
@@ -79,7 +78,7 @@ public class MetadataApiController implements ApiController {
             testMode = false;
         String logPrefix = "*****" + method + " metadata (testMode=" + testMode + ") ";
 
-        log4j.debug(logPrefix + "url: " + url);
+        log4j.debug(logPrefix);
         
         byte[] xml = body.getBytes("UTF-8");
         String doi = schemaService.getDoi(xml);
@@ -96,15 +95,15 @@ public class MetadataApiController implements ApiController {
         Dataset dataset;
 
         if (method.equals("POST")) {
-            dataset = doiService.create(doi, url, testMode);
+            dataset = doiService.create(doi, null, testMode);
         } else { // PUT
             try {
-                dataset = doiService.update(doi, url, testMode);
+                dataset = doiService.update(doi, null, testMode);
             } catch (NotFoundException e) {
                 // This is workaround for 3rd parties who wants to integrate
                 // with MDS but are not able to figure out of metadata was
                 // already stored in MDS
-                dataset = doiService.create(doi, url, testMode);
+                dataset = doiService.create(doi, null, testMode);
             }
         }
 
