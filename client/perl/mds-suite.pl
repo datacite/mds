@@ -29,10 +29,7 @@ sub main() {
       $resource = 'metadata';
       $content_type = 'application/xml;charset=UTF-8';
       $method = uc shift @ARGV or pod2usage("missing method");
-      if ($method =~ "POST|PUT") {
-        my $url = shift @ARGV;
-        $query .= "?url=$url" if $url;
-      } else {
+      if ($method =~ "GET|DELETE") {
         my $doi = shift @ARGV or pod2usage("missing doi");
         $query = "?doi=$doi";
       }
@@ -156,7 +153,7 @@ __END__
  Commands:
    datacentre <method> <symbol>
    doi <method> (<doi> <url> | '-')
-   metadata <POST|PUT> [<url>]
+   metadata <POST|PUT>
    metadata <DELETE|GET> <doi>
  
    [ generic <method> <resource/params> ]
