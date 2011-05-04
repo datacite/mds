@@ -1,0 +1,110 @@
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+  <jsp:output omit-xml-declaration="yes"/>
+<util:tabs id="script_metadata_get">
+<util:tab title="python">
+<util:highlight lang="python">
+<![CDATA[
+import httplib2, sys, base64
+
+endpoint = 'https://api.datacite.org/metadata'
+
+if (len(sys.argv) < 4):
+    raise Exception('Please provide username, password and doi')
+
+h = httplib2.Http()
+auth_string = base64.encodestring(sys.argv[1] + ':' + sys.argv[2])
+response, content = h.request(endpoint + '?doi=' + sys.argv[3],
+                              headers={'Accept':'application/xml',
+                                       'Authorization':'Basic ' + auth_string})
+
+if (response.status != 200):
+    print str(response.status)
+ 
+print(content.decode('utf-8'))
+]]>
+</util:highlight>
+</util:tab>
+<util:tab title="perl">
+<util:highlight lang="perl">
+<![CDATA[
+use strict;
+use LWP;
+use Crypt::SSLeay;    # SSL for LWP
+
+my $endpoint = 'https://api.datacite.org/metadata';
+
+my ($user_name, $user_pass, $doi) = @ARGV 
+  or die('Please provide username, password and doi'); 
+
+my $request = HTTP::Request->new(
+  GET => "$endpoint?doi=$doi",
+  HTTP::Headers->new(
+    Accept         => 'application/xml',
+  ),
+);
+$request->authorization_basic($user_name, $user_pass);
+
+my $user_agent = LWP::UserAgent->new;
+my $response   = $user_agent->request($request);
+
+print STDERR $response->status_line . "\n";
+print $response->content;
+]]>
+</util:highlight>
+</util:tab>
+<util:tab title="java">
+<util:highlight lang="java">
+<![CDATA[
+	public void GETMetadataExample(){
+		
+		try{			
+			String restEndpoint = "https://api.datacite.org/metadata";
+			String doi = "[doi]";
+			String username = "[username]";
+			String password = "[password]";
+			
+			URL u = new URL(restEndpoint+"?doi="+URLEncoder.encode(doi,"UTF-8"));			
+			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setUseCaches(false);
+			conn.setDoInput(true);
+			conn.setDoOutput(true);
+			conn.setRequestProperty("Accept", "application/xml");
+			conn.setRequestProperty("Content-Type", "application/xml;charset=UTF-8");
+			 
+			sun.misc.BASE64Encoder enc = new sun.misc.BASE64Encoder();
+			String encAuth = enc.encode((username+":"+password).getBytes());	
+			conn.setRequestProperty("Authorization", "Basic "+encAuth);
+			
+			conn.connect();
+			int responseCode = conn.getResponseCode();
+			        
+			InputStreamReader isr;
+			if (responseCode >= 400){isr = new InputStreamReader(conn.getErrorStream());}
+			else{isr = new InputStreamReader(conn.getInputStream());}
+			
+			BufferedReader br = new BufferedReader(isr);
+			StringWriter sw = new StringWriter();
+			char[] buffer = new char[1024];
+			int n;
+			while ((n=br.read(buffer))!=-1){
+				sw.write(buffer, 0, n);
+			}
+
+			System.out.println("Return Code: "+responseCode);
+			System.out.println("Return Body: "+sw.toString());
+									
+			isr.close();
+			sw.close();
+			br.close();
+
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}	
+	}	
+]]>
+</util:highlight>
+</util:tab>
+</util:tabs>
+</jsp:root>
