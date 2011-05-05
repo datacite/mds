@@ -9,6 +9,7 @@ import java.util.Set;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,14 +28,8 @@ public class MatchDoiPrefixTest extends AbstractContraintsTest {
 
     @Before
     public void init() {
-        // create simple datacentre with two allowed prefixes
         Datacentre datacentre = new Datacentre();
-        Set<Prefix> prefixes = new HashSet<Prefix>();
-        Prefix prefix = new Prefix();
-        prefix.setPrefix("10.4711");
-        prefixes.add(prefix);
-        datacentre.setPrefixes(prefixes);
-
+        datacentre.setPrefixes(TestUtils.createPrefixes("10.4711"));
         dataset = new Dataset();
         dataset.setDatacentre(datacentre);
     }
