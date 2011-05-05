@@ -12,6 +12,7 @@ import org.datacite.mds.domain.Prefix;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -20,18 +21,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class MatchDoiPrefixTest extends AbstractContraintsTest {
 
     Dataset dataset;
+    
+    @Value("${handle.testPrefix}")
+    String testPrefix;
 
     @Before
     public void init() {
         // create simple datacentre with two allowed prefixes
         Datacentre datacentre = new Datacentre();
         Set<Prefix> prefixes = new HashSet<Prefix>();
-        Prefix prefix1 = new Prefix();
-        prefix1.setPrefix("10.5072");
-        prefixes.add(prefix1);
-        Prefix prefix2 = new Prefix();
-        prefix2.setPrefix("10.4711");
-        prefixes.add(prefix2);
+        Prefix prefix = new Prefix();
+        prefix.setPrefix("10.4711");
+        prefixes.add(prefix);
         datacentre.setPrefixes(prefixes);
 
         dataset = new Dataset();
@@ -40,9 +41,9 @@ public class MatchDoiPrefixTest extends AbstractContraintsTest {
 
     @Test
     public void test() {
-        assertTrue(isValid(null)); 
+        assertTrue(isValid(null));
         assertTrue(isValid("10.4711/test"));
-        assertTrue(isValid("10.5072/test"));
+        assertTrue(isValid(testPrefix + "/test"));
         assertFalse(isValid("10.1234/test"));
         
         dataset.setDatacentre(null);

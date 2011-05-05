@@ -82,6 +82,9 @@
       <property name="schemaLocationPrefix" value="${xml.schema.location.prefix}"/>
       <property name="enabled" value="${xml.validation}"/>
     </bean>
+    <bean class="org.datacite.mds.validation.constraints.impl.MatchDoiPrefixValidator">
+      <property name="testPrefix" value="${handle.testPrefix}"/>
+    </bean>
     <task:annotation-driven mode="aspectj" executor="executor"/>
     <task:executor id="executor"/>
 </beans>
