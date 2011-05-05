@@ -2,6 +2,8 @@ package org.datacite.mds.web.api.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -44,6 +46,8 @@ public class MetadataApiControllerTest {
     String doi = "10.1594/WDCC/CCSRNIES_SRES_B2";
     String url = "http://example.com";
     String xml;
+    HttpServletRequest doiRequest;
+    HttpServletRequest wrongDoiRequest;
 
     Allocator allocator;
     Datacentre datacentre;
@@ -56,6 +60,9 @@ public class MetadataApiControllerTest {
         metadataApiController.doiService = doiService;
         metadataApiController.validationHelper = validationHelper;
         metadataApiController.schemaService = schemaService;
+        
+        doiRequest = makeServletRequestForDoi(doi);
+        wrongDoiRequest = makeServletRequestForDoi(doi + 1);
         
         String prefix = Utils.getDoiPrefix(doi);
 
@@ -87,30 +94,36 @@ public class MetadataApiControllerTest {
     @Test(expected = NotFoundException.class)
     public void testGet404() throws Exception {
         metadata.remove();
-        metadataApiController.get(doi);
+        metadataApiController.get(doiRequest);
+    }
+    
+    private HttpServletRequest makeServletRequestForDoi(String doi) {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setServletPath("/metadata/" + doi);
+        return request;
     }
 
     @Test(expected = NotFoundException.class)
     public void testGetNoDoi() throws Exception {
-        metadataApiController.get(doi + 1);
+        metadataApiController.get(wrongDoiRequest);
     }
 
     @Test
     public void testGet() throws Exception {
-        ResponseEntity<? extends Object> response = metadataApiController.get(doi);
+        ResponseEntity<? extends Object> response = metadataApiController.get(doiRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test(expected = SecurityException.class)
     public void testGetForeignDataset() throws Exception {
         TestUtils.login(datacentre2);
-        metadataApiController.get(doi);
+        metadataApiController.get(doiRequest);
     }
     
     @Test
     public void testGetAsAllocator() throws Exception {
         TestUtils.login(allocator);
-        ResponseEntity<? extends Object> response = metadataApiController.get(doi);
+        ResponseEntity<? extends Object> response = metadataApiController.get(doiRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
     
@@ -119,13 +132,13 @@ public class MetadataApiControllerTest {
         Allocator allocator2 = TestUtils.createAllocator("OTHER");
         allocator2.persist();
         TestUtils.login(allocator2);
-        metadataApiController.get(doi);
+        metadataApiController.get(doiRequest);
     }
 
     @Test(expected = SecurityException.class)
     public void testGetNotLoggedIn() throws Exception {
         TestUtils.logout();
-        metadataApiController.get(doi);
+        metadataApiController.get(doiRequest);
     }
 
     @Test
@@ -184,45 +197,45 @@ public class MetadataApiControllerTest {
 
     @Test
     public void testDelete() throws Exception {
-        ResponseEntity<? extends Object> response = metadataApiController.delete(doi, null);
+        ResponseEntity<? extends Object> response = metadataApiController.delete(doiRequest, null);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test(expected = SecurityException.class)
     public void testDeleteForeignDataset() throws Exception {
         TestUtils.login(datacentre2);
-        metadataApiController.delete(doi, null);
+        metadataApiController.delete(doiRequest, null);
     }
 
     @Test(expected = SecurityException.class)
     public void testDeleteAsAllocator() throws Exception {
         TestUtils.login(allocator);
-        metadataApiController.delete(doi, null);
+        metadataApiController.delete(doiRequest, null);
     }
 
     @Test(expected = NotFoundException.class)
     public void testDelete404() throws Exception {
-        metadataApiController.delete(doi + 1, false);
+        metadataApiController.delete(wrongDoiRequest, false);
     }
 
     @Test
     public void testDeleteTestMode() throws Exception {
-        ResponseEntity<? extends Object> response = metadataApiController.delete(doi, true);
+        ResponseEntity<? extends Object> response = metadataApiController.delete(doiRequest, true);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
     @Test
     public void testUnDelete() throws Exception {
-        ResponseEntity<? extends Object> response = metadataApiController.delete(doi, false);
+        ResponseEntity<? extends Object> response = metadataApiController.delete(doiRequest, false);
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        response = metadataApiController.delete(doi, false);
+        response = metadataApiController.delete(doiRequest, false);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
 
     }
 
     @Test(expected = DeletedException.class)
     public void testGetDeleted() throws Exception {
-        metadataApiController.delete(doi, false);
-        metadataApiController.get(doi);
+        metadataApiController.delete(doiRequest, false);
+        metadataApiController.get(doiRequest);
     }
 }

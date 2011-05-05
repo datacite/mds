@@ -7,7 +7,7 @@ if (len(sys.argv) < 4):
 
 h = httplib2.Http()
 auth_string = base64.encodestring(sys.argv[1] + ':' + sys.argv[2])
-response, content = h.request(endpoint + '?doi=' + sys.argv[3],
+response, content = h.request(endpoint + '/' + sys.argv[3],
                               headers={'Accept':'application/xml',
                                        'Authorization':'Basic ' + auth_string})
 

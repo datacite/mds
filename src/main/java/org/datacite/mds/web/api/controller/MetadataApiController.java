@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@RequestMapping("/*")
+@RequestMapping("/metadata/")
 @Controller
 public class MetadataApiController implements ApiController {
 
@@ -45,9 +45,11 @@ public class MetadataApiController implements ApiController {
     
     @Autowired
     SchemaService schemaService;
-
-    @RequestMapping(value = "metadata", method = RequestMethod.GET)
-    public ResponseEntity<? extends Object> get(@RequestParam String doi) throws SecurityException, NotFoundException, DeletedException {
+    
+    @RequestMapping(value = "**", method = RequestMethod.GET)
+    public ResponseEntity<? extends Object> get(HttpServletRequest request) throws SecurityException, NotFoundException, DeletedException {
+        String doi = getDoiFromRequest(request);
+        log4j.debug(doi);
         AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
         
         Dataset dataset = Dataset.findDatasetByDoi(doi);
@@ -68,7 +70,13 @@ public class MetadataApiController implements ApiController {
         return new ResponseEntity<Object>(metadata.getXml(), headers, HttpStatus.OK);
     }
     
-    @RequestMapping(value = "metadata", method = { RequestMethod.PUT, RequestMethod.POST })
+    private String getDoiFromRequest(HttpServletRequest request) {
+        String uri = request.getServletPath();
+        String doi = uri.replaceFirst("/metadata/", "");
+        return doi;
+    }
+
+    @RequestMapping(method = { RequestMethod.PUT, RequestMethod.POST })
     public ResponseEntity<String> createOrUpdate(@RequestBody String body,
                                              @RequestParam(required = false) Boolean testMode,
                                              HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
@@ -119,9 +127,10 @@ public class MetadataApiController implements ApiController {
     }
 
 
-    @RequestMapping(value = "metadata", method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@RequestParam String doi,
+    @RequestMapping(value = "**", method = RequestMethod.DELETE)
+    public ResponseEntity<String> delete(HttpServletRequest request,
             @RequestParam(required = false) Boolean testMode) throws SecurityException, NotFoundException {
+        String doi = getDoiFromRequest(request);
         if (testMode == null)
             testMode = false;
         log4j.debug("*****DELETE metadata (testMode=" + testMode + ") " + doi);

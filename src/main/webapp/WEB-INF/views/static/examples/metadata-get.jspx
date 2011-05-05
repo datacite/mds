@@ -13,7 +13,7 @@ if (len(sys.argv) < 4):
 
 h = httplib2.Http()
 auth_string = base64.encodestring(sys.argv[1] + ':' + sys.argv[2])
-response, content = h.request(endpoint + '?doi=' + sys.argv[3],
+response, content = h.request(endpoint + '/' + sys.argv[3],
                               headers={'Accept':'application/xml',
                                        'Authorization':'Basic ' + auth_string})
 
@@ -37,7 +37,7 @@ my ($user_name, $user_pass, $doi) = @ARGV
   or die('Please provide username, password and doi'); 
 
 my $request = HTTP::Request->new(
-  GET => "$endpoint?doi=$doi",
+  GET => "$endpoint/$doi",
   HTTP::Headers->new(
     Accept         => 'application/xml',
   ),
@@ -63,7 +63,7 @@ print $response->content;
 			String username = "[username]";
 			String password = "[password]";
 			
-			URL u = new URL(restEndpoint+"?doi="+URLEncoder.encode(doi,"UTF-8"));			
+			URL u = new URL(restEndpoint+"/"+URLEncoder.encode(doi,"UTF-8"));			
 			HttpsURLConnection conn = (HttpsURLConnection)u.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setUseCaches(false);

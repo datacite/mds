@@ -31,7 +31,7 @@ sub main() {
       $method = uc shift @ARGV or pod2usage("missing method");
       if ($method =~ "GET|DELETE") {
         my $doi = shift @ARGV or pod2usage("missing doi");
-        $query = "?doi=$doi";
+        $resource .= "/$doi";
       }
     }
     case "doi" {
