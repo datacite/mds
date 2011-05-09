@@ -46,12 +46,12 @@ public class MetadataApiController implements ApiController {
     @Autowired
     SchemaService schemaService;
     
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ResponseEntity get() {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
     
-    @RequestMapping(value = "**", method = RequestMethod.GET)
+    @RequestMapping(value = "**", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ResponseEntity<? extends Object> getMetadata(HttpServletRequest request) throws SecurityException, NotFoundException, DeletedException {
         String doi = getDoiFromRequest(request);
         log4j.debug(doi);
