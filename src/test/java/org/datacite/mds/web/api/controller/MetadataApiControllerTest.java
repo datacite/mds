@@ -252,12 +252,9 @@ public class MetadataApiControllerTest {
     }
 
     @Test
-    public void testUnDelete() throws Exception {
-        ResponseEntity response = metadataApiController.delete(doiRequest, false);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        response = metadataApiController.delete(doiRequest, false);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
-
+    public void testDeleteIdempotent() throws Exception {
+        testDelete();
+        testDelete();
     }
 
     @Test(expected = DeletedException.class)

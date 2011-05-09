@@ -143,17 +143,20 @@ public class MetadataApiController implements ApiController {
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
             throw new NotFoundException("DOI doesn't exist");
+        
+        Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
+        if (metadata == null)
+            throw new NotFoundException("Metadata doesn't exist");
 
         SecurityUtils.checkDatasetOwnership(dataset, datacentre);
         
-        boolean wasActive = BooleanUtils.isNotFalse(dataset.getIsActive());
         if (!testMode) {
-            dataset.setIsActive(!wasActive);
+            dataset.setIsActive(false);
             dataset.merge();
-            log4j.info(datacentre.getSymbol() + " successfuly " + (wasActive ? "deactivated " : " activated ") + doi);
+            log4j.info(datacentre.getSymbol() + " successfuly deactivated " + doi);
         }
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<String>("OK", headers, wasActive ? HttpStatus.OK : HttpStatus.CREATED);
+        return new ResponseEntity<String>("OK", headers, HttpStatus.OK);
     }
 }
