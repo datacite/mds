@@ -80,21 +80,32 @@ public class MetadataApiController implements ApiController {
         String doi = uri.replaceFirst("/metadata/", "");
         return doi;
     }
-
-    @RequestMapping(value = "", method = { RequestMethod.PUT, RequestMethod.POST })
-    public ResponseEntity<String> createOrUpdate(@RequestBody String body,
+    
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<String> post(@RequestBody String body,
                                              @RequestParam(required = false) Boolean testMode,
                                              HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
+        byte[] xml = body.getBytes("UTF-8");
+        String doi = schemaService.getDoi(xml);
+        return storeMetadata(doi, xml, testMode, httpRequest);
+    }
 
+    @RequestMapping(value = "**", method = RequestMethod.PUT)
+    public ResponseEntity<String> put(@RequestBody String body,
+                                             @RequestParam(required = false) Boolean testMode,
+                                             HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
+        byte[] xml = body.getBytes("UTF-8");
+        String doi = getDoiFromRequest(httpRequest);
+        return storeMetadata(doi, xml, testMode, httpRequest);
+    }
+
+    public ResponseEntity<String> storeMetadata(String doi, byte[] xml, Boolean testMode, HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
         String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;
         String logPrefix = "*****" + method + " metadata (testMode=" + testMode + ") ";
 
         log4j.debug(logPrefix);
-        
-        byte[] xml = body.getBytes("UTF-8");
-        String doi = schemaService.getDoi(xml);
         
         Dataset dummyDataset = new Dataset();
         dummyDataset.setDoi(doi);

@@ -97,7 +97,7 @@ public class MetadataApiControllerTest {
         metadataApiController.get(doiRequest);
     }
     
-    private HttpServletRequest makeServletRequestForDoi(String doi) {
+    private MockHttpServletRequest makeServletRequestForDoi(String doi) {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setServletPath("/metadata/" + doi);
         return request;
@@ -143,15 +143,21 @@ public class MetadataApiControllerTest {
 
     @Test
     public void testCreateOrUpdateExistingDatasetPUT() throws Exception {
-        HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, null);
+        HttpStatus responseStatus = put(doi, xml, null);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
     
-    private HttpStatus createOrUpdateWithMethod(String method, String body, Boolean testMode) throws Exception {
+    private HttpStatus post(String body, Boolean testMode) throws Exception {
         MockHttpServletRequest httpRequest = new MockHttpServletRequest();
-        httpRequest.setMethod(method);
-        ResponseEntity<? extends Object> response = metadataApiController.createOrUpdate(body, testMode,
-                httpRequest);
+        httpRequest.setMethod("POST");
+        ResponseEntity<? extends Object> response = metadataApiController.post(body, testMode, httpRequest);
+        return response.getStatusCode();
+    }
+
+    private HttpStatus put(String doi, String body, Boolean testMode) throws Exception {
+        MockHttpServletRequest httpRequest = makeServletRequestForDoi(doi);
+        httpRequest.setMethod("POST");
+        ResponseEntity<? extends Object> response = metadataApiController.put(body, testMode, httpRequest);
         return response.getStatusCode();
     }
     
@@ -159,31 +165,31 @@ public class MetadataApiControllerTest {
     public void testCreateOrUpdateNonExistingDatasetPUT() throws Exception {
         metadata.remove();
         dataset.remove();
-        HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, false);
+        HttpStatus responseStatus = put(doi, xml, false);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
     @Test
     public void testCreateOrUpdateTestModePUT() throws Exception {
-        HttpStatus responseStatus = createOrUpdateWithMethod("PUT", xml, true);
+        HttpStatus responseStatus = put(doi, xml, true);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
     @Test(expected = SecurityException.class)
     public void testCreateOrUpdateForeignDatasetPUT() throws Exception {
         TestUtils.login(datacentre2);
-        createOrUpdateWithMethod("PUT", xml, false);
+        put(doi, xml, false);
     }
     
     @Test(expected = SecurityException.class)
     public void testCreateOrUpdateAsAllocator() throws Exception {
         TestUtils.login(allocator);
-        createOrUpdateWithMethod("PUT", xml, false);
+        put(doi, xml, false);
     }
 
     @Test
     public void testCreateOrUpdatePOST() throws Exception {
-        HttpStatus responseStatus = createOrUpdateWithMethod("POST", xml, false);
+        HttpStatus responseStatus = post(xml, false);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
@@ -191,7 +197,7 @@ public class MetadataApiControllerTest {
     public void testCreateOrUpdateNonExistingDatasetPOST() throws Exception {
         metadata.remove();
         dataset.remove();
-        HttpStatus responseStatus = createOrUpdateWithMethod("POST", xml, false);
+        HttpStatus responseStatus = post(xml, false);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
