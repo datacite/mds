@@ -29,7 +29,7 @@ sub main() {
       $resource = 'metadata';
       $content_type = 'application/xml;charset=UTF-8';
       $method = uc shift @ARGV or pod2usage("missing method");
-      if ($method =~ "GET|DELETE") {
+      if ($method =~ "GET|DELETE|PUT") {
         my $doi = shift @ARGV or pod2usage("missing doi");
         $resource .= "/$doi";
       }
