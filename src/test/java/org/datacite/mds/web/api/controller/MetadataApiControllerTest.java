@@ -1,5 +1,6 @@
 package org.datacite.mds.web.api.controller;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,10 +61,10 @@ public class MetadataApiControllerTest {
         metadataApiController.doiService = doiService;
         metadataApiController.validationHelper = validationHelper;
         metadataApiController.schemaService = schemaService;
-        
+
         doiRequest = makeServletRequestForDoi(doi);
         wrongDoiRequest = makeServletRequestForDoi(doi + 1);
-        
+
         String prefix = Utils.getDoiPrefix(doi);
 
         allocator = TestUtils.createAllocator(allocatorSymbol);
@@ -85,33 +86,47 @@ public class MetadataApiControllerTest {
         metadata.setDataset(dataset);
         metadata.setXml(TestUtils.getTestMetadata());
         metadata.persist();
-        
+
         xml = new String(metadata.getXml(), "UTF-8");
 
         TestUtils.login(datacentre);
     }
-    
-    @Test(expected = NotFoundException.class)
-    public void testGet404() throws Exception {
-        metadata.remove();
-        metadataApiController.get(doiRequest);
-    }
-    
+
     private MockHttpServletRequest makeServletRequestForDoi(String doi) {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setServletPath("/metadata/" + doi);
         return request;
     }
 
-    @Test(expected = NotFoundException.class)
-    public void testGetNoDoi() throws Exception {
-        metadataApiController.get(wrongDoiRequest);
+    private HttpStatus post(String body, Boolean testMode) throws Exception {
+        MockHttpServletRequest httpRequest = makeServletRequestForDoi(null);
+        ResponseEntity<? extends Object> response = metadataApiController.post(body, testMode, httpRequest);
+        return response.getStatusCode();
+    }
+
+    private HttpStatus put(String doi, String body, Boolean testMode) throws Exception {
+        MockHttpServletRequest httpRequest = makeServletRequestForDoi(doi);
+        ResponseEntity<? extends Object> response = metadataApiController.put(body, testMode, httpRequest);
+        return response.getStatusCode();
+    }
+
+    @Test
+    public void testGetRoot() throws Exception {
+        ResponseEntity response = metadataApiController.getRoot();
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
     @Test
     public void testGet() throws Exception {
-        ResponseEntity<? extends Object> response = metadataApiController.get(doiRequest);
+        ResponseEntity response = metadataApiController.get(doiRequest);
+        assertArrayEquals(metadata.getXml(), (byte[]) response.getBody());
         assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testGetNonExistingMetadata() throws Exception {
+        metadata.remove();
+        metadataApiController.get(doiRequest);
     }
 
     @Test(expected = SecurityException.class)
@@ -119,14 +134,13 @@ public class MetadataApiControllerTest {
         TestUtils.login(datacentre2);
         metadataApiController.get(doiRequest);
     }
-    
+
     @Test
     public void testGetAsAllocator() throws Exception {
         TestUtils.login(allocator);
-        ResponseEntity<? extends Object> response = metadataApiController.get(doiRequest);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        testGet();
     }
-    
+
     @Test(expected = SecurityException.class)
     public void testGetAsForeignAllocator() throws Exception {
         Allocator allocator2 = TestUtils.createAllocator("OTHER");
@@ -142,68 +156,74 @@ public class MetadataApiControllerTest {
     }
 
     @Test
-    public void testCreateOrUpdateExistingDatasetPUT() throws Exception {
+    public void testPut() throws Exception {
         HttpStatus responseStatus = put(doi, xml, null);
         assertEquals(HttpStatus.CREATED, responseStatus);
-    }
-    
-    private HttpStatus post(String body, Boolean testMode) throws Exception {
-        MockHttpServletRequest httpRequest = new MockHttpServletRequest();
-        httpRequest.setMethod("POST");
-        ResponseEntity<? extends Object> response = metadataApiController.post(body, testMode, httpRequest);
-        return response.getStatusCode();
+        testGet();
     }
 
-    private HttpStatus put(String doi, String body, Boolean testMode) throws Exception {
-        MockHttpServletRequest httpRequest = makeServletRequestForDoi(doi);
-        httpRequest.setMethod("POST");
-        ResponseEntity<? extends Object> response = metadataApiController.put(body, testMode, httpRequest);
-        return response.getStatusCode();
-    }
-    
     @Test
-    public void testCreateOrUpdateNonExistingDatasetPUT() throws Exception {
+    public void testPutNonExisting() throws Exception {
         metadata.remove();
-        dataset.remove();
         HttpStatus responseStatus = put(doi, xml, false);
         assertEquals(HttpStatus.CREATED, responseStatus);
+        testGet();
     }
 
     @Test
-    public void testCreateOrUpdateTestModePUT() throws Exception {
+    public void testPutTestMode() throws Exception {
+        metadata.remove();
         HttpStatus responseStatus = put(doi, xml, true);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
+    @Test(expected = NotFoundException.class)
+    public void testPutTestModeAndGet() throws Exception {
+        testPutTestMode();
+        testGet();
+    }
+
     @Test(expected = SecurityException.class)
-    public void testCreateOrUpdateForeignDatasetPUT() throws Exception {
+    public void testPutForeignDataset() throws Exception {
         TestUtils.login(datacentre2);
         put(doi, xml, false);
     }
-    
+
     @Test(expected = SecurityException.class)
-    public void testCreateOrUpdateAsAllocator() throws Exception {
+    public void testPutAsAllocator() throws Exception {
         TestUtils.login(allocator);
         put(doi, xml, false);
     }
 
     @Test
-    public void testCreateOrUpdatePOST() throws Exception {
+    public void testPost() throws Exception {
         HttpStatus responseStatus = post(xml, false);
         assertEquals(HttpStatus.CREATED, responseStatus);
     }
 
     @Test
-    public void testCreateOrUpdateNonExistingDatasetPOST() throws Exception {
+    public void testPostNonExistingDataset() throws Exception {
         metadata.remove();
-        dataset.remove();
         HttpStatus responseStatus = post(xml, false);
         assertEquals(HttpStatus.CREATED, responseStatus);
+    }
+
+    @Test
+    public void testPostTestMode() throws Exception {
+        metadata.remove();
+        HttpStatus responseStatus = post(xml, true);
+        assertEquals(HttpStatus.CREATED, responseStatus);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testPostTestModeAndGet() throws Exception {
+        testPostTestMode();
+        testGet();
     }
 
     @Test
     public void testDelete() throws Exception {
-        ResponseEntity<? extends Object> response = metadataApiController.delete(doiRequest, null);
+        ResponseEntity response = metadataApiController.delete(doiRequest, null);
         assertEquals(HttpStatus.OK, response.getStatusCode());
     }
 
@@ -220,19 +240,20 @@ public class MetadataApiControllerTest {
     }
 
     @Test(expected = NotFoundException.class)
-    public void testDelete404() throws Exception {
+    public void testDeleteNonExisting() throws Exception {
         metadataApiController.delete(wrongDoiRequest, false);
     }
 
     @Test
     public void testDeleteTestMode() throws Exception {
-        ResponseEntity<? extends Object> response = metadataApiController.delete(doiRequest, true);
+        ResponseEntity response = metadataApiController.delete(doiRequest, true);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        testGet();
     }
 
     @Test
     public void testUnDelete() throws Exception {
-        ResponseEntity<? extends Object> response = metadataApiController.delete(doiRequest, false);
+        ResponseEntity response = metadataApiController.delete(doiRequest, false);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         response = metadataApiController.delete(doiRequest, false);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -240,7 +261,7 @@ public class MetadataApiControllerTest {
     }
 
     @Test(expected = DeletedException.class)
-    public void testGetDeleted() throws Exception {
+    public void testDeleteAndGet() throws Exception {
         metadataApiController.delete(doiRequest, false);
         metadataApiController.get(doiRequest);
     }
