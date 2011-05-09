@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@RequestMapping("/metadata/")
+@RequestMapping("/metadata")
 @Controller
 public class MetadataApiController implements ApiController {
 
@@ -46,8 +46,13 @@ public class MetadataApiController implements ApiController {
     @Autowired
     SchemaService schemaService;
     
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    public ResponseEntity get() {
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+    
     @RequestMapping(value = "**", method = RequestMethod.GET)
-    public ResponseEntity<? extends Object> get(HttpServletRequest request) throws SecurityException, NotFoundException, DeletedException {
+    public ResponseEntity<? extends Object> getMetadata(HttpServletRequest request) throws SecurityException, NotFoundException, DeletedException {
         String doi = getDoiFromRequest(request);
         log4j.debug(doi);
         AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
@@ -76,7 +81,7 @@ public class MetadataApiController implements ApiController {
         return doi;
     }
 
-    @RequestMapping(method = { RequestMethod.PUT, RequestMethod.POST })
+    @RequestMapping(value = "", method = { RequestMethod.PUT, RequestMethod.POST })
     public ResponseEntity<String> createOrUpdate(@RequestBody String body,
                                              @RequestParam(required = false) Boolean testMode,
                                              HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
