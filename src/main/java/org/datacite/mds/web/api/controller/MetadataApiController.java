@@ -47,12 +47,12 @@ public class MetadataApiController implements ApiController {
     SchemaService schemaService;
     
     @RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.HEAD })
-    public ResponseEntity get() {
+    public ResponseEntity getRoot() {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
     
     @RequestMapping(value = "**", method = { RequestMethod.GET, RequestMethod.HEAD })
-    public ResponseEntity<? extends Object> getMetadata(HttpServletRequest request) throws SecurityException, NotFoundException, DeletedException {
+    public ResponseEntity<? extends Object> get(HttpServletRequest request) throws SecurityException, NotFoundException, DeletedException {
         String doi = getDoiFromRequest(request);
         log4j.debug(doi);
         AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
