@@ -136,9 +136,12 @@ public class MetadataApiController implements ApiController {
         }
 
         HttpHeaders headers = new HttpHeaders();
+        if (method.equals("POST")) {
+            StringBuffer location = httpRequest.getRequestURL().append("/" + doi);
+            headers.set("Location", location.toString());
+        }
         return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
     }
-
 
     @RequestMapping(value = "**", method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(HttpServletRequest request,
