@@ -262,4 +262,18 @@ public class MetadataApiControllerTest {
         metadataApiController.delete(doiRequest, false);
         metadataApiController.get(doiRequest);
     }
+    
+    @Test
+    public void testIsActiveAfterPut() throws Exception {
+        testDelete();
+        testPut();
+        testGet();
+    }
+
+    @Test
+    public void testIsActiveAfterPost() throws Exception {
+        testDelete();
+        testPost();
+        testGet();
+    }
 }

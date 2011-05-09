@@ -123,6 +123,10 @@ public class MetadataApiController implements ApiController {
         if (!testMode) {
             log4j.debug(logPrefix + "persisting XML");
             metadata.persist();
+            if (BooleanUtils.isFalse(dataset.getIsActive())) {
+                dataset.setIsActive(true);
+                dataset.merge();
+            }
         }
 
         HttpHeaders headers = new HttpHeaders();
