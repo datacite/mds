@@ -27,6 +27,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
@@ -153,6 +154,11 @@ public class MetadataApiControllerTest {
     public void testGetNotLoggedIn() throws Exception {
         TestUtils.logout();
         metadataApiController.get(doiRequest);
+    }
+    
+    @Test(expected = HttpRequestMethodNotSupportedException.class)
+    public void testPutNoDoi() throws Exception {
+        metadataApiController.putRoot();
     }
 
     @Test
