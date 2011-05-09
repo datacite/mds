@@ -11,8 +11,8 @@ import org.datacite.mds.web.api.NotFoundException;
 public interface DoiService {
 
     /**
-     * Creates a Dataset object and mints DOI. Checks if the following
-     * conditions are met:
+     * Creates a new or use a existing Dataset object and mints DOI.
+     * Checks if the following conditions are met:
      * <ol>
      * <li>A datacentre is logged in and active</li>
      * <li>DOI has prefix belonging to the Datacentre</li>

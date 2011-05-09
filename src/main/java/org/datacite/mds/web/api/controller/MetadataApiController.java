@@ -105,20 +105,7 @@ public class MetadataApiController implements ApiController {
         
         validationHelper.validate(metadata);
         
-        Dataset dataset;
-
-        if (method.equals("POST")) {
-            dataset = doiService.create(doi, null, testMode);
-        } else { // PUT
-            try {
-                dataset = doiService.update(doi, null, testMode);
-            } catch (NotFoundException e) {
-                // This is workaround for 3rd parties who wants to integrate
-                // with MDS but are not able to figure out of metadata was
-                // already stored in MDS
-                dataset = doiService.create(doi, null, testMode);
-            }
-        }
+        Dataset dataset = doiService.create(doi, null, testMode);
 
         log4j.debug(logPrefix + "dataset id = " + dataset.getId());
         metadata.setDataset(dataset);
