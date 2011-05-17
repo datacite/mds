@@ -23,14 +23,14 @@ public class SchemaServiceImplTest {
     public void testGetSchemaLocationNoNamespace() throws Exception {
         byte[] xml = TestUtils.getTestMetadata20();
         String schemaLocation = service.getSchemaLocation(xml);
-        assertEquals("http://datacite.org/schema/datacite-metadata-v2.0.xsd", schemaLocation);
+        assertEquals("http://schema.datacite.org/meta/kernel-2.0/metadata.xsd", schemaLocation);
     }
     
     @Test
     public void testGetSchemaLocationWithNamespace() throws Exception {
         byte[] xml = TestUtils.getTestMetadata21();
         String schemaLocation = service.getSchemaLocation(xml);
-        assertEquals("http://datacite.org/schema/datacite-metadata-v2.1.xsd", schemaLocation);
+        assertEquals("http://schema.datacite.org/meta/kernel-2.1/metadata.xsd", schemaLocation);
     }
 
     @Test(expected=ValidationException.class)
@@ -41,7 +41,7 @@ public class SchemaServiceImplTest {
     
     @Test
     public void getSchemaValidator() throws Exception {
-        service.getSchemaValidator("http://datacite.org/schema/datacite-metadata-v2.1.xsd");
+        service.getSchemaValidator("http://schema.datacite.org/meta/kernel-2.1/metadata.xsd");
     }
 
     @Test(expected = SAXParseException.class)
