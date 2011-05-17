@@ -3,3 +3,4 @@ handle.id=<<SEE WIKI>>
 handle.password=<<SEE WIKI>>
 handle.traceMessages=false
 handle.dummyMode=true
+handle.testPrefix=10.5072
