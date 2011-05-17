@@ -66,6 +66,7 @@ public class DoiServiceImplTest {
         expectNoDoiServiceCall();
 
         login(datacentre);
+        datacentre.flush();
     }
     
     private void expectNoDoiServiceCall() {

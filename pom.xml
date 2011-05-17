@@ -151,10 +151,10 @@
 			<version>${spring.version}</version>
 		</dependency>
 	<dependency>
-		<groupId>postgresql</groupId>
-		<artifactId>postgresql</artifactId>
-		<version>8.4-702.jdbc4</version>
-	</dependency>    
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>5.1.16</version>
+    </dependency>      
     <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>

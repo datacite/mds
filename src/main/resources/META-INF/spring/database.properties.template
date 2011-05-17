@@ -1,5 +1,4 @@
 database.password=
-database.username=datacite
-database.url=jdbc:postgresql://localhost/datacite_test
-database.driverClassName=org.postgresql.Driver
-
+database.username=
+database.url=jdbc:mysql://localhost/datacite?useUnicode=true&characterEncoding=UTF8
+database.driverClassName=com.mysql.jdbc.Driver

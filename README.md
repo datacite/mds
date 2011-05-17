@@ -20,22 +20,16 @@ works fine).
 You don't need Roo to run the code. Although you will most likely need
 it for development.
 
-### PostgreSQL setup
+### mysql setup
 
-On Ubuntu:
+Create database with UTF-8 support
 
-    sudo apt-get install postgresql postgresql-client pgadmin3
+    create database datacite character set utf8;
+    create database datacite_test character set utf8;
 
-The pgAdmin III is optional, use it if you like it.
+make sure transactions are supported - add in my.cnf:
 
-Once PostgreSQL is set up, create two databases (one for local
-deployment and one for testing)
-
-    sudo su - postgres
-    createuser -P -S -d -R datacite
-    createdb datacite
-    createuser -P -S -d -R datacite_test
-    createdb datacite_test
+    default-storage-engine=innodb
 
 ## Java dependencies
 

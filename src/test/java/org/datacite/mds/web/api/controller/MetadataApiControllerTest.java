@@ -91,6 +91,7 @@ public class MetadataApiControllerTest {
         xml = new String(metadata.getXml(), "UTF-8");
 
         TestUtils.login(datacentre);
+        datacentre.flush();
     }
 
     private MockHttpServletRequest makeServletRequestForDoi(String doi) {
