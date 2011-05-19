@@ -2,6 +2,7 @@ package org.datacite.mds.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -30,6 +31,7 @@ public class Metadata {
     private static Logger log4j = Logger.getLogger(Metadata.class);
 
     @ValidXML
+    @Column(length=10000)
     private byte[] xml;
 
     @Min(0L)

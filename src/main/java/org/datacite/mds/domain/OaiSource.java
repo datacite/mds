@@ -28,7 +28,6 @@ import org.springframework.roo.addon.tostring.RooToString;
 @Unique(field = "url")
 @RooEntity(finders = { "findOaiSourcesByUrl" })
 @XmlRootElement
-@Entity
 public class OaiSource {
 
     @Id
