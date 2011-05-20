@@ -69,7 +69,7 @@ public class DoiApiControllerTest {
     public void testCreateOrUpdateEmptyBody() throws Exception {
         post("", null);
     }
-    
+
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateEmptyLines1() throws Exception {
         post("\n", null);
@@ -78,6 +78,11 @@ public class DoiApiControllerTest {
     @Test(expected = ValidationException.class)
     public void testCreateOrUpdateEmptyLines2() throws Exception {
         post("\n\n", null);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void testCreateOrUpdateOneLine() throws Exception {
+        post(doi, null);
     }
     
     @Test(expected = ValidationException.class)

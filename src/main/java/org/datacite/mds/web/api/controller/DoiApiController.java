@@ -61,7 +61,7 @@ public class DoiApiController implements ApiController {
         String[] lines = body.split("\\r?\\n",3);
         
         boolean hasTwoLines = lines.length == 2 || (lines.length == 3 && StringUtils.isEmpty(lines[2]));
-        boolean areFieldsEmpty = StringUtils.isEmpty(lines[0]) || StringUtils.isEmpty(lines[1]);
+        boolean areFieldsEmpty = lines.length < 2 || StringUtils.isEmpty(lines[0]) || StringUtils.isEmpty(lines[1]);
         
         if (!hasTwoLines || areFieldsEmpty)
             throw new ValidationException("request body must contain exactly two lines: DOI and URL");
