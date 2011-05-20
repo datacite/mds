@@ -27,16 +27,16 @@ knowledge of programming and the HTTP protocol.</p>
 <h2>Overview</h2>
 <p>The API is implemented in RESTful style. The <b>end point</b> you
 are going to use is:</p>
-<p class="indent"><code>https://api.datacite.org</code></p>
+<p class="indent"><code>https://mds.datacite.org</code></p>
 <p>At the moment there are <b>two resources</b>:</p>
 <p class="indent"><code>/doi</code></p>
 <p class="indent"><code>/metadata</code></p>
 <p>The URI
-<code>https://api.datacite.org<b>/metadata</b></code> accepts requests
+<code>https://mds.datacite.org<b>/metadata</b></code> accepts requests
 with 1 HTTP methods: <code>POST</code></p>
-<p>The URI <code>https://api.datacite.org<b>/metadata/{doi}</b></code>, where <code>{doi}</code> is a actually DOI, accepts requests
+<p>The URI <code>https://mds.datacite.org<b>/metadata/{doi}</b></code>, where <code>{doi}</code> is a actually DOI, accepts requests
 with 3 HTTP methods: <code>GET</code>, <code>PUT</code>  and <code>DELETE</code></p>
-<p>The URI <code>https://api.datacite.org<b>/doi</b></code> accepts requests
+<p>The URI <code>https://mds.datacite.org<b>/doi</b></code> accepts requests
 with 2 HTTP methods: <code>POST</code> and <code>PUT</code></p>
 <p>In addition <code>HEAD</code> is allowed, whenever <code>GET</code> is.</p> 
 <p>The meaning of
@@ -85,7 +85,7 @@ If set to "true" or "1" the request will not change the database nor will the DO
 
 <h2>Metadata API</h2>
 <h3>GET</h3> 
-<p><i>URI: https://api.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
+<p><i>URI: https://mds.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
 <p>This request returns the most recent version of metadata associated with a given DOI.</p>
 <h4>Request headers</h4> 
 <code>Accept=application/xml</code> 
@@ -107,7 +107,7 @@ try later and if problem persists please contact us
 <jsp:directive.include file="examples/metadata-get.jspx"/>
 
 <h3>POST</h3>
-<p><i>URI: https://api.datacite.org/metadata</i></p> 
+<p><i>URI: https://mds.datacite.org/metadata</i></p> 
 <p>This request stores new version of metadata. The request body must contain valid XML.</p>
 <h4>Request headers</h4> 
 <code>Content-Type=application/xml;charset=UTF-8</code> 
@@ -127,7 +127,7 @@ try later and if problem persists please contact us</p>
 <jsp:directive.include file="examples/metadata-post.jspx"/>
 
 <h3>PUT</h3>
-<p><i>URI: https://api.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
+<p><i>URI: https://mds.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
 <p>This request stores new version of metadata. The request body must contain valid XML.</p>
 <code>Content-Type=application/xml;charset=UTF-8</code> 
 <h4>Request body</h4> 
@@ -144,7 +144,7 @@ try later and if problem persists please contact us</p>
 <jsp:directive.include file="examples/metadata-put.jspx"/>
 
 <h3>DELETE</h3> 
-<p><i>URI: https://api.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
+<p><i>URI: https://mds.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
 <p>This request allows mark a dataset as 'inactive'. To activate it again, do another <code>PUT</code> or set the <code>isActive</code>-flag in the user interface</p>
 
 <h4>Response body</h4> 
@@ -161,7 +161,7 @@ try later and if problem persists please contact us
 <jsp:directive.include file="examples/metadata-delete.jspx"/>
 
 <h2>Doi API</h2>
-<p><i>URI: https://api.datacite.org/doi</i></p> 
+<p><i>URI: https://mds.datacite.org/doi</i></p> 
 <h3>POST</h3>
 <p>POST will mint new DOI, check domains and quota restrictions. A Datacentre's doiQuotaUsed will be increased by 1. A new record in Datasets will be created.</p>
 <h4>Request headers</h4> 

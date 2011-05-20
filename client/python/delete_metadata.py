@@ -1,6 +1,6 @@
 import httplib2, sys, base64
 
-endpoint = 'https://api.datacite.org/metadata'
+endpoint = 'https://mds.datacite.org/metadata'
 
 if (len(sys.argv) < 4):
     raise Exception('Please provide username, password and doi')

@@ -9,7 +9,7 @@ import httplib2, sys, base64, codecs
 if (len(sys.argv) < 4):
     raise Exception('Please provide username, password, location of doi-url file')
  
-endpoint = 'https://api.datacite.org/doi'
+endpoint = 'https://mds.datacite.org/doi'
 
 body_unicode = codecs.open(sys.argv[3], 'r', encoding='utf-8').read().strip()
 
@@ -38,7 +38,7 @@ use strict;
 use LWP;
 use Crypt::SSLeay;    # SSL for LWP
 
-my $endpoint = 'https://api.datacite.org/doi';
+my $endpoint = 'https://mds.datacite.org/doi';
 
 my ($user_name, $user_pass) = @ARGV      
   or die('Please provide username, password; body is read from stdin');      
@@ -70,7 +70,7 @@ print $response->content;
 	public void POSTDoiExample(){
 		
 		try{			
-			String restEndpoint = "https://api.datacite.org/doi";
+			String restEndpoint = "https://mds.datacite.org/doi";
 			String doi = "[doi]";
 			String url = "[url]";
 			String username = "[username]";

@@ -3,7 +3,7 @@ import httplib2, sys, base64, codecs
 if (len(sys.argv) < 4):
     raise Exception('Please provide username, password, location of doi-url file')
  
-endpoint = 'https://api.datacite.org/doi'
+endpoint = 'https://mds.datacite.org/doi'
 
 body_unicode = codecs.open(sys.argv[3], 'r', encoding='utf-8').read().strip()
 

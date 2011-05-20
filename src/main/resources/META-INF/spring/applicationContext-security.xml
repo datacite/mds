@@ -158,7 +158,7 @@
 
 	<bean id="basicAuthenticationEntryPoint"
 		class="org.datacite.mds.web.api.ApiBasicAuthenticationEntryPoint">
-		<property name="realmName" value="api.datacite.org"/>
+		<property name="realmName" value="mds.datacite.org"/>
 	</bean>		
 
 	<bean id="basicExceptionTranslationFilter"

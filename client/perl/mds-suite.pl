@@ -8,7 +8,7 @@ use LWP;
 use Crypt::SSLeay;    # SSL for LWP
 use Term::ReadKey;    # for password reading
 
-my $GLOBAL_SERVER     = 'api.datacite.org';
+my $GLOBAL_SERVER     = 'mds.datacite.org';
 my $LOCAL_SERVER      = 'localhost:8443/mds';
 my $DEFAULT_DC_SYMBOL = 'TEST.TEST';
 my $DEFAULT_DC_PW     = '12345678';

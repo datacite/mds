@@ -9,7 +9,7 @@ import httplib2, sys, base64, codecs
 if (len(sys.argv) < 5):
     raise Exception('Please provide username, password and location of metadata file')
  
-endpoint = 'https://api.datacite.org/metadata'
+endpoint = 'https://mds.datacite.org/metadata'
 
 body_unicode = codecs.open(sys.argv[3], 'r', encoding='utf-8').read()
 
@@ -37,7 +37,7 @@ use strict;
 use LWP;
 use Crypt::SSLeay;    # SSL for LWP
 
-my $endpoint = 'https://api.datacite.org/metadata';
+my $endpoint = 'https://mds.datacite.org/metadata';
 
 my ($user_name, $user_pass, $doi) = @ARGV
   or die('Please provide username and password; body is read from stdin');
@@ -67,7 +67,7 @@ print $response->content;
 	public void PUTMetadataExample(){
 		
 		try{			
-			String restEndpoint = "https://api.datacite.org/metadata";
+			String restEndpoint = "https://mds.datacite.org/metadata";
 			String url = "[url]";
 			String username = "[username]";
 			String password = "[password]";
