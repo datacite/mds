@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 public class DoiApiControllerTest {
     
@@ -31,6 +32,12 @@ public class DoiApiControllerTest {
         mockDoiService = createMock(DoiService.class);
         doiApiController.doiService = this.mockDoiService;
     }    
+    
+    @Test
+    public void testGetRoot() throws Exception {
+        ResponseEntity response = doiApiController.getRoot();
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
 
     @Test
     public void testPost() throws Exception {
@@ -63,10 +70,15 @@ public class DoiApiControllerTest {
         expectDoiServiceUpdate();
         statusCode = put(doi, url, false);
 	assertEquals(HttpStatus.OK, statusCode);
-    }        
+    }      
+    
+    @Test(expected = HttpRequestMethodNotSupportedException.class)
+    public void testPutNoDoi() throws Exception {
+        doiApiController.putRoot();
+    }
     
     @Test(expected = ValidationException.class)
-    public void testPosteEmptyBody() throws Exception {
+    public void testPostEmptyBody() throws Exception {
         post("", null);
     }
 
