@@ -41,21 +41,21 @@ public class DoiApiControllerTest {
 
     @Test
     public void testPost() throws Exception {
-        expectDoiServiceCreate();
+        expectDoiServiceCreateOrUpdate();
         HttpStatus statusCode = post(doi + "\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
 
     @Test
     public void testPostCRLF() throws Exception {
-        expectDoiServiceCreate();
+        expectDoiServiceCreateOrUpdate();
         HttpStatus statusCode = post(doi + "\r\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
 
     @Test
     public void testPostTrailingNewLine() throws Exception {
-        expectDoiServiceCreate();
+        expectDoiServiceCreateOrUpdate();
         HttpStatus statusCode = post(doi + "\n" + url + "\n", false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
@@ -107,14 +107,14 @@ public class DoiApiControllerTest {
     
     @Test
     public void testPut() throws Exception {
-        expectDoiServiceCreate();
+        expectDoiServiceCreateOrUpdate();
         HttpStatus statusCode = post(doi + "\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
         
         reset(mockDoiService);
-        expectDoiServiceUpdate();
+        expectDoiServiceCreateOrUpdate();
         statusCode = put(doi, url, false);
-        assertEquals(HttpStatus.OK, statusCode);
+        assertEquals(HttpStatus.CREATED, statusCode);
     }
     
     @Test(expected = HttpRequestMethodNotSupportedException.class)
@@ -127,14 +127,10 @@ public class DoiApiControllerTest {
         put(doi, "\n", null);
     }
 
-    private void expectDoiServiceCreate() throws Exception {
-        expect(mockDoiService.create(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
+    private void expectDoiServiceCreateOrUpdate() throws Exception {
+        expect(mockDoiService.createOrUpdate(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
     }
 
-    private void expectDoiServiceUpdate() throws Exception {
-        expect(mockDoiService.update(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
-    }
-    
     private MockHttpServletRequest makeServletRequestForDoi(String doi) {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setServletPath("/doi/" + doi);

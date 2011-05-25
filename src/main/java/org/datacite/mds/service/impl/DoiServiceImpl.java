@@ -27,7 +27,8 @@ public class DoiServiceImpl implements DoiService {
     @Autowired
     ValidationHelper validationHelper;
 
-    public Dataset create(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException {
+    @Override
+    public Dataset createOrUpdate(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
 
         SecurityUtils.checkQuota(datacentre);
@@ -46,7 +47,11 @@ public class DoiServiceImpl implements DoiService {
 
         log4j.debug("trying handle registration: " + doi);
         if (!testMode && StringUtils.isNotEmpty(url)) {
-            handleService.create(doi, url);
+            try {
+                handleService.create(doi, url);
+            } catch (HandleException e) {
+                handleService.update(doi, url);
+            }
             log4j.info(datacentre.getSymbol() + " successfuly minted " + doi);
         } else
             log4j.debug("TEST MODE or empty URL- minting skipped");
@@ -67,26 +72,4 @@ public class DoiServiceImpl implements DoiService {
         return dataset;
     }
 
-    public Dataset update(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException, NotFoundException {
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
-
-        Dataset dataset = Dataset.findDatasetByDoi(doi);
-        if (dataset == null) {
-            throw new NotFoundException("DOI doesn't exist");
-        }
-        dataset.setUrl(url);
-
-        validationHelper.validate(dataset);
-
-        SecurityUtils.checkDatasetOwnership(dataset, datacentre);
-
-        if (!testMode && StringUtils.isNotEmpty(url)) {
-            handleService.update(doi, url);
-            log4j.info(datacentre.getSymbol() + " successfuly updated " + doi);
-        } else {
-            log4j.debug("TEST MODE or empty URL- update skipped");
-        }
-
-        return dataset;
-    }    
 }

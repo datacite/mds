@@ -90,17 +90,10 @@ public class DoiApiController implements ApiController {
 
         log4j.debug("*****" + method + " doi (testMode=" + testMode + ") doi: " + doi + ", url: " + url);
 
-        HttpStatus httpStatus; 
-        if (method.equals("POST")) {
-            doiService.create(doi, url, testMode);
-            httpStatus = HttpStatus.CREATED;
-        } else { // PUT
-            doiService.update(doi, url, testMode);
-            httpStatus = HttpStatus.OK;
-        }
+        doiService.createOrUpdate(doi, url, testMode);
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<String>("OK", headers, httpStatus);
+        return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
     }
     
     private String[] parseBodyForPost(String body) throws ValidationException {

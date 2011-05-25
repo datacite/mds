@@ -82,24 +82,24 @@ public class DoiServiceImplTest {
     // CREATE
 
     @Test
-    public void testCreate() throws Exception {
-        expectDoiServiceCreate(DOI, URL);
-        Dataset dataset = doiService.create(DOI, URL, false);
+    public void testCreateOrUpdate() throws Exception {
+        expectHandleServiceCreate(DOI, URL);
+        Dataset dataset = doiService.createOrUpdate(DOI, URL, false);
         assertEquals(DOI, dataset.getDoi());
         assertEquals(DATACENTRE_SYMBOL, dataset.getDatacentre().getSymbol());
         Integer doiQuotaUsedExpected = DOI_QUOTA_USED + 1;
         assertEquals(doiQuotaUsedExpected, dataset.getDatacentre().getDoiQuotaUsed());
     }
-
-    private void expectDoiServiceCreate(String doi, String url) throws HandleException {
+    
+    private void expectHandleServiceCreate(String doi, String url) throws HandleException {
         EasyMock.reset(mockHandleService);
         mockHandleService.create(doi, url);
         EasyMock.replay(mockHandleService);
     }
-    
+
     @Test
-    public void testCreateTestMode() throws Exception {
-        Dataset dataset = doiService.create(DOI, URL, true);
+    public void testCreateOrUpdateTestMode() throws Exception {
+        Dataset dataset = doiService.createOrUpdate(DOI, URL, true);
         assertEquals(DOI, dataset.getDoi());
         assertEquals(DATACENTRE_SYMBOL, dataset.getDatacentre().getSymbol());
         Integer doiQuotaUsedExpected = DOI_QUOTA_USED + 1;
@@ -107,8 +107,8 @@ public class DoiServiceImplTest {
     }
 
     @Test
-    public void testCreateEmptyURL() throws Exception {
-        Dataset dataset = doiService.create(DOI, "", false);
+    public void testCreateOrUpdateEmptyURL() throws Exception {
+        Dataset dataset = doiService.createOrUpdate(DOI, "", false);
         assertEquals(DOI, dataset.getDoi());
         assertEquals(DATACENTRE_SYMBOL, dataset.getDatacentre().getSymbol());
         Integer doiQuotaUsedExpected = DOI_QUOTA_USED + 1;
@@ -116,72 +116,56 @@ public class DoiServiceImplTest {
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateWrongPrefix() throws Exception {
-        doiService.create(DOI_WRONG, URL, false);
+    public void testCreateOrUpdateWrongPrefix() throws Exception {
+        doiService.createOrUpdate(DOI_WRONG, URL, false);
     }
 
     @Test(expected = SecurityException.class)
-    public void testCreateQuotaExceeded() throws Exception {
+    public void testCreateOrUpdateQuotaExceeded() throws Exception {
         datacentre.setDoiQuotaAllowed(DOI_QUOTA_USED);
-        doiService.create(DOI, URL, false);
+        doiService.createOrUpdate(DOI, URL, false);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateWrongDomain() throws Exception {
-        doiService.create(DOI, URL_WRONG, false);
+    public void testCreateOrUpdateWrongDomain() throws Exception {
+        doiService.createOrUpdate(DOI, URL_WRONG, false);
     }
 
     @Test(expected = SecurityException.class)
-    public void testCreateNotLoggedIn() throws Exception {
+    public void testCreateOrUpdateNotLoggedIn() throws Exception {
         login(null);
-        doiService.create(DOI, URL, false);
+        doiService.createOrUpdate(DOI, URL, false);
     }
-
-    // UPDATE
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testCreateOrUpdateExistingDataset() throws Exception {
         createDataset(DOI, datacentre).persist();
-        expectDoiServiceUpdate(DOI, URL);
-        doiService.update(DOI, URL, false);
+        expectHandleServiceCreate(DOI, URL);
+        doiService.createOrUpdate(DOI, URL, false);
     }
     
-    private void expectDoiServiceUpdate(String doi, String url) throws HandleException {
+    @Test
+    public void testCreateOrUpdateExistingHandle() throws Exception {
+        expectHandleServiceUpdate(DOI, URL);
+        doiService.createOrUpdate(DOI, URL, false);
+    }
+
+    private void expectHandleServiceUpdate(String doi, String url) throws HandleException {
         EasyMock.reset(mockHandleService);
+        mockHandleService.create(doi, url);
+        EasyMock.expectLastCall().andThrow(new HandleException("handle exists"));
         mockHandleService.update(doi, url);
         EasyMock.replay(mockHandleService);
     }
-    
-    @Test
-    public void testUpdateTestMode() throws Exception {
-        createDataset(DOI, datacentre).persist();
-        doiService.update(DOI, URL, true);
-    }
-
-    @Test
-    public void testUpdateEmptyUrl() throws Exception {
-        createDataset(DOI, datacentre).persist();
-        doiService.update(DOI, "", false);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testUpdateWrongDomain() throws Exception {
-        createDataset(DOI, datacentre).persist();
-        doiService.update(DOI, URL_WRONG, false);
-    }
 
     @Test(expected = SecurityException.class)
-    public void testUpdateNonBelongingDataset() throws Exception {
+    public void testCreateOrUpdateNonBelongingDataset() throws Exception {
         Datacentre datacentre2 = createDatacentre(DATACENTRE_SYMBOL2, datacentre.getAllocator());
         datacentre2.setPrefixes(datacentre.getPrefixes());
         datacentre2.persist();
         createDataset(DOI, datacentre2).persist();
-        doiService.update(DOI, URL, false);
+        doiService.createOrUpdate(DOI, URL, false);
     }
 
-    @Test(expected = NotFoundException.class)
-    public void testUpdateNonExistingDataset() throws Exception {
-        doiService.update(DOI, URL, false);
-    }
 
 }

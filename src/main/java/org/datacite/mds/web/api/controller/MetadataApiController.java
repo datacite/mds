@@ -122,7 +122,7 @@ public class MetadataApiController implements ApiController {
         
         validationHelper.validate(metadata);
         
-        Dataset dataset = doiService.create(doi, null, testMode);
+        Dataset dataset = doiService.createOrUpdate(doi, null, testMode);
 
         log4j.debug(logPrefix + "dataset id = " + dataset.getId());
         metadata.setDataset(dataset);
