@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
+import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,26 @@ public class HandleServiceImpl implements HandleService {
 
     HandleResolver resolver = new HandleResolver();
 
+    @Override
+    public String resolve(String doi) throws HandleException, NotFoundException {
+        try {
+            String[] types = { "URL" };
+            HandleValue[] values = resolver.resolveHandle(doi, types, null);
+            if (values.length == 0)
+                throw new NotFoundException("no url found for handle " + doi);
+            return values[0].getDataAsString();
+        } catch (net.handle.hdllib.HandleException e) {
+            if (e.getCode() == net.handle.hdllib.HandleException.HANDLE_DOES_NOT_EXIST) {
+                throw new NotFoundException("handle " + doi + " does not exist");
+            } else {
+                String message = "tried to resolve handle " + doi + " but failed: " + e.getMessage();
+                log4j.error(message, e);
+                throw new HandleException(message, e);
+            }
+        }
+    }
+
+    @Override
     public void create(String doi, String url) throws HandleException {
         if (StringUtils.isEmpty(doi) || StringUtils.isEmpty(url))
             throw new IllegalArgumentException("DOI and URL cannot be empty");
@@ -87,6 +108,7 @@ public class HandleServiceImpl implements HandleService {
         }
     }
 
+    @Override
     public void update(String doi, String newUrl) throws HandleException {
         if (StringUtils.isEmpty(doi) || StringUtils.isEmpty(newUrl))
             throw new IllegalArgumentException("DOI and URL cannot be empty");
