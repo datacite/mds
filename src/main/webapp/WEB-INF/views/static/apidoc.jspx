@@ -82,19 +82,19 @@ A sample XML document describing metadata is presented here:</p>
 
 <h1>API reference</h1> 
 
-<p><strong>Each API call can have optional request parameter <code>testMode</code>. 
-If set to "true" or "1" the request will not change the database nor will the DOI handle will be registered or updated.</strong></p>
+<p><strong>Each API call can have optional query parameter <code>testMode</code>.
+If set to "true" or "1" the request will not change the database nor will the DOI handle will be registered or updated, e.g. <code>POST /doi?testMode=true</code>.</strong></p>
 
 <h2>Metadata API</h2>
 <h3>GET</h3> 
 <p><i>URI: https://mds.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
 <p>This request returns the most recent version of metadata associated with a given DOI.</p>
 <h4>Request headers</h4> 
-<code>Accept=application/xml</code> 
+<code>Accept:application/xml</code> 
 <h4>Request body</h4> 
 empty
 <h4>Response headers</h4>
-<code>Content-Type=application/xml</code> 
+<code>Content-Type:application/xml</code> 
 <h4>Response body</h4> 
 <p>If response status is 200: XML representing a dataset, otherwise short explanation for non-200 status</p> 
 <h4>Response statuses</h4> 
@@ -112,7 +112,7 @@ try later and if problem persists please contact us
 <p><i>URI: https://mds.datacite.org/metadata</i></p> 
 <p>This request stores new version of metadata. The request body must contain valid XML.</p>
 <h4>Request headers</h4> 
-<code>Content-Type=application/xml;charset=UTF-8</code> 
+<code>Content-Type:application/xml;charset=UTF-8</code> 
 <h4>Request body</h4> 
 <p>UFT-8 encoded metadata</p>
 <h4>Response body</h4> 
@@ -131,7 +131,7 @@ try later and if problem persists please contact us</p>
 <h3>PUT</h3>
 <p><i>URI: https://mds.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
 <p>This request stores new version of metadata. The request body must contain valid XML.</p>
-<code>Content-Type=application/xml;charset=UTF-8</code> 
+<code>Content-Type:application/xml;charset=UTF-8</code> 
 <h4>Request body</h4> 
 <p>UFT-8 encoded metadata</p>
 <h4>Response body</h4> 
@@ -166,7 +166,7 @@ try later and if problem persists please contact us
 <h3>POST</h3>
 <p>POST will mint new DOI or update URL, check domains and quota restrictions. A Datacentre's doiQuotaUsed will be increased by 1. A new record in Datasets will be created.</p>
 <h4>Request headers</h4> 
-<p><code>Content-Type=text/plain;charset=UTF-8</code></p>
+<p><code>Content-Type:text/plain;charset=UTF-8</code></p>
 <h4>Request body</h4> 
 <p>just two lines: doi and url, UFT-8 encoded</p>
 <h4>Response body</h4> 
@@ -184,7 +184,7 @@ try later and if problem persists please contact us</p>
 <p><i>URI: https://mds.datacite.org/doi/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
 <p>PUT will mint new DOI or update URL</p>
 <h4>Request headers</h4> 
-<p><code>Content-Type=text/plain;charset=UTF-8</code></p>
+<p><code>Content-Type:text/plain;charset=UTF-8</code></p>
 <h4>Request body</h4> 
 <p>just one lines: url, UFT-8 encoded</p>
 <h4>Response body</h4> 
