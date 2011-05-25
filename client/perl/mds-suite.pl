@@ -17,7 +17,7 @@ my $DEFAULT_AL_PW     = '87654321';
 my %opts;             #Getopt::Std
 
 sub main() {
-  getopts("hlnp:su:v", \%opts) or pod2usage();
+  getopts("hlnp:st:u:v", \%opts) or pod2usage();
   pod2usage() if $opts{h};
 
   my ($resource, $method, $query, $content, $content_type);
@@ -63,6 +63,7 @@ sub main() {
     case "generic" {
       $method = uc shift @ARGV or pod2usage("missing method");
       $resource = shift @ARGV or pod2usage("missing resource");
+      $content_type = $opts{t};
     }  
     else { pod2usage("unknown command '$command'"); }
   }
@@ -154,6 +155,7 @@ __END__
    -l          - use a local test server
    -n          - no credentials (only for testing)
    -s          - short output (truncate request/response body)
+   -t <type>   - set content-type header (only for command 'generic') 
    -u <symbol> - username (defaults to value specified in the script)
    -v          - verbose (display complete request and response)
 
