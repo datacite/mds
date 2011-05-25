@@ -62,7 +62,7 @@ public class DoiApiController implements ApiController {
             @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest)
             throws ValidationException, HandleException, SecurityException, NotFoundException {
         
-        String[] lines = getBodyLines(body);
+        String[] lines = parseBodyForPost(body);
         String doi = lines[0];
         String url = lines[1];
         
@@ -75,7 +75,7 @@ public class DoiApiController implements ApiController {
             throws ValidationException, HandleException, SecurityException, NotFoundException {
         
         String doi = getDoiFromRequest(httpRequest);
-        String url = body;
+        String url = parseBodyForPut(body);
         
         return createOrUpdate(doi, url, testMode, httpRequest);
     }
@@ -103,7 +103,7 @@ public class DoiApiController implements ApiController {
         return new ResponseEntity<String>("OK", headers, httpStatus);
     }
     
-    private String[] getBodyLines(String body) throws ValidationException {
+    private String[] parseBodyForPost(String body) throws ValidationException {
         String[] lines = body.split("\\r?\\n",3);
         
         boolean hasTwoLines = lines.length == 2 || (lines.length == 3 && StringUtils.isEmpty(lines[2]));
@@ -113,4 +113,12 @@ public class DoiApiController implements ApiController {
             throw new ValidationException("request body must contain exactly two lines: DOI and URL");
         return lines;
     }
+    
+    private String parseBodyForPut(String body) throws ValidationException {
+        body = StringUtils.trimToNull(body);
+        if (body == null)
+            throw new ValidationException("request body must contain exactly one line with URL");
+        return body;
+    }
+
 }

@@ -60,23 +60,6 @@ public class DoiApiControllerTest {
         assertEquals(HttpStatus.CREATED, statusCode);
     }
 
-    @Test
-    public void testPut() throws Exception {
-        expectDoiServiceCreate();
-        HttpStatus statusCode = post(doi + "\n" + url, false);
-        assertEquals(HttpStatus.CREATED, statusCode);
-        
-        reset(mockDoiService);
-        expectDoiServiceUpdate();
-        statusCode = put(doi, url, false);
-	assertEquals(HttpStatus.OK, statusCode);
-    }      
-    
-    @Test(expected = HttpRequestMethodNotSupportedException.class)
-    public void testPutNoDoi() throws Exception {
-        doiApiController.putRoot();
-    }
-    
     @Test(expected = ValidationException.class)
     public void testPostEmptyBody() throws Exception {
         post("", null);
@@ -120,6 +103,28 @@ public class DoiApiControllerTest {
     @Test(expected = ValidationException.class)
     public void testPostBodyWithThreeLines() throws Exception {
         post(doi + "\n" + url + "\n" + "foobar", true);
+    }
+    
+    @Test
+    public void testPut() throws Exception {
+        expectDoiServiceCreate();
+        HttpStatus statusCode = post(doi + "\n" + url, false);
+        assertEquals(HttpStatus.CREATED, statusCode);
+        
+        reset(mockDoiService);
+        expectDoiServiceUpdate();
+        statusCode = put(doi, url, false);
+        assertEquals(HttpStatus.OK, statusCode);
+    }
+    
+    @Test(expected = HttpRequestMethodNotSupportedException.class)
+    public void testPutNoDoi() throws Exception {
+        doiApiController.putRoot();
+    }
+
+    @Test(expected = ValidationException.class)
+    public void testPutEmptyBody() throws Exception {
+        put(doi, "\n", null);
     }
 
     private void expectDoiServiceCreate() throws Exception {
