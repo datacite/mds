@@ -105,7 +105,7 @@ public class MetadataApiController implements ApiController {
         return storeMetadata(doi, xml, testMode, httpRequest);
     }
 
-    public ResponseEntity<String> storeMetadata(String doi, byte[] xml, Boolean testMode, HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
+    private ResponseEntity<String> storeMetadata(String doi, byte[] xml, Boolean testMode, HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
         String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;

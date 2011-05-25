@@ -13,7 +13,7 @@ my $LOCAL_SERVER      = 'localhost:8443/mds';
 my $DEFAULT_DC_SYMBOL = 'TEST.TEST';
 my $DEFAULT_DC_PW     = '12345678';
 my $DEFAULT_AL_SYMBOL = 'TEST';
-my $DEFAULT_AL_PW     = '12345678';
+my $DEFAULT_AL_PW     = '87654321';
 my %opts;             #Getopt::Std
 
 sub main() {
@@ -40,8 +40,15 @@ sub main() {
       $method = uc shift @ARGV or pod2usage("missing method");
       my $doi = shift @ARGV or pod2usage("missing doi (or '-')");
       if ($doi ne "-") { 
-        my $url = shift @ARGV or pod2usage("missing url");
-        $content = "$doi\n$url";
+        if ($method =~ "GET|PUT") {
+          $resource .= "/$doi";
+        }
+        if ($method =~ "PUT|POST") {
+          my $url = shift @ARGV or pod2usage("missing url");
+          if ($url ne "-") {
+            $content = $method eq "POST" ? "$doi\n$url" : "$url";
+          }
+        }
       }
     }
     case "datacentre" {

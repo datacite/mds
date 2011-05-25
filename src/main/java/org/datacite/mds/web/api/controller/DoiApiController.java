@@ -16,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,8 +34,18 @@ public class DoiApiController implements ApiController {
     @Autowired
     HandleService handleService;
     
+    @RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.HEAD })
+    public ResponseEntity getRoot() {
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+    
+    @RequestMapping(value = "", method = RequestMethod.PUT)
+    public ResponseEntity putRoot() throws HttpRequestMethodNotSupportedException {
+        throw new HttpRequestMethodNotSupportedException("PUT");
+    }
+    
     @RequestMapping(value = "**", method = { RequestMethod.GET, RequestMethod.HEAD })
-    public ResponseEntity<String> resolve(HttpServletRequest httpRequest) throws HandleException, NotFoundException {
+    public ResponseEntity<String> get(HttpServletRequest httpRequest) throws HandleException, NotFoundException {
         String doi = getDoiFromRequest(httpRequest);
         String url = handleService.resolve(doi);
         return new ResponseEntity<String>(url, HttpStatus.OK);
@@ -46,18 +57,36 @@ public class DoiApiController implements ApiController {
         return doi;
     }
     
-    @RequestMapping(value = "", method = { RequestMethod.PUT, RequestMethod.POST })
-    public ResponseEntity<String> createOrUpdate(@RequestBody String body,
+    @RequestMapping(value = "", method = { RequestMethod.POST })
+    public ResponseEntity<String> post(@RequestBody String body,
             @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest)
+            throws ValidationException, HandleException, SecurityException, NotFoundException {
+        
+        String[] lines = getBodyLines(body);
+        String doi = lines[0];
+        String url = lines[1];
+        
+        return createOrUpdate(doi, url, testMode, httpRequest);
+    }
+    
+    @RequestMapping(value = "**", method = { RequestMethod.PUT } )
+    public ResponseEntity<String> put(@RequestBody String body,
+            @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest)
+            throws ValidationException, HandleException, SecurityException, NotFoundException {
+        
+        String doi = getDoiFromRequest(httpRequest);
+        String url = body;
+        
+        return createOrUpdate(doi, url, testMode, httpRequest);
+    }
+    
+
+    private ResponseEntity<String> createOrUpdate(String doi, String url, Boolean testMode, HttpServletRequest httpRequest)
             throws ValidationException, HandleException, SecurityException, NotFoundException {
         String method = httpRequest.getMethod();
         
         if (testMode == null)
             testMode = false;
-        
-        String[] lines = getBodyLines(body);
-        String doi = lines[0];
-        String url = lines[1];
 
         log4j.debug("*****" + method + " doi (testMode=" + testMode + ") doi: " + doi + ", url: " + url);
 
