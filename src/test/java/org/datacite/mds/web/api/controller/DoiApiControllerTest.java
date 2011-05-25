@@ -33,80 +33,80 @@ public class DoiApiControllerTest {
     }    
 
     @Test
-    public void testCreateOrUpdatePost() throws Exception {
+    public void testPost() throws Exception {
         expectDoiServiceCreate();
         HttpStatus statusCode = post(doi + "\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
 
     @Test
-    public void testCreateOrUpdatePostCRLF() throws Exception {
+    public void testPostCRLF() throws Exception {
         expectDoiServiceCreate();
         HttpStatus statusCode = post(doi + "\r\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
 
     @Test
-    public void testCreateOrUpdatePostTrailingNewLine() throws Exception {
+    public void testPostTrailingNewLine() throws Exception {
         expectDoiServiceCreate();
         HttpStatus statusCode = post(doi + "\n" + url + "\n", false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
 
     @Test
-    public void testCreateOrUpdatePut() throws Exception {
+    public void testPut() throws Exception {
         expectDoiServiceCreate();
         HttpStatus statusCode = post(doi + "\n" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
         
         reset(mockDoiService);
         expectDoiServiceUpdate();
-        statusCode = put(doi + "\n" + url, false);
+        statusCode = put(doi, url, false);
 	assertEquals(HttpStatus.OK, statusCode);
     }        
     
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateEmptyBody() throws Exception {
+    public void testPosteEmptyBody() throws Exception {
         post("", null);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateEmptyLines1() throws Exception {
+    public void testPostEmptyLines1() throws Exception {
         post("\n", null);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateEmptyLines2() throws Exception {
+    public void testPostEmptyLines2() throws Exception {
         post("\n\n", null);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateOneLine() throws Exception {
+    public void testPostOneLine() throws Exception {
         post(doi, null);
     }
     
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateEmptyUrl() throws Exception {
+    public void testPostEmptyUrl() throws Exception {
         post(doi + "\n", null);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateEmptyDoi() throws Exception {
+    public void testPostEmptyDoi() throws Exception {
         post("\n" + url, true);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateIntermediateEmptyLine() throws Exception {
+    public void testPostIntermediateEmptyLine() throws Exception {
         post(doi + "\n\n" + url, true);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateBodyWithManyTrailingNewlines() throws Exception {
+    public void testPostBodyWithManyTrailingNewlines() throws Exception {
         post(doi + "\n" + url + "\n\n", true);
     }
 
     @Test(expected = ValidationException.class)
-    public void testCreateOrUpdateBodyWithThreeLines() throws Exception {
+    public void testPostBodyWithThreeLines() throws Exception {
         post(doi + "\n" + url + "\n" + "foobar", true);
     }
 
@@ -117,21 +117,29 @@ public class DoiApiControllerTest {
     private void expectDoiServiceUpdate() throws Exception {
         expect(mockDoiService.update(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
     }
+    
+    private MockHttpServletRequest makeServletRequestForDoi(String doi) {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setServletPath("/doi/" + doi);
+        return request;
+    }
 
     private HttpStatus post(String body, Boolean testMode) throws Exception {
-        return request("POST", body, testMode);
-    }
-    
-    private HttpStatus put(String body, Boolean testMode) throws Exception {
-        return request("PUT", body, testMode);
-    }
-    
-    private HttpStatus request(String method, String body, Boolean testMode) throws Exception {
+        MockHttpServletRequest httpRequest = makeServletRequestForDoi(null);
+        httpRequest.setMethod("POST");
         replay(mockDoiService);
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setMethod(method);
-        ResponseEntity<? extends Object> response = doiApiController.createOrUpdate(body, testMode, request);
+        ResponseEntity<? extends Object> response = doiApiController.post(body, testMode, httpRequest);
         verify(mockDoiService);
         return response.getStatusCode();
     }
+
+    private HttpStatus put(String doi, String body, Boolean testMode) throws Exception {
+        MockHttpServletRequest httpRequest = makeServletRequestForDoi(doi);
+        httpRequest.setMethod("PUT");
+        replay(mockDoiService);
+        ResponseEntity<? extends Object> response = doiApiController.put(body, testMode, httpRequest);
+        verify(mockDoiService);
+        return response.getStatusCode();
+    }
+
 }
