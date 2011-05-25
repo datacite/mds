@@ -93,6 +93,10 @@ public class DoiApiController implements ApiController {
         doiService.createOrUpdate(doi, url, testMode);
 
         HttpHeaders headers = new HttpHeaders();
+        if (method.equals("POST")) {
+            StringBuffer location = httpRequest.getRequestURL().append("/" + doi);
+            headers.set("Location", location.toString());
+        }
         return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
     }
     
