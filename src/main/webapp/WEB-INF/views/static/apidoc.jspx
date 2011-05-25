@@ -35,9 +35,11 @@ are going to use is:</p>
 <code>https://mds.datacite.org<b>/metadata</b></code> accepts requests
 with 1 HTTP methods: <code>POST</code></p>
 <p>The URI <code>https://mds.datacite.org<b>/metadata/{doi}</b></code>, where <code>{doi}</code> is a actually DOI, accepts requests
-with 3 HTTP methods: <code>GET</code>, <code>PUT</code>  and <code>DELETE</code></p>
+with 3 HTTP methods: <code>GET</code>, <code>PUT</code> and <code>DELETE</code></p>
 <p>The URI <code>https://mds.datacite.org<b>/doi</b></code> accepts requests
-with 2 HTTP methods: <code>POST</code> and <code>PUT</code></p>
+with 1 HTTP methods: <code>POST</code></p>
+<p>The URI <code>https://mds.datacite.org<b>/doi/{doi}</b></code>, where <code>{doi}</code> is a actually DOI, accepts requests
+with 2 HTTP methods: <code>GET</code>, <code>PUT</code></p>
 <p>In addition <code>HEAD</code> is allowed, whenever <code>GET</code> is.</p> 
 <p>The meaning of
 the HTTP verbs and request parameters/body will be explained in the
@@ -151,7 +153,6 @@ try later and if problem persists please contact us</p>
 <p>if response status 200 - XML representing a dataset, otherwise short explanation for non-200 status</p> 
 <h4>Response statuses</h4> 
 <p><code>200 OK</code> - operation successful: dataset deactivated</p>
-<p><code>201 Created</code> - operation successful: dataset reactivated</p>
 <p><code>403 Forbidden</code> - login problem or dataset belongs to another party</p>
 <p><code>404 Not Found</code> - DOI does not exist in our database</p>
 <p><code>500 Internal Server Error</code> - server internal error,
@@ -163,7 +164,7 @@ try later and if problem persists please contact us
 <h2>Doi API</h2>
 <p><i>URI: https://mds.datacite.org/doi</i></p> 
 <h3>POST</h3>
-<p>POST will mint new DOI, check domains and quota restrictions. A Datacentre's doiQuotaUsed will be increased by 1. A new record in Datasets will be created.</p>
+<p>POST will mint new DOI or update URL, check domains and quota restrictions. A Datacentre's doiQuotaUsed will be increased by 1. A new record in Datasets will be created.</p>
 <h4>Request headers</h4> 
 <p><code>Content-Type=text/plain;charset=UTF-8</code></p>
 <h4>Request body</h4> 
@@ -173,23 +174,24 @@ try later and if problem persists please contact us
 <h4>Response statuses</h4> 
 <p><code>201 Created</code> - operation successful</p>
 <p><code>400 Bad Request</code> - request body must be exactly two lines: DOI and URL; , wrong domain, wrong prefix</p>
-<p><code>403 Forbidden</code> - login problem, quota excceded</p>
+<p><code>403 Forbidden</code> - login problem, quota exceeded</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
 <h4>Examples</h4> 	
 <jsp:directive.include file="examples/doi-post.jspx"/>
 
 <h3>PUT</h3>
-<p>PUT will update URL of DOI without changing the database.</p>
+<p><i>URI: https://mds.datacite.org/doi/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
+<p>PUT will mint new DOI or update URL</p>
 <h4>Request headers</h4> 
 <p><code>Content-Type=text/plain;charset=UTF-8</code></p>
 <h4>Request body</h4> 
-<p>just two lines: doi and url, UFT-8 encoded</p>
+<p>just one lines: url, UFT-8 encoded</p>
 <h4>Response body</h4> 
 <p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
-<p><code>200 OK</code> - operation successful</p>
-<p><code>400 Bad Request</code> - request body must be exactly two lines: DOI and URL; wrong domain, wrong prefix</p>
+<p><code>201 Created</code> - operation successful</p>
+<p><code>400 Bad Request</code> - failed validation</p>
 <p><code>403 Forbidden</code> - login problem, quota excceded</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
