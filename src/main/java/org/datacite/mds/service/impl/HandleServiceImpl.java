@@ -102,7 +102,7 @@ public class HandleServiceImpl implements HandleService {
                 log4j.debug("response code from Handle request: none - dummyMode on");
             }
         } catch (net.handle.hdllib.HandleException e) {
-            String message = "tried to register handle " + doi + " but failed: " + e.getMessage();
+            String message = "tried to register handle " + doi + " but failed: [" + e.getCode() + "] " + e.getMessage();
             log4j.error(message, e);
             throw new HandleException(message, e);
         }
@@ -159,7 +159,7 @@ public class HandleServiceImpl implements HandleService {
                 log4j.debug("response code from Handle request: none - dummyMode on");
             }
         } catch (net.handle.hdllib.HandleException e) {
-            String message = "tried to update handle " + doi + " but failed: " + e.getMessage();
+            String message = "tried to update handle " + doi + " but failed: [" + e.getCode() + "] " + e.getMessage();
             throw new HandleException(message, e);
         }
     }
