@@ -64,7 +64,7 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
     }
 
     private void handleExceptions(Throwable ex, HttpServletResponse response) throws IOException {
-        logger.debug(ex);
+        logger.debug("handling exception: ", ex);
         if (ex instanceof ConstraintViolationException) {
             ConstraintViolationException constraintException = (ConstraintViolationException) ex;
             Set<ConstraintViolation<?>> violations = constraintException.getConstraintViolations();
@@ -81,9 +81,8 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         } else if (ex instanceof DeletedException) {
             response.sendError(HttpServletResponse.SC_GONE, ex.getMessage());
         } else {
-            logger.warn("uncaught exception: " + ExceptionUtils.getThrowableList(ex));
+            logger.error("uncaught exception", ex);
             String message = "uncaught exception (" + ex.getMessage() + ")";
-            ex.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message);
         }
     }
