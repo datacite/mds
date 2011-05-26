@@ -1,8 +1,0 @@
-10.5072/TEST-1
-http://www.bl.uk/datasets
-
-10.5072/TEST-2/StraßendgrößtenStädte
-http://www.google.de/#hl=de&source=hp&q=Stra%C3%9Fen+der+20+gr%C3%B6%C3%9Ften+St%C3%A4dte&aq=f&aqi=&aql=&oq=&gs_rfai=&fp=3670b6c5c948a59c
-
-10.5072/TEST-3/παράδειγμα.δοκιμή
-http://παράδειγμα.δοκιμή
