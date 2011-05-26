@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RooJavaBean
 @RooToString
 @RooEntity(finders = { "findDatasetsByDoiEquals" })
-@MatchDoiPrefix
+@MatchDoiPrefix(groups = Dataset.SecondLevelConstraint.class)
 @MatchDomain(groups = Dataset.SecondLevelConstraint.class)
 @Unique(field = "doi")
 @GroupSequence({ Dataset.class, Dataset.SecondLevelConstraint.class })
