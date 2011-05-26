@@ -14,6 +14,7 @@ import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.api.ApiController;
 import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.MutablePropertyValues;
@@ -64,6 +65,7 @@ public class DoiApiController implements ApiController {
     private String getDoiFromRequest(HttpServletRequest request) {
         String uri = request.getServletPath();
         String doi = uri.replaceFirst("/doi/", "");
+        doi = Utils.normalizeDoi(doi);
         return doi;
     }
     
@@ -99,6 +101,8 @@ public class DoiApiController implements ApiController {
             @RequestParam(required = false) Boolean testMode, HttpServletRequest httpRequest)
             throws ValidationException, HandleException, SecurityException, NotFoundException {
         String doi = getDoiFromRequest(httpRequest);
+        log4j.debug(dataset);
+        log4j.debug(doi);
         if (! StringUtils.equals(dataset.getDoi(), doi))
             throw new ValidationException("doi parameter does not match doi of resource");
         

@@ -24,7 +24,7 @@ public class DoiApiControllerTest {
     DoiApiController doiApiController = new DoiApiController();
     DoiService mockDoiService;
 
-    String doi = "10.5072/1111";
+    String doi = "10.5072/fooBAR";
     String url = "http://example.com";
 
     @Before
@@ -70,6 +70,14 @@ public class DoiApiControllerTest {
         HttpStatus statusCode = put(doi, "doi=" + doi + "\nurl=" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
+    
+    @Test
+    public void testPutDifferentCase() throws Exception {
+        expectDoiServiceCreateOrUpdate();
+        HttpStatus statusCode = put(doi.toLowerCase(), "doi=" + doi.toUpperCase() + "\nurl=" + url, false);
+        assertEquals(HttpStatus.CREATED, statusCode);
+    }
+
 
     @Test(expected = HttpRequestMethodNotSupportedException.class)
     public void testPutNoDoi() throws Exception {
@@ -92,7 +100,7 @@ public class DoiApiControllerTest {
     }
 
     private void expectDoiServiceCreateOrUpdate() throws Exception {
-        expect(mockDoiService.createOrUpdate(eq(doi), eq(url), anyBoolean())).andStubReturn(null);
+        expect(mockDoiService.createOrUpdate(eq(doi.toUpperCase()), eq(url), anyBoolean())).andStubReturn(null);
     }
 
     private MockHttpServletRequest makeServletRequestForDoi(String doi) {
