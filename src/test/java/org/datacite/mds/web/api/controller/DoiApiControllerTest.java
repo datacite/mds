@@ -20,10 +20,10 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 public class DoiApiControllerTest {
-    
+
     DoiApiController doiApiController = new DoiApiController();
     DoiService mockDoiService;
-    
+
     String doi = "10.5072/1111";
     String url = "http://example.com";
 
@@ -31,8 +31,8 @@ public class DoiApiControllerTest {
     public void setUp() throws Exception {
         mockDoiService = createMock(DoiService.class);
         doiApiController.doiService = this.mockDoiService;
-    }    
-    
+    }
+
     @Test
     public void testGetRoot() throws Exception {
         ResponseEntity response = doiApiController.getRoot();
@@ -42,89 +42,53 @@ public class DoiApiControllerTest {
     @Test
     public void testPost() throws Exception {
         expectDoiServiceCreateOrUpdate();
-        HttpStatus statusCode = post(doi + "\n" + url, false);
+        HttpStatus statusCode = post("doi=" + doi + "\nurl=" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
 
     @Test
-    public void testPostCRLF() throws Exception {
+    public void testPostSpecial() throws Exception {
         expectDoiServiceCreateOrUpdate();
-        HttpStatus statusCode = post(doi + "\r\n" + url, false);
-        assertEquals(HttpStatus.CREATED, statusCode);
-    }
-
-    @Test
-    public void testPostTrailingNewLine() throws Exception {
-        expectDoiServiceCreateOrUpdate();
-        HttpStatus statusCode = post(doi + "\n" + url + "\n", false);
+        String body = String.format("url=foobar\n doi=%s\r\n Url=%s\n#doi=foobar", doi, url);
+        HttpStatus statusCode = post(body, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
 
     @Test(expected = ValidationException.class)
-    public void testPostEmptyBody() throws Exception {
-        post("", null);
+    public void testPostMissingDoi() throws Exception {
+        post("doi=" + doi, false);
     }
 
     @Test(expected = ValidationException.class)
-    public void testPostEmptyLines1() throws Exception {
-        post("\n", null);
+    public void testPostMissingUrl() throws Exception {
+        post("url=" + url, false);
     }
 
-    @Test(expected = ValidationException.class)
-    public void testPostEmptyLines2() throws Exception {
-        post("\n\n", null);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testPostOneLine() throws Exception {
-        post(doi, null);
-    }
-    
-    @Test(expected = ValidationException.class)
-    public void testPostEmptyUrl() throws Exception {
-        post(doi + "\n", null);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testPostEmptyDoi() throws Exception {
-        post("\n" + url, true);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testPostIntermediateEmptyLine() throws Exception {
-        post(doi + "\n\n" + url, true);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testPostBodyWithManyTrailingNewlines() throws Exception {
-        post(doi + "\n" + url + "\n\n", true);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testPostBodyWithThreeLines() throws Exception {
-        post(doi + "\n" + url + "\n" + "foobar", true);
-    }
-    
     @Test
     public void testPut() throws Exception {
         expectDoiServiceCreateOrUpdate();
-        HttpStatus statusCode = post(doi + "\n" + url, false);
-        assertEquals(HttpStatus.CREATED, statusCode);
-        
-        reset(mockDoiService);
-        expectDoiServiceCreateOrUpdate();
-        statusCode = put(doi, url, false);
+        HttpStatus statusCode = put(doi, "doi=" + doi + "\nurl=" + url, false);
         assertEquals(HttpStatus.CREATED, statusCode);
     }
-    
+
     @Test(expected = HttpRequestMethodNotSupportedException.class)
     public void testPutNoDoi() throws Exception {
         doiApiController.putRoot();
     }
+    
+    @Test(expected = ValidationException.class)
+    public void testPutMismatchingDoi() throws Exception {
+        put(doi + "-wrong", "doi=" + doi + "\nurl=" + url, false);
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void testPutMissingDoi() throws Exception {
+        put(doi, "doi=" + doi, false);
+    }
 
     @Test(expected = ValidationException.class)
-    public void testPutEmptyBody() throws Exception {
-        put(doi, "\n", null);
+    public void testPutMissingUrl() throws Exception {
+        put(doi, "url=" + url, false);
     }
 
     private void expectDoiServiceCreateOrUpdate() throws Exception {
