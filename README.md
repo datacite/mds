@@ -7,7 +7,7 @@ datasets.
 
 To learn more about DataCite please visit [our website](http://www.datacite.org)
 
-To use this software please go to [https://api.datacite.org](https://api.datacite.org)
+To use this software please go to [https://mds.datacite.org](https://mds.datacite.org)
 
 # Installation (for development only)
 
