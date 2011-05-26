@@ -2,6 +2,7 @@ src/test/resources/META-INF/spring/database.properties
 src/main/resources/META-INF/persistence.xml
 src/main/resources/META-INF/spring/*.properties
 src/main/resources/log4j.properties
+src/main/resources/log4j.xml
 src/main/webapp/WEB-INF/spring/*.properties
 *.log
 *.roo

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+
+	<appender name="file"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="maxFileSize" value="1000KB" />
+		<param name="maxBackupIndex" value="7" />
+		<param name="File" value="/var/log/tomcat6/datacite.log" />
+		<param name="threshold" value="info" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d [%t] %-5p %c - %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="debugfile"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="maxFileSize" value="1000KB" />
+		<param name="maxBackupIndex" value="7" />
+		<param name="File" value="/var/log/tomcat6/datacite-debug.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d [%t] %-5p %c - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="debug" />
+			<param name="LevelMax" value="debug" />
+		</filter>
+	</appender>
+	
+	<logger name="org.springframework">
+        <level value="warn"/> 
+    </logger>
+
+	<logger name="org.hibernate">
+        <level value="warn"/> 
+    </logger>
+
+	<logger name="org.datacite.mds">
+        <level value="debug"/> 
+    </logger>
+
+	<root>
+		<priority value="info"></priority>
+		<appender-ref ref="debugfile" />
+		<appender-ref ref="file" />
+	</root>
+	
+</log4j:configuration>
