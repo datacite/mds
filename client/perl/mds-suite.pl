@@ -46,7 +46,7 @@ sub main() {
         if ($method =~ "PUT|POST") {
           my $url = shift @ARGV or pod2usage("missing url");
           if ($url ne "-") {
-            $content = $method eq "POST" ? "$doi\n$url" : "$url";
+            $content = "doi=$doi\nurl=$url";
           }
         }
       }

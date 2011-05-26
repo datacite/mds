@@ -167,8 +167,11 @@ try later and if problem persists please contact us
 <p>POST will mint new DOI or update URL, check domains and quota restrictions. A Datacentre's doiQuotaUsed will be increased by 1. A new record in Datasets will be created.</p>
 <h4>Request headers</h4> 
 <p><code>Content-Type:text/plain;charset=UTF-8</code></p>
-<h4>Request body</h4> 
-<p>just two lines: doi and url, UFT-8 encoded</p>
+(You can also use <code>application/x-www-form-urlencoded</code> and post <code>url</code> and <code>doi</code> parameters as required by this standard content type.
+<h4>Request body</h4>
+<pre><code>doi={doi}
+url={url}</code></pre> 
+<p>where <code>{doi}</code> and <code>{url}</code> have to replace by your DOI and URL, UFT-8 encoded</p>
 <h4>Response body</h4> 
 <p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
