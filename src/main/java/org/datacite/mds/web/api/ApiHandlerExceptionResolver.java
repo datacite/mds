@@ -83,6 +83,7 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
         } else {
             logger.warn("uncaught exception: " + ExceptionUtils.getThrowableList(ex));
             String message = "uncaught exception (" + ex.getMessage() + ")";
+            ex.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, message);
         }
     }
