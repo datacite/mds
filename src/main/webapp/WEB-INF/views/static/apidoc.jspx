@@ -43,7 +43,7 @@ with 3 HTTP methods: <code>GET</code>, <code>PUT</code> and <code>DELETE</code><
 
 <p>In addition <code>HEAD</code> is allowed, whenever <code>GET</code> is.</p> 
 
-<p>Be aware that a url path parameter like <code>{doi}</code> must be <a href="http://en.wikipedia.org/wiki/Percent-encoding" target="_">escaped</a>. If possible try to avoid URL's reservered characters like <code>?</code> in DOIs.</p>
+<p>The characters <code>?</code> and <code>#</code> in <code>{doi}</code> must be <a href="http://en.wikipedia.org/wiki/Percent-encoding" target="_">escaped</a>. If possible try to avoid these characters in DOIs.</p>
 
 <p>The meaning of
 the HTTP verbs and request parameters/body will be explained in the

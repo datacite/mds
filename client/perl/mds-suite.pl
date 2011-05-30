@@ -7,6 +7,7 @@ use Pod::Usage;
 use LWP;
 use Crypt::SSLeay;    # SSL for LWP
 use Term::ReadKey;    # for password reading
+use URI::Escape;
 
 my $GLOBAL_SERVER     = 'mds.datacite.org';
 my $LOCAL_SERVER      = 'localhost:8443/mds';
@@ -31,7 +32,7 @@ sub main() {
       $method = uc shift @ARGV or pod2usage("missing method");
       if ($method =~ "GET|DELETE|PUT") {
         my $doi = shift @ARGV or pod2usage("missing doi");
-        $resource .= "/$doi";
+        $resource .= "/" . escape($doi);
       }
     }
     case "doi" {
@@ -39,9 +40,9 @@ sub main() {
       $content_type = 'text/plain;charset=UTF-8';
       $method = uc shift @ARGV or pod2usage("missing method");
       my $doi = shift @ARGV or pod2usage("missing doi (or '-')");
-      if ($doi ne "-") { 
+      if ($doi ne "-") {
         if ($method =~ "GET|PUT") {
-          $resource .= "/$doi";
+          $resource .= "/" . escape($doi);
         }
         if ($method =~ "PUT|POST") {
           my $url = shift @ARGV or pod2usage("missing url");
@@ -84,6 +85,11 @@ sub main() {
     $user_name, $user_pw, $content, $content_type);
     
   exit $response_code;
+}
+
+sub escape {
+  my $str = shift;
+  return uri_escape($str, "#?");
 }
 
 sub read_pw {
