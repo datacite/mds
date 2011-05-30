@@ -11,6 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 import javax.validation.ValidationException;
 
+import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.DoiService;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +37,21 @@ public class DoiApiControllerTest {
     @Test
     public void testGetRoot() throws Exception {
         ResponseEntity response = doiApiController.getRoot();
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+    }
+    
+    @Test
+    public void testGet() throws Exception {
+        expectDoiServiceResolve(url);
+        ResponseEntity<? extends Object> response = get(doi);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(url, response.getBody());
+    }
+    
+    @Test
+    public void testGetNullUrl() throws Exception {
+        expectDoiServiceResolve(null);
+        ResponseEntity<? extends Object> response = get(doi);
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
 
@@ -102,13 +118,27 @@ public class DoiApiControllerTest {
     private void expectDoiServiceCreateOrUpdate() throws Exception {
         expect(mockDoiService.createOrUpdate(eq(doi.toUpperCase()), eq(url), anyBoolean())).andStubReturn(null);
     }
+    
+    private void expectDoiServiceResolve(String url) throws Exception {
+        Dataset dataset = new Dataset();
+        dataset.setUrl(url);
+        expect(mockDoiService.resolve(eq(doi.toUpperCase()))).andReturn(dataset);
+    }
 
     private MockHttpServletRequest makeServletRequestForDoi(String doi) {
         MockHttpServletRequest request = new MockHttpServletRequest();
         request.setServletPath("/doi/" + doi);
         return request;
     }
-
+    
+    private ResponseEntity<? extends Object> get(String doi) throws Exception {
+        MockHttpServletRequest httpRequest = makeServletRequestForDoi(doi);
+        replay(mockDoiService);
+        ResponseEntity<? extends Object> response = doiApiController.get(httpRequest);
+        verify(mockDoiService);
+        return response;
+    }
+    
     private HttpStatus post(String body, Boolean testMode) throws Exception {
         MockHttpServletRequest httpRequest = makeServletRequestForDoi(null);
         httpRequest.setMethod("POST");

@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
-import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.api.ApiController;
@@ -23,7 +22,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.ServletRequestParameterPropertyValues;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,9 +40,6 @@ public class DoiApiController implements ApiController {
     @Autowired
     DoiService doiService;
     
-    @Autowired
-    HandleService handleService;
-    
     @RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ResponseEntity getRoot() {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -56,10 +51,14 @@ public class DoiApiController implements ApiController {
     }
     
     @RequestMapping(value = "**", method = { RequestMethod.GET, RequestMethod.HEAD })
-    public ResponseEntity<String> get(HttpServletRequest httpRequest) throws HandleException, NotFoundException {
+    public ResponseEntity<String> get(HttpServletRequest httpRequest) throws HandleException, NotFoundException, SecurityException {
         String doi = getDoiFromRequest(httpRequest);
-        String url = handleService.resolve(doi);
-        return new ResponseEntity<String>(url, HttpStatus.OK);
+        Dataset dataset = doiService.resolve(doi);
+        String url = dataset.getUrl();
+        if (url == null)
+            return new ResponseEntity<String>("DOI is known to MDS but not (yet?) resolveable.", HttpStatus.NO_CONTENT);
+        else
+            return new ResponseEntity<String>(url, HttpStatus.OK);
     }
     
     private String getDoiFromRequest(HttpServletRequest request) {
