@@ -7,6 +7,7 @@ import static org.datacite.mds.test.TestUtils.createPrefixes;
 import static org.datacite.mds.test.TestUtils.login;
 import static org.junit.Assert.assertEquals;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
 import org.datacite.mds.domain.Allocator;
@@ -15,6 +16,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.test.TestUtils;
 import org.datacite.mds.web.api.NotFoundException;
 import org.easymock.EasyMock;
 import org.junit.After;
@@ -48,7 +50,8 @@ public class DoiServiceImplTest {
     final Integer DOI_QUOTA_USED = 42;
 
     Datacentre datacentre;
-    
+    Datacentre datacentre2;
+
     private HandleService mockHandleService;
 
     @Before
@@ -61,19 +64,22 @@ public class DoiServiceImplTest {
         datacentre.setDomains(DOMAIN);
         datacentre.setDoiQuotaUsed(DOI_QUOTA_USED);
         datacentre.persist();
+        datacentre2 = createDatacentre(DATACENTRE_SYMBOL2, datacentre.getAllocator());
+        datacentre2.setPrefixes(datacentre.getPrefixes());
+        datacentre2.persist();
         mockHandleService = EasyMock.createMock(HandleService.class);
         doiService.handleService = mockHandleService;
-        expectNoDoiServiceCall();
+        expectNoHandleServiceCall();
 
         login(datacentre);
         datacentre.flush();
     }
-    
-    private void expectNoDoiServiceCall() {
+
+    private void expectNoHandleServiceCall() {
         EasyMock.reset(mockHandleService);
         EasyMock.replay(mockHandleService);
     }
-    
+
     @After
     public void verify() {
         EasyMock.verify(mockHandleService);
@@ -90,7 +96,7 @@ public class DoiServiceImplTest {
         Integer doiQuotaUsedExpected = DOI_QUOTA_USED + 1;
         assertEquals(doiQuotaUsedExpected, dataset.getDatacentre().getDoiQuotaUsed());
     }
-    
+
     private void expectHandleServiceCreate(String doi, String url) throws HandleException {
         EasyMock.reset(mockHandleService);
         mockHandleService.create(doi, url);
@@ -143,7 +149,7 @@ public class DoiServiceImplTest {
         expectHandleServiceCreate(DOI, URL);
         doiService.createOrUpdate(DOI, URL, false);
     }
-    
+
     @Test
     public void testCreateOrUpdateExistingHandle() throws Exception {
         expectHandleServiceUpdate(DOI, URL);
@@ -160,12 +166,72 @@ public class DoiServiceImplTest {
 
     @Test(expected = SecurityException.class)
     public void testCreateOrUpdateNonBelongingDataset() throws Exception {
-        Datacentre datacentre2 = createDatacentre(DATACENTRE_SYMBOL2, datacentre.getAllocator());
-        datacentre2.setPrefixes(datacentre.getPrefixes());
-        datacentre2.persist();
         createDataset(DOI, datacentre2).persist();
         doiService.createOrUpdate(DOI, URL, false);
     }
 
+    @Test
+    public void testResolve_onlyHandleExisting() throws Exception {
+        expectHandleServiceResolve();
+        callResolveAndCheck(DOI, URL);
+    }
+
+    private void callResolveAndCheck(String doi, String url) throws Exception {
+        Dataset dataset = doiService.resolve(doi);
+        assertEquals(datacentre, dataset.getDatacentre());
+        assertEquals(doi, dataset.getDoi());
+        assertEquals(url, dataset.getUrl());
+    }
+
+    private void expectHandleServiceResolve() throws HandleException, NotFoundException {
+        EasyMock.reset(mockHandleService);
+        EasyMock.expect(mockHandleService.resolve(DOI)).andReturn(URL);
+        EasyMock.replay(mockHandleService);
+    }
+
+    private void expectHandleServiceResolveException(Exception ex) throws HandleException, NotFoundException {
+        EasyMock.reset(mockHandleService);
+        EasyMock.expect(mockHandleService.resolve(DOI)).andThrow(ex);
+        EasyMock.replay(mockHandleService);
+    }
+
+    @Test
+    public void testResolve_HandleAndDatasetExisting() throws Exception {
+        createDataset(DOI, datacentre).persist();
+        expectHandleServiceResolve();
+        callResolveAndCheck(DOI, URL);
+    }
+
+    @Test
+    public void testResolve_onlyDatasetExisting() throws Exception {
+        createDataset(DOI, datacentre).persist();
+        expectHandleServiceResolveException(new NotFoundException());
+        callResolveAndCheck(DOI, null);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testResolve_noneExisting() throws Exception {
+        expectHandleServiceResolveException(new NotFoundException());
+        callResolveAndCheck(DOI, URL);
+    }
+
+    @Test(expected = HandleException.class)
+    public void testResolveHandleException() throws Exception {
+        expectHandleServiceResolveException(new HandleException(""));
+        callResolveAndCheck(DOI, URL);
+    }
+
+    @Test(expected = SecurityException.class)
+    public void testResolveNonBelongingDataset1() throws Exception {
+        login(datacentre2);
+        testResolve_HandleAndDatasetExisting();
+    }
+
+    @Test(expected = ConstraintViolationException.class)
+    public void testResolveNoneBelongingDataset2() throws Exception {
+        datacentre2.setPrefixes(TestUtils.createPrefixes());
+        login(datacentre2);
+        testResolve_onlyHandleExisting();
+    }
 
 }

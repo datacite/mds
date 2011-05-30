@@ -72,4 +72,34 @@ public class DoiServiceImpl implements DoiService {
         return dataset;
     }
 
+    @Override
+    public Dataset resolve(String doi) throws SecurityException, HandleException, NotFoundException {
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+
+        String url;
+        try {
+            url = handleService.resolve(doi);
+        } catch (NotFoundException e) {
+            url = null;
+        }
+        
+        if (dataset == null) {
+            dataset = new Dataset();
+            dataset.setDatacentre(datacentre);
+            dataset.setDoi(doi);
+        } else {
+            SecurityUtils.checkDatasetOwnership(dataset, datacentre);
+        }
+        
+        validationHelper.validate(dataset);
+        
+        if (url == null && dataset.getId() == null)
+            throw new NotFoundException("DOI not found");
+        
+        dataset.setUrl(url);
+        
+        return dataset;
+    }
+
 }

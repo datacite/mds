@@ -3,6 +3,7 @@ package org.datacite.mds.service;
 import javax.validation.ValidationException;
 
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.web.api.NotFoundException;
 
 /**
  * An interface to create and update DOIs
@@ -34,5 +35,7 @@ public interface DoiService {
      *             when any of above conditions remaining not met
      */
     Dataset createOrUpdate(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException;
+    
+    Dataset resolve(String doi) throws HandleException, NotFoundException, SecurityException;
 
 }
