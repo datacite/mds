@@ -30,18 +30,9 @@ public class DoiServiceImpl implements DoiService {
     @Override
     public Dataset createOrUpdate(String doi, String url, boolean testMode) throws HandleException, SecurityException, ValidationException {
         Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
-
         SecurityUtils.checkQuota(datacentre);
 
-        Dataset dataset = Dataset.findDatasetByDoi(doi);
-        if (dataset == null) {
-            dataset = new Dataset();
-            dataset.setDatacentre(datacentre);
-            dataset.setDoi(doi);
-        } else {
-            SecurityUtils.checkDatasetOwnership(dataset, datacentre);
-        }
-
+        Dataset dataset = findOrNewDataset(doi);
         dataset.setUrl(url);
         validationHelper.validate(dataset);
 
@@ -74,24 +65,9 @@ public class DoiServiceImpl implements DoiService {
 
     @Override
     public Dataset resolve(String doi) throws SecurityException, HandleException, NotFoundException {
-        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
-        Dataset dataset = Dataset.findDatasetByDoi(doi);
-
-        String url;
-        try {
-            url = handleService.resolve(doi);
-        } catch (NotFoundException e) {
-            url = null;
-        }
+        String url = resolveDoiOrNull(doi);
         
-        if (dataset == null) {
-            dataset = new Dataset();
-            dataset.setDatacentre(datacentre);
-            dataset.setDoi(doi);
-        } else {
-            SecurityUtils.checkDatasetOwnership(dataset, datacentre);
-        }
-        
+        Dataset dataset = findOrNewDataset(doi);
         validationHelper.validate(dataset);
         
         if (url == null && dataset.getId() == null)
@@ -101,5 +77,26 @@ public class DoiServiceImpl implements DoiService {
         
         return dataset;
     }
+    
+    private Dataset findOrNewDataset(String doi) throws SecurityException {
+        Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        if (dataset == null) {
+            dataset = new Dataset();
+            dataset.setDatacentre(datacentre);
+            dataset.setDoi(doi);
+        } else {
+            SecurityUtils.checkDatasetOwnership(dataset, datacentre);
+        }
+        return dataset;
 
+    }
+
+    private String resolveDoiOrNull(String doi) throws HandleException {
+        try {
+            return handleService.resolve(doi);
+        } catch (NotFoundException e) {
+            return null;
+        }
+    }
 }
