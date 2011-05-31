@@ -119,26 +119,10 @@ public class HandleServiceImpl implements HandleService {
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         
         try {
-            HandleValue[] val;
-            HandleValue[] dummyVal = {
+            HandleValue[] val = {
                     new HandleValue(URL_RECORD_INDEX, "URL".getBytes(DEFAULT_ENCODING), 
                             newUrl.getBytes(DEFAULT_ENCODING),
                             HandleValue.TTL_TYPE_RELATIVE, 86400, timestamp, null, true, true, true, false) };
-
-            if (!dummyMode) {
-                val = resolver.resolveHandle(doi, new String[] { "URL" }, null);
-                if (val.length != 1) {
-                    String msg = "Handle not found";
-                    log4j.debug(msg);
-                    throw new HandleException(msg);
-                }
-                log4j.debug("found handle: " + val[0]);
-            } else {
-                val = dummyVal;
-                log4j.debug("found handle: none - dummyMode on");
-            }
-
-            val[0].setData(newUrl.getBytes(DEFAULT_ENCODING));
 
             AuthenticationInfo authInfo = new SecretKeyAuthenticationInfo(adminId.getBytes(DEFAULT_ENCODING),
                     adminIndex, adminPassword.getBytes(DEFAULT_ENCODING));
