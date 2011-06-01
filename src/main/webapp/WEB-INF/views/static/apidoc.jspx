@@ -121,7 +121,8 @@ none
 <h4>Response body</h4> 
 <p>If response status is 200: URL representing a dataset, otherwise short explanation for non-200 status</p> 
 <h4>Response statuses</h4> 
-<code>200 OK</code> - operation successful
+<p><code>200 OK</code> - operation successful</p>
+<p><code>204 No Content</code> - DOI is known to MDS, but is not resolvable (might be due to handle's latency)</p>
 <p><code>401 Unauthorized</code> - no login</p>
 <p><code>403 login problem or dataset belongs to another party</code></p>
 <p><code>404 Not Found</code> - DOI does not exist in our database</p>
