@@ -39,18 +39,19 @@ public class HandleServiceImplTest {
     @After
     public void tearDown() {
         service.dummyMode = true;
+        verify(service.resolver);
     }
     
     @Test
     public void testResolve() throws Exception {
-        mockExistingHandle();
+        mockResolveExistingHandle();
         replay(service.resolver);
         assertEquals(url, service.resolve(doi));
     }
 
     @Test(expected = NotFoundException.class)
     public void testResolveNonExistingUrl() throws Exception {
-        mockNonExistingHandle();
+        mockResolveNonExistingHandle();
         replay(service.resolver);
         service.resolve(doi);
     }
@@ -69,7 +70,7 @@ public class HandleServiceImplTest {
         service.resolve(doi);
     }
 
-    private IExpectationSetters<HandleValue[]> expectResolveHandle() throws Exception {
+    private IExpectationSetters<HandleValue[]> expectResolveHandle() throws net.handle.hdllib.HandleException  {
         return expect(service.resolver.resolveHandle(eq(doi), anyObject(String[].class), anyObject(int[].class)));
     }
 
@@ -96,41 +97,37 @@ public class HandleServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateEmptyDoi() throws HandleException {
+        replay(service.resolver);
         service.create("", url);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateNullDoi() throws HandleException {
+        replay(service.resolver);
         service.create(null, url);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testCreateEmptyUrl() throws HandleException {
+        replay(service.resolver);
         service.create(doi, "");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateNullUrl() throws HandleException {
+        replay(service.resolver);
         service.create(doi, null);
     }
 
     @Test
     public void testUpdate() throws Exception {
-        mockExistingHandle();
         mockResponseCode(AbstractMessage.RC_SUCCESS);
         replay(service.resolver);
         service.update(doi, url);
     }
 
     @Test(expected = HandleException.class)
-    public void testUpdateNonExistingHandle() throws Exception {
-        mockNonExistingHandle();
-        replay(service.resolver);
-        service.update(doi, url);
-    }
-    
-    @Test(expected = HandleException.class)
     public void testUpdateError() throws Exception {
-        mockExistingHandle();
         mockResponseCode(AbstractMessage.RC_ERROR);
         replay(service.resolver);
         service.update(doi, url);
@@ -138,7 +135,6 @@ public class HandleServiceImplTest {
     
     @Test(expected = HandleException.class)
     public void testUpdateException() throws Exception {
-        mockExistingHandle();
         mockResponseException();
         replay(service.resolver);
         service.update(doi, url);
@@ -146,20 +142,25 @@ public class HandleServiceImplTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testUpdateEmptyDoi() throws HandleException {
+        replay(service.resolver);
         service.update("", url);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testUpdateNullDoi() throws HandleException {
+        replay(service.resolver);
         service.update(null, url);
     }
+
     @Test(expected = IllegalArgumentException.class)
     public void testUpdateEmptyUrl() throws HandleException {
+        replay(service.resolver);
         service.update(doi, "");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testUpdateNullUrl() throws HandleException {
+        replay(service.resolver);
         service.update(doi, null);
     }
     
@@ -173,16 +174,14 @@ public class HandleServiceImplTest {
         expect(service.resolver.processRequest(anyObject(AbstractRequest.class))).andThrow(ex);
     }
 
-    void mockExistingHandle() throws net.handle.hdllib.HandleException {
+    void mockResolveExistingHandle() throws net.handle.hdllib.HandleException {
         HandleValue[] values = { new HandleValue(1, "URL".getBytes(), url.getBytes()) };
-        expect(service.resolver.resolveHandle(eq(doi), anyObject(String[].class), anyObject(int[].class)))//
-                .andReturn(values);
+        expectResolveHandle().andReturn(values);
     }
 
-    void mockNonExistingHandle() throws net.handle.hdllib.HandleException {
+    void mockResolveNonExistingHandle() throws net.handle.hdllib.HandleException {
         HandleValue[] values = {};
-        expect(service.resolver.resolveHandle(eq(doi), anyObject(String[].class), anyObject(int[].class)))//
-                .andReturn(values);
+        expectResolveHandle().andReturn(values);
     }
 
 }
