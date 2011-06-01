@@ -81,9 +81,9 @@ public class Dataset {
         EntityManager em = entityManager();
         String hql;
         if (user instanceof Datacentre) {
-            hql = "SELECT Dataset FROM Dataset AS dataset WHERE dataset.datacentre = :user";
+            hql = "SELECT Dataset FROM Dataset AS dataset WHERE dataset.datacentre = :user ORDER BY dataset.updated DESC";
         } else {
-            hql = "SELECT Dataset FROM Dataset AS dataset WHERE dataset.datacentre.allocator = :user";
+            hql = "SELECT Dataset FROM Dataset AS dataset WHERE dataset.datacentre.allocator = :user ORDER BY dataset.updated DESC";
         }
         TypedQuery<Dataset> q = em.createQuery(hql, Dataset.class);
         q.setParameter("user", user);
