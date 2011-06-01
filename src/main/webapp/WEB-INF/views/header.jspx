@@ -8,7 +8,7 @@
   <div id="title">
     <a href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">
       <img src="${dc_logo}" />
-    Metadata Store <small>Beta</small>    
+    Metadata Store    
     </a>
   </div>
   
