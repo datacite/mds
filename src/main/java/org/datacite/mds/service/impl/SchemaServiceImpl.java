@@ -36,7 +36,7 @@ public class SchemaServiceImpl implements SchemaService {
 
     private static Logger log4j = Logger.getLogger(SchemaServiceImpl.class);
 
-    Map<String, Validator> validatorCache;
+    Map<String, Schema> schemaCache;
 
     @Value("${xml.schema.caching}")
     boolean validatorCacheEnabled;
@@ -47,7 +47,7 @@ public class SchemaServiceImpl implements SchemaService {
     XPathExpression doiXPathExpression;
 
     public SchemaServiceImpl() {
-        validatorCache = new ConcurrentHashMap<String, Validator>();
+        schemaCache = new ConcurrentHashMap<String, Schema>();
     }
     
     @PostConstruct
@@ -120,31 +120,33 @@ public class SchemaServiceImpl implements SchemaService {
 
     @Override
     public Validator getSchemaValidator(String schemaLocation) throws SAXException {
+        Schema schema;
         if (validatorCacheEnabled)
-            return getCachedSchemaValidator(schemaLocation);
+            schema = getCachedSchema(schemaLocation);
         else
-            return getFreshSchemaValidator(schemaLocation);
-    }
-
-    private Validator getCachedSchemaValidator(String schemaLocation) throws SAXException {
-        Validator validator;
-        if (validatorCache.containsKey(schemaLocation)) {
-            log4j.debug("cache-hit for '" + schemaLocation + "'");
-            validator = validatorCache.get(schemaLocation);
-        } else {
-            log4j.debug("cache-miss for '" + schemaLocation + "'");
-            validator = getFreshSchemaValidator(schemaLocation);
-            validatorCache.put(schemaLocation, validator);
-        }
+            schema = getFreshSchema(schemaLocation);
+        Validator validator = schema.newValidator();
         return validator;
     }
 
-    private Validator getFreshSchemaValidator(String schemaLocation) throws SAXException {
+    private Schema getCachedSchema(String schemaLocation) throws SAXException {
+        Schema schema;
+        if (schemaCache.containsKey(schemaLocation)) {
+            log4j.debug("cache-hit for '" + schemaLocation + "'");
+            schema = schemaCache.get(schemaLocation);
+        } else {
+            log4j.debug("cache-miss for '" + schemaLocation + "'");
+            schema = getFreshSchema(schemaLocation);
+            schemaCache.put(schemaLocation, schema);
+        }
+        return schema;
+    }
+
+    private Schema getFreshSchema(String schemaLocation) throws SAXException {
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Source schemaSource = new StreamSource(schemaLocation);
         Schema schema = schemaFactory.newSchema(schemaSource);
-        Validator validator = schema.newValidator();
-        return validator;
+        return schema;
     }
 
     @Override
