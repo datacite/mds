@@ -227,7 +227,7 @@ try later and if problem persists please contact us</p>
 
 --><h3>DELETE</h3> 
 <p><i>URI: https://mds.datacite.org/metadata/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
-<p>This request allows mark a dataset as 'inactive'. To activate it again, do another <code>PUT</code> or set the <code>isActive</code>-flag in the user interface</p>
+<p>This request marks a dataset as 'inactive'. To activate it again, <code>POST</code> new metadata or set the <code>isActive</code>-flag in the user interface.</p>
 
 <h4>Response body</h4> 
 <p>if response status 200 - XML representing a dataset, otherwise short explanation for non-200 status</p> 
