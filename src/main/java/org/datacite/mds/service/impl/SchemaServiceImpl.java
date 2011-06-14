@@ -68,8 +68,7 @@ public class SchemaServiceImpl implements SchemaService {
             seekRootElement(xmlStreamReader);
             return parseRootElement(xmlStreamReader);
         } catch (XMLStreamException e) {
-            e.printStackTrace();
-            throw new ValidationException();
+            throw new ValidationException(e.getMessage());
         }
     }
 
