@@ -109,7 +109,7 @@ public class MetadataApiController implements ApiController {
         String method = httpRequest.getMethod();
         if (testMode == null)
             testMode = false;
-        String logPrefix = "*****" + method + " metadata (testMode=" + testMode + ") ";
+        String logPrefix = "*****" + method + " metadata (doi=" + doi + ", testMode=" + testMode + ") ";
 
         log4j.debug(logPrefix);
         
