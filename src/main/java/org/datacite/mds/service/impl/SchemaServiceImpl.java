@@ -22,6 +22,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.service.SchemaService;
 import org.springframework.beans.factory.annotation.Value;
@@ -150,13 +151,14 @@ public class SchemaServiceImpl implements SchemaService {
 
     @Override
     public String getDoi(byte[] xml) {
+        // TODO throw Exception instead of returning null
         InputStream stream = new ByteArrayInputStream(xml);
         InputSource source = new InputSource(stream);
         String doi = null;
         try {
             doi = doiXPathExpression.evaluate(source);
         } catch (XPathExpressionException e) {
-            log4j.warn(e.getMessage());
+            log4j.debug("catch Exception: " + ExceptionUtils.getThrowableList(e));
         }
         return doi;
     }
