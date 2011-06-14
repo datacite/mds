@@ -157,6 +157,7 @@ public class SchemaServiceImpl implements SchemaService {
         String doi = null;
         try {
             doi = doiXPathExpression.evaluate(source);
+            doi = doi.trim();
         } catch (XPathExpressionException e) {
             log4j.debug("catch Exception: " + ExceptionUtils.getThrowableList(e));
         }
