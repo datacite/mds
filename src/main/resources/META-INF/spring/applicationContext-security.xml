@@ -102,7 +102,13 @@
 
 	<bean id="securityContextPersistenceFilterWithASCTrue"
 		class="org.springframework.security.web.context.SecurityContextPersistenceFilter">
-	</bean>		
+        <property name="securityContextRepository">
+            <bean class="org.springframework.security.web.context.HttpSessionSecurityContextRepository">
+                <property name="disableUrlRewriting" value="true"/>
+            </bean>
+        </property>
+	</bean>
+  
 
 	<bean id="formLoginFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
 		<property name="authenticationManager" ref="authenticationManager"/>
