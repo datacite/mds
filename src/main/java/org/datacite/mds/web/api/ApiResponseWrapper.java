@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -13,6 +14,8 @@ import org.apache.log4j.Logger;
  * the error message to the response body (and sets the given response code)
  */
 public class ApiResponseWrapper extends HttpServletResponseWrapper {
+    
+    static final String NEW_LINE = System.getProperty("line.separator");
 
     Logger log = Logger.getLogger(ApiResponseWrapper.class);
 
@@ -22,6 +25,7 @@ public class ApiResponseWrapper extends HttpServletResponseWrapper {
 
     @Override
     public void sendError(int sc, String msg) throws IOException {
+        msg = StringUtils.replace(msg, NEW_LINE, " - ");
         log.debug("sendError " + sc + ": " + msg);
         setStatus(sc);
         getWriter().println(msg);
