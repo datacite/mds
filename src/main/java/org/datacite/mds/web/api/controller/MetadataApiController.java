@@ -83,10 +83,9 @@ public class MetadataApiController implements ApiController {
     }
     
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<String> post(@RequestBody String body,
+    public ResponseEntity<String> post(@RequestBody byte[] xml,
                                              @RequestParam(required = false) Boolean testMode,
                                              HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
-        byte[] xml = body.getBytes("UTF-8");
         String doi = schemaService.getDoi(xml);
         return storeMetadata(doi, xml, testMode, httpRequest);
     }
@@ -97,10 +96,9 @@ public class MetadataApiController implements ApiController {
     }
 
     @RequestMapping(value = "**", method = RequestMethod.PUT)
-    public ResponseEntity<String> put(@RequestBody String body,
+    public ResponseEntity<String> put(@RequestBody byte[] xml,
                                              @RequestParam(required = false) Boolean testMode,
                                              HttpServletRequest httpRequest) throws ValidationException, HandleException, SecurityException, UnsupportedEncodingException {
-        byte[] xml = body.getBytes("UTF-8");
         String doi = getDoiFromRequest(httpRequest);
         return storeMetadata(doi, xml, testMode, httpRequest);
     }

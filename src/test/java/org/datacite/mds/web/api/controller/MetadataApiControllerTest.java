@@ -47,7 +47,7 @@ public class MetadataApiControllerTest {
     String datacentreSymbol = allocatorSymbol + ".TEST";
     String doi = "10.1594/WDCC/CCSRNIES_SRES_B2";
     String url = "http://example.com";
-    String xml;
+    byte[] xml;
     HttpServletRequest doiRequest;
     HttpServletRequest wrongDoiRequest;
 
@@ -88,7 +88,7 @@ public class MetadataApiControllerTest {
         metadata.setXml(TestUtils.getTestMetadata());
         metadata.persist();
 
-        xml = new String(metadata.getXml(), "UTF-8");
+        xml = metadata.getXml();
 
         TestUtils.login(datacentre);
         datacentre.flush();
@@ -100,15 +100,15 @@ public class MetadataApiControllerTest {
         return request;
     }
 
-    private HttpStatus post(String body, Boolean testMode) throws Exception {
+    private HttpStatus post(byte[] xml, Boolean testMode) throws Exception {
         MockHttpServletRequest httpRequest = makeServletRequestForDoi(null);
-        ResponseEntity<? extends Object> response = metadataApiController.post(body, testMode, httpRequest);
+        ResponseEntity<? extends Object> response = metadataApiController.post(xml, testMode, httpRequest);
         return response.getStatusCode();
     }
 
-    private HttpStatus put(String doi, String body, Boolean testMode) throws Exception {
+    private HttpStatus put(String doi, byte[] xml, Boolean testMode) throws Exception {
         MockHttpServletRequest httpRequest = makeServletRequestForDoi(doi);
-        ResponseEntity<? extends Object> response = metadataApiController.put(body, testMode, httpRequest);
+        ResponseEntity<? extends Object> response = metadataApiController.put(xml, testMode, httpRequest);
         return response.getStatusCode();
     }
 
