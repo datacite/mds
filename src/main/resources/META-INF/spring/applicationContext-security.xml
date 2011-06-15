@@ -193,7 +193,7 @@
 
 	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
 		<property name="key" value="${salt.rememberMe}"/>
-		<property name="tokenValiditySeconds" value="86400"/> <!-- one day -->
+		<property name="tokenValiditySeconds" value="2592000"/> <!-- 30 days -->
 		<property name="userDetailsService" ref="myUserDetailsService"/>
 	</bean>
 	
