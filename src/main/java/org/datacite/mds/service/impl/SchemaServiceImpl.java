@@ -150,7 +150,7 @@ public class SchemaServiceImpl implements SchemaService {
     }
 
     @Override
-    public String getDoi(byte[] xml) {
+    synchronized public String getDoi(byte[] xml) {
         // TODO throw Exception instead of returning null
         InputStream stream = new ByteArrayInputStream(xml);
         InputSource source = new InputSource(stream);
