@@ -116,9 +116,15 @@ public class DatasetController {
                 handleService.create(dataset.getDoi(), dataset.getUrl());
                 log.info(dataset.getDatacentre().getSymbol() + " successfuly minted (via UI) " + dataset.getDoi());
             } catch (HandleException e) {
-                String message = "HandleService: " + e.getMessage();
-                FieldError error = new FieldError("", "doi", dataset.getDoi(), false, null, null, message);
-                result.addError(error);
+                log.debug("minting DOI failed; try to update it");
+                try {
+                    handleService.update(dataset.getDoi(), dataset.getUrl());
+                    log.info(dataset.getDatacentre().getSymbol() + " successfuly updated (via UI) " + dataset.getDoi());
+                } catch (HandleException ee) {
+                    String message = "HandleService: " + ee.getMessage();
+                    FieldError error = new FieldError("", "doi", dataset.getDoi(), false, null, null, message);
+                    result.addError(error);
+                }
             }
         }
 
