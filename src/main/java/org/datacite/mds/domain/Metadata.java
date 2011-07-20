@@ -5,13 +5,13 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Query;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
+import javax.validation.GroupSequence;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -28,7 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RooJavaBean
 @RooToString
 @RooEntity
-@MatchDoi
+@MatchDoi(groups = Metadata.SecondLevelConstraint.class)
+@GroupSequence({ Metadata.class, Metadata.SecondLevelConstraint.class })
 public class Metadata {
 
     private static Logger log4j = Logger.getLogger(Metadata.class);
@@ -114,5 +115,7 @@ public class Metadata {
 
         return result;
     }
+    
+    public interface SecondLevelConstraint {};
 
 }
