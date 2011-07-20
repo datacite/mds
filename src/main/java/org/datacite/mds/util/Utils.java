@@ -1,5 +1,7 @@
 package org.datacite.mds.util;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,8 +15,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.dom4j.Document;
-import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
+import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.springframework.core.convert.converter.Converter;
 
@@ -169,10 +171,14 @@ public class Utils {
      * @throws Exception
      *             if the xml cannot be parsed
      */
-    public static String formatXML(String xml) throws Exception {
-        if (StringUtils.isBlank(xml))
-            return xml;
-        Document doc = DocumentHelper.parseText(xml);
+    public static String formatXML(byte[] xml) throws Exception {
+        if (xml == null)
+            return null;
+        if (xml.length == 0)
+            return StringUtils.EMPTY;
+        InputStream input = new ByteArrayInputStream(xml);
+        SAXReader sax = new SAXReader();
+        Document doc = sax.read(input);
         StringWriter sw = new StringWriter();
         OutputFormat format = OutputFormat.createPrettyPrint();
         XMLWriter xw = new XMLWriter(sw, format);

@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.lang.Character.UnicodeBlock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -97,15 +99,26 @@ public class UtilsTest {
     }
 
     @Test
-    public void formatXml() throws Exception {
+    public void testFormatXml() throws Exception {
         assertNull(Utils.formatXML(null));
-        assertEquals("", Utils.formatXML(""));
-        assertNotNull(Utils.formatXML("<root/>"));
+        assertEquals("", formatXML(""));
+        assertNotNull(formatXML("<root/>"));
     }
 
+    private String formatXML(String xml) throws Exception {
+        byte[] bytes = xml.getBytes();
+        return Utils.formatXML(bytes);
+    }
+    
     @Test(expected = Exception.class)
-    public void formatXml_invalid() throws Exception {
-        Utils.formatXML("<foo></bar>");
+    public void testFormatXml_invalid() throws Exception {
+        formatXML("<foo></bar>");
+    }
+    
+    @Test
+    public void testFormatXml_BOM() throws Exception {
+        String bom = "\uFEFF";
+        assertNotNull(formatXML(bom + "<root/>"));
     }
 
     @Test

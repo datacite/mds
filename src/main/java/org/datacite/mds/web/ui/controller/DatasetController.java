@@ -61,7 +61,7 @@ public class DatasetController {
         try {
             Metadata metadata = metadatas.get(0);
             model.addAttribute("metadata", metadata);
-            String xml = new String(metadata.getXml());
+            byte[] xml = metadata.getXml();
             model.addAttribute("prettyxml", Utils.formatXML(xml));
         } catch (Exception e) {
         }

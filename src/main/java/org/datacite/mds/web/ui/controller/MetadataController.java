@@ -58,7 +58,7 @@ public class MetadataController {
         model.addAttribute("metadata", metadata);
         String prettyXml;
         try {
-            String xml = new String(metadata.getXml());
+            byte[] xml = metadata.getXml();
             prettyXml = Utils.formatXML(xml);
         } catch (Exception e) {
             prettyXml = "error formatting xml: " + e.getMessage();
