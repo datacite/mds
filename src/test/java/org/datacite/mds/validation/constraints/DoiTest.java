@@ -22,6 +22,15 @@ public class DoiTest extends AbstractContraintsTest {
         assertFalse(isValid("10.1234/foo/bar\u0010foo"));
         assertFalse(isValid("10.1234/foo\nbar"));
     }
+    
+    @Test
+    public void testSpaces() {
+        assertTrue(isValid("10.1234/test"));
+        assertFalse(isValid(" 10.1234/test"));
+        assertFalse(isValid("10.1234/test "));
+        assertFalse(isValid("10.1234/te st"));
+        assertFalse(isValid("10. 1234/test"));
+    }
 
     boolean isValid(String doi) {
         this.doi = doi;
