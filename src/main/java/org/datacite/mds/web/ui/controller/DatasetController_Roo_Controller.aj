@@ -36,12 +36,6 @@ privileged aspect DatasetController_Roo_Controller {
         return "datasets/create";
     }
     
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String DatasetController.updateForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("dataset", Dataset.findDataset(id));
-        return "datasets/update";
-    }
-    
     @RequestMapping(params = { "find=ByDoiEquals", "form" }, method = RequestMethod.GET)
     public String DatasetController.findDatasetsByDoiEqualsForm(Model model) {
         return "datasets/findDatasetsByDoiEquals";

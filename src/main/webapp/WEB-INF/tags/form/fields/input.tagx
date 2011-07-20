@@ -62,6 +62,7 @@
               <form:input id="_${sec_field}_id" path="${sec_field}" disabled="${disabled}" readonly="${readonly}" />
             </c:otherwise>
           </c:choose>
+          <jsp:doBody/>
           <br />
           <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
         </c:otherwise>

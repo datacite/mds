@@ -6,7 +6,9 @@
           <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
         </util:hide>
         <util:comment messageCode="handle_latency_info"/>
-        <field:input field="doi" id="c_org_datacite_mds_domain_Dataset_doi" readonly="true" required="true" z="user-managed"/>
+        <field:input field="doi" id="c_org_datacite_mds_domain_Dataset_doi" readonly="true" required="true" z="user-managed">
+           (${resolvedUrl})
+        </field:input>
         <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
         <util:comment messageCode="dataset_update_url" />
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Dataset_isActive" z="VG6i4E8PwnhnMZKA2+UzVJ+59M4="/>

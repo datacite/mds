@@ -18,6 +18,7 @@ import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.Utils;
+import org.datacite.mds.web.api.NotFoundException;
 import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -65,8 +66,20 @@ public class DatasetController {
             model.addAttribute("prettyxml", Utils.formatXML(xml));
         } catch (Exception e) {
         }
+        model.addAttribute("resolvedUrl", resolveDoi(dataset));
         model.addAttribute("itemId", id);
         return "datasets/show";
+    }
+    
+    private String resolveDoi(Dataset dataset) {
+        try {
+            String url = handleService.resolve(dataset.getDoi());
+            return url;
+        } catch (NotFoundException e) {
+            return "not resolveable";
+        } catch (HandleException e) {
+            return "handle error";
+        }
     }
 
     @ModelAttribute("datacentres")
@@ -168,5 +181,13 @@ public class DatasetController {
     public String findDatasetsByDoiEquals(@RequestParam("doi") String doi, Model model) {
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         return (dataset == null) ? "datasets/show" : "redirect:/datasets/" + dataset.getId();
+    }
+
+    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
+    public String updateForm(@PathVariable("id") Long id, Model model) {
+        Dataset dataset = Dataset.findDataset(id);
+        model.addAttribute("dataset", dataset);
+        model.addAttribute("resolvedUrl", resolveDoi(dataset));
+        return "datasets/update";
     }
 }
