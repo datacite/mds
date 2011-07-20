@@ -19,7 +19,14 @@ public class DoiValidator implements ConstraintValidator<Doi, String> {
         }
         String prefix = Utils.getDoiPrefix(doi);
         String suffix = Utils.getDoiSuffix(doi);
-        return !StringUtils.isEmpty(prefix) && !StringUtils.isEmpty(suffix) && prefix.matches("10\\.(\\d)+")
-                && suffix.matches("[^\u0000-\u001F\u0080-\u009F]+") && !suffix.matches("./.*");
+
+        if(StringUtils.isEmpty(prefix) || StringUtils.isEmpty(suffix))
+            return false;
+        
+        boolean isPrefixOK = prefix.matches("10\\.(\\d)+");
+        boolean hasValidChars = suffix.matches("[^\u0000-\u001F\u0080-\u009F]+");
+        boolean hasValidSuffixStart = !suffix.matches("./.*");
+        
+        return isPrefixOK && hasValidChars && hasValidSuffixStart;
     }
 }
