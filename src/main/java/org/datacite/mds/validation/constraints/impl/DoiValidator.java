@@ -5,6 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.util.Utils;
+import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.Doi;
 
 public class DoiValidator implements ConstraintValidator<Doi, String> {
@@ -26,8 +27,18 @@ public class DoiValidator implements ConstraintValidator<Doi, String> {
         boolean isPrefixOK = prefix.matches("10\\.(\\d)+");
         boolean hasValidChars = suffix.matches("[^\u0000-\u001F\u0080-\u009F]+");
         boolean hasValidSuffixStart = !suffix.matches("./.*");
-        boolean hasSpaces = StringUtils.contains(suffix, " ");
+        boolean hasSpaces = StringUtils.contains(doi, " ");
         
+        if (!isPrefixOK)
+            addCustomMessage("DoiPrefix.message", context);
+
+        if (hasSpaces)
+            addCustomMessage("Doi.spaces", context);
+
         return isPrefixOK && hasValidChars && hasValidSuffixStart && !hasSpaces;
+    }
+    
+    private void addCustomMessage(String type, ConstraintValidatorContext context) {
+        ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints." + type + "}");
     }
 }
