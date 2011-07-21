@@ -266,12 +266,12 @@ public class Datacentre implements AllocatorOrDatacentre {
             return null;
         }
         try {
-            log4j.debug("search for '" + symbol + "'");
+            log4j.trace("search for '" + symbol + "'");
             Datacentre dc = findDatacentresBySymbolEquals(symbol).getSingleResult();
-            log4j.debug("found '" + symbol + "'");
+            log4j.trace("found '" + symbol + "'");
             return dc;
         } catch (Exception e) {
-            log4j.debug("no datacentre found");
+            log4j.trace("no datacentre found");
             return null;
         }
     }

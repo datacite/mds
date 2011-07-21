@@ -38,7 +38,7 @@ public abstract class BaseMasterUserDetailsService implements UserDetailsService
     @Override
     final public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
         String mastername = getMasterUsername(username);
-        log4j.debug("building master user '" + mastername + "'");
+        log4j.debug("building master user '" + mastername + "' for user '" + username + "'");
 
         UserDetails user = userDetailsService.loadUserByUsername(username);
         UserDetails master = userDetailsService.loadUserByUsername(mastername);

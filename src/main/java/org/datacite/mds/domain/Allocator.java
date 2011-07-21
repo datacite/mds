@@ -125,12 +125,12 @@ public class Allocator implements AllocatorOrDatacentre {
             return null;
         }
         try {
-            log4j.debug("search for '" + symbol + "'");
+            log4j.trace("search for '" + symbol + "'");
             Allocator al = findAllocatorsBySymbolEquals(symbol).getSingleResult();
-            log4j.debug("found '" + symbol + "'");
+            log4j.trace("found '" + symbol + "'");
             return al;
         } catch (Exception e) {
-            log4j.debug("no allocator found");
+            log4j.trace("no allocator found");
             return null;
         }
     }

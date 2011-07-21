@@ -145,12 +145,12 @@ public class Dataset {
             return null;
         }
         try {
-            log4j.debug("search for '" + doi + "'");
+            log4j.trace("search for '" + doi + "'");
             Dataset dataset = findDatasetsByDoiEquals(doi).getSingleResult();
-            log4j.debug("found '" + doi + "'");
+            log4j.trace("found '" + doi + "'");
             return dataset;
         } catch (Exception e) {
-            log4j.debug("no dataset found");
+            log4j.trace("no dataset found");
             return null;
         }
     }
