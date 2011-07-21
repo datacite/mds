@@ -9,7 +9,7 @@
  *
  *******************************************************************************/
 
-package org.datacite.mds.service.impl;
+package org.datacite.mds.service.userdetails;
 
 import java.util.ArrayList;
 import java.util.Collection;

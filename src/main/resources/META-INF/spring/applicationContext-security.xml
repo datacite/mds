@@ -70,7 +70,7 @@
         <security:authentication-provider user-service-ref='myAdminMasterUserDetailsService'>
             <security:password-encoder ref="passwordEncoder" />
         </security:authentication-provider>
-        <security:authentication-provider user-service-ref='myMasterUserDetailsService'>
+        <security:authentication-provider user-service-ref='myAllocatorMasterUserDetailsService'>
             <security:password-encoder ref="passwordEncoder" />
         </security:authentication-provider>
         <security:authentication-provider user-service-ref='myUserDetailsService'>
@@ -79,13 +79,13 @@
         <security:authentication-provider ref='rememberMeAuthenticationProvider' />
     </security:authentication-manager>
     
-    <bean id="myUserDetailsService" class="org.datacite.mds.service.impl.UserDetailsServiceImpl" />
+    <bean id="myUserDetailsService" class="org.datacite.mds.service.userdetails.UserDetailsServiceImpl" />
 
-    <bean id="myMasterUserDetailsService" class="org.datacite.mds.service.impl.MasterUserDetailsServiceImpl" >
+    <bean id="myAllocatorMasterUserDetailsService" class="org.datacite.mds.service.userdetails.AllocatorMasterUserDetailsServiceImpl" >
         <property name="userDetailsService" ref="myUserDetailsService"/>
     </bean>
     
-    <bean id="myAdminMasterUserDetailsService" class="org.datacite.mds.service.impl.AdminMasterUserDetailsServiceImpl" >
+    <bean id="myAdminMasterUserDetailsService" class="org.datacite.mds.service.userdetails.AdminMasterUserDetailsServiceImpl" >
         <property name="userDetailsService" ref="myUserDetailsService"/>
     </bean>
     

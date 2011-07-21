@@ -1,4 +1,4 @@
-package org.datacite.mds.service.impl;
+package org.datacite.mds.service.userdetails;
 
 import static org.junit.Assert.*;
 

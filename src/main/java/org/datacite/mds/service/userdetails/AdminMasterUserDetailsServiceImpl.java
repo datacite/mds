@@ -9,16 +9,14 @@
  *
  *******************************************************************************/
 
-package org.datacite.mds.service.impl;
+package org.datacite.mds.service.userdetails;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.util.DomainUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * This class is responsible for retrieving master user credentials. The
- * crendentials for a given username are built from the role and username of a
- * datacentre and the password of the assigned allocator.
+ * accept admin user as master user for all other accounts
  */
 public class AdminMasterUserDetailsServiceImpl extends BaseMasterUserDetailsService {
  

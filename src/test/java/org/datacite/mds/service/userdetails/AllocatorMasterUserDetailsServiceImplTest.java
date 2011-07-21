@@ -1,4 +1,4 @@
-package org.datacite.mds.service.impl;
+package org.datacite.mds.service.userdetails;
 
 import static org.junit.Assert.assertEquals;
 
@@ -15,9 +15,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class MasterUserDetailsServiceImplTest {
+public class AllocatorMasterUserDetailsServiceImplTest {
 
-    MasterUserDetailsServiceImpl masterUserDetailsService = new MasterUserDetailsServiceImpl();
+    AllocatorMasterUserDetailsServiceImpl masterUserDetailsService = new AllocatorMasterUserDetailsServiceImpl();
 
     UserDetails allocator;
     UserDetails datacentre;

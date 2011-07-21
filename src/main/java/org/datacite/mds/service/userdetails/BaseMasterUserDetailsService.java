@@ -9,10 +9,9 @@
  *
  *******************************************************************************/
 
-package org.datacite.mds.service.impl;
+package org.datacite.mds.service.userdetails;
 
 import org.apache.log4j.Logger;
-import org.datacite.mds.util.Utils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +19,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
- * This class is responsible for retrieving master user credentials. The
- * crendentials for a given username are built from the role and username of a
- * datacentre and the password of the assigned allocator.
+ * This class is responsible for retrieving master user details. The
+ * crendentials for a given username are built from its role and username 
+ * and the password of the master user (e.g. allocator or admin).
  */
 public abstract class BaseMasterUserDetailsService implements UserDetailsService {
 
@@ -53,6 +52,10 @@ public abstract class BaseMasterUserDetailsService implements UserDetailsService
                 user.getAuthorities());
     }
     
+    /**
+     * returns the username of the master user of the given username,
+     * e.g. allocator username for a given datacentre
+     */
     public abstract String getMasterUsername(String username);
 
     public void setUserDetailsService(UserDetailsService userDetailsService) {
