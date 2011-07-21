@@ -19,8 +19,9 @@
    
    <script type="text/javascript">dojo.require("dijit.form.CheckBox");</script>
     <div id="_${sec_id}_id">
-      <label for="_${sec_field}_id">
-        <c:out value="${fn:escapeXml(label)}" />:
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="${label}" var="tooltip" />
+      <label for="_${sec_field}_id" title="${tooltip}">
+        <span><c:out value="${fn:escapeXml(label)}" /></span>:
       </label>
       <c:choose>
         <c:when test="${disableFormBinding}">

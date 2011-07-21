@@ -34,8 +34,9 @@
     <c:set var="typeName" value="${fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1]}" />
 
     <div id="_${fn:escapeXml(id)}_id">
-      <label for="_${fn:escapeXml(field)}_id">
-        <c:out value="${label}" />:
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="${label}" var="tooltip" />
+      <label for="_${fn:escapeXml(field)}_id" title="${tooltip}">
+        <span><c:out value="${label}" /></span>:
       </label>
       <div class="box" id="_${fn:escapeXml(id)}_${fn:escapeXml(field)}_id">
         <c:choose>

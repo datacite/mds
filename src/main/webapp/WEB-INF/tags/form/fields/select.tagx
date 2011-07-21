@@ -50,8 +50,9 @@
     <div id="_${fn:escapeXml(id)}_id">
       <c:choose>
         <c:when test="${not empty items}">
-          <label for="_${sec_field}_id">
-            <c:out value="${fn:escapeXml(label)}" />:
+          <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="${label}" var="tooltip" />
+          <label for="_${sec_field}_id" title="${tooltip}">
+            <span><c:out value="${fn:escapeXml(label)}" /></span>:
           </label>
           <c:choose>
             <c:when test="${empty itemValue}">

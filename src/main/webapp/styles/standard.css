@@ -542,5 +542,12 @@ pre {
     margin: 0px;
     padding-left: 20px;
 }
-              
+           
+label[title] {
+    cursor: help;
+}
+
+label[title] span {
+    border-bottom: thin dotted black;
+}
             
