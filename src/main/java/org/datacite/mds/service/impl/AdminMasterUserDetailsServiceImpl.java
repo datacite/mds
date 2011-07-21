@@ -11,7 +11,8 @@
 
 package org.datacite.mds.service.impl;
 
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.util.DomainUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
@@ -19,14 +20,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * crendentials for a given username are built from the role and username of a
  * datacentre and the password of the assigned allocator.
  */
-public class MasterUserDetailsServiceImpl extends BaseMasterUserDetailsService {
+public class AdminMasterUserDetailsServiceImpl extends BaseMasterUserDetailsService {
  
     @Override
     public String getMasterUsername(String username) {
-        String mastername = Utils.getAllocatorFromDatacentreSymbol(username);
-        if (mastername == null) {
-            throw new UsernameNotFoundException("cannot parse allocator symbol");
+        Allocator admin = DomainUtils.getAdmin();
+        if (admin == null) {
+            throw new UsernameNotFoundException("cannot find a admin user");
         }
+        String mastername = admin.getSymbol();
         return mastername;
     }
 
