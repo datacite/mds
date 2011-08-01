@@ -1,4 +1,11 @@
 xml.validation=true
 xml.schema.caching=true
+
+#schemaLocation in xml must start with this prefix
 xml.schema.location.prefix=http://schema.datacite.org/meta/
+
+#location of local copy of schemata; will replace the above prefix.
+#leave empty if there is no local copy. 
+xml.schema.location.local=
+
 xml.schema.xpath.doi=//*[local-name() = 'identifier' and @identifierType='DOI']

@@ -45,6 +45,13 @@ public class SchemaServiceImpl implements SchemaService {
     @Value("${xml.schema.xpath.doi}")
     String doiXPath;
     
+    @Value("${xml.schema.location.local}")
+    String schemaLocationLocal;
+
+    @Value("${xml.schema.location.prefix}")
+    String schemaLocationPrefix;
+
+    
     XPathExpression doiXPathExpression;
 
     public SchemaServiceImpl() {
@@ -117,7 +124,7 @@ public class SchemaServiceImpl implements SchemaService {
         }
         return null;
     }
-
+    
     @Override
     public Validator getSchemaValidator(String schemaLocation) throws SAXException {
         Schema schema;
@@ -143,10 +150,22 @@ public class SchemaServiceImpl implements SchemaService {
     }
 
     private Schema getFreshSchema(String schemaLocation) throws SAXException {
+        String localSchemaLocation = convertSchemaLocationToLocal(schemaLocation);
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Source schemaSource = new StreamSource(schemaLocation);
+        Source schemaSource = new StreamSource(localSchemaLocation);
         Schema schema = schemaFactory.newSchema(schemaSource);
         return schema;
+    }
+    
+    protected String convertSchemaLocationToLocal(String schemaLocation) {
+        if (StringUtils.isEmpty(schemaLocationLocal))
+            return schemaLocation;
+        else {
+            String localSchemaLocation = StringUtils.replaceOnce(schemaLocation, schemaLocationPrefix,
+                    schemaLocationLocal);
+            log4j.debug("converting schemaLocation " + schemaLocation + " -> " + localSchemaLocation);
+            return localSchemaLocation;
+        }
     }
 
     @Override

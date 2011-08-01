@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import javax.validation.ValidationException;
 
 import org.datacite.mds.test.TestUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,11 @@ public class SchemaServiceImplTest {
     
     @Autowired
     SchemaServiceImpl service;
+    
+    @Before
+    public void init() {
+        service.schemaLocationLocal = "";
+    }
     
     @Test
     public void testGetSchemaLocationNoNamespace() throws Exception {
@@ -48,4 +54,23 @@ public class SchemaServiceImplTest {
     public void getSchemaValidatorNonExisting() throws Exception {
         service.getSchemaValidator("file://foobar.xsd");
     }
+    
+    @Test
+    public void testConvertSchemaLocationToLocal() {
+        String global = service.schemaLocationPrefix;
+        String local = "file://bar/";
+        service.schemaLocationLocal = local;
+        String converted = service.convertSchemaLocationToLocal(global + "/path");
+        assertEquals(local + "/path", converted);
+    }
+    
+    @Test
+    public void testConvertSchemaLocationEmptyLocal() {
+        String global = service.schemaLocationPrefix;
+        service.schemaLocationLocal = "";
+        String location = global + "/path";
+        String converted = service.convertSchemaLocationToLocal(location);
+        assertEquals(location, converted);
+    }
+
 }
