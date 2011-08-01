@@ -68,9 +68,18 @@ public class SchemaServiceImpl implements SchemaService {
             throw new RuntimeException(e);
         }
     }
-
+    
+    @Override
+    public String getNamespace(byte[] xml) throws ValidationException {
+        return getSchemaInfo(xml).namespace;
+    }
+    
     @Override
     public String getSchemaLocation(byte[] xml) throws ValidationException {
+        return getSchemaInfo(xml).location;
+    }
+
+    public SchemaInfo getSchemaInfo(byte[] xml) throws ValidationException {
         try {
             XMLStreamReader xmlStreamReader = createStreamReader(xml);
             seekRootElement(xmlStreamReader);
@@ -96,21 +105,21 @@ public class SchemaServiceImpl implements SchemaService {
         throw new ValidationException("cannot find root Element");
     }
 
-    private String parseRootElement(XMLStreamReader root) throws ValidationException {
-        String location = null;
-        String rootNamespace = root.getNamespaceURI();
+    private SchemaInfo parseRootElement(XMLStreamReader root) throws ValidationException {
+        SchemaInfo schemaInfo = new SchemaInfo(); 
+        schemaInfo.namespace = root.getNamespaceURI();
 
-        if (StringUtils.isEmpty(rootNamespace)) {
-            location = root.getAttributeValue(XSI_NAMESPACE_URI, "noNamespaceSchemaLocation");
+        if (StringUtils.isEmpty(schemaInfo.namespace)) {
+            schemaInfo.location = root.getAttributeValue(XSI_NAMESPACE_URI, "noNamespaceSchemaLocation");
         } else {
             String locations = root.getAttributeValue(XSI_NAMESPACE_URI, "schemaLocation");
-            location = getLocationForNamespace(rootNamespace, locations);
+            schemaInfo.location = getLocationForNamespace(schemaInfo.namespace, locations);
         }
 
-        if (location == null)
+        if (schemaInfo.location == null)
             throw new ValidationException("cannot find namespace location");
         else
-            return location;
+            return schemaInfo;
     }
 
     private String getLocationForNamespace(String rootNamespace, String locationAttr) {
@@ -181,6 +190,11 @@ public class SchemaServiceImpl implements SchemaService {
             log4j.debug("catch Exception: " + ExceptionUtils.getThrowableList(e));
         }
         return doi;
+    }
+    
+    private class SchemaInfo {
+        String namespace = null;
+        String location = null;
     }
 
 }

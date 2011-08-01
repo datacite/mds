@@ -13,10 +13,7 @@ privileged aspect Metadata_Roo_JavaBean {
         return this.xml;
     }
     
-    public void Metadata.setXml(byte[] xml) {
-        this.xml = xml;
-    }
-    
+        
     public Integer Metadata.getMetadataVersion() {
         return this.metadataVersion;
     }

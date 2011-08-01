@@ -16,8 +16,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.validation.constraints.MatchDoi;
 import org.datacite.mds.validation.constraints.ValidXML;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.roo.addon.entity.RooEntity;
@@ -33,10 +35,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class Metadata {
 
     private static Logger log4j = Logger.getLogger(Metadata.class);
+    
+    @Autowired
+    @Transient
+    SchemaService schemaService;
 
     @ValidXML
     @Column(length=10000)
     private byte[] xml;
+    
+    private String namespace;
 
     @Min(0L)
     private Integer metadataVersion;
@@ -49,7 +57,7 @@ public class Metadata {
     @ManyToOne(targetEntity = Dataset.class)
     @JoinColumn
     private Dataset dataset;
-
+    
     @Transient
     private Query maxMetaVerQuery;
 
@@ -116,6 +124,22 @@ public class Metadata {
         return result;
     }
     
+    public void setXml(byte[] xml) {
+        if (schemaService == null) 
+            throw new IllegalStateException("schemaService has not been injected");
+        String namespace = schemaService.getNamespace(xml);
+        setNamespace(namespace);
+        this.xml = xml;
+    }
+
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
     public interface SecondLevelConstraint {};
 
 }
