@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class DatasetCreator extends AbstractTool {
-    
+
     private static Logger log = Logger.getLogger(DatasetCreator.class);
 
     @Override
@@ -49,15 +49,22 @@ public class DatasetCreator extends AbstractTool {
 
     public void addDataset(Datacentre datacentre, String doi) {
         System.out.print(doi + ": ");
-        try {
-            persistDataset(datacentre, doi);
-            System.out.println("OK");
-            log.info(datacentre.getSymbol() + " succesfully created " + doi);
-        } catch (ConstraintViolationException ex) {
-            String msg = ValidationUtils.collateViolationMessages(ex.getConstraintViolations());
-            System.out.println(msg);
-        } catch (Exception ex) {
-            System.out.println(ex);
+        if (Dataset.findDatasetByDoi(doi) != null) {
+            System.out.println("already exists");
+            log.debug(datacentre.getSymbol() + " already owns " + doi);
+        } else {
+            try {
+                persistDataset(datacentre, doi);
+                System.out.println("OK");
+                log.info(datacentre.getSymbol() + " succesfully created " + doi);
+            } catch (ConstraintViolationException ex) {
+                String msg = ValidationUtils.collateViolationMessages(ex.getConstraintViolations());
+                System.out.println(msg);
+                log.warn(datacentre.getSymbol() + " failed to create " + doi + " (" + msg + ")");
+            } catch (Exception ex) {
+                System.out.println(ex);
+                log.error(ex);
+            }
         }
     }
 
