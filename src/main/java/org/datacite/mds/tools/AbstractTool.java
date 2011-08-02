@@ -20,5 +20,5 @@ public abstract class AbstractTool {
         }
     }
     
-    public abstract void run(String[] args);
+    public abstract void run(String[] args) throws Exception;
 }
