@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ValidationException;
 import javax.validation.Validator;
 
 import org.datacite.mds.domain.Dataset;
@@ -20,13 +21,13 @@ public class MetadataChecker extends AbstractTool {
 
     @PersistenceContext
     EntityManager entityManager;
-    
+
     @Autowired
     SchemaService schemaService;
-    
+
     @Autowired
     Validator validator;
-    
+
     @Override
     @Transactional
     public void run(String[] args) {
@@ -36,21 +37,25 @@ public class MetadataChecker extends AbstractTool {
             checkMetadata(metadata);
         }
     }
-    
+
     private void checkMetadata(Metadata metadata) {
-        if (metadata == null) 
+        if (metadata == null)
             return;
-        
+
         String doi = metadata.getDataset().getDoi();
         byte[] xml = metadata.getXml();
 
-        String schemaLocation = schemaService.getSchemaLocation(xml);
-        Set violations = validator.validate(metadata);
-        
-        String violationMsg = ValidationUtils.collateViolationMessages(violations);
-        System.out.println(doi + "\t" + schemaLocation + "\t" + violationMsg);
+        try {
+            String schemaLocation = schemaService.getSchemaLocation(xml);
+            Set violations = validator.validate(metadata);
+
+            String violationMsg = ValidationUtils.collateViolationMessages(violations);
+            System.out.println(doi + "\t" + schemaLocation + "\t" + violationMsg);
+        } catch (ValidationException ex) {
+            System.out.println(doi + "\t" + ex.getMessage());
+        }
     }
-    
+
     public static void main(String[] args) throws Exception {
         initAndRun(args);
     }

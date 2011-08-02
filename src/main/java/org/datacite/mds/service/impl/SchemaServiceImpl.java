@@ -76,7 +76,11 @@ public class SchemaServiceImpl implements SchemaService {
     
     @Override
     public String getSchemaLocation(byte[] xml) throws ValidationException {
-        return getSchemaInfo(xml).location;
+        String location = getSchemaInfo(xml).location;
+        if (location == null)
+            throw new ValidationException("cannot find namespace location");
+        else
+            return location;
     }
 
     public SchemaInfo getSchemaInfo(byte[] xml) throws ValidationException {
@@ -116,10 +120,7 @@ public class SchemaServiceImpl implements SchemaService {
             schemaInfo.location = getLocationForNamespace(schemaInfo.namespace, locations);
         }
 
-        if (schemaInfo.location == null)
-            throw new ValidationException("cannot find namespace location");
-        else
-            return schemaInfo;
+        return schemaInfo;
     }
 
     private String getLocationForNamespace(String rootNamespace, String locationAttr) {
