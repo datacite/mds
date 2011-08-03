@@ -440,7 +440,14 @@
       <version>${powermock.version}</version>
       <scope>test</scope>
    </dependency>  
-    </dependencies>
+   <dependency>
+   	<groupId>net.sourceforge.saxon</groupId>
+   	<artifactId>saxon</artifactId>
+   	<version>9.1.0.8</version>
+   	<type>jar</type>
+   	<scope>compile</scope>
+   </dependency>
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
