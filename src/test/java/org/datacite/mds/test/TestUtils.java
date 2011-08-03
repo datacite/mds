@@ -7,11 +7,14 @@ import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -126,32 +129,24 @@ public abstract class TestUtils {
         return prefixSet;
     }
     
-    public static byte[] getTestMetadata() throws IOException {
+    public static byte[] getTestMetadata() {
         return getTestMetadata20();
     }
 
-    public static byte[] getTestMetadata20() throws IOException {
+    public static byte[] getTestMetadata20() {
         return getTestMetadata("datacite-metadata-sample-v2.0.xml");
     }
     
-    public static byte[] getTestMetadata21() throws IOException {
+    public static byte[] getTestMetadata21() {
         return getTestMetadata("datacite-metadata-sample-v2.1.xml");
     }
     
-    private static byte[] getTestMetadata(String filename) throws IOException {
-        InputStream in = TestUtils.class.getClassLoader().getResourceAsStream(filename);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
+    private static byte[] getTestMetadata(String filename) {
+        Resource resource = new ClassPathResource(filename);
         try {
-            byte[] buffer = new byte[1024];
-            int n;
-            while ((n = in.read(buffer)) != -1) {
-                out.write(buffer, 0, n);
-            }
-
-            return out.toByteArray();
-        } finally {
-            in.close();
-            out.close();
+            return FileUtils.readFileToByteArray(resource.getFile());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
