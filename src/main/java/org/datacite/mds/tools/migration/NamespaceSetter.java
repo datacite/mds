@@ -44,7 +44,7 @@ public class NamespaceSetter extends AbstractTool {
     }
 
     private void checkNamespace(Metadata metadata) {
-        log.debug("checking namespace: " + metadataToString(metadata));
+        log.debug("checking namespace: " + metadata);
 
         byte[] xml = metadata.getXml();
         String namespace = schemaService.getNamespace(xml);
@@ -57,13 +57,9 @@ public class NamespaceSetter extends AbstractTool {
         metadata.setNamespace(namespace);
         metadata.merge();
 
-        String msg = "set namespace: " + metadataToString(metadata) + " => " + namespace;
+        String msg = "set namespace: " + metadata + " => " + namespace;
         System.out.println(msg);
         log.info(msg);
-    }
-
-    private String metadataToString(Metadata metadata) {
-        return metadata.getDataset().getDoi() + " #" + metadata.getMetadataVersion() + " (id=" + metadata.getId() + ")";
     }
 
     public static void main(String[] args) {

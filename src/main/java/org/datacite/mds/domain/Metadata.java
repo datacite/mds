@@ -149,7 +149,26 @@ public class Metadata {
     public void setIsConvertedByMds(Boolean isConvertedByMds) {
         this.isConvertedByMds = isConvertedByMds;
     }
+    
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getDataset().getDoi());
+        sb.append(" #").append(getMetadataVersion());
+        sb.append(" (id=" + getId() + ")");
+        return sb.toString();
+    }
+
+    public String debugString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Id: ").append(getId()).append(", ");
+        sb.append("Version: ").append(getVersion()).append(", ");
+        sb.append("Xml: ").append(java.util.Arrays.toString(getXml())).append(", ");
+        sb.append("MetadataVersion: ").append(getMetadataVersion()).append(", ");
+        sb.append("Created: ").append(getCreated()).append(", ");
+        sb.append("Dataset: ").append(getDataset());
+        return sb.toString();
+    }
 
     public interface SecondLevelConstraint {};
-
+    
 }
