@@ -58,6 +58,8 @@ public class Metadata {
     @JoinColumn
     private Dataset dataset;
     
+    private Boolean isConvertedByMds = false;
+    
     @Transient
     private Query maxMetaVerQuery;
 
@@ -138,6 +140,14 @@ public class Metadata {
 
     public void setNamespace(String namespace) {
         this.namespace = namespace;
+    }
+
+    public Boolean getIsConvertedByMds() {
+        return isConvertedByMds;
+    }
+
+    public void setIsConvertedByMds(Boolean isConvertedByMds) {
+        this.isConvertedByMds = isConvertedByMds;
     }
 
     public interface SecondLevelConstraint {};
