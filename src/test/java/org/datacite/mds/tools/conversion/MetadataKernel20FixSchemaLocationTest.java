@@ -22,10 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
 @Transactional
-public class MetadataMdsVersion1ConvertorTest {
+public class MetadataKernel20FixSchemaLocationTest {
+    
+    public final static String BASE_DIR = "conversion/metadata-kernel-2.0_fix-schema-location/"; 
 
     @Autowired
-    MetadataMdsVersion1Convertor convertor;
+    MetadataKernel20FixSchemaLocation convertor;
 
     @Autowired
     SchemaService schemaService;
@@ -59,8 +61,8 @@ public class MetadataMdsVersion1ConvertorTest {
     }
 
     private void assertConversion(String fileExpected, String fileOrig) throws TransformerException {
-        byte[] orig = TestUtils.getTestMetadata("conversion/mds_version_1/" + fileOrig);
-        byte[] expected = TestUtils.getTestMetadata("conversion/mds_version_1/" + fileExpected);
+        byte[] orig = TestUtils.getTestMetadata(BASE_DIR + fileOrig);
+        byte[] expected = TestUtils.getTestMetadata(BASE_DIR + fileExpected);
         assertConversion(expected, orig);
     }
 

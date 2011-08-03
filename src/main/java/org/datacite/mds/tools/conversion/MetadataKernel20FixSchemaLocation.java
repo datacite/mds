@@ -7,15 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MetadataMdsVersion1Convertor extends BaseMetadataConvertor {
+public class MetadataKernel20FixSchemaLocation extends BaseMetadataConvertor {
 
     private static final String SCHEMA_LOCATION = "http://schema.datacite.org/meta/kernel-2.0/metadata.xsd";
 
     @Autowired
     SchemaService schemaService;
 
-    public MetadataMdsVersion1Convertor() {
-        super("xslt/mds_old.xslt");
+    public MetadataKernel20FixSchemaLocation() {
+        super("conversion/metadata-kernel-2.0_fix-schema-location.xslt");
     }
 
     @Override
