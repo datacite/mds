@@ -141,7 +141,7 @@ public abstract class TestUtils {
         return getTestMetadata("datacite-metadata-sample-v2.1.xml");
     }
     
-    private static byte[] getTestMetadata(String filename) {
+    public static byte[] getTestMetadata(String filename) {
         Resource resource = new ClassPathResource(filename);
         try {
             return FileUtils.readFileToByteArray(resource.getFile());
