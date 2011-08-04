@@ -33,6 +33,7 @@
                <p><a href="${raw_url}"><spring:message code="metadata_get_raw_xml"/></a></p>
             </field:simple>
             <field:display field="namespace" id="s_org_datacite_mds_domain_Metadata_namespace" object="${metadata}" render="true" z="user-managed"/>
+            <field:display field="isConvertedByMds" id="s_org_datacite_mds_domain_Metadata_isConvertedByMds" object="${metadata}" render="true" z="user-managed"/>
         </page:show>
     </c:if>
     <c:if test="${not empty dataset}">
@@ -43,6 +44,7 @@
                 <table:column id="c_org_datacite_mds_domain_Metadata_metadataVersion" property="metadataVersion" z="user-managed"/>
                 <table:column id="c_org_datacite_mds_domain_Metadata_namespace" property="namespace" render="true" z="user-managed"/>
                 <table:column id="c_org_datacite_mds_domain_Metadata_created" property="created" z="user-managed"/>
+                <table:column id="c_org_datacite_mds_domain_Metadata_isConvertedByMds" property="isConvertedByMds" z="user-managed"/>
             </table:table>
         </page:list>
     </c:if>
