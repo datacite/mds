@@ -48,7 +48,7 @@ public class Dataset {
     @NotNull
     private Boolean isActive = true;
 
-    private Boolean isRefQuality;
+    private Boolean isRefQuality = false;
 
     @Min(100L)
     @Max(510L)
