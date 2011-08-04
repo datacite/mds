@@ -8,8 +8,11 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
 
+import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
+import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
-public class MetadataChecker extends AbstractTool {
+public class ConsistencyChecker extends AbstractTool {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -31,29 +34,46 @@ public class MetadataChecker extends AbstractTool {
     @Override
     @Transactional
     public void run(String[] args) {
+        checkList(Allocator.findAllAllocators());
+        checkList(Datacentre.findAllDatacentres());
+        checkList(Prefix.findAllPrefixes());
+        checkList(Dataset.findAllDatasets());
+        checkMetadata();
+    }
+
+    private void checkMetadata() {
+        System.out.println("checking latest Metadata");
         List<Dataset> datasets = Dataset.findAllDatasets();
         for (Dataset dataset : datasets) {
             Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
-            checkMetadata(metadata);
+            check(metadata);
         }
     }
 
-    private void checkMetadata(Metadata metadata) {
-        if (metadata == null)
+    private void checkList(List list) {
+        if (!list.isEmpty()) {
+            String clazz = list.get(0).getClass().getSimpleName();
+            System.out.println("checking " + clazz);
+            for (Object entity : list) {
+                check(entity);
+            }
+        }
+        System.out.println();
+    }
+
+    private void check(Object entity) {
+        if (entity == null)
             return;
 
-        String doi = metadata.getDataset().getDoi();
-        byte[] xml = metadata.getXml();
-
         try {
-            Set violations = validator.validate(metadata);
+            Set violations = validator.validate(entity);
 
             if (!violations.isEmpty()) {
                 String violationMsg = ValidationUtils.collateViolationMessages(violations);
-                System.out.println(metadata + "\t" + violationMsg);
+                System.out.println(entity + "\t" + violationMsg);
             }
         } catch (ValidationException ex) {
-            System.out.println(metadata + "\t" + ex.getMessage());
+            System.out.println(entity + "\t" + ex.getMessage());
         }
     }
 
