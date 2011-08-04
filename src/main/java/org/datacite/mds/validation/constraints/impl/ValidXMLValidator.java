@@ -32,9 +32,9 @@ public class ValidXMLValidator implements ConstraintValidator<ValidXML, byte[]> 
     SchemaService schemaService;
 
     public void initialize(ValidXML constraintAnnotation) {
-        log.debug("init: enabled=" + enabled);
-        log.debug("init: schemaLocationPrefix=" + schemaLocationPrefix);
-        log.debug("init: schemaService=" + schemaService);
+        log.trace("init: enabled=" + enabled);
+        log.trace("init: schemaLocationPrefix=" + schemaLocationPrefix);
+        log.trace("init: schemaService=" + schemaService);
     }
 
     public boolean isValid(byte[] xml, ConstraintValidatorContext context) {

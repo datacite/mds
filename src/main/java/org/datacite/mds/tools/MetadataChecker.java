@@ -46,15 +46,14 @@ public class MetadataChecker extends AbstractTool {
         byte[] xml = metadata.getXml();
 
         try {
-            String schemaLocation = schemaService.getSchemaLocation(xml);
             Set violations = validator.validate(metadata);
 
             if (!violations.isEmpty()) {
                 String violationMsg = ValidationUtils.collateViolationMessages(violations);
-                System.out.println(doi + "\t" + schemaLocation + "\t" + violationMsg);
+                System.out.println(metadata + "\t" + violationMsg);
             }
         } catch (ValidationException ex) {
-            System.out.println(doi + "\t" + ex.getMessage());
+            System.out.println(metadata + "\t" + ex.getMessage());
         }
     }
 
