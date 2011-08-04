@@ -37,13 +37,13 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
     public boolean isValid(Object entity, ConstraintValidatorContext context) {
         Serializable idFieldValue = getProperty(entity, idField);
         Serializable uniqueFieldValue = getProperty(entity, uniqueField);
-        log.debug("entity: " + entity.getClass().getName() + ", id: " + idField + "=" + idFieldValue + ", field: "
+        log.trace("entity: " + entity.getClass().getName() + ", id: " + idField + "=" + idFieldValue + ", field: "
                 + uniqueField + "=" + uniqueFieldValue);
 
         List<Serializable> foundIds = findIds(entity, uniqueFieldValue);
 
         Boolean isUnique = foundIds.size() == 0 || foundIds.contains(idFieldValue);
-        log.debug("isUnique=" + isUnique);
+        log.trace("isUnique=" + isUnique);
 
         ValidationUtils.addConstraintViolation(context, defaultMessage, uniqueField);
 
@@ -64,7 +64,7 @@ public class UniqueValidator implements ConstraintValidator<Unique, Object> {
         TypedQuery<Serializable> query = entityManager.createQuery(queryString, Serializable.class);
         query.setParameter("value", value);
         List<Serializable> foundIds = query.getResultList();
-        log.debug("found IDs with '" + uniqueField + "=" + value + "': " + foundIds);
+        log.trace("found IDs with '" + uniqueField + "=" + value + "': " + foundIds);
         return foundIds;
     }
 
