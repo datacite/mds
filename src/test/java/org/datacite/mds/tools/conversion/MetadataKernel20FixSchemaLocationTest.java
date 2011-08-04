@@ -17,11 +17,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
-@Transactional
+@Transactional(propagation = Propagation.NEVER)
 public class MetadataKernel20FixSchemaLocationTest {
     
     public final static String BASE_DIR = "conversion/metadata-kernel-2.0_fix-schema-location/"; 

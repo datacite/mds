@@ -22,7 +22,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(propagation = Propagation.REQUIRES_NEW)
+@Transactional(propagation = Propagation.NEVER)
 public abstract class BaseMetadataConvertor extends AbstractTool {
 
     Logger log = Logger.getLogger(this.getClass());
@@ -65,7 +65,7 @@ public abstract class BaseMetadataConvertor extends AbstractTool {
             log.info("converted " + metadata + " => " + converted);
         } catch (ConstraintViolationException e) {
             String msg = ValidationUtils.collateViolationMessages(e.getConstraintViolations());
-            log.warn("failed to convert " + metadata + ": " + msg);
+            log.warn("failed to persist " + metadata + ": " + msg);
         } catch (Exception e) {
             log.warn("failed to convert " + metadata + ": " + e);
         }
