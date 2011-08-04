@@ -306,5 +306,10 @@ public class Datacentre implements AllocatorOrDatacentre {
         return Dataset.countDatasetsByAllocatorOrDatacentre(this);
     }
     
+    @Override
+    public String toString() {
+        return getSymbol() + " (id=" + getId() + ")";
+    }
+    
     public interface SecondLevelConstraint {};
 }

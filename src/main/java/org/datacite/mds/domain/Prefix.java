@@ -148,5 +148,8 @@ public class Prefix {
             return prefix + " " + symbols.toString();
     }
     
-    
+    @Override
+    public String toString() {
+        return getPrefix() + " (id=" + getId() + ")";
+    }
 }

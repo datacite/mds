@@ -161,4 +161,9 @@ public class Allocator implements AllocatorOrDatacentre {
         str.append(getPassword());
         return str.toString();
     }
+    
+    @Override
+    public String toString() {
+        return getSymbol() + " (id=" + getId() + ")";
+    }
 }

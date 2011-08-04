@@ -159,5 +159,10 @@ public class Dataset {
         this.doi = Utils.normalizeDoi(doi);
     }
     
+    @Override
+    public String toString() {
+        return getDoi() + " (id=" + getId() + ")";
+    }
+    
     public interface SecondLevelConstraint {};
 }
