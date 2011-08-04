@@ -29,6 +29,10 @@ public abstract class BaseMetadataConvertor extends AbstractTool {
 
     Transformer transformer;
 
+    private long count_check = 0;
+    private long count_needs_conversion = 0;
+    private long count_converted = 0;
+
     public BaseMetadataConvertor(String xsltPath) {
         try {
             Resource xslt = new ClassPathResource(xsltPath);
@@ -50,22 +54,28 @@ public abstract class BaseMetadataConvertor extends AbstractTool {
             if (metadata != null)
                 checkAndConvert(metadata);
         }
-        log.info("done");
+        long count_failed = count_needs_conversion - count_converted;
+        String stats = "checked: " + count_check + ", converted: " + count_converted + ", failed: " + count_failed;
+        log.info("done (" + stats + ")");
+        System.out.println(stats);
     }
 
     void checkAndConvert(Metadata metadata) {
         log.debug("checking " + metadata);
+        count_check++;
         if (!needsConversion(metadata))
             return;
+        count_needs_conversion++;
 
         Metadata converted;
         try {
             converted = convert(metadata);
             converted.persist();
             log.info("converted " + metadata + " => " + converted);
+            count_converted++;
         } catch (ConstraintViolationException e) {
             String msg = ValidationUtils.collateViolationMessages(e.getConstraintViolations());
-            log.warn("failed to persist " + metadata + ": " + msg);
+            log.warn("failed to validate converted " + metadata + ": " + msg);
         } catch (Exception e) {
             log.warn("failed to convert " + metadata + ": " + e);
         }
