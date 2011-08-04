@@ -543,7 +543,7 @@ pre {
     padding-left: 20px;
 }
            
-label[title] {
+label[title], th[title] {
     cursor: help;
 }
 

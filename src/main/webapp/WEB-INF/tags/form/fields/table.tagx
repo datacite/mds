@@ -18,6 +18,7 @@
 
     <c:set var="columnProperties" scope="request" />
     <c:set var="columnLabels" scope="request" />
+    <c:set var="columnTooltips" scope="request" />
     <c:set var="columnMaxLengths" scope="request" />
 
     <jsp:doBody />
@@ -36,12 +37,14 @@
 
     <c:set var="typeName" value="${fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1]}" />
     <c:set var="lengths" value="${fn:split(columnMaxLengths, ',')}" scope="request" />
+    <c:set var="tooltips" value="${fn:split(columnTooltips, ',')}" scope="request" />
 
     <table>
       <thead>
         <tr>
-          <c:forTokens items="${columnLabels}" delims="," var="columnHeading">
-            <th>
+          <c:forTokens items="${columnLabels}" delims="," var="columnHeading" varStatus="num">
+            <c:set var="tooltip" value="${tooltips[num.count-1]}" scope="request" />
+            <th title="${tooltip}">
               <c:out value="${columnHeading}" />
             </th>
           </c:forTokens>
