@@ -3,6 +3,8 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:show create="false" delete="false" id="ps_org_datacite_mds_domain_Metadata" list="false" object="${metadata}" path="/metadatas" update="false" z="user-managed">
         <field:display field="dataset" id="s_org_datacite_mds_domain_Metadata_dataset" showPath="/datasets" object="${metadata}" z="user-managed"/>
+        <field:display field="metadataVersion" id="s_org_datacite_mds_domain_Metadata_metadataVersion" object="${metadata}" z="q359QhWy75D/X5wHZIYOA/OW5TA="/>
+        <field:display date="true" dateTimePattern="${metadata_created_date_format}" field="created" id="s_org_datacite_mds_domain_Metadata_created" object="${metadata}" z="BKwXT4mdovYE+1rLwhIVk/fN+3U="/>
         <field:simple field="prettyxml" id="s_org_datacite_mds_domain_Metadata_xml" z="user-managed" >
            <util:highlight lang="xml">
               ${prettyxml}
@@ -12,7 +14,5 @@
         <field:display field="xml" id="s_org_datacite_mds_domain_Metadata_xml" object="${metadata}" render="false" z="tXosv/jZLASJlD+skqVDl9RX8qs="/>
         <field:display field="namespace" id="s_org_datacite_mds_domain_Metadata_namespace" object="${metadata}" render="true" z="user-managed"/>
         <field:display field="isConvertedByMds" id="s_org_datacite_mds_domain_Metadata_isConvertedByMds" object="${metadata}" render="true" z="user-managed"/>
-        <field:display field="metadataVersion" id="s_org_datacite_mds_domain_Metadata_metadataVersion" object="${metadata}" z="q359QhWy75D/X5wHZIYOA/OW5TA="/>
-        <field:display date="true" dateTimePattern="${metadata_created_date_format}" field="created" id="s_org_datacite_mds_domain_Metadata_created" object="${metadata}" z="BKwXT4mdovYE+1rLwhIVk/fN+3U="/>
     </page:show>
 </div>
