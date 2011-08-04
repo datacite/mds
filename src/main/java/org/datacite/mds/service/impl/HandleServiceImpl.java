@@ -57,7 +57,7 @@ public class HandleServiceImpl implements HandleService {
                 throw new NotFoundException("handle " + doi + " does not exist");
             } else {
                 String message = "tried to resolve handle " + doi + " but failed: " + e.getMessage();
-                log4j.error(message, e);
+                log4j.warn(message);
                 throw new HandleException(message, e);
             }
         }
@@ -103,7 +103,7 @@ public class HandleServiceImpl implements HandleService {
             }
         } catch (net.handle.hdllib.HandleException e) {
             String message = "tried to register handle " + doi + " but failed: [" + e.getCode() + "] " + e.getMessage();
-            log4j.error(message, e);
+            log4j.error(message);
             throw new HandleException(message, e);
         }
     }
