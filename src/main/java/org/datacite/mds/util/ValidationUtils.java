@@ -5,6 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintValidatorContext;
@@ -81,6 +82,17 @@ public class ValidationUtils {
         }
         String messagesJoined = StringUtils.join(messages, "; ");
         return StringUtils.defaultIfEmpty(messagesJoined, null);
+    }
+    
+    public static String collateBindingResultErrors(BindingResult result) {
+        if (result==null)
+            return null;
+        
+        List<String> errors = new ArrayList<String>();
+        for (FieldError error : result.getFieldErrors()) {
+            errors.add(error.getField() + ": \"" + error.getDefaultMessage() + "\"");
+        }
+        return errors.toString();
     }
 
     /**
