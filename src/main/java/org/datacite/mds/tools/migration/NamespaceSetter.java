@@ -27,13 +27,9 @@ public class NamespaceSetter extends AbstractTool {
     @Autowired
     SchemaService schemaService;
 
-    @PostConstruct
-    public void init() {
-        disableValidation();
-    }
-
     @Override
     public void run(String[] args) throws IOException {
+        disableValidation();
         System.out.println("Searching for metadata with empty namespace...");
         List<Metadata> metadatas = Metadata.findAllMetadatas();
         for (Metadata metadata : metadatas) {
