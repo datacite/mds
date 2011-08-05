@@ -20,7 +20,9 @@
 	<mvc:annotation-driven/>
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources -->
-	<mvc:resources location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
+    <!-- cache: 604800 = 1 week -->
+	<mvc:resources location="/, classpath:/META-INF/web-resources/" mapping="/resources/**" cache-period="604800"/>
+  
 	
 	<!-- Allows for mapping the DispatcherServlet to "/" by forwarding static resource requests to the container's default Servlet -->
 	<mvc:default-servlet-handler/>
