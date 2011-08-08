@@ -111,6 +111,9 @@ public class MetadataApiController implements ApiController {
 
         log4j.debug(logPrefix);
         
+        if (xml.length == 0)
+            throw new ValidationException("request body must not be empty");
+        
         Dataset dummyDataset = new Dataset();
         dummyDataset.setDoi(doi);
 
