@@ -1,11 +1,22 @@
 package org.datacite.mds.test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.io.FileUtils;
 import org.datacite.mds.domain.Allocator;
@@ -17,6 +28,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 public abstract class TestUtils {
 
@@ -128,7 +142,7 @@ public abstract class TestUtils {
         }
         return prefixSet;
     }
-    
+
     public static byte[] getTestMetadata() {
         return getTestMetadata20();
     }
@@ -136,11 +150,11 @@ public abstract class TestUtils {
     public static byte[] getTestMetadata20() {
         return getTestMetadata("datacite-metadata-sample-v2.0.xml");
     }
-    
+
     public static byte[] getTestMetadata21() {
         return getTestMetadata("datacite-metadata-sample-v2.1.xml");
     }
-    
+
     public static byte[] getTestMetadata(String filename) {
         Resource resource = new ClassPathResource(filename);
         try {
@@ -148,5 +162,31 @@ public abstract class TestUtils {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static byte[] setDoiOfMetadata(byte[] xml, String doi) throws Exception {
+        Document doc = bytesToDocument(xml);
+        Node identifier = doc.getElementsByTagName("identifier").item(0);
+        Node identifierContent = identifier.getFirstChild();
+        identifierContent.setNodeValue(doi);
+        return documentToBytes(doc);
+    }
+
+    private static Document bytesToDocument(byte[] bytes) throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        ByteArrayInputStream input = new ByteArrayInputStream(bytes);
+        Document doc = builder.parse(input);
+        return doc;
+    }
+
+    private static byte[] documentToBytes(Document doc) throws Exception {
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        DOMSource source = new DOMSource(doc);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        StreamResult result = new StreamResult(output);
+        transformer.transform(source, result);
+        byte[] bytes = output.toByteArray();
+        return bytes;
     }
 }

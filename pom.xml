@@ -11,7 +11,8 @@
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<aspectj.version>1.6.10</aspectj.version>
 		<slf4j.version>1.6.1</slf4j.version>
-                <powermock.version>1.4.7</powermock.version>
+        <powermock.version>1.4.7</powermock.version>
+        <saxon.version>9.1.0.8</saxon.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.tomcat.httpsPort>8443</maven.tomcat.httpsPort>
 	<spring-security.version>3.0.2.RELEASE</spring-security.version>
@@ -443,8 +444,16 @@
    <dependency>
    	<groupId>net.sourceforge.saxon</groupId>
    	<artifactId>saxon</artifactId>
-   	<version>9.1.0.8</version>
+   	<version>${saxon.version}</version>
    	<type>jar</type>
+   	<scope>compile</scope>
+   </dependency>
+   <dependency>
+   	<groupId>net.sourceforge.saxon</groupId>
+   	<artifactId>saxon</artifactId>
+   	<version>${saxon.version}</version>
+   	<type>jar</type>
+   	<classifier>dom</classifier>
    	<scope>compile</scope>
    </dependency>
 	</dependencies>
