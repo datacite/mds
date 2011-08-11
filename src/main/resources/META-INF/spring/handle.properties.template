@@ -4,3 +4,11 @@ handle.password=<<SEE WIKI>>
 handle.traceMessages=false
 handle.dummyMode=true
 handle.testPrefix=10.5072
+
+#number of days after which a test dataset marked for deletion
+handle.testPrefix.expiration.days=30
+
+#cron expression for purging test prefix
+#example: "0 0 0 * * ?" means at midnight every day
+handle.testPrefix.expiration.cron=0 0 0 * * ?
+

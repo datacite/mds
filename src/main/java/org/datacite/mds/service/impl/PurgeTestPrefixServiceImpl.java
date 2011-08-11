@@ -3,8 +3,6 @@ package org.datacite.mds.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.TypedQuery;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Dataset;
@@ -22,10 +20,10 @@ public class PurgeTestPrefixServiceImpl implements PurgeTestPrefixService {
     @Value("${handle.testPrefix}")
     String testPrefix;
 
-    // @Value("${handle.testPrefix.expirationDays}")
+    @Value("${handle.testPrefix.expiration.days}")
     int expirationDays;
 
-    // @Scheduled(fixedDelay = 5000)
+    @Scheduled(cron = "${handle.testPrefix.expiration.cron}")
     @Override
     public void purgeAll() {
         Date now = new Date();
@@ -40,6 +38,7 @@ public class PurgeTestPrefixServiceImpl implements PurgeTestPrefixService {
     }
 
     private void purgeOlderThan(Date expirationDate) {
+        log.info("Start deleting datasets older than " + expirationDate);
         List<Dataset> datasets = Dataset.findDatasetsByPrefix(testPrefix);
         for (Dataset dataset : datasets) {
             if (dataset.getUpdated().before(expirationDate)) {
@@ -52,9 +51,7 @@ public class PurgeTestPrefixServiceImpl implements PurgeTestPrefixService {
                     
                     dataset.remove();
                 }
-                    
             }
-
         }
     }
 
