@@ -35,5 +35,21 @@ public class LoggingAspect {
                 return (T) arg;
         return null;
     }
+    
+    @Pointcut("within(org.datacite.mds.domain.*)")
+    public void withinDomain() {
+    }
+    
+    @Pointcut("execution(public * *.persist()) || execution(public * *.merge()) || execution(public * *.remove())")
+    public void crud() {
+    }
+
+    @AfterReturning("withinDomain() && crud()")
+    public void logCrud(JoinPoint joinPoint) {
+        Logger log = Logger.getLogger(joinPoint.getSignature().getDeclaringType());
+        String method = joinPoint.getSignature().getName();
+        Object target = joinPoint.getTarget();
+        log.debug(method + "(): " + target);
+    }
 
 }

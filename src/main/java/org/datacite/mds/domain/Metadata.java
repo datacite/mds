@@ -152,6 +152,7 @@ public class Metadata {
     
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append(getDataset().getDatacentre().getSymbol()).append(":");
         sb.append(getDataset().getDoi());
         sb.append(" #").append(getMetadataVersion());
         sb.append(" (id=" + getId() + ")");

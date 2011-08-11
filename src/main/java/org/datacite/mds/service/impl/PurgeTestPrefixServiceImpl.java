@@ -38,6 +38,7 @@ public class PurgeTestPrefixServiceImpl implements PurgeTestPrefixService {
     }
 
     private void purgeOlderThan(Date expirationDate) {
+        long count = 0;
         log.info("Start deleting datasets older than " + expirationDate);
         List<Dataset> datasets = Dataset.findDatasetsByPrefix(testPrefix);
         for (Dataset dataset : datasets) {
@@ -50,9 +51,11 @@ public class PurgeTestPrefixServiceImpl implements PurgeTestPrefixService {
                         metadata.remove();
                     
                     dataset.remove();
+                    count++;
                 }
             }
         }
+        log.info(count + " dataset(s) deleted");
     }
 
 }

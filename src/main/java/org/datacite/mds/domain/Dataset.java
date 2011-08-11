@@ -169,7 +169,7 @@ public class Dataset {
     
     @Override
     public String toString() {
-        return getDoi() + " (id=" + getId() + ")";
+        return getDatacentre().getSymbol() + ":" + getDoi() + " (id=" + getId() + ")";
     }
     
     public interface SecondLevelConstraint {};
