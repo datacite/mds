@@ -93,10 +93,8 @@ public class SecurityUtils {
     }
 
     private static String getCurrentSymbolOrNull() {
-        log4j.debug("get current auth");
         Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
         if (currentAuth == null) {
-            log4j.debug("not logged in");
             return null;
         } else {
             return currentAuth.getName();
