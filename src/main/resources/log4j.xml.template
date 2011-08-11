@@ -39,6 +39,10 @@
 	<logger name="org.datacite.mds">
         <level value="debug"/> 
     </logger>
+    
+    <logger name="org.datacite.mds.web.BrowserCachingInterceptor">
+        <level value="warn"/> 
+    </logger>
 
 	<root>
 		<priority value="info"></priority>
