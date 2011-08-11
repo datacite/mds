@@ -3,6 +3,7 @@ package org.datacite.mds.web.ui;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.domain.Prefix;
 import org.springframework.core.convert.converter.Converter;
 
@@ -43,6 +44,14 @@ public class Converters {
         return new Converter<Prefix, String>() {
             public String convert(Prefix prefix) {
                 return prefix.getPrefix();
+            }
+        };
+    }
+    
+    public static Converter<Metadata, String> getSimpleMetadataConverter() {
+        return new Converter<Metadata, String>() {
+            public String convert(Metadata metadata) {
+                return metadata.getMetadataVersion() + " (" + metadata.getCreated() + ")" ;
             }
         };
     }

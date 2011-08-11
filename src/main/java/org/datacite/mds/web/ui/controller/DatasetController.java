@@ -51,6 +51,7 @@ public class DatasetController {
     void registerConverters() {
         myConversionService.addConverter(Converters.getSimpleDatacentreConverter());
         myConversionService.addConverter(Converters.getSimpleDatasetConverter());
+        myConversionService.addConverter(Converters.getSimpleMetadataConverter());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

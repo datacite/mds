@@ -76,6 +76,11 @@ public class Dataset {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date updated;
+    
+    @Transient
+    public Metadata getLatestMetadata() {
+        return Metadata.findLatestMetadatasByDataset(this);
+    }
 
     private static TypedQuery<Dataset> queryDatasetsByAllocatorOrDatacentre(AllocatorOrDatacentre user) {
         EntityManager em = entityManager();

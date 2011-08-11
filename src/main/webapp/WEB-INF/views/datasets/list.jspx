@@ -10,6 +10,7 @@
               <table:column id="c_org_datacite_mds_domain_Dataset_datacentre" property="datacentre" z="WyuCSPG2748Crn7gq/EichOzXhs="/>
             </sec:authorize>
             <table:column id="c_org_datacite_mds_domain_Dataset_updated" property="updated" z="WyuCSPG2748Crn7gq/EichOzXhs="/>
+            <table:column id="c_org_datacite_mds_domain_Dataset_latestMetadata" property="latestMetadata" z="WyuCSPG2748Crn7gq/EichOzXhs="/>
             <table:column id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" property="lastLandingPageStatus" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" property="lastLandingPageStatusCheck" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" property="lastMetadataStatus" render="false" z="user-managed"/>
