@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.management.RuntimeErrorException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,6 +24,7 @@ import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.domain.Prefix;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -33,6 +35,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 public abstract class TestUtils {
+
+    public static final String DEFAULT_ALLOCATOR_SYMBOL = "AL";
+    public static final String DEFAULT_DATACENTRE_SYMBOL = "AL.DC";
 
     /**
      * call a constructor of a given class even if it's private.
@@ -120,6 +125,16 @@ public abstract class TestUtils {
         return datacentre;
     }
 
+    public static Datacentre createDefaultDatacentre(String... prefixes) {
+        Allocator allocator = TestUtils.createAllocator(DEFAULT_ALLOCATOR_SYMBOL);
+        allocator.setPrefixes(TestUtils.createPrefixes(prefixes));
+        allocator.persist();
+        Datacentre datacentre = TestUtils.createDatacentre(DEFAULT_DATACENTRE_SYMBOL, allocator);
+        datacentre.setPrefixes(allocator.getPrefixes());
+        datacentre.persist();
+        return datacentre;
+    }
+
     public static Dataset createDataset(String doi, Datacentre datacentre) {
         Dataset dataset = new Dataset();
         dataset.setDoi(doi);
@@ -143,6 +158,13 @@ public abstract class TestUtils {
         return prefixSet;
     }
 
+    public static Metadata createMetadata(byte[] xml, Dataset dataset) {
+        Metadata metadata = new Metadata();
+        metadata.setDataset(dataset);
+        metadata.setXml(setDoiOfMetadata(xml, dataset.getDoi()));
+        return metadata;
+    }
+
     public static byte[] getTestMetadata() {
         return getTestMetadata20();
     }
@@ -164,12 +186,16 @@ public abstract class TestUtils {
         }
     }
 
-    public static byte[] setDoiOfMetadata(byte[] xml, String doi) throws Exception {
-        Document doc = bytesToDocument(xml);
-        Node identifier = doc.getElementsByTagName("identifier").item(0);
-        Node identifierContent = identifier.getFirstChild();
-        identifierContent.setNodeValue(doi);
-        return documentToBytes(doc);
+    public static byte[] setDoiOfMetadata(byte[] xml, String doi) {
+        try {
+            Document doc = bytesToDocument(xml);
+            Node identifier = doc.getElementsByTagName("identifier").item(0);
+            Node identifierContent = identifier.getFirstChild();
+            identifierContent.setNodeValue(doi);
+            return documentToBytes(doc);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Document bytesToDocument(byte[] bytes) throws Exception {

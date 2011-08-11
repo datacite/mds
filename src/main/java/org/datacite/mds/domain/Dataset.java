@@ -154,6 +154,14 @@ public class Dataset {
             return null;
         }
     }
+    
+    public static List<Dataset> findDatasetsByPrefix(String prefix) {
+        EntityManager em = entityManager();
+        String hql = "select o from Dataset o where o.doi like :prefix";
+        TypedQuery<Dataset> query = em.createQuery(hql, Dataset.class);
+        query.setParameter("prefix", prefix + "/%");
+        return query.getResultList();
+    }
 
     public void setDoi(String doi) {
         this.doi = Utils.normalizeDoi(doi);
