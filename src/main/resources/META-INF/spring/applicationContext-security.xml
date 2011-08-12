@@ -117,7 +117,7 @@
 	</bean>
   
 
-	<bean id="formLoginFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+	<bean id="formLoginFilter" class="org.datacite.mds.web.ui.UsernamePasswordAuthenticationRequireCookiesFilter">
 		<property name="authenticationManager" ref="authenticationManager"/>
 		<property name="rememberMeServices" ref="rememberMeServices"/>
 
@@ -129,6 +129,7 @@
 		<property name="authenticationFailureHandler">
 			<bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
 				<property name="defaultFailureUrl" value="/login?login_error=t" />
+                <property name="useForward" value="true"/>
 			</bean>
 		</property>
 
