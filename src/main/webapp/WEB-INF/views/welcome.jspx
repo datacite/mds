@@ -54,11 +54,7 @@ function swapper(d)
 </script>
 
 <h1>What is this service?</h1>
-<p>This is the DataCite service. DataCite is an international consortium 
-which aims to enable data citation and facilitate easier access to scientific research 
-data on the Internet.  In doing so we will increase acceptance of research data 
-as legitimate, citable contributions to the scientific record. For 
-more information please see the <a href="http://www.datacite.org">DataCite home page</a>.</p>
+<p>The <a href="https://mds.datacite.org/" title="DataCite Metadata Store">DataCite Metadata Store</a> is a service for data publishers to mint DOIs and register associated metadata. The service requires organisations to first register for an account with a <a href="http://www.datacite.org/members" title="DataCite Member">DataCite Member</a>. For information on setting up an account, see our '<a href="http://www.datacite.org/faqs" title="Frequently asked questions">Frequently asked questions</a>'.</p>
 <h1>Who can use this service?</h1>
 <p>DataCite will work with data publishers - organisations that maintain and 
 make available research data. In most cases this will be established and dedicated 
