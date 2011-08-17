@@ -1,6 +1,7 @@
 package org.datacite.mds.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import javax.validation.ValidationException;
 
@@ -43,6 +44,30 @@ public class SchemaServiceImplTest {
     public void testGetSchemaLocationNoLocation() throws Exception {
         byte[] xml = "<root/>".getBytes();
         service.getSchemaLocation(xml);
+    }
+    
+    @Test
+    public void testGetSchemaNamespace() throws Exception {
+        byte[] xml = TestUtils.getTestMetadata21();
+        String namespace = service.getNamespace(xml);
+        assertEquals("http://datacite.org/schema/kernel-2.1", namespace);
+    }
+
+    @Test
+    public void testGetSchemaNamespaceNoNamespace() throws Exception {
+        byte[] xml = TestUtils.getTestMetadata20();
+        String namespace = service.getNamespace(xml);
+        assertNull(namespace);
+    }
+
+    @Test//(expected=ValidationException.class)
+    public void testGetSchemaNamespaceMalformedSchemaLocation() throws Exception {
+        String expectedNamespace = "http://example.com";
+        byte[] xml = String.format("<root xmlns=\"%s\" xmlns:xsi=\"%s\" xsi:schemaLocation=\"%s\"/>",
+                expectedNamespace, service.XSI_NAMESPACE_URI, "foo").getBytes();
+        System.out.println(new String(xml));
+        String namespace = service.getNamespace(xml);
+        assertEquals(expectedNamespace, namespace);
     }
     
     @Test

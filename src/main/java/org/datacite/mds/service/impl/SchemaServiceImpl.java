@@ -124,6 +124,8 @@ public class SchemaServiceImpl implements SchemaService {
     }
 
     private String getLocationForNamespace(String rootNamespace, String locationAttr) {
+        if (locationAttr == null) 
+            return null;
         String[] locations = StringUtils.split(locationAttr);
         int maxIndex = locations.length - 1;
         for (int i = 0; i < maxIndex; i += 2) {
