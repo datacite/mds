@@ -78,7 +78,7 @@ public class SchemaServiceImpl implements SchemaService {
     public String getSchemaLocation(byte[] xml) throws ValidationException {
         String location = getSchemaInfo(xml).location;
         if (location == null)
-            throw new ValidationException("cannot find namespace location");
+            throw new ValidationException("cannot find schemaLocation for namespace");
         else
             return location;
     }
