@@ -3,8 +3,6 @@ package org.datacite.mds.tools.migration;
 import java.io.IOException;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Metadata;
@@ -32,11 +30,13 @@ public class NamespaceSetter extends AbstractTool {
         disableValidation();
         System.out.println("Searching for metadata with empty namespace...");
         List<Metadata> metadatas = Metadata.findAllMetadatas();
+        System.out.println("Checking " + metadatas.size() + " documents...");
         for (Metadata metadata : metadatas) {
             if (StringUtils.isEmpty(metadata.getNamespace())) {
                 checkNamespace(metadata);
             }
         }
+        System.out.println("...done");
     }
 
     private void checkNamespace(Metadata metadata) {
