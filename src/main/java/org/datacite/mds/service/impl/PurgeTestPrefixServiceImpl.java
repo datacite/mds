@@ -32,6 +32,8 @@ public class PurgeTestPrefixServiceImpl implements PurgeTestPrefixService {
 
     @Override
     public void purgeOld() {
+        if (expirationDays < 0)
+            return;
         Date now = new Date();
         Date old = DateUtils.addDays(now, -expirationDays);
         purgeOlderThan(old);

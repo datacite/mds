@@ -99,5 +99,17 @@ public class PurgeTestPrefixServiceImplTest {
         Assert.assertTrue(em.contains(metadataNew));
         Assert.assertFalse(em.contains(metadataOld));
     }
+    
+    @Test
+    public void testPurgeOldNegativeExpiration() {
+        service.expirationDays = -1;
+        service.purgeOld();
+        Assert.assertTrue(em.contains(datasetNonTest));
+        Assert.assertTrue(em.contains(datasetOld));
+        Assert.assertTrue(em.contains(datasetNew));
+        Assert.assertTrue(em.contains(datasetOldWithNewMetadata));
+        Assert.assertTrue(em.contains(metadataNew));
+        Assert.assertTrue(em.contains(metadataOld));
+    }
 
 }
