@@ -23,13 +23,13 @@ public class PurgeTestPrefixServiceImpl implements PurgeTestPrefixService {
     @Value("${handle.testPrefix.expiration.days}")
     int expirationDays;
 
-    @Scheduled(cron = "${handle.testPrefix.expiration.cron}")
     @Override
     public void purgeAll() {
         Date now = new Date();
         purgeOlderThan(now);
     }
 
+    @Scheduled(cron = "${handle.testPrefix.expiration.cron}")
     @Override
     public void purgeOld() {
         if (expirationDays < 0)
