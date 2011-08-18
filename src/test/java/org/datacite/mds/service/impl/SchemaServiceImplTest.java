@@ -65,7 +65,6 @@ public class SchemaServiceImplTest {
         String expectedNamespace = "http://example.com";
         byte[] xml = String.format("<root xmlns=\"%s\" xmlns:xsi=\"%s\" xsi:schemaLocation=\"%s\"/>",
                 expectedNamespace, service.XSI_NAMESPACE_URI, "foo").getBytes();
-        System.out.println(new String(xml));
         String namespace = service.getNamespace(xml);
         assertEquals(expectedNamespace, namespace);
     }
