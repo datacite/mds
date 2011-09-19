@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_org_datacite_mds_domain_Media" items="${medias}" z="TgQmirFhGzhu2oys1yHZDfCsUU8=">
+        <table:table data="${medias}" id="l_org_datacite_mds_domain_Media" path="/medias" z="PLHupX7aKyBoeEa4fyxfBAVr1rY=">
+            <table:column id="c_org_datacite_mds_domain_Media_dataset" property="dataset" z="PLt1IQse1Fb/D6k/+opcPCYOy3U="/>
+            <table:column id="c_org_datacite_mds_domain_Media_mediaType" property="mediaType" z="z/L9pXl/JUmaAR4eX7vnkwmzoIY="/>
+            <table:column id="c_org_datacite_mds_domain_Media_url" property="url" z="TNUBLTjUkFtiqZwmckauxQAFLf8="/>
+        </table:table>
+    </page:list>
+</div>
