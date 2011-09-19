@@ -6,11 +6,24 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.domain.Prefix;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
-import org.springframework.roo.addon.web.mvc.controller.RooConversionService;
 
-@RooConversionService
+//@RooConversionService 
+//(disabled due to https://jira.springsource.org/browse/ROO-2593
 public class ConversionService extends FormattingConversionServiceFactoryBean {
+    
+    @Override
+    protected void installFormatters(FormatterRegistry registry) {
+        super.installFormatters(registry);
+        registry.addConverter(getByteArrayConverter());
+        registry.addConverter(getSimpleAllocatorConverter());
+        registry.addConverter(getSimpleDatacentreConverter());
+        registry.addConverter(getSimpleDatasetConverter());
+        registry.addConverter(getSimpleMetadataConverter());
+        registry.addConverter(getSimplePrefixConverter());
+    }
+
     public static Converter<byte[], String> getByteArrayConverter() {
         return new Converter<byte[], String>() {
             public String convert(byte[] bytes) {
