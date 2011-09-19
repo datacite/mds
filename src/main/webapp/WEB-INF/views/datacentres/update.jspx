@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    <form:update id="fu_org_datacite_mds_domain_Datacentre" modelAttribute="datacentre" path="/datacentres" z="Vnd7uZBrKNyNMFSjgdfSqyxN/UI=">
+    <form:update id="fu_org_datacite_mds_domain_Datacentre" modelAttribute="datacentre" path="/datacentres" z="user-managed">
         <field:input field="symbol" id="c_org_datacite_mds_domain_Datacentre_symbol" required="true" z="cLuUdsyRewixl+3p0MnkoNFEwTU="/>
         <field:simple field="password" id="c_org_datacite_mds_domain_Datacentre_password">
           <util:change-password auth="${magicAuthString}" symbol="${datacentre.symbol}"/>
