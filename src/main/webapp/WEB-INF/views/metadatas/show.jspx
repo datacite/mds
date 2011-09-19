@@ -18,7 +18,7 @@
         <field:display field="xml" id="s_org_datacite_mds_domain_Metadata_xml" object="${metadata}" render="false" z="tXosv/jZLASJlD+skqVDl9RX8qs="/>
         <field:display field="namespace" id="s_org_datacite_mds_domain_Metadata_namespace" object="${metadata}" render="true" z="user-managed"/>
         <field:display field="isConvertedByMds" id="s_org_datacite_mds_domain_Metadata_isConvertedByMds" object="${metadata}" render="true" z="user-managed"/>
-        <field:display field="schemaService" id="s_org_datacite_mds_domain_Metadata_schemaService" object="${metadata}" z="TWdiN4byVC3yXUjMQ0GbShV3/pk="/>
-        <field:display field="maxMetaVerQuery" id="s_org_datacite_mds_domain_Metadata_maxMetaVerQuery" object="${metadata}" z="wsLa7gVMxyYbRRUq1RI8UEFREQo="/>
+        <field:display field="schemaService" id="s_org_datacite_mds_domain_Metadata_schemaService" object="${metadata}" render="false" z="user-managed"/>
+        <field:display field="maxMetaVerQuery" id="s_org_datacite_mds_domain_Metadata_maxMetaVerQuery" object="${metadata}" render="false" z="user-managed"/>
     </page:show>
 </div>

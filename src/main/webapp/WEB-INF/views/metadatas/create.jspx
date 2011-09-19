@@ -11,10 +11,10 @@
             <a href="${schema}">${schema}</a>
         </util:comment>
         <field:datetime dateTimePattern="${metadata_created_date_format}" field="created" id="c_org_datacite_mds_domain_Metadata_created" render="false" z="user-managed"/>
-        <field:input field="namespace" id="c_org_datacite_mds_domain_Metadata_namespace" z="v6FnNE0qOsgKTn/JC+lzc1vRxd4="/>
-        <field:checkbox field="isConvertedByMds" id="c_org_datacite_mds_domain_Metadata_isConvertedByMds" z="20Mnt4Asro9ni4X6l8TSX2EsyXE="/>
-        <field:input field="schemaService" id="c_org_datacite_mds_domain_Metadata_schemaService" z="kp6b14/p1o5IbBEQRrbBt4hVBeY="/>
-        <field:input field="maxMetaVerQuery" id="c_org_datacite_mds_domain_Metadata_maxMetaVerQuery" z="VuFxNe0EWsvP2TjPIiTh0NDnO5c="/>
+        <field:input field="namespace" id="c_org_datacite_mds_domain_Metadata_namespace" render="false" z="user-managed"/>
+        <field:checkbox field="isConvertedByMds" id="c_org_datacite_mds_domain_Metadata_isConvertedByMds" render="false" z="user-managed"/>
+        <field:input field="schemaService" id="c_org_datacite_mds_domain_Metadata_schemaService" render="false" z="user-managed"/>
+        <field:input field="maxMetaVerQuery" id="c_org_datacite_mds_domain_Metadata_maxMetaVerQuery" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Metadata" render="${not empty dependencies}" z="/BeB2uLyPmZHab3U5/roD986PXs="/>
 </div>
