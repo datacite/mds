@@ -5,8 +5,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -19,10 +17,8 @@ import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
-import org.datacite.mds.web.ui.Converters;
 import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,9 +36,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class DatacentreController {
 
     @Autowired
-    private GenericConversionService myConversionService;
-    
-    @Autowired
     private MagicAuthStringService magicAuthStringService;
     
     @Autowired
@@ -50,12 +43,6 @@ public class DatacentreController {
     
     @Autowired
     MailMessageFactory mailMessageFactory;
-
-    @PostConstruct
-    void registerConverters() {
-        myConversionService.addConverter(Converters.getSimpleAllocatorConverter());
-        myConversionService.addConverter(Converters.getSimplePrefixConverter());
-    }
 
     @Transactional
     private Allocator getCurrentAllocator() {

@@ -1,4 +1,4 @@
-package org.datacite.mds.web.ui;
+package org.datacite.mds.web;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
@@ -6,8 +6,11 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.domain.Prefix;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.format.support.FormattingConversionServiceFactoryBean;
+import org.springframework.roo.addon.web.mvc.controller.RooConversionService;
 
-public class Converters {
+@RooConversionService
+public class ConversionService extends FormattingConversionServiceFactoryBean {
     public static Converter<byte[], String> getByteArrayConverter() {
         return new Converter<byte[], String>() {
             public String convert(byte[] bytes) {

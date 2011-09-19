@@ -3,14 +3,9 @@ package org.datacite.mds.web.ui.controller;
 import java.util.Arrays;
 import java.util.Collection;
 
-import javax.annotation.PostConstruct;
-
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.util.Utils;
-import org.datacite.mds.web.ui.Converters;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,19 +26,10 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 @RequestMapping("/metadatas")
 @Controller
 public class MetadataController {
-
-    @Autowired
-    private GenericConversionService myConversionService;
     
     @InitBinder
     void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
-    }
-
-    @PostConstruct
-    void registerConverters() {
-        myConversionService.addConverter(Converters.getByteArrayConverter());
-        myConversionService.addConverter(Converters.getSimpleDatasetConverter());
     }
 
     @ModelAttribute("datasets")

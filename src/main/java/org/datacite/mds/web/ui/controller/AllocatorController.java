@@ -1,7 +1,5 @@
 package org.datacite.mds.web.ui.controller;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -10,10 +8,8 @@ import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
-import org.datacite.mds.web.ui.Converters;
 import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/allocators")
 @Controller
 public class AllocatorController {
-    @Autowired
-    private GenericConversionService myConversionService;
     
     @Autowired
     private MagicAuthStringService magicAuthStringService;
@@ -38,13 +32,6 @@ public class AllocatorController {
     
     @Autowired
     MailMessageFactory mailMessageFactory;
-
-
-    @PostConstruct
-    void registerConverters() {
-        myConversionService.addConverter(Converters.getSimpleAllocatorConverter());
-        myConversionService.addConverter(Converters.getSimplePrefixConverter());
-    }
 
     @RequestMapping(params = "find=BySymbolEquals", method = RequestMethod.GET)
     public String findAllocatorsBySymbolEquals(@RequestParam("symbol") String symbol, Model model) {

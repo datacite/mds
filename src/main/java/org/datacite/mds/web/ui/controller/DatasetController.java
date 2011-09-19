@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
@@ -19,9 +18,7 @@ import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.api.NotFoundException;
-import org.datacite.mds.web.ui.Converters;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,17 +39,7 @@ public class DatasetController {
     private static Logger log = Logger.getLogger(DatasetController.class);
 
     @Autowired
-    private GenericConversionService myConversionService;
-
-    @Autowired
     HandleService handleService;
-
-    @PostConstruct
-    void registerConverters() {
-        myConversionService.addConverter(Converters.getSimpleDatacentreConverter());
-        myConversionService.addConverter(Converters.getSimpleDatasetConverter());
-        myConversionService.addConverter(Converters.getSimpleMetadataConverter());
-    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {

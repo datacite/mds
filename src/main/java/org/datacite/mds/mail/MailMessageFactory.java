@@ -7,7 +7,7 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.util.DomainUtils;
 import org.datacite.mds.util.Utils;
-import org.datacite.mds.web.ui.Converters;
+import org.datacite.mds.web.ConversionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -47,7 +47,7 @@ public class MailMessageFactory {
         mail.setCc(datacentre.getAllocator().getContactEmail());
         mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(datacentre));
         mail.replacePlaceholder("allocatorName", datacentre.getAllocator().getName());
-        String prefixes = Utils.convertCollectionToCsv(datacentre.getPrefixes(), Converters.getSimplePrefixConverter());
+        String prefixes = Utils.convertCollectionToCsv(datacentre.getPrefixes(), ConversionService.getSimplePrefixConverter());
         mail.replacePlaceholder("prefixes", prefixes);
         mail.replacePlaceholder("domains", datacentre.getDomains());
         return mail;
