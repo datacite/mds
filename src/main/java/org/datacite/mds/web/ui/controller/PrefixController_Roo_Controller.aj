@@ -4,17 +4,16 @@
 package org.datacite.mds.web.ui.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
-import javax.annotation.PostConstruct;
+import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Prefix;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,87 +23,67 @@ import org.springframework.web.util.WebUtils;
 
 privileged aspect PrefixController_Roo_Controller {
     
-    @Autowired
-    private GenericConversionService PrefixController.conversionService;
-    
     @RequestMapping(method = RequestMethod.POST)
-    public String PrefixController.create(@Valid Prefix prefix, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            model.addAttribute("prefix", prefix);
+    public String PrefixController.create(@Valid Prefix prefix, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            uiModel.addAttribute("prefix", prefix);
             return "prefixes/create";
         }
+        uiModel.asMap().clear();
         prefix.persist();
-        return "redirect:/prefixes/" + encodeUrlPathSegment(prefix.getId().toString(), request);
+        return "redirect:/prefixes/" + encodeUrlPathSegment(prefix.getId().toString(), httpServletRequest);
     }
     
     @RequestMapping(params = "form", method = RequestMethod.GET)
-    public String PrefixController.createForm(Model model) {
-        model.addAttribute("prefix", new Prefix());
+    public String PrefixController.createForm(Model uiModel) {
+        uiModel.addAttribute("prefix", new Prefix());
         return "prefixes/create";
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String PrefixController.show(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("prefix", Prefix.findPrefix(id));
-        model.addAttribute("itemId", id);
+    public String PrefixController.show(@PathVariable("id") Long id, Model uiModel) {
+        uiModel.addAttribute("prefix", Prefix.findPrefix(id));
+        uiModel.addAttribute("itemId", id);
         return "prefixes/show";
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public String PrefixController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
+    public String PrefixController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
-            model.addAttribute("prefixes", Prefix.findPrefixEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
+            uiModel.addAttribute("prefixes", Prefix.findPrefixEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
             float nrOfPages = (float) Prefix.countPrefixes() / sizeNo;
-            model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
         } else {
-            model.addAttribute("prefixes", Prefix.findAllPrefixes());
+            uiModel.addAttribute("prefixes", Prefix.findAllPrefixes());
         }
         return "prefixes/list";
     }
     
     @RequestMapping(method = RequestMethod.PUT)
-    public String PrefixController.update(@Valid Prefix prefix, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            model.addAttribute("prefix", prefix);
+    public String PrefixController.update(@Valid Prefix prefix, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
+        if (bindingResult.hasErrors()) {
+            uiModel.addAttribute("prefix", prefix);
             return "prefixes/update";
         }
+        uiModel.asMap().clear();
         prefix.merge();
-        return "redirect:/prefixes/" + encodeUrlPathSegment(prefix.getId().toString(), request);
+        return "redirect:/prefixes/" + encodeUrlPathSegment(prefix.getId().toString(), httpServletRequest);
     }
     
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String PrefixController.updateForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("prefix", Prefix.findPrefix(id));
+    public String PrefixController.updateForm(@PathVariable("id") Long id, Model uiModel) {
+        uiModel.addAttribute("prefix", Prefix.findPrefix(id));
         return "prefixes/update";
     }
     
-    @RequestMapping(params = { "find=ByPrefixLike", "form" }, method = RequestMethod.GET)
-    public String PrefixController.findPrefixesByPrefixLikeForm(Model model) {
-        return "prefixes/findPrefixesByPrefixLike";
+    @ModelAttribute("prefixes")
+    public Collection<Prefix> PrefixController.populatePrefixes() {
+        return Prefix.findAllPrefixes();
     }
     
-    @RequestMapping(params = "find=ByPrefixLike", method = RequestMethod.GET)
-    public String PrefixController.findPrefixesByPrefixLike(@RequestParam("prefix") String prefix, Model model) {
-        model.addAttribute("prefixes", Prefix.findPrefixesByPrefixLike(prefix).getResultList());
-        return "prefixes/list";
-    }
-    
-    Converter<Prefix, String> PrefixController.getPrefixConverter() {
-        return new Converter<Prefix, String>() {
-            public String convert(Prefix prefix) {
-                return new StringBuilder().append(prefix.getCreated()).append(" ").append(prefix.getPrefix()).toString();
-            }
-        };
-    }
-    
-    @PostConstruct
-    void PrefixController.registerConverters() {
-        conversionService.addConverter(getPrefixConverter());
-    }
-    
-    private String PrefixController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
-        String enc = request.getCharacterEncoding();
+    String PrefixController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
+        String enc = httpServletRequest.getCharacterEncoding();
         if (enc == null) {
             enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
         }

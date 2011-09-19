@@ -4,25 +4,25 @@
     <form:update id="fu_org_datacite_mds_domain_Datacentre" modelAttribute="datacentre" path="/datacentres" z="user-managed">
         <field:input field="symbol" id="c_org_datacite_mds_domain_Datacentre_symbol" required="true" z="cLuUdsyRewixl+3p0MnkoNFEwTU="/>
         <field:simple field="password" id="c_org_datacite_mds_domain_Datacentre_password">
-          <util:change-password auth="${magicAuthString}" symbol="${datacentre.symbol}"/>
+            <util:change-password auth="${magicAuthString}" symbol="${datacentre.symbol}"/>
         </field:simple>
         <field:textarea field="name" id="c_org_datacite_mds_domain_Datacentre_name" required="true" z="uBWUzaT/SrLIs9chzq0ml2AHX3U="/>
         <field:textarea field="contactName" id="c_org_datacite_mds_domain_Datacentre_contactName" required="true" z="/iHtVJWTszKcl99KhYL3VO3fLME="/>
         <field:input field="contactEmail" id="c_org_datacite_mds_domain_Datacentre_contactEmail" required="true" z="qu1fINT0vGtuupRnl4EZf0Smle4="/>
         <util:checkbox checked="${datacentre.doiQuotaAllowed != -1}" fields="doiQuotaAllowed=-1,doiQuotaUsed" id="c_org_datacite_mds_domain_Datacentre_enableQuota">
-          <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaAllowed" max="999999999" min="-1" required="true" validationMessageCode="field_invalid_integer" z="user-managed"/>
-          <field:input field="doiQuotaUsed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaUsed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="Cv1MAJbNN9Oc35bxGmioYmN/X1w="/>
+            <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaAllowed" max="999999999" min="-1" required="true" validationMessageCode="field_invalid_integer" z="user-managed"/>
+            <field:input field="doiQuotaUsed" id="c_org_datacite_mds_domain_Datacentre_doiQuotaUsed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="Cv1MAJbNN9Oc35bxGmioYmN/X1w="/>
         </util:checkbox>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Datacentre_isActive" z="lrf8mMimLYTsM1DqCg/0Vf08hm0="/>
         <field:textarea field="domains" id="c_org_datacite_mds_domain_Datacentre_domains" z="k0FYxyPWyqAUcdyd1VxoV2ds0jQ="/>
-        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemLabel="labelWithDatacentres"  itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="YXD3DzvfBDzGUHMu/5vRcgJuiIU="/>
+        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemLabel="labelWithDatacentres" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="user-managed"/>
         <field:textarea field="comments" id="c_org_datacite_mds_domain_Datacentre_comments" z="7scBOc9Lbz9U32Wucy+zXfwQRSM="/>
         <util:hide>
-          <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" z="IiIfjcIiVFTDLjKbuE73lkxkuL0="/>
-          <field:input field="password" id="c_org_datacite_mds_domain_Datacentre_password" z="JKR2n/5V0AGqVCP0XpXk2yTU6eI="/>
-          <field:select field="allocator" id="c_org_datacite_mds_domain_Datacentre_allocator" itemValue="id" items="${allocators}" path="/allocators" required="true" z="Q9xGvmtIB6OgOU1WwA/0MeAzLEw="/>
-          <field:input field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" z="user-managed"/>
-          <field:input field="created" id="c_org_datacite_mds_domain_Datacentre_created" z="user-managed"/>
+            <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" z="IiIfjcIiVFTDLjKbuE73lkxkuL0="/>
+            <field:input field="password" id="c_org_datacite_mds_domain_Datacentre_password" z="JKR2n/5V0AGqVCP0XpXk2yTU6eI="/>
+            <field:select field="allocator" id="c_org_datacite_mds_domain_Datacentre_allocator" itemValue="id" items="${allocators}" path="/allocators" required="true" z="Q9xGvmtIB6OgOU1WwA/0MeAzLEw="/>
+            <field:input field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" z="user-managed"/>
+            <field:input field="created" id="c_org_datacite_mds_domain_Datacentre_created" z="user-managed"/>
         </util:hide>
     </form:update>
 </div>

@@ -10,26 +10,26 @@ import org.datacite.mds.domain.Datacentre;
 
 privileged aspect Datacentre_Roo_Finder {
     
-    public static TypedQuery<Datacentre> Datacentre.findDatacentresBySymbolEquals(String symbol) {
-        if (symbol == null || symbol.length() == 0) throw new IllegalArgumentException("The symbol argument is required");
-        EntityManager em = Datacentre.entityManager();
-        TypedQuery<Datacentre> q = em.createQuery("SELECT Datacentre FROM Datacentre AS datacentre WHERE datacentre.symbol = :symbol", Datacentre.class);
-        q.setParameter("symbol", symbol);
-        return q;
-    }
-    
     public static TypedQuery<Datacentre> Datacentre.findDatacentresByNameLike(String name) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         name = name.replace('*', '%');
         if (name.charAt(0) != '%') {
             name = "%" + name;
         }
-        if (name.charAt(name.length() -1) != '%') {
+        if (name.charAt(name.length() - 1) != '%') {
             name = name + "%";
         }
         EntityManager em = Datacentre.entityManager();
-        TypedQuery<Datacentre> q = em.createQuery("SELECT Datacentre FROM Datacentre AS datacentre WHERE LOWER(datacentre.name) LIKE LOWER(:name)", Datacentre.class);
+        TypedQuery<Datacentre> q = em.createQuery("SELECT o FROM Datacentre AS o WHERE LOWER(o.name) LIKE LOWER(:name)", Datacentre.class);
         q.setParameter("name", name);
+        return q;
+    }
+    
+    public static TypedQuery<Datacentre> Datacentre.findDatacentresBySymbolEquals(String symbol) {
+        if (symbol == null || symbol.length() == 0) throw new IllegalArgumentException("The symbol argument is required");
+        EntityManager em = Datacentre.entityManager();
+        TypedQuery<Datacentre> q = em.createQuery("SELECT o FROM Datacentre AS o WHERE o.symbol = :symbol", Datacentre.class);
+        q.setParameter("symbol", symbol);
         return q;
     }
     

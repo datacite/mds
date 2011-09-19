@@ -13,7 +13,7 @@ privileged aspect Dataset_Roo_Finder {
     public static TypedQuery<Dataset> Dataset.findDatasetsByDoiEquals(String doi) {
         if (doi == null || doi.length() == 0) throw new IllegalArgumentException("The doi argument is required");
         EntityManager em = Dataset.entityManager();
-        TypedQuery<Dataset> q = em.createQuery("SELECT Dataset FROM Dataset AS dataset WHERE dataset.doi = :doi", Dataset.class);
+        TypedQuery<Dataset> q = em.createQuery("SELECT o FROM Dataset AS o WHERE o.doi = :doi", Dataset.class);
         q.setParameter("doi", doi);
         return q;
     }

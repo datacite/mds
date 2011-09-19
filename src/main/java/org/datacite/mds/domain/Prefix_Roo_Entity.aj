@@ -20,7 +20,7 @@ privileged aspect Prefix_Roo_Entity {
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Prefix attached = this.entityManager.find(this.getClass(), this.id);
+            Prefix attached = Prefix.findPrefix(this.id);
             this.entityManager.remove(attached);
         }
     }
@@ -29,6 +29,12 @@ privileged aspect Prefix_Roo_Entity {
     public void Prefix.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
+    }
+    
+    @Transactional
+    public void Prefix.clear() {
+        if (this.entityManager == null) this.entityManager = entityManager();
+        this.entityManager.clear();
     }
     
     @Transactional
@@ -46,7 +52,7 @@ privileged aspect Prefix_Roo_Entity {
     }
     
     public static long Prefix.countPrefixes() {
-        return entityManager().createQuery("select count(o) from Prefix o", Long.class).getSingleResult();
+        return entityManager().createQuery("SELECT COUNT(o) FROM Prefix o", Long.class).getSingleResult();
     }
     
     public static Prefix Prefix.findPrefix(Long id) {

@@ -4,17 +4,15 @@
 package org.datacite.mds.web.ui.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.Long;
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriUtils;
@@ -22,27 +20,24 @@ import org.springframework.web.util.WebUtils;
 
 privileged aspect DatasetController_Roo_Controller {
     
-    @Autowired
-    private GenericConversionService DatasetController.conversionService;
-    
     @RequestMapping(params = "form", method = RequestMethod.GET)
-    public String DatasetController.createForm(Model model) {
-        model.addAttribute("dataset", new Dataset());
+    public String DatasetController.createForm(Model uiModel) {
+        uiModel.addAttribute("dataset", new Dataset());
         List dependencies = new ArrayList();
         if (Datacentre.countDatacentres() == 0) {
             dependencies.add(new String[]{"datacentre", "datacentres"});
         }
-        model.addAttribute("dependencies", dependencies);
+        uiModel.addAttribute("dependencies", dependencies);
         return "datasets/create";
     }
     
-    @RequestMapping(params = { "find=ByDoiEquals", "form" }, method = RequestMethod.GET)
-    public String DatasetController.findDatasetsByDoiEqualsForm(Model model) {
-        return "datasets/findDatasetsByDoiEquals";
+    @ModelAttribute("datasets")
+    public Collection<Dataset> DatasetController.populateDatasets() {
+        return Dataset.findAllDatasets();
     }
     
-    private String DatasetController.encodeUrlPathSegment(String pathSegment, HttpServletRequest request) {
-        String enc = request.getCharacterEncoding();
+    String DatasetController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
+        String enc = httpServletRequest.getCharacterEncoding();
         if (enc == null) {
             enc = WebUtils.DEFAULT_CHARACTER_ENCODING;
         }

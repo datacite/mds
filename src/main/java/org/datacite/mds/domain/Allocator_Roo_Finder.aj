@@ -10,26 +10,26 @@ import org.datacite.mds.domain.Allocator;
 
 privileged aspect Allocator_Roo_Finder {
     
-    public static TypedQuery<Allocator> Allocator.findAllocatorsBySymbolEquals(String symbol) {
-        if (symbol == null || symbol.length() == 0) throw new IllegalArgumentException("The symbol argument is required");
-        EntityManager em = Allocator.entityManager();
-        TypedQuery<Allocator> q = em.createQuery("SELECT Allocator FROM Allocator AS allocator WHERE allocator.symbol = :symbol", Allocator.class);
-        q.setParameter("symbol", symbol);
-        return q;
-    }
-    
     public static TypedQuery<Allocator> Allocator.findAllocatorsByNameLike(String name) {
         if (name == null || name.length() == 0) throw new IllegalArgumentException("The name argument is required");
         name = name.replace('*', '%');
         if (name.charAt(0) != '%') {
             name = "%" + name;
         }
-        if (name.charAt(name.length() -1) != '%') {
+        if (name.charAt(name.length() - 1) != '%') {
             name = name + "%";
         }
         EntityManager em = Allocator.entityManager();
-        TypedQuery<Allocator> q = em.createQuery("SELECT Allocator FROM Allocator AS allocator WHERE LOWER(allocator.name) LIKE LOWER(:name)", Allocator.class);
+        TypedQuery<Allocator> q = em.createQuery("SELECT o FROM Allocator AS o WHERE LOWER(o.name) LIKE LOWER(:name)", Allocator.class);
         q.setParameter("name", name);
+        return q;
+    }
+    
+    public static TypedQuery<Allocator> Allocator.findAllocatorsBySymbolEquals(String symbol) {
+        if (symbol == null || symbol.length() == 0) throw new IllegalArgumentException("The symbol argument is required");
+        EntityManager em = Allocator.entityManager();
+        TypedQuery<Allocator> q = em.createQuery("SELECT o FROM Allocator AS o WHERE o.symbol = :symbol", Allocator.class);
+        q.setParameter("symbol", symbol);
         return q;
     }
     

@@ -5,15 +5,24 @@ package org.datacite.mds.domain;
 
 import java.lang.Integer;
 import java.util.Date;
+import javax.persistence.Query;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.service.SchemaService;
 
 privileged aspect Metadata_Roo_JavaBean {
+    
+    public SchemaService Metadata.getSchemaService() {
+        return this.schemaService;
+    }
+    
+    public void Metadata.setSchemaService(SchemaService schemaService) {
+        this.schemaService = schemaService;
+    }
     
     public byte[] Metadata.getXml() {
         return this.xml;
     }
     
-        
     public Integer Metadata.getMetadataVersion() {
         return this.metadataVersion;
     }
@@ -36,6 +45,14 @@ privileged aspect Metadata_Roo_JavaBean {
     
     public void Metadata.setDataset(Dataset dataset) {
         this.dataset = dataset;
+    }
+    
+    public Query Metadata.getMaxMetaVerQuery() {
+        return this.maxMetaVerQuery;
+    }
+    
+    public void Metadata.setMaxMetaVerQuery(Query maxMetaVerQuery) {
+        this.maxMetaVerQuery = maxMetaVerQuery;
     }
     
 }

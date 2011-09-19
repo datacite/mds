@@ -21,7 +21,7 @@ privileged aspect Datacentre_Roo_Entity {
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Datacentre attached = this.entityManager.find(this.getClass(), this.id);
+            Datacentre attached = Datacentre.findDatacentre(this.id);
             this.entityManager.remove(attached);
         }
     }
@@ -32,6 +32,12 @@ privileged aspect Datacentre_Roo_Entity {
         this.entityManager.flush();
     }
     
+    @Transactional
+    public void Datacentre.clear() {
+        if (this.entityManager == null) this.entityManager = entityManager();
+        this.entityManager.clear();
+    }
+    
     public static final EntityManager Datacentre.entityManager() {
         EntityManager em = new Datacentre().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -39,11 +45,11 @@ privileged aspect Datacentre_Roo_Entity {
     }
     
     public static long Datacentre.countDatacentres() {
-        return entityManager().createQuery("select count(o) from Datacentre o", Long.class).getSingleResult();
+        return entityManager().createQuery("SELECT COUNT(o) FROM Datacentre o", Long.class).getSingleResult();
     }
     
     public static List<Datacentre> Datacentre.findAllDatacentres() {
-        return entityManager().createQuery("select o from Datacentre o", Datacentre.class).getResultList();
+        return entityManager().createQuery("SELECT o FROM Datacentre o", Datacentre.class).getResultList();
     }
     
     public static Datacentre Datacentre.findDatacentre(Long id) {
@@ -52,7 +58,7 @@ privileged aspect Datacentre_Roo_Entity {
     }
     
     public static List<Datacentre> Datacentre.findDatacentreEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Datacentre o", Datacentre.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("SELECT o FROM Datacentre o", Datacentre.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

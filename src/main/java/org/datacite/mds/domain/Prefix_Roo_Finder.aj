@@ -13,7 +13,7 @@ privileged aspect Prefix_Roo_Finder {
     public static TypedQuery<Prefix> Prefix.findPrefixesByPrefixLike(String prefix) {
         if (prefix == null || prefix.length() == 0) throw new IllegalArgumentException("The prefix argument is required");
         EntityManager em = Prefix.entityManager();
-        TypedQuery<Prefix> q = em.createQuery("SELECT Prefix FROM Prefix AS prefix WHERE LOWER(prefix.prefix) LIKE LOWER(:prefix)", Prefix.class);
+        TypedQuery<Prefix> q = em.createQuery("SELECT o FROM Prefix AS o WHERE LOWER(o.prefix) LIKE LOWER(:prefix)", Prefix.class);
         q.setParameter("prefix", prefix);
         return q;
     }

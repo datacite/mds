@@ -54,7 +54,7 @@ privileged aspect Allocator_Roo_Entity {
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Allocator attached = this.entityManager.find(this.getClass(), this.id);
+            Allocator attached = Allocator.findAllocator(this.id);
             this.entityManager.remove(attached);
         }
     }
@@ -65,6 +65,12 @@ privileged aspect Allocator_Roo_Entity {
         this.entityManager.flush();
     }
     
+    @Transactional
+    public void Allocator.clear() {
+        if (this.entityManager == null) this.entityManager = entityManager();
+        this.entityManager.clear();
+    }
+    
     public static final EntityManager Allocator.entityManager() {
         EntityManager em = new Allocator().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -72,7 +78,7 @@ privileged aspect Allocator_Roo_Entity {
     }
     
     public static long Allocator.countAllocators() {
-        return entityManager().createQuery("select count(o) from Allocator o", Long.class).getSingleResult();
+        return entityManager().createQuery("SELECT COUNT(o) FROM Allocator o", Long.class).getSingleResult();
     }
     
     public static Allocator Allocator.findAllocator(Long id) {

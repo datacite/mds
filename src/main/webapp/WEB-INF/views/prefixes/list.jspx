@@ -5,7 +5,7 @@
         <table:table data="${prefixes}" delete="false" id="l_org_datacite_mds_domain_Prefix" path="/prefixes" z="OuiTYtSm9kKqoO2IUTrit2awhoY=">
             <table:column id="c_org_datacite_mds_domain_Prefix_prefix" property="prefix" z="ubYdDJmmhzMVX8IHzP7PSnMBdXI="/>
             <table:column id="c_org_datacite_mds_domain_Allocator_plural" property="allocators" z="ubYdDJmmhzMVX8IHzP7PSnMBdXI="/>
-            <table:column id="c_org_datacite_mds_domain_Prefix_created" property="created" z="ESUROZjVzbYs0/FaejkC+2LnjA8="/>
+            <table:column date="true" dateTimePattern="${prefix_created_date_format}" id="c_org_datacite_mds_domain_Prefix_created" property="created" z="yfFayLzEZF74b8hq2ELMLcpXYbg="/>
         </table:table>
     </page:list>
 </div>

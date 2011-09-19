@@ -55,7 +55,7 @@ privileged aspect Metadata_Roo_Entity {
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Metadata attached = this.entityManager.find(this.getClass(), this.id);
+            Metadata attached = Metadata.findMetadata(this.id);
             this.entityManager.remove(attached);
         }
     }
@@ -64,6 +64,12 @@ privileged aspect Metadata_Roo_Entity {
     public void Metadata.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
+    }
+    
+    @Transactional
+    public void Metadata.clear() {
+        if (this.entityManager == null) this.entityManager = entityManager();
+        this.entityManager.clear();
     }
     
     @Transactional
@@ -81,11 +87,11 @@ privileged aspect Metadata_Roo_Entity {
     }
     
     public static long Metadata.countMetadatas() {
-        return entityManager().createQuery("select count(o) from Metadata o", Long.class).getSingleResult();
+        return entityManager().createQuery("SELECT COUNT(o) FROM Metadata o", Long.class).getSingleResult();
     }
     
     public static List<Metadata> Metadata.findAllMetadatas() {
-        return entityManager().createQuery("select o from Metadata o", Metadata.class).getResultList();
+        return entityManager().createQuery("SELECT o FROM Metadata o", Metadata.class).getResultList();
     }
     
     public static Metadata Metadata.findMetadata(Long id) {
@@ -94,7 +100,7 @@ privileged aspect Metadata_Roo_Entity {
     }
     
     public static List<Metadata> Metadata.findMetadataEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Metadata o", Metadata.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("SELECT o FROM Metadata o", Metadata.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }

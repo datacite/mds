@@ -14,14 +14,14 @@
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Datacentre_isActive" z="lrf8mMimLYTsM1DqCg/0Vf08hm0="/>
         <field:textarea field="domains" id="c_org_datacite_mds_domain_Datacentre_domains" z="k0FYxyPWyqAUcdyd1VxoV2ds0jQ="/>
         <util:hide>
-          <field:select field="allocator" id="c_org_datacite_mds_domain_Datacentre_allocator" itemValue="id" items="${allocators}" path="/allocators" required="true" z="Q9xGvmtIB6OgOU1WwA/0MeAzLEw="/>
+            <field:select field="allocator" id="c_org_datacite_mds_domain_Datacentre_allocator" itemValue="id" items="${allocators}" path="/allocators" required="true" z="Q9xGvmtIB6OgOU1WwA/0MeAzLEw="/>
         </util:hide>
-        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemLabel="labelWithDatacentres" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="YXD3DzvfBDzGUHMu/5vRcgJuiIU="/>
+        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemLabel="labelWithDatacentres" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="user-managed"/>
         <field:textarea field="comments" id="c_org_datacite_mds_domain_Datacentre_comments" z="7scBOc9Lbz9U32Wucy+zXfwQRSM="/>
         <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${datacentre_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Datacentre_updated" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${datacentre_created_date_format}" field="created" id="c_org_datacite_mds_domain_Datacentre_created" render="false" z="user-managed"/>
-        <field:checkbox field="sendWelcomeMail" id="c_org_datacite_mds_domain_Datacentre_sendwelcomemail" disableFormBinding="true" checked="true" z="user-managed"/>
+        <field:checkbox checked="true" disableFormBinding="true" field="sendWelcomeMail" id="c_org_datacite_mds_domain_Datacentre_sendwelcomemail" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Datacentre" render="${not empty dependencies}" z="2mOyhvEGqo+B/6PwSRFZpMQcTJ4="/>
 </div>

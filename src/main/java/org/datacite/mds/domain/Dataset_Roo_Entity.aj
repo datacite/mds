@@ -55,7 +55,7 @@ privileged aspect Dataset_Roo_Entity {
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Dataset attached = this.entityManager.find(this.getClass(), this.id);
+            Dataset attached = Dataset.findDataset(this.id);
             this.entityManager.remove(attached);
         }
     }
@@ -66,6 +66,12 @@ privileged aspect Dataset_Roo_Entity {
         this.entityManager.flush();
     }
     
+    @Transactional
+    public void Dataset.clear() {
+        if (this.entityManager == null) this.entityManager = entityManager();
+        this.entityManager.clear();
+    }
+    
     public static final EntityManager Dataset.entityManager() {
         EntityManager em = new Dataset().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -73,11 +79,11 @@ privileged aspect Dataset_Roo_Entity {
     }
     
     public static long Dataset.countDatasets() {
-        return entityManager().createQuery("select count(o) from Dataset o", Long.class).getSingleResult();
+        return entityManager().createQuery("SELECT COUNT(o) FROM Dataset o", Long.class).getSingleResult();
     }
     
     public static List<Dataset> Dataset.findAllDatasets() {
-        return entityManager().createQuery("select o from Dataset o", Dataset.class).getResultList();
+        return entityManager().createQuery("SELECT o FROM Dataset o", Dataset.class).getResultList();
     }
     
     public static Dataset Dataset.findDataset(Long id) {
@@ -86,7 +92,7 @@ privileged aspect Dataset_Roo_Entity {
     }
     
     public static List<Dataset> Dataset.findDatasetEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Dataset o", Dataset.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("SELECT o FROM Dataset o", Dataset.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
 }
