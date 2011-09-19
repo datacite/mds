@@ -14,6 +14,7 @@
   <c:if test="${empty render or render}">
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false" />
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="${label}" var="tooltip" />
     </c:if>
 
     <c:if test="${empty dateTimePattern}">
@@ -51,12 +52,14 @@
       <c:when test="${empty columnProperties and empty columnLabels}">
         <c:set var="columnProperties" value="${property}" scope="request" />
         <c:set var="columnLabels" value="${label}" scope="request" />
-        <c:set var="columnMaxLengths" value="${empty maxLength ? 10 : maxLength}" scope="request" />
+        <c:set var="columnTooltips" value="${tooltip}" scope="request" />
+        <c:set var="columnMaxLengths" value="${empty maxLength ? -1 : maxLength}" scope="request" />
       </c:when>
       <c:otherwise>
         <c:set var="columnProperties" value="${columnProperties},${property}" scope="request" />
         <c:set var="columnLabels" value="${columnLabels},${label}" scope="request" />
-        <c:set var="columnMaxLengths" value="${columnMaxLengths},${empty maxLength ? 10 : maxLength}" scope="request" />
+        <c:set var="columnTooltips" value="${columnTooltips},${tooltip}" scope="request" />
+        <c:set var="columnMaxLengths" value="${columnMaxLengths},${empty maxLength ? -1 : maxLength}" scope="request" />
       </c:otherwise>
     </c:choose>
   </c:if>
