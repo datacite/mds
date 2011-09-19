@@ -6,7 +6,9 @@ package org.datacite.mds.web.ui.controller;
 import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Dataset;
@@ -36,6 +38,11 @@ privileged aspect MediaController_Roo_Controller {
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String MediaController.createForm(Model uiModel) {
         uiModel.addAttribute("media", new Media());
+        List dependencies = new ArrayList();
+        if (Dataset.countDatasets() == 0) {
+            dependencies.add(new String[]{"dataset", "datasets"});
+        }
+        uiModel.addAttribute("dependencies", dependencies);
         return "medias/create";
     }
     
