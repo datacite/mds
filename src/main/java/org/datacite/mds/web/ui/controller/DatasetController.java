@@ -11,6 +11,7 @@ import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Media;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
@@ -45,6 +46,8 @@ public class DatasetController {
     public String show(@PathVariable("id") Long id, Model model) {
         Dataset dataset = Dataset.findDataset(id);
         model.addAttribute("dataset", dataset);
+        List<Media> medias = Media.findMediasByDataset(dataset).getResultList();
+        model.addAttribute("medias", medias);
         List<Metadata> metadatas = Metadata.findMetadatasByDataset(dataset).getResultList();
         model.addAttribute("metadatas", metadatas);
         try {

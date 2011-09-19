@@ -3,7 +3,7 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_datacite_mds_domain_Media" modelAttribute="media" path="/medias" versionField="Version" z="SALvig7t0+r+/zJvEkS5Ccml1VY=">
-        <field:select field="dataset" id="c_org_datacite_mds_domain_Media_dataset" itemValue="id" items="${datasets}" path="/datasets" z="l0FiHxMYrD9SCbNjZYbSmCU1PuQ="/>
+        <field:select field="dataset" id="c_org_datacite_mds_domain_Media_dataset" itemValue="id" items="${datasets}" path="/datasets" readonly="true" z="user-managed"/>
         <field:input field="mediaType" id="c_org_datacite_mds_domain_Media_mediaType" z="43a9sAEl/ETLxrjT6wc6WzYKR8E="/>
         <field:input field="url" id="c_org_datacite_mds_domain_Media_url" z="yYh8rkitAjl+iV7RI1Jvvbp7jhA="/>
     </form:update>
