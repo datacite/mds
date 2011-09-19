@@ -13,4 +13,7 @@
 <definition extends="default" name="medias/update">
         <put-attribute name="body" value="/WEB-INF/views/medias/update.jspx"/>
     </definition>
+<definition extends="default" name="medias/findMediasByDataset">
+        <put-attribute name="body" value="/WEB-INF/views/medias/findMediasByDataset.jspx"/>
+    </definition>
 </tiles-definitions>

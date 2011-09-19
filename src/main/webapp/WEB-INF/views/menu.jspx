@@ -43,6 +43,7 @@
         <menu:category id="c_media" render="false" z="user-managed">
             <menu:item id="i_media_new" messageCode="global_menu_new" url="/medias?form" z="OIfbj50qi1kFkSFTSJLE93WzBC0="/>
             <menu:item id="i_media_list" messageCode="global_menu_list" url="/medias?page=1&amp;size=${empty param.size ? 10 : param.size}" z="VgX3ic5+KXqm7H7gzcyK4PHeDvg="/>
+            <menu:item id="fi_media_dataset" messageCode="global_menu_find" url="/medias?find=ByDataset&amp;form" z="YEzxwvMmmhU3l/aeI1eYPO+xTec="/>
         </menu:category>
     </menu:menu>
 </div>
