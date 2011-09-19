@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
 @Transactional
 public class UniqueTest extends AbstractContraintsTest {
+    
+    //TODO: add test for a list of unique fields
 
     @PersistenceContext
     EntityManager entityManager;

@@ -15,8 +15,13 @@ import org.datacite.mds.validation.constraints.impl.UniqueValidator;
 /**
  * <p>
  * This annotation checks an entity field for uniqueness. It has to be placed on
- * type level. It does <i>not</i> insert a constraint on database level. You have it do
- * it on your own (see example) and it is strongly recommended.
+ * type level. It does <i>not</i> insert a constraint on database level. You
+ * have it do it on your own (see example) and it is strongly recommended.
+ * </p>
+ * 
+ * <p>
+ * You can also check a list of entity fields. In this case the combination of
+ * all provided fields must be unique.
  * </p>
  * 
  * <p>
@@ -47,15 +52,15 @@ import org.datacite.mds.validation.constraints.impl.UniqueValidator;
  */
 @Documented
 @Constraint(validatedBy = UniqueValidator.class)
-@Target({ ElementType.TYPE, ElementType.ANNOTATION_TYPE })
+@Target( { ElementType.TYPE, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @ReportAsSingleViolation
 public @interface Unique {
 
     /**
-     * @return name of the field which should be unique
+     * @return name(s) of the field(s) which should be unique
      */
-    String field();
+    String[] field();
 
     /**
      * @return name of entity's id field (defaults to "id")
