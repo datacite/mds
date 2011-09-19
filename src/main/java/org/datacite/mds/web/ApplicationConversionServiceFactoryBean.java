@@ -9,9 +9,9 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.support.FormattingConversionServiceFactoryBean;
 
-//@RooConversionService 
+//@RooConversionService
 //(disabled due to https://jira.springsource.org/browse/ROO-2593
-public class ConversionService extends FormattingConversionServiceFactoryBean {
+public class ApplicationConversionServiceFactoryBean extends FormattingConversionServiceFactoryBean {
     
     @Override
     protected void installFormatters(FormatterRegistry registry) {
