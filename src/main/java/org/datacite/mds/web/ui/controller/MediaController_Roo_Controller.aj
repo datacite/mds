@@ -4,7 +4,6 @@
 package org.datacite.mds.web.ui.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Collection;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
@@ -46,19 +44,6 @@ privileged aspect MediaController_Roo_Controller {
         uiModel.addAttribute("media", Media.findMedia(id));
         uiModel.addAttribute("itemId", id);
         return "medias/show";
-    }
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public String MediaController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            uiModel.addAttribute("medias", Media.findMediaEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
-            float nrOfPages = (float) Media.countMedias() / sizeNo;
-            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
-        } else {
-            uiModel.addAttribute("medias", Media.findAllMedias());
-        }
-        return "medias/list";
     }
     
     @RequestMapping(method = RequestMethod.PUT)

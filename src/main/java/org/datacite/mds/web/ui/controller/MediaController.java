@@ -23,4 +23,11 @@ public class MediaController {
         uiModel.asMap().clear();
         return "redirect:/datasets/" + dataset.getId();
     }
+    
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String list() {
+        return "index";
+    }
+
 }

@@ -2,7 +2,7 @@
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    <page:show id="ps_org_datacite_mds_domain_Media" object="${media}" path="/medias" z="EceOSCXCXitss/6vU/M6h0H7akc=">
+    <page:show id="ps_org_datacite_mds_domain_Media" list="false" object="${media}" path="/medias" z="user-managed">
         <field:display field="dataset" id="s_org_datacite_mds_domain_Media_dataset" object="${media}" showPath="/datasets" z="user-managed"/>
         <field:display field="mediaType" id="s_org_datacite_mds_domain_Media_mediaType" object="${media}" z="Ar3vbNi5zlK+WytoQrW2hm8CNpE="/>
         <field:display field="url" id="s_org_datacite_mds_domain_Media_url" object="${media}" z="zmDWlMumD1ppsKT+/2SAh/mM374="/>
