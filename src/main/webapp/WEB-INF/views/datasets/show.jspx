@@ -48,7 +48,7 @@
             </table:table>
         </page:list>
         <page:list create="true" createMessageCode="entity_store" createParam="dataset" createParamValue="${dataset.id}" createPath="/medias" id="pl_org_datacite_mds_domain_Media" items="${medias}" z="user-managed">
-            <table:table data="${medias}" id="l_org_datacite_mds_domain_Media" path="/medias" z="user-managed">
+            <table:table createParam="dataset" createParamValue="${dataset.id}" data="${medias}" id="l_org_datacite_mds_domain_Media" path="/medias" z="user-managed">
                 <table:column id="c_org_datacite_mds_domain_Media_dataset" property="dataset" render="false" z="user-managed"/>
                 <table:column id="c_org_datacite_mds_domain_Media_mediaType" property="mediaType" z="user-managed"/>
                 <table:column id="c_org_datacite_mds_domain_Media_url" property="url" z="user-managed"/>

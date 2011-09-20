@@ -64,17 +64,6 @@ privileged aspect MediaController_Roo_Controller {
         return "redirect:/medias/" + encodeUrlPathSegment(media.getId().toString(), httpServletRequest);
     }
     
-    @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String MediaController.updateForm(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("media", Media.findMedia(id));
-        return "medias/update";
-    }
-    
-    @ModelAttribute("datasets")
-    public Collection<Dataset> MediaController.populateDatasets() {
-        return Dataset.findAllDatasets();
-    }
-    
     @ModelAttribute("medias")
     public Collection<Media> MediaController.populateMedias() {
         return Media.findAllMedias();
