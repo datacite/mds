@@ -46,6 +46,9 @@ public class HandleServiceImpl implements HandleService {
 
     @Override
     public String resolve(String doi) throws HandleException, NotFoundException {
+        if (dummyMode)
+            return "dummyMode";
+        
         try {
             String[] types = { "URL" };
             HandleValue[] values = resolver.resolveHandle(doi, types, null);
