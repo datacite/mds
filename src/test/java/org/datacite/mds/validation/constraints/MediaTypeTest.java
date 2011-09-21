@@ -27,7 +27,6 @@ public class MediaTypeTest extends AbstractContraintsTest {
     }
     
     @Test
-    @Ignore
     public void testValidTypes() {
         assertTrue(isValid("text/foobar"));
         assertTrue(isValid("image/foobar"));

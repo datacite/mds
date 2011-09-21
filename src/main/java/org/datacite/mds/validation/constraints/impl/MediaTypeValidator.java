@@ -1,5 +1,9 @@
 package org.datacite.mds.validation.constraints.impl;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -8,6 +12,8 @@ import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.MediaType;
 
 public class MediaTypeValidator implements ConstraintValidator<MediaType, String> {
+
+    static Set<String> validTypes = new HashSet<String>(Arrays.asList("text", "application", "video", "audio", "image"));
 
     public void initialize(MediaType constraintAnnotation) {
         // nothing to initialize
@@ -25,7 +31,8 @@ public class MediaTypeValidator implements ConstraintValidator<MediaType, String
         String constructedMediaType = mediaType.getType() + "/" + mediaType.getSubtype();
         boolean hasNoParameter = StringUtils.equals(mediaTypeString, constructedMediaType);
         boolean isWildCard = mediaType.isWildcardType() || mediaType.isWildcardSubtype();
-        return hasNoParameter && !isWildCard;
+        boolean isValidType = validTypes.contains(mediaType.getType());
+        return hasNoParameter && !isWildCard && isValidType;
     }
 
 }
