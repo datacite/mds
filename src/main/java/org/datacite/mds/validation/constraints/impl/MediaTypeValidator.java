@@ -32,6 +32,9 @@ public class MediaTypeValidator implements ConstraintValidator<MediaType, String
         boolean hasNoParameter = StringUtils.equals(mediaTypeString, constructedMediaType);
         boolean isWildCard = mediaType.isWildcardType() || mediaType.isWildcardSubtype();
         boolean isValidType = validTypes.contains(mediaType.getType());
+        if (!isValidType)
+            ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.MediaType.unsupported.message}");
+        
         return hasNoParameter && !isWildCard && isValidType;
     }
 
