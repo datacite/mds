@@ -1,10 +1,12 @@
 package org.datacite.mds.validation.constraints;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Media;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +18,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class MatchDomainTest extends AbstractContraintsTest {
 
     Dataset dataset;
+    
+    Media media;
 
     @Before
     public void init() {
@@ -24,6 +28,8 @@ public class MatchDomainTest extends AbstractContraintsTest {
         datacentre.setDomains("test.ORG,sub.domain.net,*.com, *.eXample.*");
         dataset = new Dataset();
         dataset.setDatacentre(datacentre);
+        media = new Media();
+        media.setDataset(dataset);
     }
 
     @Test
@@ -51,6 +57,10 @@ public class MatchDomainTest extends AbstractContraintsTest {
 
     boolean isValid(String url) {
         dataset.setUrl(url);
-        return super.isValid(dataset, Dataset.SecondLevelConstraint.class);
+        media.setUrl(url);
+        boolean isDatasetValid = super.isValid(dataset, Dataset.SecondLevelConstraint.class);
+        boolean isMediaValid = super.isValid(media, Media.SecondLevelConstraint.class);
+        assertEquals(isDatasetValid, isMediaValid);
+        return isDatasetValid;
     }
 }
