@@ -32,5 +32,14 @@ public class Media {
     @NotEmpty
     private String url;
     
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getDataset().getDatacentre().getSymbol()).append(":");
+        sb.append(getDataset().getDoi()).append(" ");
+        sb.append(getMediaType());
+        sb.append(" (id=" + getId() + ")");
+        return sb.toString();
+    }
+
     public interface SecondLevelConstraint {};
 }
