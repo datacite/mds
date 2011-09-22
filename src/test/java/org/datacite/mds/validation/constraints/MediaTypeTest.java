@@ -5,11 +5,17 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("/META-INF/spring/applicationContext.xml")
 public class MediaTypeTest extends AbstractContraintsTest {
     @MediaType
     String mediaType;
-
+    
     @Test
     public void test() {
         assertFalse(isValid(null)); 
@@ -23,7 +29,13 @@ public class MediaTypeTest extends AbstractContraintsTest {
         assertFalse(isValid("text/foobar;q=1"));
         assertFalse(isValid("text/foo bar"));
         assertFalse(isValid("text/*"));
-        assertTrue(isValid("application/x-datacite+xml"));
+    }
+    
+    @Test
+    public void testDisallowedTypes() {
+        assertFalse(isValid("application/x-datacite"));
+        assertFalse(isValid("application/x-datacite+xml"));
+        assertFalse(isValid("application/x-datacite+foobar"));
     }
     
     @Test

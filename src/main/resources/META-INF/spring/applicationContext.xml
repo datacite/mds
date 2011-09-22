@@ -87,6 +87,9 @@
     <bean class="org.datacite.mds.validation.constraints.impl.MatchDoiPrefixValidator">
       <property name="testPrefix" value="${handle.testPrefix}"/>
     </bean>
+    <bean class="org.datacite.mds.validation.constraints.impl.MediaTypeValidator">
+      <property name="disallowedTypesRegExp" value="application/x-datacite.*"/>
+    </bean>
     <task:annotation-driven mode="aspectj" executor="executor"/>
     <task:executor id="executor"/>
 </beans>
