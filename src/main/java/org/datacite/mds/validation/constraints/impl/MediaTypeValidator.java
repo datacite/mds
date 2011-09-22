@@ -39,6 +39,8 @@ public class MediaTypeValidator implements ConstraintValidator<MediaType, String
         if (!isValidType)
             ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.MediaType.unsupported.message}");
         boolean isAllowed = StringUtils.isBlank(disallowedTypesRegExp) || ! mediaTypeString.matches(disallowedTypesRegExp);
+        if (!isAllowed)
+            ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.MediaType.disallowed.message}");
         
         return hasNoParameter && !isWildCard && isValidType && isAllowed;
     }
