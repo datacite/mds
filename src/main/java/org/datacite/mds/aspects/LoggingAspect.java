@@ -21,7 +21,7 @@ public class LoggingAspect {
 
     @AfterReturning(pointcut = "anyUiController() && hasBindingResultParam()")
     public void logUiFormErrors(JoinPoint joinPoint) {
-        Logger log = Logger.getLogger(joinPoint.getSignature().getDeclaringType());
+        Logger log = getLogger(joinPoint);
         String method = joinPoint.getSignature().getName();
         BindingResult result = findFirstArgWithClass(joinPoint, BindingResult.class);
         String errors = ValidationUtils.collateBindingResultErrors(result);
@@ -46,10 +46,14 @@ public class LoggingAspect {
 
     @AfterReturning("withinDomain() && crud()")
     public void logCrud(JoinPoint joinPoint) {
-        Logger log = Logger.getLogger(joinPoint.getSignature().getDeclaringType());
+        Logger log = getLogger(joinPoint);
         String method = joinPoint.getSignature().getName();
         Object target = joinPoint.getTarget();
         log.debug(method + "(): " + target);
+    }
+    
+    private Logger getLogger(JoinPoint joinPoint) {
+        return Logger.getLogger(joinPoint.getSignature().getDeclaringType());
     }
 
 }
