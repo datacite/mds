@@ -52,6 +52,13 @@ public class LoggingAspect {
         log.debug(method + "(): " + target);
     }
     
+    @AfterReturning("execution(public void org.datacite.mds.domain.Media.remove())")
+    public void logDeleteMediaType(JoinPoint joinPoint) {
+        Logger log = getLogger(joinPoint);
+        Object target = joinPoint.getTarget();
+        log.info("deleted " + target);
+    }
+    
     private Logger getLogger(JoinPoint joinPoint) {
         return Logger.getLogger(joinPoint.getSignature().getDeclaringType());
     }
