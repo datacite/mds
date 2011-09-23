@@ -32,7 +32,7 @@
 
     <script type="text/javascript">dojo.require("dijit.form.SimpleTextarea");</script>
     <div id="_${fn:escapeXml(id)}_id">
-      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="${label}" var="tooltip" />
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="" var="tooltip" />
       <label for="_${sec_field}_id" title="${tooltip}">
         <span><c:out value="${fn:escapeXml(label)}" /></span>:
       </label>
@@ -40,7 +40,7 @@
       <br />
       <form:errors cssClass="errors" id="_${sec_field}_error_id" path="${sec_field}" />
       <script type="text/javascript">Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType : 'dijit.form.SimpleTextarea', widgetAttrs : {disabled : ${disabled}}})); </script>
-      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" messageText="${label}"/>
+      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip"/>
     </div>
     <br />
 

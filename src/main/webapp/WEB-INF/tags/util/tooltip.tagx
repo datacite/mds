@@ -3,10 +3,9 @@
 
   <jsp:directive.attribute name="id" type="java.lang.String" required="true" description="The identifier the tooltip is attached to" />
   <jsp:directive.attribute name="messageCode" type="java.lang.String" required="false" description="code of message to be displayed" />
-  <jsp:directive.attribute name="messageText" type="java.lang.String" required="false" description="text to be displayed if messageCode is not specified or unresolvable" />
   
   <c:if test="${not empty messageCode}">
-    <spring:message code="${messageCode}" var="messageText" text="${messageText}"/>
+    <spring:message code="${messageCode}" var="messageText" text=""/>
   </c:if>
   
   <c:if test="${not empty messageText}">

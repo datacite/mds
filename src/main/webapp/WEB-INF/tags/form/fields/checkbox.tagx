@@ -19,7 +19,7 @@
    
    <script type="text/javascript">dojo.require("dijit.form.CheckBox");</script>
     <div id="_${sec_id}_id">
-      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="${label}" var="tooltip" />
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="" var="tooltip" />
       <label for="_${sec_field}_id" title="${tooltip}">
         <span><c:out value="${fn:escapeXml(label)}" /></span>:
       </label>
@@ -38,7 +38,7 @@
           <form:checkbox id="_${sec_field}_id" path="${sec_field}"/>
         </c:otherwise>
       </c:choose>
-      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" messageText="${label}"/>
+      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip"/>
     </div>
     <br />
   </c:if>

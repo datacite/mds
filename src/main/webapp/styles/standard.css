@@ -543,11 +543,11 @@ pre {
     padding-left: 20px;
 }
            
-label[title], th[title] {
+label:not([title=""]), th:not([title=""]) {
     cursor: help;
 }
 
-label[title] span {
+label:not([title=""]) span {
     border-bottom: thin dotted black;
 }
             
