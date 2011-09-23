@@ -157,7 +157,6 @@ public class Datacentre implements AllocatorOrDatacentre {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @OrderBy("prefix")
-    @NotNull
     private Set<org.datacite.mds.domain.Prefix> prefixes = new java.util.HashSet<org.datacite.mds.domain.Prefix>();
 
     @Temporal(TemporalType.TIMESTAMP)
