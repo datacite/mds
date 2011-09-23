@@ -15,6 +15,9 @@
         </array>
       </property>
     </bean>
+    
+    <context:property-placeholder location="classpath:META-INF/spring/*.properties"/>
+    
 	
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods
 	     Also registers default Formatters and Validators for use across all @Controllers -->
