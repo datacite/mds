@@ -19,9 +19,13 @@ After successful login you can start to register DOIs for your datasets.
 Via the "User Info" link on the upper right corner you can e.g. see the
 list of domains and DOI prefixes you are allowed to use. 
 
-  Prefix(es): %prefixes%
+  Test Prefix: %testPrefix%
+
+  Your Prefix(es): %prefixes%
   
-  Domain(s): %domains%
+  Your Domain(s): %domains%
+  
+For testing purposes please only use the test prefix mentioned above.
 
 Kind regards,
   

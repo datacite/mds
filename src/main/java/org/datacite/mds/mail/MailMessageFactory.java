@@ -23,6 +23,9 @@ public class MailMessageFactory {
 
     @Value("${email.replyTo}")
     String replyTo;
+    
+    @Value("${handle.testPrefix}")
+    String testPrefix;
 
     @Value("classpath:template/ResetPasswordMail")
     Resource templateResetPasswordMail;
@@ -65,6 +68,7 @@ public class MailMessageFactory {
         mail.loadTemplate(template);
         mail.replacePlaceholder("contactName", user.getContactName());
         mail.replacePlaceholder("symbol", user.getSymbol());
+        mail.replacePlaceholder("testPrefix", testPrefix);
         mail.replacePlaceholder("mdsUrl", mdsUrl);
         return mail;
     }
