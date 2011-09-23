@@ -10,6 +10,7 @@
       <property name="locations">
         <array>
           <value>WEB-INF/spring/*.properties</value>
+          <value>classpath:/META-INF/spring/handle.properties</value>
           <value>classpath:/META-INF/spring/xml-validator.properties</value>
         </array>
       </property>

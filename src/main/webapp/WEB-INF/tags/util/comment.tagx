@@ -2,10 +2,11 @@
   <jsp:output omit-xml-declaration="yes" />
 
   <jsp:directive.attribute name="messageCode" type="java.lang.String" required="false" description="code of message to be displayed" />
+  <jsp:directive.attribute name="messageArgument" type="java.lang.String" required="false" description="optional argument for message" />
   
   <div class="fieldComment">
     <c:if test="${not empty messageCode}">
-      <spring:message code="${messageCode}"/>
+      <spring:message code="${messageCode}" arguments="${messageArgument}"/>
     </c:if>
     <jsp:doBody />
   </div>
