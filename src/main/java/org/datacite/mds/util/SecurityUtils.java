@@ -13,7 +13,9 @@ import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.service.SecurityException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.switchuser.SwitchUserGrantedAuthority;
 
 /**
  * security related utils
@@ -93,12 +95,34 @@ public class SecurityUtils {
     }
 
     private static String getCurrentSymbolOrNull() {
-        Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication currentAuth = getCurrentAuthentication();
         if (currentAuth == null) {
             return null;
         } else {
             return currentAuth.getName();
         }
+    }
+
+    public static Authentication getCurrentAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+    /**
+     * get the original user authentication before switch-to-user or null if
+     * there is none
+     * 
+     * @param auth
+     * @return
+     */
+    public static Authentication getOriginalUser(Authentication auth) {
+        Collection<GrantedAuthority> authorities = auth.getAuthorities();
+        for (GrantedAuthority authority : authorities) {
+            if (authority instanceof SwitchUserGrantedAuthority) {
+                SwitchUserGrantedAuthority switchAuth = (SwitchUserGrantedAuthority) authority;
+                return switchAuth.getSource();
+            }
+        }
+        return null;
     }
 
     /**
