@@ -20,6 +20,7 @@ import org.datacite.mds.service.MailService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.Converters;
+import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -37,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RooWebScaffold(path = "datacentres", formBackingObject = Datacentre.class, delete = false)
 @RequestMapping("/datacentres")
 @Controller
-public class DatacentreController {
+public class DatacentreController implements UiController {
 
     @Autowired
     private GenericConversionService myConversionService;

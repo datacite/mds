@@ -11,6 +11,7 @@ import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
 import org.datacite.mds.web.ui.Converters;
+import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RooWebScaffold(path = "allocators", formBackingObject = Allocator.class, delete = false)
 @RequestMapping("/allocators")
 @Controller
-public class AllocatorController {
+public class AllocatorController implements UiController {
     @Autowired
     private GenericConversionService myConversionService;
     

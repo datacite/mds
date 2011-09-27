@@ -11,6 +11,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.web.ui.UiController;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class UserInfoController {
+public class UserInfoController implements UiController {
     Logger log = Logger.getLogger(UserInfoController.class);
     
     @Value("${handle.testPrefix}")

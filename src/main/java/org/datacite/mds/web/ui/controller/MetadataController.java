@@ -9,6 +9,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.ui.Converters;
+import org.datacite.mds.web.ui.UiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +31,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 @RooWebScaffold(path = "metadatas", formBackingObject = Metadata.class, delete = false, update = false)
 @RequestMapping("/metadatas")
 @Controller
-public class MetadataController {
+public class MetadataController implements UiController {
 
     @Autowired
     private GenericConversionService myConversionService;
