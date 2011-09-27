@@ -25,16 +25,6 @@ privileged aspect DatacentreController_Roo_Controller {
     @Autowired
     private GenericConversionService DatacentreController.conversionService;
     
-    @RequestMapping(method = RequestMethod.PUT)
-    public String DatacentreController.update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            model.addAttribute("datacentre", datacentre);
-            return "datacentres/update";
-        }
-        datacentre.merge();
-        return "redirect:/datacentres/" + encodeUrlPathSegment(datacentre.getId().toString(), request);
-    }
-    
     @RequestMapping(params = { "find=BySymbolEquals", "form" }, method = RequestMethod.GET)
     public String DatacentreController.findDatacentresBySymbolEqualsForm(Model model) {
         return "datacentres/findDatacentresBySymbolEquals";

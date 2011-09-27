@@ -46,16 +46,6 @@ privileged aspect AllocatorController_Roo_Controller {
         }
         return "allocators/list";
     }
-    
-    @RequestMapping(method = RequestMethod.PUT)
-    public String AllocatorController.update(@Valid Allocator allocator, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            model.addAttribute("allocator", allocator);
-            return "allocators/update";
-        }
-        allocator.merge();
-        return "redirect:/allocators/" + encodeUrlPathSegment(allocator.getId().toString(), request);
-    }
         
     @RequestMapping(params = { "find=BySymbolEquals", "form" }, method = RequestMethod.GET)
     public String AllocatorController.findAllocatorsBySymbolEqualsForm(Model model) {

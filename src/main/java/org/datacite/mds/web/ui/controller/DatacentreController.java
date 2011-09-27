@@ -146,4 +146,15 @@ public class DatacentreController {
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
         return "datacentres/update";
     }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public String update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpSession session) {
+        if (result.hasErrors()) {
+            model.addAttribute("datacentre", datacentre);
+            return "datacentres/update";
+        }
+        datacentre.merge();
+        UiUtils.refreshSymbolsForSwitchUser(session);
+        return "redirect:/datacentres/" + datacentre.getId();
+    }
 }
