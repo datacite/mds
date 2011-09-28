@@ -127,9 +127,24 @@ public class Metadata {
         return result;
     }
     
+    private static String hqlFindLatestMetadatas = "select m from Metadata m WHERE m.metadataVersion = (select max(metadataVersion) from Metadata AS mm WHERE mm.dataset = m.dataset)"; 
+    
     public static List<Metadata> findLatestMetadatas() {
-        String hql = "select m from Metadata m WHERE m.metadataVersion = (select max(metadataVersion) from Metadata AS mm WHERE mm.dataset = m.dataset)";
-        return entityManager().createQuery(hql, Metadata.class).getResultList();
+        return entityManager().createQuery(hqlFindLatestMetadatas, Metadata.class).getResultList();
+    }
+    
+    public static List<Metadata> findLatestMetadatasByNamespace(String namespace) {
+        String hql;
+        if (namespace == null) 
+            hql = hqlFindLatestMetadatas + " AND m.namespace is null";
+        else
+            hql = hqlFindLatestMetadatas + " AND m.namespace = :namespace";
+        
+        TypedQuery<Metadata> q = entityManager().createQuery(hql, Metadata.class);
+        
+        if (namespace != null)
+            q.setParameter("namespace", namespace);
+        return q.getResultList();
     }
     
     public void setXml(byte[] xml) {
