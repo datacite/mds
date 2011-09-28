@@ -1,6 +1,7 @@
 package org.datacite.mds.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
@@ -124,6 +125,11 @@ public class Metadata {
         }
 
         return result;
+    }
+    
+    public static List<Metadata> findLatestMetadatas() {
+        String hql = "select m from Metadata m WHERE m.metadataVersion = (select max(metadataVersion) from Metadata AS mm WHERE mm.dataset = m.dataset)";
+        return entityManager().createQuery(hql, Metadata.class).getResultList();
     }
     
     public void setXml(byte[] xml) {

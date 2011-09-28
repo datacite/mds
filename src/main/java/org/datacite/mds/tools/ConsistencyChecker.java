@@ -38,18 +38,10 @@ public class ConsistencyChecker extends AbstractTool {
         checkList(Datacentre.findAllDatacentres());
         checkList(Prefix.findAllPrefixes());
         checkList(Dataset.findAllDatasets());
-        checkMetadata();
+        checkList(Metadata.findLatestMetadatas());
     }
 
-    private void checkMetadata() {
-        System.out.println("checking latest Metadata");
-        List<Dataset> datasets = Dataset.findAllDatasets();
-        for (Dataset dataset : datasets) {
-            Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
-            check(metadata);
-        }
-    }
-
+    @SuppressWarnings("unchecked")
     private void checkList(List list) {
         if (!list.isEmpty()) {
             String clazz = list.get(0).getClass().getSimpleName();

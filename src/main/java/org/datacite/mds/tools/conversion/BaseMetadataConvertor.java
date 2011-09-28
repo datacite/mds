@@ -13,7 +13,6 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
-import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.tools.AbstractTool;
 import org.datacite.mds.util.ValidationUtils;
@@ -48,11 +47,9 @@ public abstract class BaseMetadataConvertor extends AbstractTool {
     @Override
     public void run(String[] args) {
         log.info("starting");
-        List<Dataset> datasets = Dataset.findAllDatasets();
-        for (Dataset dataset : datasets) {
-            Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
-            if (metadata != null)
-                checkAndConvert(metadata);
+        List<Metadata> metadatas = Metadata.findLatestMetadatas();
+        for (Metadata metadata : metadatas) {
+            checkAndConvert(metadata);
         }
         long count_failed = count_needs_conversion - count_converted;
         String stats = "checked: " + count_check + ", converted: " + count_converted + ", failed: " + count_failed;
