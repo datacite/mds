@@ -12,6 +12,7 @@
   <jsp:directive.attribute name="update" type="java.lang.Boolean" required="false" description="Include 'update' link into table (default true)" />
   <jsp:directive.attribute name="delete" type="java.lang.Boolean" required="false" description="Include 'delete' link into table (default true)" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
+  <jsp:directive.attribute name="switchToUserField" type="java.lang.String" required="false" description="field to use for switch-to-user (leave empty to disable feature)" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
   <c:if test="${empty render or render}">
@@ -34,7 +35,9 @@
     <c:if test="${empty delete}">
       <c:set var="delete" value="true" />
     </c:if>
-
+    
+    <c:set var="switchTo" value="${not empty switchToUserField}"/>
+    
     <c:set var="typeName" value="${fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1]}" />
     <c:set var="lengths" value="${fn:split(columnMaxLengths, ',')}" scope="request" />
     <c:set var="tooltips" value="${fn:split(columnTooltips, ',')}" scope="request" />
@@ -49,6 +52,9 @@
             </th>
           </c:forTokens>
           <th class="icon_column"></th>
+          <c:if test="${switchTo}">
+            <th class="icon_column"></th>
+          </c:if>
           <c:if test="${update}">
             <th class="icon_column"></th>
           </c:if>
@@ -81,6 +87,18 @@
               <img alt="${fn:escapeXml(show_label)}" class="image" src="${fn:escapeXml(show_image_url)}" title="${fn:escapeXml(show_label)}" />
             </a>
           </td>
+          <c:if test="${switchTo}">
+            <td>
+              <spring:url value="/resources/j_spring_security_switch_user" var="switch_to_url">
+                <spring:param name="j_username" value="${item[switchToUserField]}"/>
+              </spring:url>
+              <spring:url value="/resources/images/page_go.png" var="switch_to_image_url" />
+              <spring:message arguments="${typeName}" code="entity_switch_to" var="switch_to_label" />
+              <a href="${fn:escapeXml(switch_to_url)}" alt="${fn:escapeXml(switch_to_label)}" title="${fn:escapeXml(switch_to_label)}">
+                <img alt="${fn:escapeXml(switch_to_label)}" class="image" src="${fn:escapeXml(switch_to_image_url)}" title="${fn:escapeXml(switch_to_label)}" />
+              </a>
+            </td>
+          </c:if>
           <c:if test="${update}">
             <td>
               <spring:url value="${path}/${item[typeIdFieldName]}" var="update_form_url">

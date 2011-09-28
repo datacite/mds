@@ -11,6 +11,7 @@
   <jsp:directive.attribute name="label" type="java.lang.String" required="false" description="The label used for this object, will default to a message bundle if not supplied" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" description="Control if the title pane is opened or closed by default (default: true)" />
+  <jsp:directive.attribute name="switchToUserField" type="java.lang.String" required="false" description="field to use for switch-to-user (leave empty to disable feature)" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
   <c:if test="${empty render or render}">
@@ -33,6 +34,9 @@
     <c:if test="${empty delete}">
       <c:set var="delete" value="true" />
     </c:if>
+    
+    <c:set var="switchTo" value="${not empty switchToUserField}"/>
+    
 
     <c:set var="typeName" value="${fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1]}" />
 
@@ -78,6 +82,18 @@
                 <spring:message arguments="${typeName}" code="entity_create" var="create_label" />
                 <a href="${fn:escapeXml(create_form_url)}" alt="${fn:escapeXml(create_label)}" title="${fn:escapeXml(create_label)}">
                   <img alt="${fn:escapeXml(create_label)}" class="image" src="${fn:escapeXml(create_image_url)}" title="${fn:escapeXml(create_label)}" />
+                </a>
+              </c:if>
+            </span>
+            <span>
+              <c:if test="${switchTo}">
+                <spring:url value="/resources/j_spring_security_switch_user" var="switch_to_url">
+                  <spring:param name="j_username" value="${object[switchToUserField]}"/>
+                </spring:url>
+                <spring:url value="/resources/images/page_go.png" var="switch_to_image_url" />
+                <spring:message arguments="${typeName}" code="entity_switch_to" var="switch_to_label" />
+                <a href="${fn:escapeXml(switch_to_url)}" alt="${fn:escapeXml(switch_to_label)}" title="${fn:escapeXml(switch_to_label)}">
+                  <img alt="${fn:escapeXml(switch_to_label)}" class="image" src="${fn:escapeXml(switch_to_image_url)}" title="${fn:escapeXml(switch_to_label)}" />
                 </a>
               </c:if>
             </span>
