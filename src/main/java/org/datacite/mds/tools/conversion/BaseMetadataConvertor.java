@@ -27,6 +27,9 @@ public abstract class BaseMetadataConvertor extends AbstractTool {
     Logger log = Logger.getLogger(this.getClass());
 
     Transformer transformer;
+    
+    boolean allNamespaces = true;
+    String namespace;
 
     private long count_check = 0;
     private long count_needs_conversion = 0;
@@ -43,14 +46,27 @@ public abstract class BaseMetadataConvertor extends AbstractTool {
             throw new RuntimeException(e);
         }
     }
+    
+    public BaseMetadataConvertor(String xsltPath, String namespace) {
+        this(xsltPath);
+        allNamespaces = false;
+        this.namespace = namespace;
+    }
 
     @Override
     public void run(String[] args) {
         log.info("starting");
-        List<Metadata> metadatas = Metadata.findLatestMetadatas();
+        
+        List<Metadata> metadatas;
+        if (allNamespaces)
+            metadatas = Metadata.findLatestMetadatas();
+        else
+            metadatas = Metadata.findLatestMetadatasByNamespace(namespace);
+
         for (Metadata metadata : metadatas) {
             checkAndConvert(metadata);
         }
+        
         long count_failed = count_needs_conversion - count_converted;
         String stats = "checked: " + count_check + ", converted: " + count_converted + ", failed: " + count_failed;
         log.info("done (" + stats + ")");

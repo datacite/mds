@@ -15,7 +15,7 @@ public class MetadataKernel20FixSchemaLocation extends BaseMetadataConvertor {
     SchemaService schemaService;
 
     public MetadataKernel20FixSchemaLocation() {
-        super("conversion/metadata-kernel-2.0_fix-schema-location.xslt");
+        super("conversion/metadata-kernel-2.0_fix-schema-location.xslt", null);
     }
 
     @Override
