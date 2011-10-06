@@ -16,24 +16,39 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
 public class MatchPrefixesTest extends AbstractContraintsTest {
 
+    Allocator allocator;
     Datacentre datacentre;
 
     @Before
     public void init() {
-        Allocator allocator = TestUtils.createAllocator("AL");
+        allocator = TestUtils.createAllocator("AL");
         datacentre = TestUtils.createDatacentre("AL.DC", allocator);
-        
-        allocator.setPrefixes(TestUtils.createPrefixes("10.5072", "10.5073"));
     }
 
     @Test
     public void test() {
-        assertTrue(isPrefixSetValid()); 
+        allocator.setPrefixes(TestUtils.createPrefixes("10.5072", "10.5073"));
+        assertTrue(isPrefixSetValid());
         assertTrue(isPrefixSetValid("10.5072"));
         assertTrue(isPrefixSetValid("10.5072", "10.5073"));
         assertFalse(isPrefixSetValid("10.9999"));
         assertFalse(isPrefixSetValid("10.5072", "10.9999"));
     }
+    
+    @Test
+    public void testNullList() {
+        allocator.setPrefixes(null);
+        assertTrue(isPrefixSetValid());
+        assertFalse(isPrefixSetValid("10.5072"));
+    }
+
+    @Test
+    public void testEmptyList() {
+        allocator.setPrefixes(TestUtils.createPrefixes());
+        assertTrue(isPrefixSetValid());
+        assertFalse(isPrefixSetValid("10.5072"));
+    }
+    
 
     boolean isPrefixSetValid(String... prefixes) {
         datacentre.setPrefixes(TestUtils.createPrefixes(prefixes));

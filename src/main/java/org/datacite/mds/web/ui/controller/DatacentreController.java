@@ -17,6 +17,7 @@ import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
@@ -33,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RooWebScaffold(path = "datacentres", formBackingObject = Datacentre.class, delete = false)
 @RequestMapping("/datacentres")
 @Controller
-public class DatacentreController {
+public class DatacentreController implements UiController {
 
     @Autowired
     private MagicAuthStringService magicAuthStringService;
@@ -132,5 +133,16 @@ public class DatacentreController {
         model.addAttribute("datacentre", datacentre);
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
         return "datacentres/update";
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public String update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpSession session) {
+        if (result.hasErrors()) {
+            model.addAttribute("datacentre", datacentre);
+            return "datacentres/update";
+        }
+        datacentre.merge();
+        UiUtils.refreshSymbolsForSwitchUser(session);
+        return "redirect:/datacentres/" + datacentre.getId();
     }
 }

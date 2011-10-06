@@ -9,6 +9,7 @@ import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.util.DomainUtils;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.ValidationUtils;
+import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.model.ChangePasswordModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/resources/change_password")
 @Controller
-public class ChangePasswordController {
+public class ChangePasswordController implements UiController {
 
     Logger log4j = Logger.getLogger(ChangePasswordController.class);
 

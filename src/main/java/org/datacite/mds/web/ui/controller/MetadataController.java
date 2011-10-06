@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.util.Utils;
+import org.datacite.mds.web.ui.UiController;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,8 +26,7 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 @RooWebScaffold(path = "metadatas", formBackingObject = Metadata.class, delete = false, update = false)
 @RequestMapping("/metadatas")
 @Controller
-public class MetadataController {
-    
+public class MetadataController implements UiController {
     @InitBinder
     void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());

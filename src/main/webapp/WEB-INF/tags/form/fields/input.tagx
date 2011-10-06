@@ -46,7 +46,7 @@
     </c:set>
 
     <div id="_${fn:escapeXml(id)}_id">
-      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="${label}" var="tooltip" />
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" text="" var="tooltip" />
       <label for="_${sec_field}_id" title="${tooltip}">
         <span><c:out value="${fn:escapeXml(label)}" /></span>:
       </label>
@@ -87,7 +87,7 @@
         </c:set>
         Spring.addDecoration(new Spring.ElementDecoration({elementId : '_${sec_field}_id', widgetType : 'dijit.form.TextBox', widgetAttrs : {promptMessage: '${sec_field_validation}', invalidMessage: '${sec_field_invalid}', required: ${required}}})); 
       </script>
-      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip" messageText="${label}"/>
+      <util:tooltip id="_${sec_field}_id" messageCode="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}_tooltip"/>
     </div>
     <br />
   </c:if>

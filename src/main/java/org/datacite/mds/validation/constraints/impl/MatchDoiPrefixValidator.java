@@ -24,7 +24,7 @@ public class MatchDoiPrefixValidator implements ConstraintValidator<MatchDoiPref
     }
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
-        boolean isValidationUnneeded = dataset.getDatacentre() == null || StringUtils.isEmpty(dataset.getDoi());  
+        boolean isValidationUnneeded = dataset.getDatacentre() == null || StringUtils.isEmpty(dataset.getDoi()) || dataset.getId() != null;
         if (isValidationUnneeded)
             return true;
 

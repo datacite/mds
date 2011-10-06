@@ -43,7 +43,19 @@
     
   <sec:authentication property="principal" var="user"/>
   <c:if test="${! empty user}">
-    <spring:message code="security_logged_in_as" arguments="${user.username}"/>
+    <c:forEach items="${login_pathway}" var="symbol">
+      <c:choose>
+        <c:when test="${empty pathway}">
+          <c:set value="${symbol}" var="pathway"/>
+        </c:when>
+        <c:otherwise>
+          <c:set value="${pathway} &amp;rArr; ${symbol}" var="pathway"/>
+        </c:otherwise>
+      </c:choose>
+    </c:forEach>
+    
+    <spring:message code="security_logged_in_as" htmlEscape="false" arguments="${pathway}"/>
+   
     <c:out value=" | "/>
     <span>
       <spring:url value="/userinfo" var="userinfo"/>

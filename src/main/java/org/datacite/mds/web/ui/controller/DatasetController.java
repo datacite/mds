@@ -19,6 +19,7 @@ import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.api.NotFoundException;
+import org.datacite.mds.web.ui.UiController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
@@ -35,7 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RooWebScaffold(path = "datasets", formBackingObject = Dataset.class, delete = false)
 @RequestMapping("/datasets")
 @Controller
-public class DatasetController {
+public class DatasetController implements UiController {
 
     private static Logger log = Logger.getLogger(DatasetController.class);
 

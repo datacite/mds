@@ -4,34 +4,16 @@
 package org.datacite.mds.web.ui.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.lang.String;
 import java.util.Collection;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import org.datacite.mds.domain.Allocator;
+
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.domain.Prefix;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 privileged aspect DatacentreController_Roo_Controller {
-    
-    @RequestMapping(method = RequestMethod.PUT)
-    public String DatacentreController.update(@Valid Datacentre datacentre, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-        if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("datacentre", datacentre);
-            return "datacentres/update";
-        }
-        uiModel.asMap().clear();
-        datacentre.merge();
-        return "redirect:/datacentres/" + encodeUrlPathSegment(datacentre.getId().toString(), httpServletRequest);
-    }
-    
     @ModelAttribute("datacentres")
     public Collection<Datacentre> DatacentreController.populateDatacentres() {
         return Datacentre.findAllDatacentres();

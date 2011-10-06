@@ -19,6 +19,7 @@
         <field:simple field="prefixes" id="s_org_datacite_mds_domain_Allocator_prefixes" render="${scopeAllocator}" z="user-managed">
           <util:list items="${prefixes}"/>
         </field:simple>
+        <util:comment messageCode="use_test_prefix_info" messageArgument="${properties['handle.testPrefix']}"/>
     </page:show>    
     <page:show create="false" delete="false" id="ps_org_datacite_mds_userinfo_Datacentre" list="false" object="${datacentre}" path="/datacentres" update="false" render="${scopeDatacentre}" z="user-managed">
         <field:display field="symbol" id="s_org_datacite_mds_domain_Datacentre_symbol" object="${datacentre}" z="user-managed"/>

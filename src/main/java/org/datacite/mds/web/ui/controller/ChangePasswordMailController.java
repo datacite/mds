@@ -8,6 +8,7 @@ import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MailService;
 import org.datacite.mds.util.DomainUtils;
+import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.model.ChangePasswordMailModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @RequestMapping("/resources/change_password_mail")
 @Controller
-public class ChangePasswordMailController {
+public class ChangePasswordMailController implements UiController {
 
     Logger log4j = Logger.getLogger(ChangePasswordMailController.class);
 

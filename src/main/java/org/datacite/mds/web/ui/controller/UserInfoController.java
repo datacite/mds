@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.ListUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
@@ -13,14 +11,19 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
+import org.datacite.mds.web.ui.UiController;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class UserInfoController {
+public class UserInfoController implements UiController {
     Logger log = Logger.getLogger(UserInfoController.class);
+    
+    @Value("${handle.testPrefix}")
+    String testPrefix;
 
     @RequestMapping(value = "/userinfo", method = RequestMethod.GET)
     public String userinfo(Model model) throws SecurityException {
@@ -59,8 +62,10 @@ public class UserInfoController {
     private void addPrefixesToModel(Allocator allocator, Model model) {
         Set<Prefix> prefixes = allocator.getPrefixes();
         List<String> labels = new ArrayList<String>();
+        labels.add(testPrefix + " (test prefix)");
         for (Prefix prefix : prefixes)
-            labels.add(prefix.getLabelWithDatacentres());
+            if (!prefix.getPrefix().equals(testPrefix))
+                labels.add(prefix.getLabelWithDatacentres());
         model.addAttribute("prefixes", labels);
     }
     

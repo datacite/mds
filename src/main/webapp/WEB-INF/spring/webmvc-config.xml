@@ -10,10 +10,14 @@
       <property name="locations">
         <array>
           <value>WEB-INF/spring/*.properties</value>
+          <value>classpath:/META-INF/spring/handle.properties</value>
           <value>classpath:/META-INF/spring/xml-validator.properties</value>
         </array>
       </property>
     </bean>
+    
+    <context:property-placeholder location="classpath:META-INF/spring/*.properties"/>
+    
 	
 	<!-- Turns on support for mapping requests to Spring MVC @Controller methods
 	     Also registers default Formatters and Validators for use across all @Controllers -->

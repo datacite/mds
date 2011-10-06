@@ -5,9 +5,11 @@
         <util:hide roles="ROLE_DATACENTRE">
           <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="true" z="user-managed"/>
         </util:hide>
-        <util:handle-proxy doi="${dataset.doi}" redirect="true" types="URL"/>
-        <field:display field="doi" id="s_org_datacite_mds_domain_Dataset_doi" link="javascript:resolveDoi()" object="${dataset}" z="user-managed">
+        <c:set value="${properties['link.handleProxy']}" var="proxy_url"/>
+        <util:handle-proxy doi="${dataset.doi}" redirect="false" types="URL"/>
+        <field:display field="doi" id="s_org_datacite_mds_domain_Dataset_doi" link="${proxy_url}/${dataset.doi}" object="${dataset}" z="user-managed">
             (${resolvedUrl})
+            <a href="javascript:resolveDoi()">[handle record]</a>
         </field:display>
         <util:comment messageCode="handle_latency_info"/>
         <field:display field="isActive" id="s_org_datacite_mds_domain_Dataset_isActive" object="${dataset}" z="+iKflUoWmGCa+/BloB8nbPxnrbI="/>

@@ -19,7 +19,7 @@
         <c:out value="${fn:escapeXml(label)}" />:
       </label>
       <input id="_${sec_id}_checkbox_id" name="${sec_id}" type="checkbox" onchange="onchange_${sec_id}()" />
-      <util:tooltip id="_${sec_id}_checkbox_id" messageCode="tooltip_${fn:toLowerCase(fn:substringAfter(id,'_'))}" messageText="${label}"/>
+      <util:tooltip id="_${sec_id}_checkbox_id" messageCode="tooltip_${fn:toLowerCase(fn:substringAfter(id,'_'))}"/>
     </div>
     <br />
     <div id="_${sec_id}_content_id">

@@ -46,8 +46,8 @@ Download the Java package from [Handle.net](http://handle.net/client_download.ht
 
 Extract files and add handle-client.jar to your local maven repo:
 
-    mvn install:install-file -Dfile=handle.jar -DgroupId=handle.net \
-     -Dversion=6 -Dpackaging=jar -DgeneratePom=true -DartifactId=hcj
+    mvn install:install-file -Dfile=handle-client.jar -DgroupId=handle.net \
+     -Dversion=7 -Dpackaging=jar -DgeneratePom=true -DartifactId=hcj
 
 ### Local SSL cert
 

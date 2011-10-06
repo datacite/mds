@@ -1,6 +1,7 @@
 package org.datacite.mds.web.ui.controller;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.web.ui.UiController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class LogoutOrExitController {
+public class LogoutOrExitController implements UiController {
     Logger log = Logger.getLogger(LogoutOrExitController.class);
     /**
      * If the current user is logged in by "switch user", return to the original

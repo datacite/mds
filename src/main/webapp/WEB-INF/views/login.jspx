@@ -66,5 +66,10 @@
     <spring:url value="/resources/change_password_mail" var="forgotten_url" />
     <a href="${fn:escapeXml(forgotten_url)}">Forgotten password?</a>
   </util:panel>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $("#j_username").focus();
+    });
+  </script>
 </div>
 

@@ -8,6 +8,7 @@ import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
+import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RooWebScaffold(path = "allocators", formBackingObject = Allocator.class, delete = false)
 @RequestMapping("/allocators")
 @Controller
-public class AllocatorController {
+public class AllocatorController implements UiController {
     
     @Autowired
     private MagicAuthStringService magicAuthStringService;
@@ -70,4 +71,17 @@ public class AllocatorController {
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(allocator));
         return "allocators/update";
     }
+    
+    
+    @RequestMapping(method = RequestMethod.PUT)
+    public String update(@Valid Allocator allocator, BindingResult result, Model model, HttpSession session) {
+        if (result.hasErrors()) {
+            model.addAttribute("allocator", allocator);
+            return "allocators/update";
+        }
+        allocator.merge();
+        UiUtils.refreshSymbolsForSwitchUser(session);
+        return "redirect:/allocators/" + allocator.getId();
+    }
+
 }

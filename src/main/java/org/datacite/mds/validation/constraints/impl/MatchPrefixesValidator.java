@@ -1,5 +1,6 @@
 package org.datacite.mds.validation.constraints.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.ConstraintValidator;
@@ -18,10 +19,14 @@ public class MatchPrefixesValidator implements ConstraintValidator<MatchPrefixes
     }
 
     public boolean isValid(Datacentre datacentre, ConstraintValidatorContext context) {
-        Set<Prefix> allowedPrefixes = datacentre.getAllocator().getPrefixes();
-        Set<Prefix> prefixes = datacentre.getPrefixes();
-        boolean isValid = allowedPrefixes.containsAll(prefixes); 
+        Set<Prefix> allowedPrefixes = emptySetIfNull(datacentre.getAllocator().getPrefixes());
+        Set<Prefix> prefixes = emptySetIfNull(datacentre.getPrefixes());
+        boolean isValid = allowedPrefixes.containsAll(prefixes);
         ValidationUtils.addConstraintViolation(context, defaultMessage, "prefixes");
         return isValid;
+    }
+    
+    private Set<Prefix> emptySetIfNull(Set<Prefix> set) {
+        return set == null ? new HashSet<Prefix>() : set;
     }
 }
