@@ -2,7 +2,7 @@
 <div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <page:list id="pl_org_datacite_mds_domain_Datacentre" items="${datacentres}" z="wn3TZpNlM1IZgd1CG8z1K8jrfhk=">
-        <table:table data="${datacentres}" delete="false" id="l_org_datacite_mds_domain_Datacentre" path="/datacentres" switchToUserField="symbol" z="vWIHMDwBYznaKurxu32uwnVI8pM=">
+        <table:table data="${datacentres}" delete="false" id="l_org_datacite_mds_domain_Datacentre" path="/datacentres" switchToUserField="symbol" z="user-managed">
             <table:column id="c_org_datacite_mds_domain_Datacentre_symbol" property="symbol" z="3TjQR9FMHnETLoTlc4UUtql+vgQ="/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_password" property="password" render="false" z="user-managed"/>
             <table:column id="c_org_datacite_mds_domain_Datacentre_name" property="name" z="B3pk/gga9DpPwGI/a2TNbtjup4w="/>

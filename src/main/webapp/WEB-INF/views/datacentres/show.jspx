@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    <page:show delete="false" id="ps_org_datacite_mds_domain_Datacentre" object="${datacentre}" path="/datacentres" switchToUserField="symbol" z="OWCsKH4TRcVv0SGalvYZM4Y9xIk=">
+    <page:show delete="false" id="ps_org_datacite_mds_domain_Datacentre" object="${datacentre}" path="/datacentres" switchToUserField="symbol" z="user-managed">
         <field:display field="symbol" id="s_org_datacite_mds_domain_Datacentre_symbol" object="${datacentre}" z="BRIyEhrJU2Yd0GWzDGnW1i68PUI="/>
         <field:simple field="password" id="c_org_datacite_mds_domain_Datacentre_password">
-          <util:change-password auth="${magicAuthString}" symbol="${datacentre.symbol}"/>
+            <util:change-password auth="${magicAuthString}" symbol="${datacentre.symbol}"/>
         </field:simple>
         <field:display field="password" id="s_org_datacite_mds_domain_Datacentre_password" object="${datacentre}" render="false" z="user-managed"/>
         <field:display field="name" id="s_org_datacite_mds_domain_Datacentre_name" object="${datacentre}" z="JXNqfv/cA9Q9vtJEJOnrqTZJcGw="/>
