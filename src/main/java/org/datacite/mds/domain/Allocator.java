@@ -72,6 +72,9 @@ public class Allocator implements AllocatorOrDatacentre {
     private Boolean isActive = true;
 
     private String roleName = "ROLE_ALLOCATOR";
+    
+    @Size(max = 4000)
+    private String comments;
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = ISO.DATE_TIME)

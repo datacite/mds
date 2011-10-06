@@ -16,6 +16,7 @@
         <field:datetime dateTimePattern="${allocator_created_date_format}" field="created" id="c_org_datacite_mds_domain_Allocator_created" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${allocator_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Allocator_updated" render="false" z="user-managed"/>
         <field:checkbox checked="true" disableFormBinding="true" field="sendWelcomeMail" id="c_org_datacite_mds_domain_Allocator_sendwelcomemail" z="user-managed"/>
+        <field:textarea field="comments" id="c_org_datacite_mds_domain_Allocator_comments" z="5wIEKz765bUF+M9I9MTPaK77vIA="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Allocator" render="${not empty dependencies}" z="KQZ5CkP41CQKyZlQI7YJ7ZumJ7w="/>
 </div>

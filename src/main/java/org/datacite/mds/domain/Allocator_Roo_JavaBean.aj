@@ -92,6 +92,14 @@ privileged aspect Allocator_Roo_JavaBean {
         this.roleName = roleName;
     }
     
+    public String Allocator.getComments() {
+        return this.comments;
+    }
+    
+    public void Allocator.setComments(String comments) {
+        this.comments = comments;
+    }
+    
     public Date Allocator.getCreated() {
         return this.created;
     }

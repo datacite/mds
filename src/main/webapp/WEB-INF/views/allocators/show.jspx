@@ -18,5 +18,6 @@
         <field:display field="roleName" id="s_org_datacite_mds_domain_Allocator_roleName" object="${allocator}" render="false" z="user-managed"/>
         <field:display date="true" dateTimePattern="${allocator_created_date_format}" field="created" id="s_org_datacite_mds_domain_Allocator_created" object="${allocator}" z="0e/rwOMZEsUv+ltjyPbWyhX+q6E="/>
         <field:display date="true" dateTimePattern="${allocator_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Allocator_updated" object="${allocator}" z="JWYXjmiWZS49d0nv0XJuoiYuR1w="/>
+        <field:display field="comments" id="s_org_datacite_mds_domain_Allocator_comments" object="${allocator}" z="SPPSVdCsKeLpcuPhc/OD7yENV+4="/>
     </page:show>
 </div>

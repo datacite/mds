@@ -20,5 +20,6 @@
             <field:input field="created" id="c_org_datacite_mds_domain_Allocator_created" z="user-managed"/>
             <field:input field="updated" id="c_org_datacite_mds_domain_Allocator_updated" z="user-managed"/>
         </util:hide>
+        <field:textarea field="comments" id="c_org_datacite_mds_domain_Allocator_comments" z="5wIEKz765bUF+M9I9MTPaK77vIA="/>
     </form:update>
 </div>
