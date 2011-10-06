@@ -10,9 +10,9 @@ import javax.validation.constraints.NotNull;
 
 import org.datacite.mds.validation.constraints.MatchDomain;
 import org.datacite.mds.validation.constraints.MediaType;
+import org.datacite.mds.validation.constraints.URL;
 import org.datacite.mds.validation.constraints.Unique;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.roo.addon.entity.RooEntity;
