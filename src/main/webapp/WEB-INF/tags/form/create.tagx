@@ -8,6 +8,7 @@
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="openPane" type="java.lang.Boolean" required="false" description="Control if the title pane is opened or closed by default (default: true)"/>
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)"/>
+  <jsp:directive.attribute name="introMessageCode" type="java.lang.String" required="false" description="The message code of a introductional text"/>
   <jsp:directive.attribute name="upload" type="java.lang.Boolean" required="false" description="Indicate if the form should able to upload files"/>
 	
   <c:if test="${empty render or render}">
@@ -23,6 +24,11 @@
     </c:if>
     <spring:message arguments="${label}" code="${messageCode}" var="title_msg"/>
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
+      <c:if test="${not empty introMessageCode}">
+        <p>
+          <spring:message code="${introMessageCode}"/>
+        </p>
+      </c:if>
       <spring:url value="${path}" var="form_url"/>
       <form:form action="${fn:escapeXml(form_url)}" method="POST" modelAttribute="${modelAttribute}"  enctype="${enctype}">
         <form:errors cssClass="errors" delimiter="&lt;p/&gt;"/>

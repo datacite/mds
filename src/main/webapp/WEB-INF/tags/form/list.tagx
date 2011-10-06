@@ -12,6 +12,7 @@
   <jsp:directive.attribute name="createParam" type="java.lang.String" required="false" description="additional parameter for the 'create' link" />
   <jsp:directive.attribute name="createParamValue" type="java.lang.String" required="false" description="additional parameter value for the 'create' link" />
   <jsp:directive.attribute name="createMessageCode" type="java.lang.String" required="false" description="The message code of the create label"/>
+  <jsp:directive.attribute name="introMessageCode" type="java.lang.String" required="false" description="The message code of a introductional text"/>
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
 
 
@@ -29,6 +30,11 @@
     </c:if>
     <spring:message arguments="${labelPlural}" code="entity_list_all" var="title_msg" />
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
+      <c:if test="${not empty introMessageCode}">
+        <p>
+          <spring:message code="${introMessageCode}"/>
+        </p>
+      </c:if>
       <c:choose>
         <c:when test="${not empty items}">
           <jsp:doBody />
