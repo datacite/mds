@@ -10,6 +10,7 @@
         <field:input field="doiQuotaAllowed" id="c_org_datacite_mds_domain_Allocator_doiQuotaAllowed" max="999999999" min="-1" required="true" validationMessageCode="field_invalid_integer" z="user-managed"/>
         <field:input field="doiQuotaUsed" id="c_org_datacite_mds_domain_Allocator_doiQuotaUsed" max="999999999" min="0" required="true" validationMessageCode="field_invalid_integer" z="VVgrfTiLLFf7e5K9oBobk8R/ayM="/>
         <field:select field="prefixes" id="c_org_datacite_mds_domain_Allocator_prefixes" itemLabel="labelWithAllocators" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="user-managed"/>
+        <field:textarea field="experiments" id="c_org_datacite_mds_domain_Allocator_experiments" z="ZI45e3lXgGKu2h4rHyK80sa9e88="/>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Allocator_isActive" z="6POWfZXasELSKoxz5mDZYIPVjkc="/>
         <field:input field="roleName" id="c_org_datacite_mds_domain_Allocator_roleName" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${allocator_created_date_format}" field="created" id="c_org_datacite_mds_domain_Allocator_created" render="false" z="user-managed"/>

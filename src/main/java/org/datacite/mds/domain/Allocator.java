@@ -80,6 +80,9 @@ public class Allocator implements AllocatorOrDatacentre {
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date updated;
 
+    @Size(min = 0, max = 255)
+    private String experiments;
+
     @SuppressWarnings("unchecked")
     public static List<Allocator> findAllAllocators() {
         return entityManager().createQuery("select o from Allocator o order by symbol").getResultList();

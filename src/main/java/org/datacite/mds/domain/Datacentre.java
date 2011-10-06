@@ -167,6 +167,9 @@ public class Datacentre implements AllocatorOrDatacentre {
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date created;
+    
+    @Size(min = 0, max = 255)
+    private String experiments;
 
     public enum ForceRefresh { YES, NO };
     
