@@ -51,9 +51,6 @@
         </page:list>
         <page:list create="true" createMessageCode="entity_store" createParam="dataset" createParamValue="${dataset.id}" createPath="/medias" id="pl_org_datacite_mds_domain_Media" items="${medias}" z="user-managed">
             <p>
-              <spring:message code="media_info"/>
-            </p>
-            <p>
               <spring:message code="experimental_feature_info"/>
             </p>
             <table:table createParam="dataset" createParamValue="${dataset.id}" data="${medias}" id="l_org_datacite_mds_domain_Media" path="/medias" z="user-managed">
