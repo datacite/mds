@@ -7,6 +7,8 @@
             <table:column id="c_org_datacite_mds_domain_Media_dataset" property="dataset" z="PLt1IQse1Fb/D6k/+opcPCYOy3U="/>
             <table:column id="c_org_datacite_mds_domain_Media_mediaType" property="mediaType" z="z/L9pXl/JUmaAR4eX7vnkwmzoIY="/>
             <table:column id="c_org_datacite_mds_domain_Media_url" property="url" z="TNUBLTjUkFtiqZwmckauxQAFLf8="/>
+            <table:column date="true" dateTimePattern="${media_created_date_format}" id="c_org_datacite_mds_domain_Media_created" property="created" z="d9/dAFJXAPnWgCzzY0XvR7P9dT0="/>
+            <table:column date="true" dateTimePattern="${media_updated_date_format}" id="c_org_datacite_mds_domain_Media_updated" property="updated" z="zgMH2YUG04SY6NeCdrCsQcU4de8="/>
         </table:table>
     </page:list>
 </div>

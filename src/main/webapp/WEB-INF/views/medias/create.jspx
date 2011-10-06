@@ -6,6 +6,8 @@
         <field:select field="dataset" id="c_org_datacite_mds_domain_Media_dataset" itemValue="id" items="${datasets}" path="/datasets" readonly="true" z="user-managed"/>
         <field:input field="mediaType" id="c_org_datacite_mds_domain_Media_mediaType" z="43a9sAEl/ETLxrjT6wc6WzYKR8E="/>
         <field:input field="url" id="c_org_datacite_mds_domain_Media_url" z="yYh8rkitAjl+iV7RI1Jvvbp7jhA="/>
+        <field:datetime dateTimePattern="${media_created_date_format}" field="created" id="c_org_datacite_mds_domain_Media_created" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${media_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Media_updated" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Media" render="${not empty dependencies}" z="8I96lyTcUh7AZFs6420UhoONZxE="/>
 </div>

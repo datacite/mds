@@ -50,12 +50,6 @@ privileged aspect Media_Roo_Entity {
     }
     
     @Transactional
-    public void Media.persist() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        this.entityManager.persist(this);
-    }
-    
-    @Transactional
     public void Media.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
@@ -76,14 +70,6 @@ privileged aspect Media_Roo_Entity {
     public void Media.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
-    }
-    
-    @Transactional
-    public Media Media.merge() {
-        if (this.entityManager == null) this.entityManager = entityManager();
-        Media merged = this.entityManager.merge(this);
-        this.entityManager.flush();
-        return merged;
     }
     
     public static final EntityManager Media.entityManager() {

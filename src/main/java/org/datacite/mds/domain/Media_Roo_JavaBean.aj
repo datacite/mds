@@ -4,6 +4,7 @@
 package org.datacite.mds.domain;
 
 import java.lang.String;
+import java.util.Date;
 import org.datacite.mds.domain.Dataset;
 
 privileged aspect Media_Roo_JavaBean {
@@ -30,6 +31,22 @@ privileged aspect Media_Roo_JavaBean {
     
     public void Media.setUrl(String url) {
         this.url = url;
+    }
+    
+    public Date Media.getCreated() {
+        return this.created;
+    }
+    
+    public void Media.setCreated(Date created) {
+        this.created = created;
+    }
+    
+    public Date Media.getUpdated() {
+        return this.updated;
+    }
+    
+    public void Media.setUpdated(Date updated) {
+        this.updated = updated;
     }
     
 }

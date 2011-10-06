@@ -6,5 +6,7 @@
         <field:display field="dataset" id="s_org_datacite_mds_domain_Media_dataset" object="${media}" showPath="/datasets" z="user-managed"/>
         <field:display field="mediaType" id="s_org_datacite_mds_domain_Media_mediaType" object="${media}" z="Ar3vbNi5zlK+WytoQrW2hm8CNpE="/>
         <field:display field="url" id="s_org_datacite_mds_domain_Media_url" object="${media}" z="zmDWlMumD1ppsKT+/2SAh/mM374="/>
+        <field:display date="true" dateTimePattern="${media_created_date_format}" field="created" id="s_org_datacite_mds_domain_Media_created" object="${media}" z="zQyDPbluwTvM1LXT9K8p34KzC8U="/>
+        <field:display date="true" dateTimePattern="${media_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Media_updated" object="${media}" z="CzxVNOsgXWRn2dTyC79mPVyPyjM="/>
     </page:show>
 </div>
