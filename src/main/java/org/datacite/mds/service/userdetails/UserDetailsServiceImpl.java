@@ -13,12 +13,14 @@ package org.datacite.mds.service.userdetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.util.DomainUtils;
+import org.datacite.mds.util.Utils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -31,9 +33,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * This class is responsible for retrieving user credentials from the database
  */
 public class UserDetailsServiceImpl implements UserDetailsService {
+    
+    public static final String ROLE_EXPERIMENT_PREFIX = "ROLE_EXPERIMENT_";
 
     Logger log4j = Logger.getLogger(UserDetailsServiceImpl.class);
-
+    
     /*
      * (non-Javadoc)
      * 
@@ -62,6 +66,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl(role));
+        
+        List<String> experiments = Utils.csvToList(user.getExperiments());
+        for (String experiment : experiments) {
+            String experiment_role = ROLE_EXPERIMENT_PREFIX + experiment.toUpperCase();
+            authorities.add(new GrantedAuthorityImpl(experiment_role));
+        }
+        
 
         return new User(symbol, password, isActive, // 
                 true, /* account not expired */

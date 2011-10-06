@@ -20,6 +20,8 @@ public interface AllocatorOrDatacentre {
     
     String getPassword();
     
+    String getExperiments();
+    
     void setPassword(String password);
     
     /**
