@@ -292,9 +292,13 @@ public class Datacentre implements AllocatorOrDatacentre {
     }
 
     public void setDomains(String domains) {
-        this.domains = Utils.normalizeCsv(domains, Arrays.asList(" ", "\n"), true);
+        this.domains = Utils.normalizeCsvStandard(domains);
     }
     
+    public void setExperiments(String experiments) {
+        this.experiments = Utils.normalizeCsvStandard(experiments);
+    }
+
     public static List<Datacentre> findDatacentresByPrefix (Prefix prefix) {
         List<Datacentre> list = findAllDatacentres();
         Predicate containsPrefix = FilterPredicates.getAllocatorOrDatacentreContainsPrefixPredicate(prefix);

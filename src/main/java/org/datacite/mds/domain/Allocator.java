@@ -19,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 import org.apache.log4j.Logger;
 import org.datacite.mds.util.FilterPredicates;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Email;
 import org.datacite.mds.validation.constraints.Symbol;
 import org.datacite.mds.validation.constraints.Unique;
@@ -149,7 +150,10 @@ public class Allocator implements AllocatorOrDatacentre {
     public long getCountDatasets() {
         return Dataset.countDatasetsByAllocatorOrDatacentre(this);
     }
-
+    
+    public void setExperiments(String experiments) {
+        this.experiments = Utils.normalizeCsvStandard(experiments);
+    }
 
     /**
      * calculate String to be used for magic auth key

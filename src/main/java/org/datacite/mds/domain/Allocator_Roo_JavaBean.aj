@@ -112,8 +112,4 @@ privileged aspect Allocator_Roo_JavaBean {
         return this.experiments;
     }
     
-    public void Allocator.setExperiments(String experiments) {
-        this.experiments = experiments;
-    }
-    
 }

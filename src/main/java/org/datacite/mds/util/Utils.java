@@ -142,6 +142,10 @@ public class Utils {
         log4j.debug("normalizeCsv: " + csv + " -> " + ret);
         return ret;
     }
+    
+    public static String normalizeCsvStandard(String csv) {
+        return normalizeCsv(csv, Arrays.asList(" ", "\n"), true);
+    }
 
     /**
      * returns the hostname of the given URL
