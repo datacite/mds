@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Media;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.PurgeTestPrefixService;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,11 +48,15 @@ public class PurgeTestPrefixServiceImpl implements PurgeTestPrefixService {
             if (dataset.getUpdated().before(expirationDate)) {
                 Metadata latest = Metadata.findLatestMetadatasByDataset(dataset);
                 if (latest == null || latest.getCreated().before(expirationDate)) {
-                    //TODO replace this by JPA cascade?!
+                    // TODO replace this by JPA cascade?!
                     List<Metadata> metadatas = Metadata.findMetadatasByDataset(dataset).getResultList();
-                    for (Metadata metadata: metadatas)
+                    for (Metadata metadata : metadatas)
                         metadata.remove();
-                    
+
+                    List<Media> medias = Media.findMediasByDataset(dataset).getResultList();
+                    for (Media media : medias)
+                        media.remove();
+
                     dataset.remove();
                     count++;
                 }

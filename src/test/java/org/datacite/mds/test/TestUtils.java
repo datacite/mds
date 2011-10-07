@@ -24,6 +24,7 @@ import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Media;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.domain.Prefix;
 import org.springframework.core.io.ClassPathResource;
@@ -163,6 +164,14 @@ public abstract class TestUtils {
         metadata.setDataset(dataset);
         metadata.setXml(setDoiOfMetadata(xml, dataset.getDoi()));
         return metadata;
+    }
+    
+    public static Media createMedia(String mediaType, Dataset dataset) {
+        Media media = new Media();
+        media.setDataset(dataset);
+        media.setMediaType(mediaType);
+        media.setUrl("http://example.com");
+        return media;
     }
 
     public static byte[] getTestMetadata() {

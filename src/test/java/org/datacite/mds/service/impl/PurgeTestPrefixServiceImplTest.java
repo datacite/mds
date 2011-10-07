@@ -10,6 +10,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.time.DateUtils;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Media;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.test.TestUtils;
 import org.junit.Before;
@@ -43,6 +44,7 @@ public class PurgeTestPrefixServiceImplTest {
     Dataset datasetOldWithNewMetadata;
     Metadata metadataOld;
     Metadata metadataNew;
+    Media mediaForDatasetNew;
 
     @Before
     public void init() {
@@ -60,6 +62,9 @@ public class PurgeTestPrefixServiceImplTest {
         datasetOldWithNewMetadata = createDataset(TEST_PREFIX + "/oldWithNewMetadata", oldDate);
         metadataNew = createMetadata(datasetOldWithNewMetadata, newDate);
         metadataOld = createMetadata(datasetOld, oldDate);
+        
+        mediaForDatasetNew = TestUtils.createMedia("text/foobar", datasetNew);
+        mediaForDatasetNew.persist();
     }
 
     private Metadata createMetadata(Dataset dataset, Date created) {
@@ -77,7 +82,7 @@ public class PurgeTestPrefixServiceImplTest {
         em.persist(dataset);
         return dataset;
     }
-
+    
     @Test
     public void testPurgeAll() {
         service.purgeAll();
@@ -87,6 +92,7 @@ public class PurgeTestPrefixServiceImplTest {
         Assert.assertFalse(em.contains(datasetOldWithNewMetadata));
         Assert.assertFalse(em.contains(metadataNew));
         Assert.assertFalse(em.contains(metadataOld));
+        Assert.assertFalse(em.contains(mediaForDatasetNew));
     }
 
     @Test
@@ -98,6 +104,7 @@ public class PurgeTestPrefixServiceImplTest {
         Assert.assertTrue(em.contains(datasetOldWithNewMetadata));
         Assert.assertTrue(em.contains(metadataNew));
         Assert.assertFalse(em.contains(metadataOld));
+        Assert.assertTrue(em.contains(mediaForDatasetNew));
     }
     
     @Test
@@ -110,6 +117,7 @@ public class PurgeTestPrefixServiceImplTest {
         Assert.assertTrue(em.contains(datasetOldWithNewMetadata));
         Assert.assertTrue(em.contains(metadataNew));
         Assert.assertTrue(em.contains(metadataOld));
+        Assert.assertTrue(em.contains(mediaForDatasetNew));
     }
 
 }
