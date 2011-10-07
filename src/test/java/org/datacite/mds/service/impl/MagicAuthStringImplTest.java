@@ -76,6 +76,17 @@ public class MagicAuthStringImplTest {
         assertTrue(service.getValidAuthStrings(null).isEmpty());
     }
     
+    
+    @Test
+    public void testEmptyVsNullPassword() {
+        user.setPassword("");
+        String authStringForEmptyPassword = service.getCurrentAuthString(user);
+        user.setPassword(null);
+        String authStringForNullPassword = service.getCurrentAuthString(user);
+        assertEquals(authStringForEmptyPassword, authStringForNullPassword);
+    }
+
+    
     @Test
     public void testEmptyBasicAuthString() {
         AllocatorOrDatacentre mockUser = EasyMock.createMock(AllocatorOrDatacentre.class);
@@ -84,7 +95,6 @@ public class MagicAuthStringImplTest {
         assertNull(service.getCurrentAuthString(mockUser));
         EasyMock.verify(mockUser);
     }
-    
     
     private void setDate(Date date) {
         try {

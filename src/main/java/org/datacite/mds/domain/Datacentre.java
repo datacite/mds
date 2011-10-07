@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.util.FilterPredicates;
 import org.datacite.mds.util.Utils;
@@ -286,7 +287,7 @@ public class Datacentre implements AllocatorOrDatacentre {
         StringBuilder str = new StringBuilder();
         str.append(getId());
         str.append(getSymbol());
-        str.append(getPassword());
+        str.append(StringUtils.defaultString(getPassword()));
         return str.toString();
     }
 
