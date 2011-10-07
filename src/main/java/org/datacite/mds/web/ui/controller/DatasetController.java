@@ -140,6 +140,7 @@ public class DatasetController implements UiController {
 
         dataset.persist();
         dataset.getDatacentre().incQuotaUsed(Datacentre.ForceRefresh.YES);
+        model.asMap().clear();
         return "redirect:/datasets/" + dataset.getId().toString();
     }
 
@@ -166,12 +167,14 @@ public class DatasetController implements UiController {
             return "datasets/update";
         }
         dataset.merge();
+        model.asMap().clear();
         return "redirect:/datasets/" + dataset.getId().toString();
     }
 
     @RequestMapping(params = "find=ByDoiEquals", method = RequestMethod.GET)
     public String findDatasetsByDoiEquals(@RequestParam("doi") String doi, Model model) {
         Dataset dataset = Dataset.findDatasetByDoi(doi);
+        model.asMap().clear();
         return (dataset == null) ? "datasets/show" : "redirect:/datasets/" + dataset.getId();
     }
 

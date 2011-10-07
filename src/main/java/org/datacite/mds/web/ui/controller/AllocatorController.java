@@ -42,6 +42,7 @@ public class AllocatorController implements UiController {
     @RequestMapping(params = "find=BySymbolEquals", method = RequestMethod.GET)
     public String findAllocatorsBySymbolEquals(@RequestParam("symbol") String symbol, Model model) {
         Allocator allocator = Allocator.findAllocatorBySymbol(symbol);
+        model.asMap().clear();
         return (allocator == null) ? "allocators/show" : "redirect:/allocators/" + allocator.getId();
     }
 
@@ -68,6 +69,7 @@ public class AllocatorController implements UiController {
             mailService.sendAsync(mail);
         }
         
+        model.asMap().clear();
         return "redirect:/allocators/" + allocator.getId();
     }
 
@@ -88,6 +90,7 @@ public class AllocatorController implements UiController {
         }
         allocator.merge();
         UiUtils.refreshSymbolsForSwitchUser(session);
+        model.asMap().clear();
         return "redirect:/allocators/" + allocator.getId();
     }
     

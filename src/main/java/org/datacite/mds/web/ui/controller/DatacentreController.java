@@ -102,6 +102,7 @@ public class DatacentreController implements UiController {
     @RequestMapping(params = "find=BySymbolEquals", method = RequestMethod.GET)
     public String findDatacentresBySymbolEquals(@RequestParam("symbol") String symbol, Model model) {
         Datacentre datacentre = Datacentre.findDatacentreBySymbol(symbol);
+        model.asMap().clear();
         return (datacentre == null) ? "datacentres/show" : "redirect:/datacentres/" + datacentre.getId();
     }
 
@@ -128,6 +129,7 @@ public class DatacentreController implements UiController {
             mailService.sendAsync(mail);
         }
         
+        model.asMap().clear();
         return "redirect:/datacentres/" + datacentre.getId();
     }
 
@@ -147,6 +149,7 @@ public class DatacentreController implements UiController {
         }
         datacentre.merge();
         UiUtils.refreshSymbolsForSwitchUser(session);
+        model.asMap().clear();
         return "redirect:/datacentres/" + datacentre.getId();
     }
     
