@@ -83,13 +83,19 @@ public class AllocatorController implements UiController {
     
     
     @RequestMapping(method = RequestMethod.PUT)
-    public String update(@Valid Allocator allocator, BindingResult result, Model model, HttpSession session) {
+    public String update(@Valid Allocator allocator, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
             return "allocators/update";
         }
         allocator.merge();
         UiUtils.refreshSymbolsForSwitchUser(session);
+        
+        if (BooleanUtils.isTrue(sendWelcomeMail)) {
+            MailMessage mail = mailMessageFactory.createWelcomeAllocatorMail(allocator);
+            mailService.sendAsync(mail);
+        }
+
         model.asMap().clear();
         return "redirect:/allocators/" + allocator.getId();
     }

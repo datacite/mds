@@ -142,13 +142,19 @@ public class DatacentreController implements UiController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public String update(@Valid Datacentre datacentre, BindingResult result, Model model, HttpSession session) {
+    public String update(@Valid Datacentre datacentre, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
             return "datacentres/update";
         }
         datacentre.merge();
         UiUtils.refreshSymbolsForSwitchUser(session);
+        
+        if (BooleanUtils.isTrue(sendWelcomeMail)) {
+            MailMessage mail = mailMessageFactory.createWelcomeDatacentreMail(datacentre);
+            mailService.sendAsync(mail);
+        }
+        
         model.asMap().clear();
         return "redirect:/datacentres/" + datacentre.getId();
     }
