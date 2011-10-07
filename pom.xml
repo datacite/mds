@@ -15,8 +15,8 @@
         <saxon.version>9.1.0.8</saxon.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.tomcat.httpsPort>8443</maven.tomcat.httpsPort>
-	<spring-security.version>3.0.2.RELEASE</spring-security.version>
-    </properties>
+        <spring-security.version>3.0.5.RELEASE</spring-security.version>
+	</properties>
 	<repositories>
         <repository>
             <id>spring-maven-release</id>

@@ -64,7 +64,11 @@
 
 		</property>
 	</bean>
-	
+
+    <bean id="webPrivilegeEvaluator" class="org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator">
+        <constructor-arg ref="filterSecurityInterceptor" />
+    </bean>
+
     <bean id="passwordEncoder" class="org.datacite.mds.service.impl.PasswordEncoderImpl" />
 
     <security:authentication-manager alias="authenticationManager">
