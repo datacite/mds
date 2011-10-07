@@ -59,6 +59,13 @@ public class LoggingAspect {
         log.info("deleted " + target);
     }
     
+    @AfterReturning("execution(public * org.datacite.mds.domain.AllocatorOrDatacentre.persist())")
+    public void logCreateAllocatorOrDatacentre(JoinPoint joinPoint) {
+        Logger log = getLogger(joinPoint);
+        Object target = joinPoint.getTarget();
+        log.info("created " + target);
+    }
+    
     private Logger getLogger(JoinPoint joinPoint) {
         return Logger.getLogger(joinPoint.getSignature().getDeclaringType());
     }
