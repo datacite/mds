@@ -1,5 +1,7 @@
 package org.datacite.mds.web.ui.controller;
 
+import java.util.Collection;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -9,6 +11,7 @@ import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
+import org.datacite.mds.util.Constants;
 import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.UiUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +38,7 @@ public class AllocatorController implements UiController {
     
     @Autowired
     MailMessageFactory mailMessageFactory;
-
+    
     @RequestMapping(params = "find=BySymbolEquals", method = RequestMethod.GET)
     public String findAllocatorsBySymbolEquals(@RequestParam("symbol") String symbol, Model model) {
         Allocator allocator = Allocator.findAllocatorBySymbol(symbol);
@@ -86,5 +90,9 @@ public class AllocatorController implements UiController {
         UiUtils.refreshSymbolsForSwitchUser(session);
         return "redirect:/allocators/" + allocator.getId();
     }
-
+    
+    @ModelAttribute("experiments")
+    public Collection<String> populateExperiments() {
+        return Constants.EXPERIMENTS_AVAILABLE;
+    }
 }

@@ -17,6 +17,7 @@ import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
 import org.datacite.mds.service.MailService;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.util.Constants;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.UiUtils;
@@ -147,5 +148,11 @@ public class DatacentreController implements UiController {
         datacentre.merge();
         UiUtils.refreshSymbolsForSwitchUser(session);
         return "redirect:/datacentres/" + datacentre.getId();
+    }
+    
+    
+    @ModelAttribute("experiments")
+    public Collection<String> populateExperiments() {
+        return Constants.EXPERIMENTS_AVAILABLE;
     }
 }
