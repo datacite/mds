@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Prefix;
@@ -113,16 +114,18 @@ public class DatacentreController implements UiController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@Valid Datacentre datacentre, BindingResult result, Model model, HttpSession session) {
+    public String create(@Valid Datacentre datacentre, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
             return "datacentres/create";
         }
         datacentre.persist();
         UiUtils.refreshSymbolsForSwitchUser(session);
-        
-        MailMessage mail = mailMessageFactory.createWelcomeDatacentreMail(datacentre);
-        mailService.sendAsync(mail);
+     
+        if (BooleanUtils.isTrue(sendWelcomeMail)) {
+            MailMessage mail = mailMessageFactory.createWelcomeDatacentreMail(datacentre);
+            mailService.sendAsync(mail);
+        }
         
         return "redirect:/datacentres/" + datacentre.getId();
     }

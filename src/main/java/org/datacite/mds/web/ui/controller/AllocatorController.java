@@ -3,6 +3,7 @@ package org.datacite.mds.web.ui.controller;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
@@ -50,7 +51,7 @@ public class AllocatorController implements UiController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@Valid Allocator allocator, BindingResult result, Model model, HttpSession session) {
+    public String create(@Valid Allocator allocator, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
             return "allocators/create";
@@ -58,8 +59,10 @@ public class AllocatorController implements UiController {
         allocator.persist();
         UiUtils.refreshSymbolsForSwitchUser(session);
         
-        MailMessage mail = mailMessageFactory.createWelcomeAllocatorMail(allocator);
-        mailService.sendAsync(mail);
+        if (BooleanUtils.isTrue(sendWelcomeMail)) {
+            MailMessage mail = mailMessageFactory.createWelcomeAllocatorMail(allocator);
+            mailService.sendAsync(mail);
+        }
         
         return "redirect:/allocators/" + allocator.getId();
     }
