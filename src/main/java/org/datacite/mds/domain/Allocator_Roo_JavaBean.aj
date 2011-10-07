@@ -116,8 +116,8 @@ privileged aspect Allocator_Roo_JavaBean {
         this.updated = updated;
     }
     
-    public String Allocator.getExperiments() {
-        return this.experiments;
+    public void Allocator.setExperiments(String experiments) {
+        this.experiments = experiments;
     }
     
 }

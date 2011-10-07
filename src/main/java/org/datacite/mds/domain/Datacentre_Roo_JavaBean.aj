@@ -104,8 +104,8 @@ privileged aspect Datacentre_Roo_JavaBean {
         this.created = created;
     }
     
-    public String Datacentre.getExperiments() {
-        return this.experiments;
+    public void Datacentre.setExperiments(String experiments) {
+        this.experiments = experiments;
     }
     
 }

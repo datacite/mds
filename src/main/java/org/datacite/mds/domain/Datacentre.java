@@ -1,5 +1,6 @@
 package org.datacite.mds.domain;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -167,7 +168,6 @@ public class Datacentre implements AllocatorOrDatacentre {
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date created;
     
-    @Size(min = 0, max = 255)
     private String experiments;
 
     public enum ForceRefresh { YES, NO };
@@ -294,15 +294,19 @@ public class Datacentre implements AllocatorOrDatacentre {
         this.domains = Utils.normalizeCsvStandard(domains);
     }
     
-    public void setExperiments(String experiments) {
-        this.experiments = Utils.normalizeCsvStandard(experiments);
-    }
-
     public static List<Datacentre> findDatacentresByPrefix (Prefix prefix) {
         List<Datacentre> list = findAllDatacentres();
         Predicate containsPrefix = FilterPredicates.getAllocatorOrDatacentreContainsPrefixPredicate(prefix);
         CollectionUtils.filter(list, containsPrefix);
         return list;
+    }
+    
+    public Collection<String> getExperiments() {
+        return Utils.csvToList(this.experiments);
+    }
+    
+    public void setExperiments(Collection<String> experiments) {
+        this.experiments = Utils.collectionToCsv(experiments);
     }
     
     private transient long countDatasets; 

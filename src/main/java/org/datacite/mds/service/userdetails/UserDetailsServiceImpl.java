@@ -67,8 +67,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new GrantedAuthorityImpl(role));
         
-        List<String> experiments = Utils.csvToList(user.getExperiments());
-        for (String experiment : experiments) {
+        for (String experiment : user.getExperiments()) {
             String experiment_role = ROLE_EXPERIMENT_PREFIX + experiment.toUpperCase();
             authorities.add(new GrantedAuthorityImpl(experiment_role));
         }

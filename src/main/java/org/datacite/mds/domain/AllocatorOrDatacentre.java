@@ -1,5 +1,6 @@
 package org.datacite.mds.domain;
 
+import java.util.Collection;
 import java.util.Set;
 
 public interface AllocatorOrDatacentre {
@@ -20,7 +21,7 @@ public interface AllocatorOrDatacentre {
     
     String getPassword();
     
-    String getExperiments();
+    Collection<String> getExperiments();
     
     void setPassword(String password);
     

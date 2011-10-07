@@ -2,6 +2,8 @@ package org.datacite.mds.service.userdetails;
 
 import static org.junit.Assert.*;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
@@ -33,7 +35,7 @@ public class UserDetailsServiceImplTest {
     @Before
     public void init() {
         user = TestUtils.createAllocator("DUMMY");
-        user.setExperiments(",fOO\n bar");
+        user.setExperiments(Arrays.asList("fOO","bar"));
         PowerMock.mockStatic(DomainUtils.class);
     }
     

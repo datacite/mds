@@ -99,6 +99,10 @@ public class Utils {
         }
         return Arrays.asList(csv.split(CSV_SEPARATOR.toString(), -1));
     }
+    
+    public static String collectionToCsv(Collection<?> collection) {
+        return StringUtils.join(collection, CSV_SEPARATOR);
+    }
 
     /**
      * <p>

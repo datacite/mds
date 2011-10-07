@@ -1,5 +1,6 @@
 package org.datacite.mds.domain;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -84,7 +85,6 @@ public class Allocator implements AllocatorOrDatacentre {
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date updated;
 
-    @Size(min = 0, max = 255)
     private String experiments;
 
     @SuppressWarnings("unchecked")
@@ -154,8 +154,12 @@ public class Allocator implements AllocatorOrDatacentre {
         return Dataset.countDatasetsByAllocatorOrDatacentre(this);
     }
     
-    public void setExperiments(String experiments) {
-        this.experiments = Utils.normalizeCsvStandard(experiments);
+    public Collection<String> getExperiments() {
+        return Utils.csvToList(this.experiments);
+    }
+    
+    public void setExperiments(Collection<String> experiments) {
+        this.experiments = Utils.collectionToCsv(experiments);
     }
 
     /**
