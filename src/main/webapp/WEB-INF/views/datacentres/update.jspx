@@ -15,7 +15,7 @@
         </util:checkbox>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Datacentre_isActive" z="lrf8mMimLYTsM1DqCg/0Vf08hm0="/>
         <field:textarea field="domains" id="c_org_datacite_mds_domain_Datacentre_domains" z="k0FYxyPWyqAUcdyd1VxoV2ds0jQ="/>
-        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemLabel="labelWithDatacentres" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="true" z="user-managed"/>
+        <field:select field="prefixes" id="c_org_datacite_mds_domain_Datacentre_prefixes" itemLabel="labelWithDatacentres" itemValue="id" items="${prefixes}" multiple="true" path="/prefixes" required="false" z="user-managed"/>
         <field:textarea field="comments" id="c_org_datacite_mds_domain_Datacentre_comments" z="7scBOc9Lbz9U32Wucy+zXfwQRSM="/>
         <util:hide>
             <field:input field="roleName" id="c_org_datacite_mds_domain_Datacentre_roleName" z="IiIfjcIiVFTDLjKbuE73lkxkuL0="/>
