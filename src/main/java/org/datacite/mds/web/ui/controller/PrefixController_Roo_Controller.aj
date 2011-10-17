@@ -7,13 +7,11 @@ import java.io.UnsupportedEncodingException;
 import java.lang.Integer;
 import java.lang.Long;
 import java.lang.String;
-import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.datacite.mds.domain.Prefix;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,11 +73,6 @@ privileged aspect PrefixController_Roo_Controller {
     public String PrefixController.updateForm(@PathVariable("id") Long id, Model uiModel) {
         uiModel.addAttribute("prefix", Prefix.findPrefix(id));
         return "prefixes/update";
-    }
-    
-    @ModelAttribute("prefixes")
-    public Collection<Prefix> PrefixController.populatePrefixes() {
-        return Prefix.findAllPrefixes();
     }
     
     String PrefixController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

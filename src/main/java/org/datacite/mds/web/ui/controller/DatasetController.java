@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@RooWebScaffold(path = "datasets", formBackingObject = Dataset.class, delete = false)
+@RooWebScaffold(path = "datasets", formBackingObject = Dataset.class, delete = false, populateMethods = false)
 @RequestMapping("/datasets")
 @Controller
 public class DatasetController implements UiController {

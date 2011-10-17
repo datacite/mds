@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.Long;
 import java.lang.String;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -15,7 +14,6 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Media;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,11 +60,6 @@ privileged aspect MediaController_Roo_Controller {
         uiModel.asMap().clear();
         media.merge();
         return "redirect:/medias/" + encodeUrlPathSegment(media.getId().toString(), httpServletRequest);
-    }
-    
-    @ModelAttribute("medias")
-    public Collection<Media> MediaController.populateMedias() {
-        return Media.findAllMedias();
     }
     
     String MediaController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

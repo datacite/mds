@@ -6,13 +6,11 @@ package org.datacite.mds.web.ui.controller;
 import java.io.UnsupportedEncodingException;
 import java.lang.String;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriUtils;
@@ -29,11 +27,6 @@ privileged aspect DatasetController_Roo_Controller {
         }
         uiModel.addAttribute("dependencies", dependencies);
         return "datasets/create";
-    }
-    
-    @ModelAttribute("datasets")
-    public Collection<Dataset> DatasetController.populateDatasets() {
-        return Dataset.findAllDatasets();
     }
     
     String DatasetController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

@@ -6,7 +6,6 @@ package org.datacite.mds.web.ui.controller;
 import java.io.UnsupportedEncodingException;
 import java.lang.String;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -14,7 +13,6 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.util.UriUtils;
@@ -42,11 +40,6 @@ privileged aspect MetadataController_Roo_Controller {
         }
         uiModel.addAttribute("dependencies", dependencies);
         return "metadatas/create";
-    }
-    
-    @ModelAttribute("metadatas")
-    public Collection<Metadata> MetadataController.populateMetadatas() {
-        return Metadata.findAllMetadatas();
     }
     
     String MetadataController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {

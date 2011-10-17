@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@RooWebScaffold(path = "medias", formBackingObject = Media.class)
+@RooWebScaffold(path = "medias", formBackingObject = Media.class, populateMethods = false)
 @RequestMapping("/medias")
 @Controller
 public class MediaController {

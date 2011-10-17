@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
-@RooWebScaffold(path = "metadatas", formBackingObject = Metadata.class, delete = false, update = false)
+@RooWebScaffold(path = "metadatas", formBackingObject = Metadata.class, delete = false, update = false, populateMethods = false)
 @RequestMapping("/metadatas")
 @Controller
 public class MetadataController implements UiController {

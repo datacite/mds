@@ -6,12 +6,9 @@ package org.datacite.mds.web.ui.controller;
 import java.io.UnsupportedEncodingException;
 import java.lang.Integer;
 import java.lang.String;
-import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import org.datacite.mds.domain.Allocator;
-import org.datacite.mds.domain.Prefix;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,11 +34,6 @@ privileged aspect AllocatorController_Roo_Controller {
             uiModel.addAttribute("allocators", Allocator.findAllAllocators());
         }
         return "allocators/list";
-    }
-    
-    @ModelAttribute("allocators")
-    public Collection<Allocator> AllocatorController.populateAllocators() {
-        return Allocator.findAllAllocators();
     }
     
     String AllocatorController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
