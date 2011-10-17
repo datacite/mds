@@ -44,11 +44,6 @@ privileged aspect AllocatorController_Roo_Controller {
         return Allocator.findAllAllocators();
     }
     
-    @ModelAttribute("prefixes")
-    public Collection<Prefix> AllocatorController.populatePrefixes() {
-        return Prefix.findAllPrefixes();
-    }
-    
     String AllocatorController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
         String enc = httpServletRequest.getCharacterEncoding();
         if (enc == null) {

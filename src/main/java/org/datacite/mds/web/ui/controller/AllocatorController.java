@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.mail.MailMessage;
 import org.datacite.mds.mail.MailMessageFactory;
 import org.datacite.mds.service.MagicAuthStringService;
@@ -98,6 +99,11 @@ public class AllocatorController implements UiController {
 
         model.asMap().clear();
         return "redirect:/allocators/" + allocator.getId();
+    }
+    
+    @ModelAttribute("prefixes")
+    public Collection<Prefix> populatePrefixes() {
+        return Prefix.findAllPrefixes();
     }
     
     @ModelAttribute("experiments")
