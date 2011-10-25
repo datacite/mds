@@ -3,7 +3,7 @@
 
   <spring:url var="dc_logo" value="/resources/images/dc-logo.gif" />
   <spring:url var="home" value="/" />
-  <spring:message code="button_home" var="home_label" />
+  <spring:message code="button_home" var="home_label" htmlEscape="false"/>
   
   <div id="title">
     <a href="${home}" name="${fn:escapeXml(home_label)}" title="${fn:escapeXml(home_label)}">

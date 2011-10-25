@@ -20,7 +20,7 @@
     <c:set var="typeName" value="${fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1]}" />
 
     <c:if test="${empty label}">
-      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false"/>
     </c:if>
     <c:if test="${empty createMessageCode}">
       <c:set var="createMessageCode" value="entity_new" />

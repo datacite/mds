@@ -19,7 +19,7 @@
   </c:if>
   
   <c:if test="${empty label}">
-    <spring:message code="table_of_contents" var="label"/>
+    <spring:message code="table_of_contents" var="label" htmlEscape="false"/>
   </c:if>
 
   <spring:url value="/resources/js/autotoc.js" var="autotoc_url" />

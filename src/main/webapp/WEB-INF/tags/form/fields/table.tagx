@@ -23,7 +23,7 @@
     <c:set var="columnMaxLengths" scope="request" />
     
     <c:if test="${empty label}">
-      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false"/>
     </c:if>
     
 
@@ -87,7 +87,7 @@
           <td>
             <spring:url value="${path}/${item[typeIdFieldName]}" var="show_form_url" />
             <spring:url value="/resources/images/show.png" var="show_image_url" />
-            <spring:message arguments="${label}" code="entity_show" var="show_label" />
+            <spring:message arguments="${label}" code="entity_show" var="show_label" htmlEscape="false"/>
             <a href="${fn:escapeXml(show_form_url)}" alt="${fn:escapeXml(show_label)}" title="${fn:escapeXml(show_label)}">
               <img alt="${fn:escapeXml(show_label)}" class="image" src="${fn:escapeXml(show_image_url)}" title="${fn:escapeXml(show_label)}" />
             </a>
@@ -98,7 +98,7 @@
                 <spring:param name="j_username" value="${item[switchToUserField]}"/>
               </spring:url>
               <spring:url value="/resources/images/page_go.png" var="switch_to_image_url" />
-              <spring:message arguments="${typeName}" code="entity_switch_to" var="switch_to_label" />
+              <spring:message arguments="${typeName}" code="entity_switch_to" var="switch_to_label" htmlEscape="false"/>
               <a href="${fn:escapeXml(switch_to_url)}" alt="${fn:escapeXml(switch_to_label)}" title="${fn:escapeXml(switch_to_label)}">
                 <img alt="${fn:escapeXml(switch_to_label)}" class="image" src="${fn:escapeXml(switch_to_image_url)}" title="${fn:escapeXml(switch_to_label)}" />
               </a>
@@ -110,7 +110,7 @@
                 <spring:param name="form" />
               </spring:url>
               <spring:url value="/resources/images/update.png" var="update_image_url" />
-              <spring:message arguments="${label}" code="entity_update" var="update_label" />
+              <spring:message arguments="${label}" code="entity_update" var="update_label" htmlEscape="false"/>
               <a href="${fn:escapeXml(update_form_url)}" alt="${fn:escapeXml(update_label)}" title="${fn:escapeXml(update_label)}">
                 <img alt="${fn:escapeXml(update_label)}" class="image" src="${fn:escapeXml(update_image_url)}" title="${fn:escapeXml(update_label)}" />
               </a>
@@ -121,10 +121,10 @@
               <spring:url value="${path}/${item[typeIdFieldName]}" var="delete_form_url" />
               <spring:url value="/resources/images/delete.png" var="delete_image_url" />
               <form:form action="${fn:escapeXml(delete_form_url)}" method="DELETE">
-                <spring:message arguments="${label}" code="entity_delete" var="delete_label" />
+                <spring:message arguments="${label}" code="entity_delete" var="delete_label" htmlEscape="false"/>
                 <c:set var="delete_confirm_msg">
                   <spring:escapeBody javaScriptEscape="true">
-                    <spring:message code="entity_delete_confirm" />
+                    <spring:message code="entity_delete_confirm" htmlEscape="false" />
                   </spring:escapeBody>
                 </c:set>
                 <input alt="${fn:escapeXml(delete_label)}" class="image" src="${fn:escapeXml(delete_image_url)}" title="${fn:escapeXml(delete_label)}" type="image" value="${fn:escapeXml(delete_label)}" onclick="return confirm('${delete_confirm_msg}');" />

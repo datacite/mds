@@ -10,7 +10,7 @@
       <c:set value="false" var="checked"/>
     </c:if>
     <c:if test="${empty label}">
-      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" />
+      <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false"/>
     </c:if>
     <c:set value="${fn:escapeXml(id)}" var="sec_id"/>
    
