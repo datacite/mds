@@ -20,6 +20,8 @@ my %opts;             #Getopt::Std
 sub main() {
   getopts("hlnp:st:u:v", \%opts) or pod2usage();
   pod2usage() if $opts{h};
+  
+  $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0 if $opts{l};
 
   my ($resource, $method, $query, $content, $content_type);
   my $default_user_name = $DEFAULT_DC_SYMBOL;
