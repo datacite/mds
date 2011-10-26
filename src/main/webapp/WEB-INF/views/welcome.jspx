@@ -3,34 +3,51 @@
 	xmlns:util="urn:jsptagdir:/WEB-INF/tags/util"
 	xmlns:spring="http://www.springframework.org/tags" version="2.0">
 <util:crypt-mail-setup/>
-<spring:url var="api_doc" value="static/apidoc" /> 
-<h1>What is this service?</h1>
-<p>The <a href="https://mds.datacite.org/" title="DataCite Metadata Store">DataCite Metadata Store</a> 
-is a service for data publishers to mint DOIs and register associated metadata. The service 
-requires organisations to first register for an account with a 
-<a href="http://www.datacite.org/members" title="DataCite Member">DataCite Member</a>. 
-For information on setting up an account, see our 
-'<a href="http://www.datacite.org/faqs" title="Frequently asked questions">Frequently asked questions</a>'.</p>
-<h1>Who can use this service?</h1>
-<p>DataCite will work with data publishers - organisations that maintain and 
-make available research data. In most cases this will be established and dedicated 
-data centres, though institutional repositories and supplementary data archives 
-are also considered data publishers. This service is aimed at scientific and 
-research data publishers.</p>
-<p>Data generators, researchers for example, who wish to obtain DataCite DOIs will 
-first establish the most appropriate data publisher for their data and 
-deposit their datasets there. The publisher can then obtain DOIs from a DataCite member.</p>
-<h1>I have datasets and want to mint DOIs! How can I use this service?</h1>
-<p>There are two steps. Firstly, you will need to register with our service. 
-Please contact a DataCite member who will 
-get in touch with you to discuss your eligibility, requirements and 
-responsibilities. If you qualify, they will provide you a user name, 
-password and other necessary information.</p>
-<p>Secondly, you will need to use our <a href="${api_doc}">application programming interface (API)</a> 
-to mint DOIs. It is recommended that you integrate minting and updating DOIs with your 
-metadata management infrastructure. So if, for example, a URL changes, automatic 
-notification will be pushed to our service and the updated URL will be used 
-for resolving the DOI.</p>
-<h1>How can I contact you?</h1>
-<p>For membership please contact <script>mail("admin","datacite",1,"")</script>. For technical information please email us at <script>mail("tech","datacite",1,"")</script></p>
+
+<c:set var="link_mds">
+  <a href="https://mds.datacite.org/"> 
+    <spring:message code="application_name"/>
+  </a>
+</c:set>
+
+<c:set var="link_member">
+  <a href="http://www.datacite.org/members">
+    <spring:message code="welcome_link_member"/>
+  </a>
+</c:set>
+
+<c:set var="link_faq">
+  <a href="http://www.datacite.org/faqs">
+    <spring:message code="welcome_link_faq"/>
+  </a>
+</c:set>
+
+<spring:url var="api_doc_url" value="static/apidoc"/> 
+<c:set var="link_api">
+  <a href="${api_doc_url}">
+    <spring:message code="welcome_link_api"/>
+  </a>
+</c:set>
+
+<c:set var="mail_contact"> 
+  <script>mail("admin","datacite",1,"")</script>
+</c:set>
+
+<c:set var="mail_tech">
+  <script>mail("tech","datacite",1,"")</script>
+</c:set>
+
+<h1><spring:message code="welcome_paragraph_what_heading"/></h1>
+<p><spring:message code="welcome_paragraph_what_text" arguments="${link_mds},${link_member},${link_faq}" htmlEscape="false"/></p>
+
+<h1><spring:message code="welcome_paragraph_who_heading"/></h1>
+<p><spring:message code="welcome_paragraph_who_text"/></p>
+
+<h1><spring:message code="welcome_paragraph_how_heading"/></h1>
+<p><spring:message code="welcome_paragraph_how_text"/></p>
+<p><spring:message code="welcome_paragraph_how_text2" arguments="${link_api}" htmlEscape="false"/></p>
+
+<h1><spring:message code="welcome_paragraph_contact_heading"/></h1>
+<p><spring:message code="welcome_paragraph_contact_text" arguments="${mail_contact}:${mail_tech}" argumentSeparator=":" htmlEscape="false"/></p>
+
 </div>
