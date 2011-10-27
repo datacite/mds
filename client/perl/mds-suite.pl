@@ -7,6 +7,7 @@ use Pod::Usage;
 use LWP;
 use Crypt::SSLeay;    # SSL for LWP
 use Term::ReadKey;    # for password reading
+use URI;
 use URI::Escape;
 
 my $GLOBAL_SERVER     = 'mds.datacite.org';
@@ -18,12 +19,12 @@ my $DEFAULT_AL_PW     = '87654321';
 my %opts;             #Getopt::Std
 
 sub main() {
-  getopts("c:hlnp:su:v", \%opts) or pod2usage();
+  getopts("c:hlnp:stu:v", \%opts) or pod2usage();
   pod2usage() if $opts{h};
   
   $ENV{PERL_LWP_SSL_VERIFY_HOSTNAME} = 0 if $opts{l};
 
-  my ($resource, $method, $query, $content, $content_type);
+  my ($resource, $method, %query, $content, $content_type);
   my $default_user_name = $DEFAULT_DC_SYMBOL;
   my $default_user_pw   = $DEFAULT_DC_PW;
   my $command = lc shift @ARGV or pod2usage("missing command");
@@ -61,7 +62,7 @@ sub main() {
       $content_type = 'application/xml;charset=UTF-8';
       $method = uc shift @ARGV or pod2usage("missing method");
       my $symbol = shift @ARGV or pod2usage("missing symbol");
-      $query = "?symbol=$symbol";
+      $query{symbol} = $symbol;
     }
     case "generic" {
       $method = uc shift @ARGV or pod2usage("missing method");
@@ -81,9 +82,13 @@ sub main() {
   my $user_pw = $opts{p} || ($opts{u} ? read_pw() : $default_user_pw);
 
   my $domain = $opts{l} ? $LOCAL_SERVER : $GLOBAL_SERVER;
+  
+  $query{testMode} = "true" if $opts{t};
+  
+  my $url = URI->new("https://$domain/$resource");
+  $url->query_form(%query);
 
-  my $response_code =  do_request($method,
-    "https://$domain/$resource$query",
+  my $response_code =  do_request($method, $url,
     $user_name, $user_pw, $content, $content_type);
     
   exit $response_code;
@@ -164,6 +169,7 @@ __END__
    -l          - use a local test server
    -n          - no credentials (only for testing)
    -s          - short output (truncate request/response body)
+   -t          - enable testMode
    -u <symbol> - username (defaults to value specified in the script)
    -v          - verbose (display complete request and response)
 
