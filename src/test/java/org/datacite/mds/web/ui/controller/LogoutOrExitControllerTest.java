@@ -24,7 +24,7 @@ public class LogoutOrExitControllerTest {
     @Test
     public void testNonSwitchedUser() {
         TestUtils.setUsernamePassword("foo", "bar");
-        String view = controller.logoutOrExit();
+        String view = controller.logoutOrReturn();
         Assert.assertEquals("redirect:/resources/j_spring_security_logout", view);
     }
 
@@ -36,7 +36,7 @@ public class LogoutOrExitControllerTest {
         Authentication switchedAuthentication = new TestingAuthenticationToken("foo", "bar", swichUserAuthority);
         SecurityContextHolder.getContext().setAuthentication(switchedAuthentication);
         
-        String view = controller.logoutOrExit();
+        String view = controller.logoutOrReturn();
         Assert.assertEquals("redirect:/resources/j_spring_security_exit_user", view);
     }
 }
