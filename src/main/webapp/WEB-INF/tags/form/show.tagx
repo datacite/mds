@@ -41,7 +41,7 @@
 
     <c:set var="typeName" value="${fn:split(id,'_')[fn:length(fn:split(id,'_')) - 1]}" />
 
-    <spring:message arguments="${label}" code="entity_show" var="title_msg" />
+    <spring:message arguments="${label}" code="entity_show" var="title_msg" htmlEscape="false"/>
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <c:if test="${not empty introMessageCode}">
         <p>

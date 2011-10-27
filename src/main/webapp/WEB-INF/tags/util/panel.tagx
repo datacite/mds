@@ -20,7 +20,7 @@
     </c:set>
     
     <c:set var="sec_title">
-      <spring:escapeBody javaScriptEscape="true" >${title}</spring:escapeBody>
+      <spring:escapeBody javaScriptEscape="true" htmlEscape="false" >${title}</spring:escapeBody>
     </c:set>
     
     <script type="text/javascript">dojo.require('dijit.TitlePane');</script>

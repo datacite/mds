@@ -12,7 +12,7 @@
     <c:if test="${empty label}">
       <spring:message code="label_${fn:toLowerCase(fn:substringAfter(id,'_'))}" var="label" htmlEscape="false"/>
     </c:if>
-    <spring:message arguments="${fn:escapeXml(label)}" code="entity_find" var="title_msg"/>
+    <spring:message arguments="${fn:escapeXml(label)}" code="entity_find" var="title_msg" htmlEscape="false"/>
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <spring:url value="${path}" var="form_url" />
       <form:form action="${fn:escapeXml(form_url)}" method="GET">

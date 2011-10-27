@@ -22,7 +22,7 @@
     <c:if test="${empty versionField}">
       <c:set value="version" var="versionField" />
     </c:if>
-    <spring:message arguments="${label}" code="entity_update" var="title_msg" />
+    <spring:message arguments="${label}" code="entity_update" var="title_msg" htmlEscape="false"/>
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <c:if test="${not empty introMessageCode}">
         <p>

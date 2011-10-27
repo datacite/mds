@@ -22,7 +22,7 @@
         </util:hide>
     </form:update>
 
-    <spring:message arguments="Metadata" code="entity_store" var="title_msg"/>
+    <spring:message arguments="Metadata" code="entity_store" var="title_msg" htmlEscape="false"/>
     <util:panel id="fc_org_datacite_mds_domain_Metadata" title="${title_msg}" >
         <spring:url htmlEscape="false" value="/metadatas" var="create_metadata_url">
           <spring:param name="form" />

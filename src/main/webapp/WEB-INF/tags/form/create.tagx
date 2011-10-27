@@ -22,7 +22,7 @@
     <c:if test="${upload}">
       <c:set var="enctype" value="multipart/form-data"/>
     </c:if>
-    <spring:message arguments="${label}" code="${messageCode}" var="title_msg"/>
+    <spring:message arguments="${label}" code="${messageCode}" var="title_msg" htmlEscape="false"/>
     <util:panel id="${id}" title="${title_msg}" openPane="${openPane}">
       <c:if test="${not empty introMessageCode}">
         <p>
