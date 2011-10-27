@@ -39,7 +39,7 @@
             <props>
               <!-- cache: 604800 = 1 week -->
               <prop key="/resources/**/*">604800</prop>
-              <prop key="/resources/logout_or_exit">-1</prop>
+              <prop key="/resources/logout_or_return">-1</prop>
             </props>
           </property>
         </bean>

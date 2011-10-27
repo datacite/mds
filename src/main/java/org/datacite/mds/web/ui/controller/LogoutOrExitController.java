@@ -17,8 +17,8 @@ public class LogoutOrExitController implements UiController {
      * If the current user is logged in by "switch user", return to the original
      * user. Otherwise do a normal logout.
      */
-    @RequestMapping(value = "/resources/logout_or_exit", method = RequestMethod.GET)
-    public String logoutOrExit() {
+    @RequestMapping(value = "/resources/logout_or_return", method = RequestMethod.GET)
+    public String logoutOrReturn() {
         Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
         for (GrantedAuthority auth : currentAuth.getAuthorities()) {
             if (auth instanceof SwitchUserGrantedAuthority) {
