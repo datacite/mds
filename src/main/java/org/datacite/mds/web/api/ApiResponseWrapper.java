@@ -28,7 +28,7 @@ public class ApiResponseWrapper extends HttpServletResponseWrapper {
         msg = StringUtils.replace(msg, NEW_LINE, " - ");
         log.debug("sendError " + sc + ": " + msg);
         setStatus(sc);
-        getWriter().println(msg);
+        getWriter().print(msg);
     }
 
     @Override
