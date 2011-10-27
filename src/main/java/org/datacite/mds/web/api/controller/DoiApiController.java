@@ -15,6 +15,7 @@ import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.api.ApiController;
+import org.datacite.mds.web.api.ApiUtils;
 import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,7 +142,8 @@ public class DoiApiController implements ApiController {
             StringBuffer location = httpRequest.getRequestURL().append("/" + doi);
             headers.set("Location", location.toString());
         }
-        return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
+        String message = ApiUtils.makeResponseMessage("OK", testMode);
+        return new ResponseEntity<String>(message, headers, HttpStatus.CREATED);
     }
 
 }

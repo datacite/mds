@@ -18,6 +18,7 @@ import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.ApiController;
+import org.datacite.mds.web.api.ApiUtils;
 import org.datacite.mds.web.api.DeletedException;
 import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,7 +142,8 @@ public class MetadataApiController implements ApiController {
             StringBuffer location = httpRequest.getRequestURL().append("/" + doi);
             headers.set("Location", location.toString());
         }
-        return new ResponseEntity<String>("OK", headers, HttpStatus.CREATED);
+        String message = ApiUtils.makeResponseMessage("OK", testMode);
+        return new ResponseEntity<String>(message, headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "**", method = RequestMethod.DELETE)
@@ -171,6 +173,7 @@ public class MetadataApiController implements ApiController {
         }
 
         HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<String>("OK", headers, HttpStatus.OK);
+        String message = ApiUtils.makeResponseMessage("OK", testMode);
+        return new ResponseEntity<String>(message, headers, HttpStatus.OK);
     }
 }
