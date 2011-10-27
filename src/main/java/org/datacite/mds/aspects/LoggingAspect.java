@@ -4,7 +4,9 @@ import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.ValidationUtils;
 import org.springframework.validation.BindingResult;
 
@@ -64,6 +66,14 @@ public class LoggingAspect {
         Logger log = getLogger(joinPoint);
         Object target = joinPoint.getTarget();
         log.info("created " + target);
+    }
+    
+    @Before("execution(@org.springframework.web.bind.annotation.RequestMapping * *.*(..))")
+    public void logController(JoinPoint joinPoint) {
+        Logger log = getLogger(joinPoint);
+        String method = joinPoint.getSignature().getName();
+        String symbol = SecurityUtils.getCurrentSymbolOrNull();
+        log.debug(method + "() executed by " + symbol);
     }
     
     private Logger getLogger(JoinPoint joinPoint) {

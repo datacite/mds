@@ -94,7 +94,7 @@ public class SecurityUtils {
             return getCurrentAllocatorOrNull();
     }
 
-    private static String getCurrentSymbolOrNull() {
+    public static String getCurrentSymbolOrNull() {
         Authentication currentAuth = getCurrentAuthentication();
         if (currentAuth == null) {
             return null;
