@@ -1,6 +1,7 @@
 package org.datacite.mds.web.ui.controller;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.UiController;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +20,9 @@ public class LogoutOrExitController implements UiController {
      */
     @RequestMapping(value = "/resources/logout_or_return", method = RequestMethod.GET)
     public String logoutOrReturn() {
+        if (! SecurityUtils.isLoggedIn())
+            return "redirect:/";
+            
         Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
         for (GrantedAuthority auth : currentAuth.getAuthorities()) {
             if (auth instanceof SwitchUserGrantedAuthority) {
