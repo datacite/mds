@@ -27,8 +27,8 @@ body {
 	margin-right: auto;
 	margin-left: auto;
 
-	/* fix max-width incompatibility in IE6 */
-	width:expression(document.body.clientWidth > 800? "800px": "auto" );
+	/* fix max-width incompatibility in IE6/IE7 */
+	width:expression(document.body.clientWidth < 800? "800px": "auto" );
 	
 	overflow:hidden;
 	display:block;
