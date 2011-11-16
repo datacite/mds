@@ -543,7 +543,7 @@ pre {
     padding-left: 20px;
 }
            
-label:not([title=""]), th:not([title=""]) {
+label:not([title=""]), th:not([title=" "]) {
     cursor: help;
 }
 
