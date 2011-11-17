@@ -14,8 +14,8 @@
   
   <div id="topmenu">
     <sec:authorize ifAnyGranted="ROLE_DEV,ROLE_ADMIN,ROLE_ALLOCATOR">
-      <spring:url value="/resources/j_spring_security_switch_user" var="switch"/>
-      <form id="form_switch_user" action="${switch}">
+      <spring:url value="/resources/j_spring_security_switch_user" var="switch_url"/>
+      <form id="form_switch_user" action="${switch_url}">
         <label><spring:message code="security_switch_user"/></label>
         <select id="form_switch_user_select" name="j_username">
            <c:forEach items="${symbols}" var="symbol">
