@@ -11,7 +11,7 @@
 		<util:load-scripts />
 		
 		<spring:message code="application_name" var="app_name"/>
-		<title><spring:message code="welcome_titlepane" arguments="${app_name}" /></title>
+		<title><spring:message code="welcome_titlepane" arguments="${app_name}" htmlEscape="false"/></title>
 	</head>
 	
   	<body class="tundra spring">
