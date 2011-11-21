@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
     <c:set value="${not empty datacentre}" var="scopeDatacentre"/>
     <c:set value="${empty datacentre}" var="scopeAllocator"/>
+     
+    <form:create id="fc_org_datacite_mds_web_ui_model_ChangePasswordMailModel" modelAttribute="mail" openPane="false" path="/resources/change_password_mail" >
+      <util:hide>
+        <field:input id="c_org_datacite_mds_web_ui_model_ChangePasswordMailModel_symbol" field="symbol" required="true" />
+      </util:hide>
+    </form:create>
+    
     <page:show create="false" delete="false" id="ps_org_datacite_mds_userinfo_Stats" list="false" object="${allocator}" path="/datacentres" update="false" z="user-managed">
         <field:simple id="s_org_datacite_mds_userinfo_Stats_datasets" field="count" text="${countDatasets}" render="${scopeDatacentre}" z="user-managed"/>
         <c:if test="${(scopeDatacentre and datacentre.doiQuotaAllowed != -1) or

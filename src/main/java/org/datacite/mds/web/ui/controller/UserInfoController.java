@@ -12,9 +12,11 @@ import org.datacite.mds.domain.Prefix;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.UiController;
+import org.datacite.mds.web.ui.model.ChangePasswordMailModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -67,6 +69,13 @@ public class UserInfoController implements UiController {
             if (!prefix.getPrefix().equals(testPrefix))
                 labels.add(prefix.getLabelWithDatacentres());
         model.addAttribute("prefixes", labels);
+    }
+    
+    @ModelAttribute("mail")
+    private ChangePasswordMailModel populateChangePasswordMailModel() {
+        ChangePasswordMailModel mailModel = new ChangePasswordMailModel();
+        mailModel.setSymbol(SecurityUtils.getCurrentSymbolOrNull());
+        return mailModel;
     }
     
 }
