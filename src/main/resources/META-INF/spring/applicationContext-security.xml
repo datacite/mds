@@ -52,7 +52,7 @@
                 <security:intercept-url pattern="/medias/**" access="ROLE_DATACENTRE,ROLE_ALLOCATOR,ROLE_DEV" />
                 <security:intercept-url pattern="/prefixes/**" access="ROLE_ADMIN,ROLE_DEV" />
                 <security:intercept-url pattern="/oaisourceses/**" access="ROLE_ADMIN,ROLE_DEV" />
-                <security:intercept-url pattern="/userinfo/**" access="ROLE_ALLOCATOR,ROLE_DATACENTRE,ROLE_DEV" />
+                <security:intercept-url pattern="/userinfo/**" access="ROLE_ALLOCATOR,ROLE_DATACENTRE,ROLE_ADMIN,ROLE_DEV" />
                                                                         
         
                 <!-- static content -->
