@@ -4,7 +4,7 @@
     <c:set value="${not empty datacentre}" var="scopeDatacentre"/>
     <c:set value="${empty datacentre}" var="scopeAllocator"/>
      
-    <form:create id="fc_org_datacite_mds_userinfo_change_password" messageCode="label_org_datacite_mds_userinfo_change_password" modelAttribute="mail" openPane="false" path="/resources/change_password_mail" submitMessageCode="label_org_datacite_mds_userinfo_change_password_button">
+    <form:create id="fc_org_datacite_mds_userinfo_change_password" messageCode="global_generic" modelAttribute="mail" openPane="false" path="/resources/change_password_mail" submitMessageCode="label_org_datacite_mds_web_ui_model_changepasswordmailmodel">
       <util:hide>
         <field:input id="c_org_datacite_mds_web_ui_model_ChangePasswordMailModel_symbol" field="symbol" required="true" />
       </util:hide>
