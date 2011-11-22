@@ -60,7 +60,7 @@
     <span>
       <spring:url value="/userinfo" var="userinfo"/>
       <a href="${userinfo}">
-        <spring:message code="userinfo"/>
+        <spring:message code="label_org_datacite_mds_userinfo"/>
       </a>
     </span>
     <c:out value=" | "/>
