@@ -21,15 +21,18 @@ public abstract class AbstractTool {
     
     @SuppressWarnings("unchecked")
     public static final void initAndRun(String[] args) {
+        AbstractApplicationContext context = null;
         try {
-            AbstractApplicationContext context = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
+            context = new ClassPathXmlApplicationContext(APPLICATION_CONTEXT);
             String callingClassName = Thread.currentThread().getStackTrace()[2].getClassName();
             Class<AbstractTool> callingClass = (Class<AbstractTool>) Class.forName(callingClassName);
             AbstractTool tool = context.getBean(callingClass);
             tool.run(args);
-            context.close();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+        } finally {
+            if (context != null)
+                context.close();
         }
     }
     
