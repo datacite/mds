@@ -41,8 +41,9 @@ public class DatasetCreator extends AbstractTool {
 
         String line = reader.readLine();
         while (line != null) {
-            if (StringUtils.isNotEmpty(line))
-                addDataset(datacentre, line);
+            String doi = StringUtils.trimToNull(line);
+            if (doi != null)
+                addDataset(datacentre, doi);
             line = reader.readLine();
         }
     }
