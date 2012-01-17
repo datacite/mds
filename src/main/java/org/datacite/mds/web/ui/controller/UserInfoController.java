@@ -53,7 +53,13 @@ public class UserInfoController implements UiController {
     private void addDatacentreToModel(Datacentre datacentre, Model model) {
         log.debug("userinfo for datacentre '" + datacentre.getSymbol() + "'");
         model.addAttribute("datacentre", datacentre);
-        model.addAttribute("countDatasets", Dataset.countDatasetsByAllocatorOrDatacentre(datacentre));
+        
+        long countDatasets = Dataset.countDatasetsByAllocatorOrDatacentre(datacentre);
+        long countTestDatasets = Dataset.countTestDatasetsByAllocatorOrDatacentre(datacentre);
+        long countNonTestDatasets = countDatasets - countTestDatasets;
+        model.addAttribute("countDatasets", countDatasets);
+        model.addAttribute("countTestDatasets", countTestDatasets);
+        model.addAttribute("countNonTestDatasets", countNonTestDatasets);
     }
 
     private void addAllocatorToModel(Allocator allocator, Model model) {
