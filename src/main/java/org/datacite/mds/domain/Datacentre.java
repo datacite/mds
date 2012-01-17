@@ -313,7 +313,8 @@ public class Datacentre implements AllocatorOrDatacentre {
     private transient long countDatasets; 
     
     public long getCountDatasets() {
-        return Dataset.countDatasetsByAllocatorOrDatacentre(this);
+        return Dataset.countDatasetsByAllocatorOrDatacentre(this)
+                - Dataset.countTestDatasetsByAllocatorOrDatacentre(this);
     }
     
     @Override

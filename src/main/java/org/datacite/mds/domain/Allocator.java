@@ -152,7 +152,8 @@ public class Allocator implements AllocatorOrDatacentre {
     private transient long countDatasets; 
     
     public long getCountDatasets() {
-        return Dataset.countDatasetsByAllocatorOrDatacentre(this);
+        return Dataset.countDatasetsByAllocatorOrDatacentre(this)
+                - Dataset.countTestDatasetsByAllocatorOrDatacentre(this);
     }
     
     public Collection<String> getExperiments() {
