@@ -2,6 +2,7 @@ package org.datacite.mds.domain;
 
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
 import javax.persistence.JoinColumn;
@@ -14,6 +15,7 @@ import javax.validation.GroupSequence;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.log4j.Logger;
 import org.datacite.mds.util.Utils;
@@ -32,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RooJavaBean
 @RooToString
 @RooEntity(finders = { "findDatasetsByDoiEquals" })
+@Doi
 @MatchDoiPrefix(groups = Dataset.SecondLevelConstraint.class)
 @MatchDomain(groups = Dataset.SecondLevelConstraint.class)
 @Unique(field = "doi")
@@ -41,8 +44,8 @@ public class Dataset {
     private static Logger log4j = Logger.getLogger(Dataset.class);
 
     @NotNull
-    @Doi
     @Column(unique = true)
+    @Size(max = 255)
     private String doi;
 
     @NotNull

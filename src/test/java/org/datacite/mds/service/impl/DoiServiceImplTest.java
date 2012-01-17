@@ -43,6 +43,7 @@ public class DoiServiceImplTest {
     final String DATACENTRE_SYMBOL2 = "AL.DC-TWO";
     final String PREFIX = "10.5072";
     final String DOI = "10.5072/TEST";
+    final String DOI_WITH_SPACES="10.5072/foo bar";
     final String DOI_WRONG = "10.1000/TEST";
     final String DOMAIN = "example.com";
     final String URL = "http://" + DOMAIN;
@@ -142,7 +143,7 @@ public class DoiServiceImplTest {
         login(null);
         doiService.createOrUpdate(DOI, URL, false);
     }
-
+    
     @Test
     public void testCreateOrUpdateExistingDataset() throws Exception {
         createDataset(DOI, datacentre).persist();
@@ -155,7 +156,23 @@ public class DoiServiceImplTest {
         expectHandleServiceUpdate(DOI, URL);
         doiService.createOrUpdate(DOI, URL, false);
     }
+    
+    @Test(expected = ValidationException.class)
+    public void testCreateOrUpdateDoiWithSpaces() throws Exception {
+        doiService.createOrUpdate(DOI_WITH_SPACES, URL, false);
+    }
 
+    @Test
+    public void testCreateOrUpdateExistingDoiWithSpaces() throws Exception {
+        Dataset dataset = createDataset(DOI, datacentre);
+        dataset.persist();
+        dataset.setDoi(DOI_WITH_SPACES);
+        dataset.merge();
+        
+        expectHandleServiceUpdate(DOI_WITH_SPACES, URL);
+        doiService.createOrUpdate(DOI_WITH_SPACES, URL, false);
+    }
+    
     private void expectHandleServiceUpdate(String doi, String url) throws HandleException {
         EasyMock.reset(mockHandleService);
         mockHandleService.create(doi, url);
