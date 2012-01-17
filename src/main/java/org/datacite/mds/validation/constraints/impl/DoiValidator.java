@@ -9,6 +9,8 @@ import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.constraints.Doi;
 
 public class DoiValidator implements ConstraintValidator<Doi, String> {
+    
+    String node;
 
     public void initialize(Doi constraintAnnotation) {
         // nothing to initialize
@@ -39,6 +41,11 @@ public class DoiValidator implements ConstraintValidator<Doi, String> {
     }
     
     private void addCustomMessage(String type, ConstraintValidatorContext context) {
-        ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints." + type + "}");
+        String msg = "{org.datacite.mds.validation.constraints." + type + "}";
+        ValidationUtils.addConstraintViolation(context, msg, node);
+    }
+
+    public void setNodeForMessage(String node) {
+        this.node = node;
     }
 }

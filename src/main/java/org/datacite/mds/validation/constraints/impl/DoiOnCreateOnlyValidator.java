@@ -13,6 +13,7 @@ public class DoiOnCreateOnlyValidator implements ConstraintValidator<Doi, Datase
     public void initialize(Doi constraintAnnotation) {
         doiValidator = new DoiValidator();
         doiValidator.initialize(constraintAnnotation);
+        doiValidator.setNodeForMessage("doi");
     }
 
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
