@@ -18,6 +18,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.apache.log4j.Logger;
+import org.datacite.mds.util.Constants;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.validation.constraints.Doi;
 import org.datacite.mds.validation.constraints.MatchDoiPrefix;
@@ -108,7 +109,7 @@ public class Dataset {
         return q.getResultList();
     }
 
-    public static long countDatasetsByAllocatorOrDatacentre(AllocatorOrDatacentre user) {
+    public static long countDatasetsByAllocatorOrDatacentre(AllocatorOrDatacentre user, String prefix) {
         EntityManager em = entityManager();
         String hql;
         if (user instanceof Allocator)
@@ -116,11 +117,27 @@ public class Dataset {
         else
             hql = "SELECT COUNT(*) FROM Dataset AS dataset WHERE dataset.datacentre = :user";
         
+        if (prefix != null)
+            hql += " AND dataset.doi like :prefix";
+        
         TypedQuery<Long> q = em.createQuery(hql, Long.class);
         q.setParameter("user", user);
+        
+        if (prefix != null)
+            q.setParameter("prefix", prefix + "/%");
+        
         return q.getSingleResult();
     }
 
+    public static long countDatasetsByAllocatorOrDatacentre(AllocatorOrDatacentre user) {
+        return countDatasetsByAllocatorOrDatacentre(user, null);
+    }
+
+    public static long countTestDatasetsByAllocatorOrDatacentre(AllocatorOrDatacentre user) {
+        return countDatasetsByAllocatorOrDatacentre(user, Constants.TEST_PREFIX);
+    }
+
+    
     @Transactional
     public void persist() {
         Date date = new Date();
