@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Prefix;
@@ -42,29 +43,33 @@ public class UserInfoController implements UiController {
         addDatacentreToModel(datacentre, model);
         Allocator allocator = datacentre.getAllocator();
         addAllocatorToModel(allocator, model);
+        addDatasetsCountsToModel(datacentre, model);
     }
 
     private void userinfoAllocator(Model model) throws SecurityException {
         Allocator allocator = SecurityUtils.getCurrentAllocator();
         addAllocatorToModel(allocator, model);
         addPrefixesToModel(allocator, model);
+        addDatasetsCountsToModel(allocator, model);
     }
 
     private void addDatacentreToModel(Datacentre datacentre, Model model) {
         log.debug("userinfo for datacentre '" + datacentre.getSymbol() + "'");
         model.addAttribute("datacentre", datacentre);
-        
-        long countDatasets = Dataset.countDatasetsByAllocatorOrDatacentre(datacentre);
-        long countTestDatasets = Dataset.countTestDatasetsByAllocatorOrDatacentre(datacentre);
-        long countNonTestDatasets = countDatasets - countTestDatasets;
-        model.addAttribute("countDatasets", countDatasets);
-        model.addAttribute("countTestDatasets", countTestDatasets);
-        model.addAttribute("countNonTestDatasets", countNonTestDatasets);
     }
 
     private void addAllocatorToModel(Allocator allocator, Model model) {
         log.debug("userinfo for allocator '" + allocator.getSymbol() + "'");
         model.addAttribute("allocator", allocator);
+    }
+    
+    private void addDatasetsCountsToModel(AllocatorOrDatacentre user, Model model) {
+        long countDatasets = Dataset.countDatasetsByAllocatorOrDatacentre(user);
+        long countTestDatasets = Dataset.countTestDatasetsByAllocatorOrDatacentre(user);
+        long countNonTestDatasets = countDatasets - countTestDatasets;
+        model.addAttribute("countDatasets", countDatasets);
+        model.addAttribute("countTestDatasets", countTestDatasets);
+        model.addAttribute("countNonTestDatasets", countNonTestDatasets);
     }
     
     private void addPrefixesToModel(Allocator allocator, Model model) {

@@ -12,9 +12,9 @@
     
     <sec:authorize ifNotGranted="ROLE_ADMIN">
       <page:show create="false" delete="false" id="ps_org_datacite_mds_userinfo_Stats" list="false" object="${allocator}" path="/datacentres" update="false" z="user-managed">
-        <field:simple id="s_org_datacite_mds_userinfo_Stats_datasets" field="count" text="${countDatasets}" render="${scopeDatacentre}" z="user-managed"/>
-        <field:simple id="s_org_datacite_mds_userinfo_Stats_testDatasets" field="countTest" text="${countTestDatasets}" render="${scopeDatacentre}" z="user-managed"/>
-        <field:simple id="s_org_datacite_mds_userinfo_Stats_nonTestDatasets" field="countNonTest" text="${countNonTestDatasets}" render="${scopeDatacentre}" z="user-managed"/>
+        <field:simple id="s_org_datacite_mds_userinfo_Stats_datasets" field="count" text="${countDatasets}" render="true" z="user-managed"/>
+        <field:simple id="s_org_datacite_mds_userinfo_Stats_testDatasets" field="countTest" text="${countTestDatasets}" render="true" z="user-managed"/>
+        <field:simple id="s_org_datacite_mds_userinfo_Stats_nonTestDatasets" field="countNonTest" text="${countNonTestDatasets}" render="true" z="user-managed"/>
 
         <c:if test="${(scopeDatacentre and datacentre.doiQuotaAllowed != -1) or
                       (scopeAllocator and allocator.doiQuotaAllowed != -1)}">
