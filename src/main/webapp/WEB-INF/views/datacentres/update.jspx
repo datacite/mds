@@ -25,6 +25,6 @@
             <field:input field="created" id="c_org_datacite_mds_domain_Datacentre_created" z="user-managed"/>
         </util:hide>
         <field:select field="experiments" id="c_org_datacite_mds_domain_Datacentre_experiments" items="${experiments}" multiple="true" path="/foobar" z="user-managed"/>
-        <field:checkbox checked="false" disableFormBinding="true" field="sendWelcomeMail" id="c_org_datacite_mds_domain_Datacentre_sendwelcomemail" z="user-managed"/>
+        <field:checkbox checked="${sendWelcomeMail}" disableFormBinding="true" field="sendWelcomeMail" id="c_org_datacite_mds_domain_Datacentre_sendwelcomemail" z="user-managed"/>
     </form:update>
 </div>

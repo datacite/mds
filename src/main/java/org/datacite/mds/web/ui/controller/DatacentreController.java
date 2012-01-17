@@ -64,6 +64,7 @@ public class DatacentreController implements UiController {
         datacentre.setAllocator(allocator);
         datacentre.setSymbol(allocator.getSymbol() + ".");
         model.addAttribute("datacentre", datacentre);
+        model.addAttribute("sendWelcomeMail", "true");
         List dependencies = new ArrayList();
         if (Allocator.countAllocators() == 0) {
             dependencies.add(new String[] { "allocator", "allocators" });
@@ -119,6 +120,7 @@ public class DatacentreController implements UiController {
     public String create(@Valid Datacentre datacentre, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
+            model.addAttribute("sendWelcomeMail", sendWelcomeMail);
             return "datacentres/create";
         }
         datacentre.persist();
@@ -137,6 +139,7 @@ public class DatacentreController implements UiController {
     public String updateForm(@PathVariable("id") Long id, Model model) {
         Datacentre datacentre = Datacentre.findDatacentre(id);
         model.addAttribute("datacentre", datacentre);
+        model.addAttribute("sendWelcomeMail", "false");
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
         return "datacentres/update";
     }
@@ -145,6 +148,7 @@ public class DatacentreController implements UiController {
     public String update(@Valid Datacentre datacentre, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
+            model.addAttribute("sendWelcomeMail", sendWelcomeMail);
             return "datacentres/update";
         }
         datacentre.merge();

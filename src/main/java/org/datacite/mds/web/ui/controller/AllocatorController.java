@@ -55,11 +55,20 @@ public class AllocatorController implements UiController {
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(allocator));
         return "allocators/show";
     }
+    
+
+    @RequestMapping(params = "form", method = RequestMethod.GET)
+    public String createForm(Model model) {
+        model.addAttribute("allocator", new Allocator());
+        model.addAttribute("sendWelcomeMail", "true");
+        return "allocators/create";
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid Allocator allocator, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
+            model.addAttribute("sendWelcomeMail", sendWelcomeMail);
             return "allocators/create";
         }
         allocator.persist();
@@ -79,6 +88,7 @@ public class AllocatorController implements UiController {
         Allocator allocator = Allocator.findAllocator(id);
         model.addAttribute("allocator", allocator);
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(allocator));
+        model.addAttribute("sendWelcomeMail", "false");
         return "allocators/update";
     }
     
@@ -87,6 +97,7 @@ public class AllocatorController implements UiController {
     public String update(@Valid Allocator allocator, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
         if (result.hasErrors()) {
             model.addAttribute("allocator", allocator);
+            model.addAttribute("sendWelcomeMail", sendWelcomeMail);
             return "allocators/update";
         }
         allocator.merge();

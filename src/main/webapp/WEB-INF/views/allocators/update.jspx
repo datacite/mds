@@ -21,6 +21,6 @@
             <field:input field="updated" id="c_org_datacite_mds_domain_Allocator_updated" z="user-managed"/>
         </util:hide>
         <field:textarea field="comments" id="c_org_datacite_mds_domain_Allocator_comments" z="5wIEKz765bUF+M9I9MTPaK77vIA="/>
-        <field:checkbox checked="false" disableFormBinding="true" field="sendWelcomeMail" id="c_org_datacite_mds_domain_Allocator_sendwelcomemail" z="user-managed"/>
+        <field:checkbox checked="${sendWelcomeMail}" disableFormBinding="true" field="sendWelcomeMail" id="c_org_datacite_mds_domain_Allocator_sendwelcomemail" z="user-managed"/>
     </form:update>
 </div>
