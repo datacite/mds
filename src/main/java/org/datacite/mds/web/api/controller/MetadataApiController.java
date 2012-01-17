@@ -142,7 +142,7 @@ public class MetadataApiController implements ApiController {
             StringBuffer location = httpRequest.getRequestURL().append("/" + doi);
             headers.set("Location", location.toString());
         }
-        String message = ApiUtils.makeResponseMessage("OK", testMode);
+        String message = ApiUtils.makeResponseMessage("OK (" + doi + ")", testMode);
         return new ResponseEntity<String>(message, headers, HttpStatus.CREATED);
     }
 
