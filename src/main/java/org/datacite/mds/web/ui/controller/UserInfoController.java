@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserInfoController implements UiController {
     Logger log = Logger.getLogger(UserInfoController.class);
-    
+
     @Value("${handle.testPrefix}")
     String testPrefix;
 
@@ -63,7 +63,7 @@ public class UserInfoController implements UiController {
         log.debug("userinfo for allocator '" + allocator.getSymbol() + "'");
         model.addAttribute("allocator", allocator);
     }
-    
+
     private void addDatasetsCountsToModel(AllocatorOrDatacentre user, Model model) {
         long countDatasets = Dataset.countDatasetsByAllocatorOrDatacentre(user);
         long countTestDatasets = Dataset.countTestDatasetsByAllocatorOrDatacentre(user);
@@ -72,7 +72,7 @@ public class UserInfoController implements UiController {
         model.addAttribute("countTestDatasets", countTestDatasets);
         model.addAttribute("countNonTestDatasets", countNonTestDatasets);
     }
-    
+
     private void addPrefixesToModel(Allocator allocator, Model model) {
         Set<Prefix> prefixes = allocator.getPrefixes();
         List<String> labels = new ArrayList<String>();
@@ -82,23 +82,25 @@ public class UserInfoController implements UiController {
                 labels.add(prefix.getLabelWithDatacentres());
         model.addAttribute("prefixes", labels);
     }
-    
+
     private void addPrefixesToModel(Datacentre datacentre, Model model) {
         Set<Prefix> prefixes = datacentre.getPrefixes();
-        prefixes.add(Prefix.findPrefixesByPrefixLike(testPrefix).getSingleResult());
         List<String> labels = new ArrayList<String>();
-        for (Prefix prefix : prefixes) {
-            long count = Dataset.countDatasetsByAllocatorOrDatacentre(datacentre, prefix.getPrefix());
-            labels.add(prefix.getPrefix() + " (" + count + " DOIs)");
-        }
+        long countTest = Dataset.countTestDatasetsByAllocatorOrDatacentre(datacentre);
+        labels.add(testPrefix + " (test prefix; " + countTest + " DOIs)");
+        for (Prefix prefix : prefixes)
+            if (!prefix.getPrefix().equals(testPrefix)) {
+                long count = Dataset.countDatasetsByAllocatorOrDatacentre(datacentre, prefix.getPrefix());
+                labels.add(prefix.getPrefix() + " (" + count + " DOIs)");
+            }
         model.addAttribute("prefixes", labels);
     }
-    
+
     @ModelAttribute("mail")
     private ChangePasswordMailModel populateChangePasswordMailModel() {
         ChangePasswordMailModel mailModel = new ChangePasswordMailModel();
         mailModel.setSymbol(SecurityUtils.getCurrentSymbolOrNull());
         return mailModel;
     }
-    
+
 }
