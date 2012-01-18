@@ -29,8 +29,7 @@
     <sec:authorize ifNotGranted="ROLE_ADMIN">
       <page:show create="false" delete="false" id="ps_org_datacite_mds_userinfo_Permission" list="false" object="${allocator}" path="/datacentres" update="false" z="user-managed">
         <field:display field="domains" id="s_org_datacite_mds_domain_Datacentre_domains" object="${datacentre}" render="${scopeDatacentre}" z="user-managed"/>
-        <field:display field="prefixes" id="s_org_datacite_mds_domain_Datacentre_prefixes" object="${datacentre}" render="${scopeDatacentre}" z="user-managed"/>
-        <field:simple field="prefixes" id="s_org_datacite_mds_domain_Allocator_prefixes" render="${scopeAllocator}" z="user-managed">
+        <field:simple field="prefixes" id="s_org_datacite_mds_domain_Allocator_prefixes" z="user-managed">
           <util:list items="${prefixes}"/>
         </field:simple>
         <util:comment messageCode="use_test_prefix_info" messageArgument="${properties['handle.testPrefix']}"/>

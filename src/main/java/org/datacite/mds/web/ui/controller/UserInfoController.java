@@ -43,6 +43,7 @@ public class UserInfoController implements UiController {
         addDatacentreToModel(datacentre, model);
         Allocator allocator = datacentre.getAllocator();
         addAllocatorToModel(allocator, model);
+        addPrefixesToModel(datacentre, model);
         addDatasetsCountsToModel(datacentre, model);
     }
 
@@ -79,6 +80,17 @@ public class UserInfoController implements UiController {
         for (Prefix prefix : prefixes)
             if (!prefix.getPrefix().equals(testPrefix))
                 labels.add(prefix.getLabelWithDatacentres());
+        model.addAttribute("prefixes", labels);
+    }
+    
+    private void addPrefixesToModel(Datacentre datacentre, Model model) {
+        Set<Prefix> prefixes = datacentre.getPrefixes();
+        prefixes.add(Prefix.findPrefixesByPrefixLike(testPrefix).getSingleResult());
+        List<String> labels = new ArrayList<String>();
+        for (Prefix prefix : prefixes) {
+            long count = Dataset.countDatasetsByAllocatorOrDatacentre(datacentre, prefix.getPrefix());
+            labels.add(prefix.getPrefix() + " (" + count + " DOIs)");
+        }
         model.addAttribute("prefixes", labels);
     }
     
