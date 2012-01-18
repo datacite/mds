@@ -1,5 +1,7 @@
 package org.datacite.mds.web.ui.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.web.ui.UiController;
@@ -19,10 +21,10 @@ public class LogoutOrExitController implements UiController {
      * user. Otherwise do a normal logout.
      */
     @RequestMapping(value = "/resources/logout_or_return", method = RequestMethod.GET)
-    public String logoutOrReturn() {
-        if (! SecurityUtils.isLoggedIn())
+    public String logoutOrReturn(HttpServletRequest request) {
+        if (! SecurityUtils.isLoggedIn() || request.getSession().isNew())
             return "redirect:/";
-            
+        
         Authentication currentAuth = SecurityContextHolder.getContext().getAuthentication();
         for (GrantedAuthority auth : currentAuth.getAuthorities()) {
             if (auth instanceof SwitchUserGrantedAuthority) {
