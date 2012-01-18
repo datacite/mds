@@ -157,6 +157,11 @@ label {
 	margin-bottom: 10px;
 }
 
+.indent label {
+    width:130px;
+    margin-left: 25px;
+}
+
 input {
 	height:20px;
 }
@@ -455,7 +460,7 @@ code {
     padding-left: 10px;
 }
 
-.indent {
+p.indent {
     padding-left: 20px;
 }
 
