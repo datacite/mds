@@ -23,8 +23,10 @@ public class DoiValidator implements ConstraintValidator<Doi, String> {
         String prefix = Utils.getDoiPrefix(doi);
         String suffix = Utils.getDoiSuffix(doi);
 
-        if(StringUtils.isEmpty(prefix) || StringUtils.isEmpty(suffix))
+        if(StringUtils.isEmpty(prefix) || StringUtils.isEmpty(suffix)) {
+            addCustomMessage("Doi.message", context);
             return false;
+        }
         
         boolean isPrefixOK = prefix.matches("10\\.(\\d)+");
         boolean hasValidChars = suffix.matches("[^\u0000-\u001F\u0080-\u009F]+");
