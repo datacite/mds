@@ -1,5 +1,6 @@
 package org.datacite.mds.validation.constraints.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.ConstraintValidatorContext;
@@ -13,6 +14,7 @@ import org.datacite.mds.validation.constraints.MatchDomain;
 public abstract class MatchDomainValidator {
     String defaultMessage;
     String wildCard;
+    String alwaysAllowedDomains;
 
     public void initialize(MatchDomain constraintAnnotation) {
         defaultMessage = constraintAnnotation.message();
@@ -25,7 +27,9 @@ public abstract class MatchDomainValidator {
             return true;
 
         String hostname = Utils.getHostname(url).toLowerCase();
-        List<String> allowedDomains = Utils.csvToList(datacentre.getDomains());
+        List<String> allowedDomains = new ArrayList<String>(); 
+        allowedDomains.addAll(Utils.csvToList(datacentre.getDomains()));
+        allowedDomains.addAll(Utils.csvToList(alwaysAllowedDomains));
         
         for (String domain : allowedDomains) {
             domain = domain.toLowerCase();
@@ -38,5 +42,13 @@ public abstract class MatchDomainValidator {
 
         ValidationUtils.addConstraintViolation(context, defaultMessage, "url");
         return false;
+    }
+
+    public String getAlwaysAllowedDomains() {
+        return alwaysAllowedDomains;
+    }
+
+    public void setAlwaysAllowedDomains(String alwaysAllowedDomains) {
+        this.alwaysAllowedDomains = alwaysAllowedDomains;
     }
 }

@@ -90,6 +90,12 @@
     <bean class="org.datacite.mds.validation.constraints.impl.MediaTypeValidator">
       <property name="disallowedTypesRegExp" value="application/x-datacite.*"/>
     </bean>
+    <bean class="org.datacite.mds.validation.constraints.impl.MatchDomainValidatorForDataset">
+      <property name="alwaysAllowedDomains" value="${handle.alwaysAllowedDomains}"/>
+    </bean>
+    <bean class="org.datacite.mds.validation.constraints.impl.MatchDomainValidatorForMedia">
+      <property name="alwaysAllowedDomains" value="${handle.alwaysAllowedDomains}"/>
+    </bean>
     <task:annotation-driven mode="aspectj" executor="executor"/>
     <task:executor id="executor"/>
 </beans>

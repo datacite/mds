@@ -13,3 +13,8 @@ handle.testPrefix.expiration.days=-1
 #example: "0 0 0 * * ?" means at midnight every day
 handle.testPrefix.expiration.cron=0 0 0 * * ?
 
+#always allow these domains in URLs regardless of datacentres settings
+#same syntax as for datacentre domain list (csv, wildcard support, subdomains included)
+handle.alwaysAllowedDomains=datacite.org
+
+

@@ -6,7 +6,9 @@ import javax.validation.ConstraintValidatorContext;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.validation.constraints.MatchDomain;
+import org.springframework.beans.factory.annotation.Configurable;
 
+@Configurable
 public class MatchDomainValidatorForDataset extends MatchDomainValidator implements ConstraintValidator<MatchDomain, Dataset> {
     public boolean isValid(Dataset dataset, ConstraintValidatorContext context) {
         String url = dataset.getUrl();

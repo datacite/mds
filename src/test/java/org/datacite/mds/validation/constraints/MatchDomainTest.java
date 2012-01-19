@@ -18,12 +18,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class MatchDomainTest extends AbstractContraintsTest {
 
     Dataset dataset;
-    
+
     Media media;
 
     @Before
     public void init() {
-        // create simple datacentre with two allowed domains
         Datacentre datacentre = new Datacentre();
         datacentre.setDomains("test.ORG,sub.domain.net,*.com, *.eXample.*");
         dataset = new Dataset();
@@ -34,7 +33,7 @@ public class MatchDomainTest extends AbstractContraintsTest {
 
     @Test
     public void test() {
-        assertTrue(isValid(null)); 
+        assertTrue(isValid(null));
         assertFalse(isValid("http://wrong.org"));
         assertFalse(isValid("http://org"));
         assertTrue(isValid("http://test.org"));
@@ -53,6 +52,14 @@ public class MatchDomainTest extends AbstractContraintsTest {
 
         dataset.setDatacentre(null);
         assertTrue(isValid("foobar"));
+    }
+
+    @Test
+    public void testAlwaysAllowedDomains() {
+        // handle.properties:
+        // handle.alwaysAllowedDomains=datacite.org,foobar.*
+        assertTrue(isValid("http://datacite.org/example"));
+        assertTrue(isValid("http://sub.foobar.net"));
     }
 
     boolean isValid(String url) {
