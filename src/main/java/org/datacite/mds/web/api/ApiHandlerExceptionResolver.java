@@ -13,6 +13,7 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.ValidationUtils;
+import org.springframework.orm.jpa.JpaOptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.servlet.ModelAndView;
@@ -80,6 +81,9 @@ public class ApiHandlerExceptionResolver extends DefaultHandlerExceptionResolver
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
         } else if (ex instanceof DeletedException) {
             response.sendError(HttpServletResponse.SC_GONE, ex.getMessage());
+        } else if (ex instanceof JpaOptimisticLockingFailureException) {
+            String msg = "Another user has changed this record. Please try again";
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, msg);
         } else {
             logger.error("uncaught exception", ex);
             String message = "uncaught exception (" + ex.getMessage() + ")";
