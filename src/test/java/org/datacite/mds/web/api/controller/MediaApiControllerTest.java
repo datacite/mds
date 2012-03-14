@@ -37,17 +37,17 @@ public class MediaApiControllerTest {
     
     @Test
     public void testGet() throws Exception {
-        String mediaType1 = "application/pdf";
-        String url1 = "http://example.com/example.pdf";
+        String mediaType1 = "application/xml";
+        String url1 = "http://example.com/example.xml";
         Media media1 = TestUtils.createMedia(mediaType1, url1, dataset);
         media1.persist();
 
-        String mediaType2 = "application/xml";
-        String url2 = "http://example.com/example.xml";
+        String mediaType2 = "application/pdf";
+        String url2 = "http://example.com/example.pdf";
         Media media2 = TestUtils.createMedia(mediaType2, url2, dataset);
         media2.persist();
 
-        String bodyExpected = mediaType1 + "=" + url1 + "\n" + mediaType2 + "=" + url2 + "\n";
+        String bodyExpected = mediaType2 + "=" + url2 + "\n" + mediaType1 + "=" + url1 + "\n";
 
         ResponseEntity<? extends Object> response = get(doi);
         assertEquals(HttpStatus.OK, response.getStatusCode());

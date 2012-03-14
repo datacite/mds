@@ -9,13 +9,5 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Media;
 
 privileged aspect Media_Roo_Finder {
-    
-    public static TypedQuery<Media> Media.findMediasByDataset(Dataset dataset) {
-        if (dataset == null) throw new IllegalArgumentException("The dataset argument is required");
-        EntityManager em = Media.entityManager();
-        TypedQuery<Media> q = em.createQuery("SELECT o FROM Media AS o WHERE o.dataset = :dataset", Media.class);
-        q.setParameter("dataset", dataset);
-        return q;
-    }
-    
+        
 }

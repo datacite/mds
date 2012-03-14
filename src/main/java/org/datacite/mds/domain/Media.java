@@ -2,9 +2,11 @@ package org.datacite.mds.domain;
 
 import java.util.Date;
 
+import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import javax.validation.GroupSequence;
 import javax.validation.constraints.NotNull;
 
@@ -74,6 +76,14 @@ public class Media {
         Media merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
+    }
+    
+    public static TypedQuery<Media> findMediasByDataset(Dataset dataset) {
+        if (dataset == null) throw new IllegalArgumentException("The dataset argument is required");
+        EntityManager em = Media.entityManager();
+        TypedQuery<Media> q = em.createQuery("SELECT o FROM Media AS o WHERE o.dataset = :dataset ORDER BY o.mediaType ASC", Media.class);
+        q.setParameter("dataset", dataset);
+        return q;
     }
 
     public interface SecondLevelConstraint {
