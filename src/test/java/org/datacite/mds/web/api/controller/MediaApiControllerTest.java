@@ -2,11 +2,15 @@ package org.datacite.mds.web.api.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import javax.servlet.http.HttpServletRequest;
 
+import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Media;
+import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.test.TestUtils;
+import org.datacite.mds.web.api.NotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,18 +27,44 @@ import org.springframework.transaction.annotation.Transactional;
 public class MediaApiControllerTest {
 
     MediaApiController mediaApiController = new MediaApiController();
-    
+
     String doi = "10.5072/fooBAR";
 
+    private Allocator allocator;
+    private Allocator wrongAllocator;
+    private Datacentre datacentre;
+    private Datacentre wrongDatacentre;
     private Dataset dataset;
+
+    private HttpServletRequest doiRequest;
+    private HttpServletRequest wrongDoiRequest;
+
 
     @Before
     public void init() throws Exception {
-        Datacentre datacentre = TestUtils.createDefaultDatacentre("10.5072");
+        datacentre = TestUtils.createDefaultDatacentre("10.5072");
+        allocator = datacentre.getAllocator();
+        
+        wrongAllocator = TestUtils.createAllocator("OTHER");
+        wrongAllocator.persist();
+        wrongDatacentre = TestUtils.createDatacentre("OTHER.OTHER", wrongAllocator);
+        wrongDatacentre.persist();
+
         dataset = TestUtils.createDataset(doi, datacentre);
         dataset.persist();
+
+        doiRequest = makeServletRequestForDoi(doi);
+        wrongDoiRequest = makeServletRequestForDoi(doi + 1);
+
+        TestUtils.login(datacentre);
     }
-    
+
+    private MockHttpServletRequest makeServletRequestForDoi(String doi) {
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        request.setServletPath("/media/" + doi);
+        return request;
+    }
+
     @Test
     public void testGet() throws Exception {
         String mediaType1 = "application/xml";
@@ -49,21 +79,44 @@ public class MediaApiControllerTest {
 
         String bodyExpected = mediaType2 + "=" + url2 + "\n" + mediaType1 + "=" + url1 + "\n";
 
-        ResponseEntity<? extends Object> response = get(doi);
+        ResponseEntity<? extends Object> response = mediaApiController.get(doiRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(bodyExpected, response.getBody());
     }
-    
-    private ResponseEntity<? extends Object> get(String doi) throws Exception {
-        MockHttpServletRequest httpRequest = makeServletRequestForDoi(doi);
-        ResponseEntity<? extends Object> response = mediaApiController.get(httpRequest);
-        return response;
+
+    @Test(expected = NotFoundException.class)
+    public void testGetNonExistingDataset() throws Exception {
+        dataset.remove();
+        mediaApiController.get(doiRequest);
     }
     
-    private MockHttpServletRequest makeServletRequestForDoi(String doi) {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setServletPath("/media/" + doi);
-        return request;
+    @Test(expected = NotFoundException.class)
+    public void testGetNonExistingMedia() throws Exception {
+        mediaApiController.get(doiRequest);
     }
-    
+
+    @Test(expected = SecurityException.class)
+    public void testGetAsForeignDatacentre() throws Exception {
+        TestUtils.login(wrongDatacentre);
+        mediaApiController.get(doiRequest);
+    }
+
+    @Test
+    public void testGetAsAllocator() throws Exception {
+        TestUtils.login(allocator);
+        testGet();
+    }
+
+    @Test(expected = SecurityException.class)
+    public void testGetAsForeignAllocator() throws Exception {
+        TestUtils.login(wrongAllocator);
+        mediaApiController.get(doiRequest);
+    }
+
+    @Test(expected = SecurityException.class)
+    public void testGetNotLoggedIn() throws Exception {
+        TestUtils.logout();
+        mediaApiController.get(doiRequest);
+    }
+
 }
