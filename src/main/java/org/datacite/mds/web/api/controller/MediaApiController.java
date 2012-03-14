@@ -17,8 +17,10 @@ import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/media")
@@ -27,7 +29,8 @@ public class MediaApiController implements ApiController {
     private static Logger log4j = Logger.getLogger(MediaApiController.class);
 
     @RequestMapping(value = "**", method = { RequestMethod.GET, RequestMethod.HEAD })
-    public ResponseEntity<String> get(HttpServletRequest httpRequest) throws IOException, SecurityException, NotFoundException {
+    public ResponseEntity<String> get(HttpServletRequest httpRequest) throws IOException, SecurityException,
+            NotFoundException {
         String doi = getDoiFromRequest(httpRequest);
         AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
 
@@ -36,7 +39,7 @@ public class MediaApiController implements ApiController {
             throw new NotFoundException("DOI is unknown to MDS");
 
         SecurityUtils.checkDatasetOwnership(dataset, user);
-        
+
         List<Media> medias = Media.findMediasByDataset(dataset).getResultList();
         if (medias.isEmpty())
             throw new NotFoundException("no media for the DOI");
@@ -53,6 +56,12 @@ public class MediaApiController implements ApiController {
         String doi = uri.replaceFirst("/media/", "");
         doi = Utils.normalizeDoi(doi);
         return doi;
+    }
+
+    @RequestMapping(value = "*", method = { RequestMethod.POST })
+    public ResponseEntity<String> post(@RequestBody String body, @RequestParam(required = false) Boolean testMode,
+            HttpServletRequest httpRequest) {
+        return null;
     }
 
 }

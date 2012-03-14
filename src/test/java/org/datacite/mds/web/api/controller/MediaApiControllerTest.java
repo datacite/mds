@@ -2,6 +2,8 @@ package org.datacite.mds.web.api.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.datacite.mds.domain.Allocator;
@@ -117,6 +119,27 @@ public class MediaApiControllerTest {
     public void testGetNotLoggedIn() throws Exception {
         TestUtils.logout();
         mediaApiController.get(doiRequest);
+    }
+    
+    @Test
+    public void testPost() throws Exception {
+        String mediaType1 = "application/pfd";
+        String url1 = "http://example.com/example.pdf";
+        String mediaType2 = "application/xml";
+        String url2 = "http://example.com/example.xml";
+
+        String body = mediaType1 + "=" + url1 + "\n" + mediaType2 + "=" + url2;
+        ResponseEntity<String> response = mediaApiController.post(body, false, doiRequest);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        
+        List<Media> medias = Media.findMediasByDataset(dataset).getResultList();
+        assertEquals(2, medias.size());
+        Media media1 = medias.get(0);
+        Media media2 = medias.get(1);
+        assertEquals(mediaType1, media1.getMediaType());
+        assertEquals(mediaType2, media2.getMediaType());
+        assertEquals(url1, media1.getUrl());
+        assertEquals(url2, media2.getUrl());
     }
 
 }
