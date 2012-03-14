@@ -166,12 +166,16 @@ public abstract class TestUtils {
         return metadata;
     }
     
-    public static Media createMedia(String mediaType, Dataset dataset) {
+    public static Media createMedia(String mediaType, String url, Dataset dataset) {
         Media media = new Media();
         media.setDataset(dataset);
         media.setMediaType(mediaType);
-        media.setUrl("http://example.com");
+        media.setUrl(url);
         return media;
+    }
+    
+    public static Media createMedia(String mediaType,  Dataset dataset) {
+        return createMedia(mediaType, "http://example.com", dataset);
     }
 
     public static byte[] getTestMetadata() {
