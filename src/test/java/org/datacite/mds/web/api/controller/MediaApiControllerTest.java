@@ -47,7 +47,7 @@ public class MediaApiControllerTest {
         Media media2 = TestUtils.createMedia(mediaType2, url2, dataset);
         media2.persist();
 
-        String bodyExpected = mediaType1 + "=" + url1 + "\n" + mediaType2 + "=" + url2;
+        String bodyExpected = mediaType1 + "=" + url1 + "\n" + mediaType2 + "=" + url2 + "\n";
 
         ResponseEntity<? extends Object> response = get(doi);
         assertEquals(HttpStatus.OK, response.getStatusCode());
