@@ -86,6 +86,15 @@ public class Media {
         return q;
     }
 
+    public static Media findMediaByDatasetAndMediaType(Dataset dataset, String mediaType) {
+        if (dataset == null) throw new IllegalArgumentException("The dataset argument is required");
+        EntityManager em = Media.entityManager();
+        TypedQuery<Media> q = em.createQuery("SELECT o FROM Media AS o WHERE o.dataset = :dataset AND o.mediaType = :mediaType", Media.class);
+        q.setParameter("dataset", dataset);
+        q.setParameter("mediaType", mediaType);
+        return q.getSingleResult();
+    }
+
     public interface SecondLevelConstraint {
     };
 }

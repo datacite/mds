@@ -74,11 +74,18 @@ public class MediaApiController implements ApiController {
         
         for (String mediaType : props.stringPropertyNames()) {
             String url = props.getProperty(mediaType);
-            Media media = new Media();
-            media.setDataset(dataset);
-            media.setMediaType(mediaType);
-            media.setUrl(url);
-            media.persist();
+            
+            try {
+                Media media = Media.findMediaByDatasetAndMediaType(dataset, mediaType);
+                media.setUrl(url);
+                media.merge();
+            } catch (Exception ex) {
+                Media media = new Media();
+                media.setDataset(dataset);
+                media.setMediaType(mediaType);
+                media.setUrl(url);
+                media.persist();
+            }
         }
 
         String message = ApiUtils.makeResponseMessage("OK", testMode);

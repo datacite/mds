@@ -43,12 +43,11 @@ public class MediaApiControllerTest {
     private HttpServletRequest doiRequest;
     private HttpServletRequest wrongDoiRequest;
 
-
     @Before
     public void init() throws Exception {
         datacentre = TestUtils.createDefaultDatacentre("10.5072");
         allocator = datacentre.getAllocator();
-        
+
         wrongAllocator = TestUtils.createAllocator("OTHER");
         wrongAllocator.persist();
         wrongDatacentre = TestUtils.createDatacentre("OTHER.OTHER", wrongAllocator);
@@ -82,7 +81,7 @@ public class MediaApiControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(bodyExpected, response.getBody());
     }
-    
+
     private String createBody(Media... medias) {
         StringBuffer body = new StringBuffer();
         for (Media media : medias)
@@ -95,7 +94,7 @@ public class MediaApiControllerTest {
         dataset.remove();
         mediaApiController.get(doiRequest);
     }
-    
+
     @Test(expected = NotFoundException.class)
     public void testGetNonExistingMedia() throws Exception {
         mediaApiController.get(doiRequest);
@@ -124,7 +123,7 @@ public class MediaApiControllerTest {
         TestUtils.logout();
         mediaApiController.get(doiRequest);
     }
-    
+
     @Test
     public void testPost() throws Exception {
         Media media1 = TestUtils.createMedia("application/pdf", "http://example.com/example.pdf", dataset);
@@ -136,7 +135,7 @@ public class MediaApiControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertDatasetHasMedia(dataset, media1, media2);
     }
-    
+
     private void assertDatasetHasMedia(Dataset dataset, Media... medias) {
         List<Media> mediasActual = Media.findMediasByDataset(dataset).getResultList();
         List<Media> mediasExpected = Arrays.asList(medias);
@@ -144,11 +143,38 @@ public class MediaApiControllerTest {
         for (int i = 0; i < mediasExpected.size(); i++)
             assertMediaEquals(mediasExpected.get(i), mediasActual.get(i));
     }
-       
+
     private void assertMediaEquals(Media expected, Media actual) {
         assertEquals(expected.getMediaType(), actual.getMediaType());
         assertEquals(expected.getUrl(), actual.getUrl());
     }
     
+    @Test
+    public void testPostAddMediaType() throws Exception {
+        Media mediaExisting = TestUtils.createMedia("application/pdf", "http://example.com/example.pdf", dataset);
+        mediaExisting.persist();
+        Media mediaNew = TestUtils.createMedia("application/xml", "http://example.com/example.xml", dataset);
+        assertDatasetHasMedia(dataset, mediaExisting);
+
+        String body = createBody(mediaNew);
+        ResponseEntity<String> response = mediaApiController.post(body, false, doiRequest);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertDatasetHasMedia(dataset, mediaExisting, mediaNew);
+    }
+    
+    @Test
+    public void testPostUpdateMediaType() throws Exception {
+        Media mediaExisting = TestUtils.createMedia("application/pdf", "http://example.com/example.pdf", dataset);
+        mediaExisting.persist();
+        Media mediaUpdate = TestUtils.createMedia("application/pdf", "http://example.com/example-new.pdf", dataset);
+        assertDatasetHasMedia(dataset, mediaExisting);
+
+        String body = createBody(mediaUpdate);
+        ResponseEntity<String> response = mediaApiController.post(body, false, doiRequest);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertDatasetHasMedia(dataset, mediaUpdate);
+    }
 
 }
