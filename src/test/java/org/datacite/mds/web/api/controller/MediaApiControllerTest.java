@@ -2,10 +2,12 @@ package org.datacite.mds.web.api.controller;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -69,21 +71,23 @@ public class MediaApiControllerTest {
 
     @Test
     public void testGet() throws Exception {
-        String mediaType1 = "application/xml";
-        String url1 = "http://example.com/example.xml";
-        Media media1 = TestUtils.createMedia(mediaType1, url1, dataset);
+        Media media1 = TestUtils.createMedia("application/xml", "http://example.com/example.xml", dataset);
         media1.persist();
-
-        String mediaType2 = "application/pdf";
-        String url2 = "http://example.com/example.pdf";
-        Media media2 = TestUtils.createMedia(mediaType2, url2, dataset);
+        Media media2 = TestUtils.createMedia("application/pdf", "http://example.com/example.pdf", dataset);
         media2.persist();
 
-        String bodyExpected = mediaType2 + "=" + url2 + "\n" + mediaType1 + "=" + url1 + "\n";
+        String bodyExpected = createBody(media2, media1);
 
         ResponseEntity<? extends Object> response = mediaApiController.get(doiRequest);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(bodyExpected, response.getBody());
+    }
+    
+    private String createBody(Media... medias) {
+        StringBuffer body = new StringBuffer();
+        for (Media media : medias)
+            body.append(media.getMediaType() + "=" + media.getUrl() + "\n");
+        return body.toString();
     }
 
     @Test(expected = NotFoundException.class)
@@ -123,23 +127,28 @@ public class MediaApiControllerTest {
     
     @Test
     public void testPost() throws Exception {
-        String mediaType1 = "application/pfd";
-        String url1 = "http://example.com/example.pdf";
-        String mediaType2 = "application/xml";
-        String url2 = "http://example.com/example.xml";
+        Media media1 = TestUtils.createMedia("application/pdf", "http://example.com/example.pdf", dataset);
+        Media media2 = TestUtils.createMedia("application/xml", "http://example.com/example.xml", dataset);
 
-        String body = mediaType1 + "=" + url1 + "\n" + mediaType2 + "=" + url2;
+        String body = createBody(media1, media2);
         ResponseEntity<String> response = mediaApiController.post(body, false, doiRequest);
+
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        
-        List<Media> medias = Media.findMediasByDataset(dataset).getResultList();
-        assertEquals(2, medias.size());
-        Media media1 = medias.get(0);
-        Media media2 = medias.get(1);
-        assertEquals(mediaType1, media1.getMediaType());
-        assertEquals(mediaType2, media2.getMediaType());
-        assertEquals(url1, media1.getUrl());
-        assertEquals(url2, media2.getUrl());
+        assertDatasetHasMedia(dataset, media1, media2);
     }
+    
+    private void assertDatasetHasMedia(Dataset dataset, Media... medias) {
+        List<Media> mediasActual = Media.findMediasByDataset(dataset).getResultList();
+        List<Media> mediasExpected = Arrays.asList(medias);
+        assertEquals(mediasExpected.size(), mediasActual.size());
+        for (int i = 0; i < mediasExpected.size(); i++)
+            assertMediaEquals(mediasExpected.get(i), mediasActual.get(i));
+    }
+       
+    private void assertMediaEquals(Media expected, Media actual) {
+        assertEquals(expected.getMediaType(), actual.getMediaType());
+        assertEquals(expected.getUrl(), actual.getUrl());
+    }
+    
 
 }
