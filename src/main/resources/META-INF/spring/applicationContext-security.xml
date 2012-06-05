@@ -10,7 +10,7 @@
     <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
 		<security:filter-chain-map path-type="regex">
 
-			<security:filter-chain pattern="/(datacentre|doi|metadata|oaisource)(/.*)?" filters="
+			<security:filter-chain pattern="/(datacentre|doi|metadata|media|oaisource)(/.*)?" filters="
 			   securityContextPersistenceFilterWithASCFalse,
 			   basicAuthenticationFilter,
 			   basicExceptionTranslationFilter,
@@ -42,6 +42,7 @@
                 <security:intercept-url pattern="/datacentre/**" access="ROLE_ALLOCATOR" />
                 <security:intercept-url pattern="/doi/**" access="ROLE_DATACENTRE" />
                 <security:intercept-url pattern="/metadata/**" access="ROLE_DATACENTRE,ROLE_ALLOCATOR" />
+                <security:intercept-url pattern="/media/**" access="ROLE_DATACENTRE,ROLE_ALLOCATOR" />
                 <security:intercept-url pattern="/oaisource/**" access="ROLE_ADMIN,ROLE_DEV" />
                 
                 <!-- UI -->
