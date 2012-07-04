@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.validation.GroupSequence;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.datacite.mds.validation.constraints.MatchDomain;
 import org.datacite.mds.validation.constraints.MediaType;
 import org.datacite.mds.validation.constraints.URL;
@@ -28,7 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Unique(field = { "dataset", "mediaType" })
 @MatchDomain(groups = Media.SecondLevelConstraint.class)
 @GroupSequence( { Media.class, Media.SecondLevelConstraint.class })
-public class Media {
+public class Media implements Comparable {
 
     @ManyToOne
     @NotNull
@@ -95,6 +96,13 @@ public class Media {
         return q.getSingleResult();
     }
 
-    public interface SecondLevelConstraint {
+    @Override
+    public int compareTo(Object o) {
+        Media media = (Media) o;
+        return  this.mediaType.compareTo(media.mediaType);
     };
+
+    public interface SecondLevelConstraint {
+    }
+
 }

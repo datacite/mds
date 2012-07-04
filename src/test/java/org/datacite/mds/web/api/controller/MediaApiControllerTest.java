@@ -3,11 +3,11 @@ package org.datacite.mds.web.api.controller;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -135,10 +135,15 @@ public class MediaApiControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertDatasetHasMedia(dataset, media1, media2);
     }
-
+    
+    @SuppressWarnings("unchecked")
     private void assertDatasetHasMedia(Dataset dataset, Media... medias) {
         List<Media> mediasActual = Media.findMediasByDataset(dataset).getResultList();
         List<Media> mediasExpected = Arrays.asList(medias);
+        
+        Collections.sort(mediasActual);
+        Collections.sort(mediasExpected);
+        
         assertEquals(mediasExpected.size(), mediasActual.size());
         for (int i = 0; i < mediasExpected.size(); i++)
             assertMediaEquals(mediasExpected.get(i), mediasActual.get(i));
