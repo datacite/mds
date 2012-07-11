@@ -28,9 +28,10 @@ knowledge of programming and the HTTP protocol.</em> </p>
 <p>The API is implemented in RESTful style. The <em>end point for v2</em> you
 are going to use is:</p>
 <p class="indent"><code>https://mds.datacite.org</code></p>
-<p>At the moment there are <em>two resources</em>:</p>
+<p>At the moment there are <em>three resources</em>:</p>
 <p class="indent"><code>/doi</code></p>
 <p class="indent"><code>/metadata</code></p>
+<p class="indent"><code>/media</code></p>
 <p>The URI <code>https://mds.datacite.org<b>/doi</b></code> accepts requests
 with <code>POST</code> HTTP method.</p>
 <p>The URI <code>https://mds.datacite.org<b>/doi/{doi}</b></code>, where <code>{doi}</code> is a actually DOI, accepts requests
@@ -40,6 +41,8 @@ with <code>GET</code> HTTP method.</p>
 with <code>POST</code> HTTP method.</p>
 <p>The URI <code>https://mds.datacite.org<b>/metadata/{doi}</b></code>, where <code>{doi}</code> is an actual DOI, accepts requests
 with 2 HTTP methods: <code>GET</code> and <code>DELETE</code></p>
+<p>The URI <code>https://mds.datacite.org<b>/media/{doi}</b></code>, where <code>{doi}</code> is an actual DOI, accepts requests
+with 2 HTTP methods: <code>GET</code> and <code>POST</code></p>
 
 <p>In addition <code>HEAD</code> is allowed, whenever <code>GET</code> is.</p> 
 
@@ -240,6 +243,48 @@ try later and if problem persists please contact us</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us
 </p> 
+
+<h2>Media API</h2>
+
+<h3>GET</h3> 
+<p><i>URI: https://mds.datacite.org/media/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
+ 
+<p>This request returns list of pairs of media type and URLs associated with a given DOI.</p>
+<h4>Request headers</h4>
+none 
+<h4>Request body</h4> 
+empty
+<h4>Response headers</h4>
+none
+<h4>Response body</h4> 
+<p>If response status is 200: key-value list of media types/urls, otherwise short explanation for non-200 status</p> 
+<h4>Response statuses</h4> 
+<p><code>200 OK</code> - operation successful</p>
+<p><code>401 Unauthorized</code> - no login</p>
+<p><code>403 login problem or dataset belongs to another party</code></p>
+<p><code>404 Not Found</code> - No media attached to the DOI or DOI does not exist in our database</p>
+<p><code>500 Internal Server Error</code> - server internal error,
+try later and if problem persists please contact us
+</p> 
+
+<h3>POST</h3>
+<p><i>URI: https://mds.datacite.org/media/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
+<p>POST will add/update media type/urls pairs to a DOI. Standard domain restrictions check will be performed.</p>
+<h4>Request headers</h4> 
+<p><code>Content-Type:text/plain;charset=UTF-8</code></p>
+<h4>Request body</h4>
+Multiple lines in the following format
+<pre><code>{mime-type}={url}</code></pre> 
+<p>where <code>{mime-type}</code> and <code>{url}</code> have to be replaced by your mime type and URL, UFT-8 encoded.</p>
+<h4>Response body</h4> 
+<p>short explanation of status code</p> 
+<h4>Response statuses</h4> 
+<p><code>200 OK</code> - operation successful</p>
+<p><code>400 Bad Request</code> - one or more of the specified mime-types or urls are invalid (e.g. non supported mime-type, not allowed url domain, etc.)</p>
+<p><code>401 Unauthorized</code> - no login</p>
+<p><code>403 Forbidden</code> - login problem</p>
+<p><code>500 Internal Server Error</code> - server internal error,
+try later and if problem persists please contact us</p> 
 
 
   </util:panel>
