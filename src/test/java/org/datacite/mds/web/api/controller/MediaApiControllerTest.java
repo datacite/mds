@@ -128,8 +128,7 @@ public class MediaApiControllerTest {
     
     @Test(expected = NotFoundException.class)
     public void testGetRoot() throws Exception {
-        HttpServletRequest rootRequest = makeServletRequestForDoi("");
-        mediaApiController.get(rootRequest);
+        mediaApiController.rootHandler();
     }
 
     @Test
