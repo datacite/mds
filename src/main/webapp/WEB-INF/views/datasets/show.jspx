@@ -49,15 +49,13 @@
                 <table:column id="c_org_datacite_mds_domain_Metadata_isConvertedByMds" property="isConvertedByMds" z="user-managed"/>
             </table:table>
         </page:list>
-        <util:hide notRoles="ROLE_EXPERIMENT_MEDIA" omit="true">
-          <page:list create="true" createMessageCode="entity_store" createParam="dataset" createParamValue="${dataset.id}" createPath="/medias" id="pl_org_datacite_mds_domain_Media" items="${medias}" introMessageCode="experimental_feature_info" z="user-managed">
+        <page:list create="true" createMessageCode="entity_store" createParam="dataset" createParamValue="${dataset.id}" createPath="/medias" id="pl_org_datacite_mds_domain_Media" items="${medias}" z="user-managed">
             <table:table createParam="dataset" createParamValue="${dataset.id}" data="${medias}" id="l_org_datacite_mds_domain_Media" path="/medias" z="user-managed">
                 <table:column id="c_org_datacite_mds_domain_Media_dataset" property="dataset" render="false" z="user-managed"/>
                 <table:column id="c_org_datacite_mds_domain_Media_mediaType" property="mediaType" z="user-managed"/>
                 <table:column id="c_org_datacite_mds_domain_Media_url" property="url" z="user-managed"/>
             </table:table>
           </page:list>
-        </util:hide>
     </c:if>
     
 </div>
