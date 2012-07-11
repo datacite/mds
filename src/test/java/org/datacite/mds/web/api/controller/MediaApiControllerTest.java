@@ -200,9 +200,13 @@ public class MediaApiControllerTest {
     @Test(expected = NotFoundException.class)
     public void testPostNonExistingDataset() throws Exception {
         dataset.remove();
-        Media media = TestUtils.createMedia("application/pdf", "http://example.com/example.pdf", dataset);
-        String body = createBody(media);
-        mediaApiController.post(body, false, doiRequest);
+        testPost();
+    }
+    
+    @Test(expected = SecurityException.class)
+    public void testPostAsForeignDatacentre() throws Exception {
+        TestUtils.login(wrongDatacentre);
+        testPost();
     }
 
 }

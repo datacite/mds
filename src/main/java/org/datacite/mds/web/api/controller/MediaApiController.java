@@ -72,6 +72,8 @@ public class MediaApiController implements ApiController {
         if (dataset == null)
             throw new NotFoundException("DOI is unknown to MDS");
         
+        SecurityUtils.checkDatasetOwnership(dataset, datacentre);
+        
         Properties props = new Properties();
         props.load(new StringReader(body));
         
