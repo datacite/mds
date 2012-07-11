@@ -83,13 +83,15 @@ public class MediaApiController implements ApiController {
             try {
                 Media media = Media.findMediaByDatasetAndMediaType(dataset, mediaType);
                 media.setUrl(url);
-                media.merge();
+                if (!testMode)
+                    media.merge();
             } catch (EmptyResultDataAccessException ex) {
                 Media media = new Media();
                 media.setDataset(dataset);
                 media.setMediaType(mediaType);
                 media.setUrl(url);
-                media.persist();
+                if (!testMode)
+                    media.persist();
             }
         }
 

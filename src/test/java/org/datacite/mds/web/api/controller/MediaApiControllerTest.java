@@ -209,4 +209,19 @@ public class MediaApiControllerTest {
         testPost();
     }
 
+    @Test
+    public void testPostTestMode() throws Exception {
+        Media mediaOld = TestUtils.createMedia("application/pdf", "http://example.com/example.pdf", dataset);
+        mediaOld.persist();
+        Media mediaUpdated = TestUtils.createMedia("application/pdf", "http://example.com/example2.pdf", dataset);
+        Media mediaNew = TestUtils.createMedia("application/xml", "http://example.com/example.xml", dataset);
+        assertDatasetHasMedia(dataset, mediaOld);
+
+        String body = createBody(mediaUpdated, mediaNew);
+        ResponseEntity<String> response = mediaApiController.post(body, true, doiRequest);
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertDatasetHasMedia(dataset, mediaOld);
+    }
+
 }
