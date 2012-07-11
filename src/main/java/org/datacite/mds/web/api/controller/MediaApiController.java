@@ -64,10 +64,12 @@ public class MediaApiController implements ApiController {
 
     @RequestMapping(value = "**", method = { RequestMethod.POST })
     public ResponseEntity<String> post(@RequestBody String body, @RequestParam(required = false) Boolean testMode,
-            HttpServletRequest httpRequest) throws SecurityException, IOException {
+            HttpServletRequest httpRequest) throws SecurityException, IOException, NotFoundException {
         String doi = getDoiFromRequest(httpRequest);
         Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
         Dataset dataset = Dataset.findDatasetByDoi(doi);
+        if (dataset == null)
+            throw new NotFoundException("DOI is unknown to MDS");
         
         Properties props = new Properties();
         props.load(new StringReader(body));
