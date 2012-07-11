@@ -67,6 +67,8 @@ public class MediaApiController implements ApiController {
     public ResponseEntity<String> post(@RequestBody String body, @RequestParam(required = false) Boolean testMode,
             HttpServletRequest httpRequest) throws SecurityException, IOException, NotFoundException {
         String doi = getDoiFromRequest(httpRequest);
+        if (testMode == null)
+            testMode = false;
         Datacentre datacentre = SecurityUtils.getCurrentDatacentre();
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         if (dataset == null)
