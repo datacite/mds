@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 
@@ -124,6 +125,12 @@ public class MediaApiControllerTest {
         TestUtils.logout();
         mediaApiController.get(doiRequest);
     }
+    
+    @Test(expected = NotFoundException.class)
+    public void testGetRoot() throws Exception {
+        HttpServletRequest rootRequest = makeServletRequestForDoi("");
+        mediaApiController.get(rootRequest);
+    }
 
     @Test
     public void testPost() throws Exception {
@@ -223,5 +230,5 @@ public class MediaApiControllerTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertDatasetHasMedia(dataset, mediaOld);
     }
-
+    
 }

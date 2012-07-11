@@ -22,6 +22,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +33,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MediaApiController implements ApiController {
 
     private static Logger log4j = Logger.getLogger(MediaApiController.class);
+    
+    @RequestMapping(value = "")
+    public ResponseEntity<String> rootHandler() throws NotFoundException {
+        throw new NotFoundException("doi missing");
+    }
 
     @RequestMapping(value = "**", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ResponseEntity<String> get(HttpServletRequest httpRequest) throws IOException, SecurityException,
