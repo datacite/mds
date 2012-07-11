@@ -18,6 +18,7 @@ import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.api.ApiController;
 import org.datacite.mds.web.api.ApiUtils;
 import org.datacite.mds.web.api.NotFoundException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -81,7 +82,7 @@ public class MediaApiController implements ApiController {
                 Media media = Media.findMediaByDatasetAndMediaType(dataset, mediaType);
                 media.setUrl(url);
                 media.merge();
-            } catch (Exception ex) {
+            } catch (EmptyResultDataAccessException ex) {
                 Media media = new Media();
                 media.setDataset(dataset);
                 media.setMediaType(mediaType);
