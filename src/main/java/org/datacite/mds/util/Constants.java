@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class Constants {
-    public static final Collection<String> EXPERIMENTS_AVAILABLE = Arrays.asList("media");
+    public static final Collection<String> EXPERIMENTS_AVAILABLE = Arrays.asList();
 
     public static String TEST_PREFIX;
 
