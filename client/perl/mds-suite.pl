@@ -38,6 +38,13 @@ sub main() {
         $resource .= "/" . escape($doi);
       }
     }
+    case "media" {
+      $resource = 'media';
+      $content_type = 'text/plain;charset=UTF-8';
+      $method = uc shift @ARGV or pod2usage("missing method");
+      my $doi = shift @ARGV or pod2usage("missing doi");
+      $resource .= "/" . escape($doi);
+    }
     case "doi" {
       $resource = 'doi';
       $content_type = 'text/plain;charset=UTF-8';
@@ -176,6 +183,7 @@ __END__
  Commands:
    datacentre <method> <symbol>
    doi <method> (<doi> <url> | '-')
+   media <GET|POST> <doi> 
    metadata <POST|PUT>
    metadata <DELETE|GET> <doi>
  
