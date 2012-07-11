@@ -97,6 +97,8 @@ public class MediaApiController implements ApiController {
             }
         }
 
+        log4j.info(datacentre.getSymbol() + " added/updated media for " + doi);
+
         String message = ApiUtils.makeResponseMessage("OK", testMode);
         return new ResponseEntity<String>(message, HttpStatus.OK);
     }
