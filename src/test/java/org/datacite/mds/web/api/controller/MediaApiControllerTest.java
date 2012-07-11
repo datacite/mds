@@ -137,7 +137,7 @@ public class MediaApiControllerTest {
         Media media2 = TestUtils.createMedia("application/xml", "http://example.com/example.xml", dataset);
 
         String body = createBody(media1, media2);
-        ResponseEntity<String> response = mediaApiController.post(body, false, doiRequest);
+        ResponseEntity<String> response = mediaApiController.post(body, null, doiRequest);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertDatasetHasMedia(dataset, media1, media2);
