@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ValidationException;
 
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Datacentre;
@@ -180,6 +181,28 @@ public class MediaApiControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertDatasetHasMedia(dataset, mediaUpdate);
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void testPostWrongMediaType() throws Exception {
+        Media media = TestUtils.createMedia("foo/bar", "http://example.com/example.pdf", dataset);
+        String body = createBody(media);
+        mediaApiController.post(body, false, doiRequest);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void testPostWrongDomain() throws Exception {
+        Media media = TestUtils.createMedia("application/pdf", "http://foo.com/example.pdf", dataset);
+        String body = createBody(media);
+        mediaApiController.post(body, false, doiRequest);
+    }
+    
+    @Test(expected = NotFoundException.class)
+    public void testPostNonExistingDataset() throws Exception {
+        dataset.remove();
+        Media media = TestUtils.createMedia("application/pdf", "http://example.com/example.pdf", dataset);
+        String body = createBody(media);
+        mediaApiController.post(body, false, doiRequest);
     }
 
 }
