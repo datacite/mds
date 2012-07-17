@@ -3,11 +3,11 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:create id="fc_org_datacite_mds_domain_Dataset" messageCode="entity_register" modelAttribute="dataset" path="/datasets" render="${empty dependencies}" z="user-managed">
         <util:hide roles="ROLE_DATACENTRE">
-          <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="QizQtkpuvEV1I+dvhbiwy8QSkKU="/>
+            <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="QizQtkpuvEV1I+dvhbiwy8QSkKU="/>
         </util:hide>
         <util:comment messageCode="handle_latency_info"/>
         <strong>
-            <util:comment messageCode="use_test_prefix_info" messageArgument="${properties['handle.testPrefix']}"/>
+            <util:comment messageArgument="${properties['handle.testPrefix']}" messageCode="use_test_prefix_info"/>
         </strong>
         <field:input field="doi" id="c_org_datacite_mds_domain_Dataset_doi" required="true" z="user-managed"/>
         <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
@@ -18,6 +18,7 @@
         <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${dataset_created_date_format}" field="created" id="c_org_datacite_mds_domain_Dataset_created" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${dataset_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Dataset_updated" render="false" z="user-managed"/>
+        <field:datetime dateTimePattern="${dataset_minted_date_format}" field="minted" id="c_org_datacite_mds_domain_Dataset_minted" z="s78qPq/CEYxcV/Qzt1zOlpMpUlw="/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Dataset" render="${not empty dependencies}" z="LWdyQ83dcuGqnymb9lRlQ6rNsFA="/>
 </div>

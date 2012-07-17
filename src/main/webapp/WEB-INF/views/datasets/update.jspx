@@ -3,31 +3,31 @@
     <jsp:output omit-xml-declaration="yes"/>
     <form:update id="fu_org_datacite_mds_domain_Dataset" modelAttribute="dataset" path="/datasets" z="user-managed">
         <util:hide roles="ROLE_DATACENTRE">
-          <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
+            <field:select field="datacentre" id="c_org_datacite_mds_domain_Dataset_datacentre" itemValue="id" items="${datacentres}" path="/datacentres" required="true" z="user-managed"/>
         </util:hide>
         <util:comment messageCode="handle_latency_info"/>
         <field:input field="doi" id="c_org_datacite_mds_domain_Dataset_doi" readonly="true" required="true" z="user-managed">
            (${resolvedUrl})
         </field:input>
         <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
-        <util:comment messageCode="dataset_update_url" />
+        <util:comment messageCode="dataset_update_url"/>
         <field:checkbox field="isActive" id="c_org_datacite_mds_domain_Dataset_isActive" z="VG6i4E8PwnhnMZKA2+UzVJ+59M4="/>
         <field:checkbox field="isRefQuality" id="c_org_datacite_mds_domain_Dataset_isRefQuality" z="nzS9Eet3kyELg9PcZ4W4wz9xwWc="/>
         <field:input field="lastLandingPageStatus" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatus" max="510" min="100" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
         <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" render="false" z="user-managed"/>
         <util:hide>
-          <field:input field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" z="user-managed"/>
-          <field:input field="created" id="c_org_datacite_mds_domain_Dataset_created" z="user-managed"/>
-          <field:input field="updated" id="c_org_datacite_mds_domain_Dataset_updated" z="user-managed"/>
+            <field:input field="lastLandingPageStatusCheck" id="c_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" z="user-managed"/>
+            <field:input field="created" id="c_org_datacite_mds_domain_Dataset_created" z="user-managed"/>
+            <field:input field="updated" id="c_org_datacite_mds_domain_Dataset_updated" z="user-managed"/>
         </util:hide>
+        <field:datetime dateTimePattern="${dataset_minted_date_format}" field="minted" id="c_org_datacite_mds_domain_Dataset_minted" z="s78qPq/CEYxcV/Qzt1zOlpMpUlw="/>
     </form:update>
-
-    <spring:message arguments="Metadata" code="entity_store" var="title_msg" htmlEscape="false"/>
-    <util:panel id="fc_org_datacite_mds_domain_Metadata" title="${title_msg}" >
+    <spring:message arguments="Metadata" code="entity_store" htmlEscape="false" var="title_msg"/>
+    <util:panel id="fc_org_datacite_mds_domain_Metadata" title="${title_msg}">
         <spring:url htmlEscape="false" value="/metadatas" var="create_metadata_url">
-          <spring:param name="form" />
-          <spring:param name="dataset" value="${dataset.id}" />
+            <spring:param name="form"/>
+            <spring:param name="dataset" value="${dataset.id}"/>
         </spring:url>
         <a href="${create_metadata_url}">${title_msg}</a>
-   </util:panel>
+    </util:panel>
 </div>

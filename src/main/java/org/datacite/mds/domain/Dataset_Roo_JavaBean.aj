@@ -87,4 +87,12 @@ privileged aspect Dataset_Roo_JavaBean {
         this.updated = updated;
     }
     
+    public Date Dataset.getMinted() {
+        return this.minted;
+    }
+    
+    public void Dataset.setMinted(Date minted) {
+        this.minted = minted;
+    }
+    
 }

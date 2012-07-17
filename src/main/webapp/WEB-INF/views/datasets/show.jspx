@@ -3,7 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:show delete="false" id="ps_org_datacite_mds_domain_Dataset" object="${dataset}" path="/datasets" z="GTOIDp28o0CtA9jRRKQT81aO7fc=">
         <util:hide roles="ROLE_DATACENTRE">
-          <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="true" z="user-managed"/>
+            <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="true" z="user-managed"/>
         </util:hide>
         <c:set value="${properties['link.handleProxy']}" var="proxy_url"/>
         <util:handle-proxy doi="${dataset.doi}" redirect="false" types="URL"/>
@@ -15,24 +15,29 @@
         <field:display field="isActive" id="s_org_datacite_mds_domain_Dataset_isActive" object="${dataset}" z="+iKflUoWmGCa+/BloB8nbPxnrbI="/>
         <field:display field="isRefQuality" id="s_org_datacite_mds_domain_Dataset_isRefQuality" object="${dataset}" z="Pa2TcTvIA3/kRn3GSb4afhSP7vE="/>
         <util:hide>
-          <field:display field="lastLandingPageStatus" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatus" object="${dataset}" z="7qyzkqnseKzwOGknAcd9LKcUfgQ="/>
-          <field:display date="true" dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" object="${dataset}" z="RjT/GCkZDucN6TyaWGcAEzIq6jM="/>
-          <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
+            <field:display field="lastLandingPageStatus" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatus" object="${dataset}" z="7qyzkqnseKzwOGknAcd9LKcUfgQ="/>
+            <field:display date="true" dateTimePattern="${dataset_lastlandingpagestatuscheck_date_format}" field="lastLandingPageStatusCheck" id="s_org_datacite_mds_domain_Dataset_lastLandingPageStatusCheck" object="${dataset}" z="RjT/GCkZDucN6TyaWGcAEzIq6jM="/>
+            <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
         </util:hide>
         <field:display field="url" id="s_org_datacite_mds_domain_Dataset_url" object="${dataset}" render="false" z="user-managed"/>
         <field:display date="true" dateTimePattern="${dataset_created_date_format}" field="created" id="s_org_datacite_mds_domain_Dataset_created" object="${dataset}" z="d0NVtjb9qN+UTT5MHEFzN9SMDzU="/>
         <field:display date="true" dateTimePattern="${dataset_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Dataset_updated" object="${dataset}" z="0xOiEJrTlBixi8pKrahDtV0iGhs="/>
+        <field:display date="true" dateTimePattern="${dataset_minted_date_format}" field="minted" id="s_org_datacite_mds_domain_Dataset_minted" object="${dataset}" z="ddE9IQc4WFqLiLkpH0gl/2cyKz0="/>
     </page:show>
     <c:if test="${not empty metadata}">
         <page:show create="false" delete="false" id="ps_org_datacite_mds_domain_CurrentMetadata" list="false" object="${metadata}" openPane="false" path="/metadatas" update="false" z="user-managed">
             <field:display field="metadataVersion" id="s_org_datacite_mds_domain_Metadata_metadataVersion" object="${metadata}" z="user-managed"/>
             <field:display date="true" dateTimePattern="${metadata_created_date_format}" field="created" id="s_org_datacite_mds_domain_Metadata_created" object="${metadata}" z="user-managed"/>
-            <field:simple field="prettyxml" id="s_org_datacite_mds_domain_Metadata_xml" z="user-managed" >
+            <field:simple field="prettyxml" id="s_org_datacite_mds_domain_Metadata_xml" z="user-managed">
                 <util:highlight lang="xml">
                     ${prettyxml}
                 </util:highlight>
-                <spring:url value="/metadatas/${metadata.id}?raw" var="raw_url" />
-               <p><a href="${raw_url}"><spring:message code="metadata_get_raw_xml"/></a></p>
+                <spring:url value="/metadatas/${metadata.id}?raw" var="raw_url"/>
+                <p>
+                    <a href="${raw_url}">
+                        <spring:message code="metadata_get_raw_xml"/>
+                    </a>
+                </p>
             </field:simple>
             <field:display field="namespace" id="s_org_datacite_mds_domain_Metadata_namespace" object="${metadata}" render="true" z="user-managed"/>
             <field:display field="isConvertedByMds" id="s_org_datacite_mds_domain_Metadata_isConvertedByMds" object="${metadata}" render="true" z="user-managed"/>
@@ -49,13 +54,12 @@
                 <table:column id="c_org_datacite_mds_domain_Metadata_isConvertedByMds" property="isConvertedByMds" z="user-managed"/>
             </table:table>
         </page:list>
-        <page:list create="true" createMessageCode="entity_store" createParam="dataset" createParamValue="${dataset.id}" createPath="/medias" id="pl_org_datacite_mds_domain_Media" items="${medias}" introMessageCode="media_intro" z="user-managed">
-            <table:table createParam="dataset" createParamValue="${dataset.id}" data="${medias}" id="l_org_datacite_mds_domain_Media" path="/medias" z="user-managed" delete="false">
+        <page:list create="true" createMessageCode="entity_store" createParam="dataset" createParamValue="${dataset.id}" createPath="/medias" id="pl_org_datacite_mds_domain_Media" introMessageCode="media_intro" items="${medias}" z="user-managed">
+            <table:table createParam="dataset" createParamValue="${dataset.id}" data="${medias}" delete="false" id="l_org_datacite_mds_domain_Media" path="/medias" z="user-managed">
                 <table:column id="c_org_datacite_mds_domain_Media_mediaType" property="mediaType" z="user-managed"/>
                 <table:column id="c_org_datacite_mds_domain_Media_url" property="url" z="user-managed"/>
-                <table:column id="c_org_datacite_mds_domain_Media_updated" property="updated" date="true" dateTimePattern="${media_updated_date_format}" z="user-managed"/>
+                <table:column date="true" dateTimePattern="${media_updated_date_format}" id="c_org_datacite_mds_domain_Media_updated" property="updated" z="user-managed"/>
             </table:table>
-          </page:list>
+        </page:list>
     </c:if>
-    
 </div>
