@@ -81,6 +81,10 @@ public class Dataset {
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date updated;
     
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(iso = ISO.DATE_TIME)
+    private Date minted;
+
     @Transient
     public Metadata getLatestMetadata() {
         return Metadata.findLatestMetadatasByDataset(this);
