@@ -18,7 +18,7 @@
         <field:input field="lastMetadataStatus" id="c_org_datacite_mds_domain_Dataset_lastMetadataStatus" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${dataset_created_date_format}" field="created" id="c_org_datacite_mds_domain_Dataset_created" render="false" z="user-managed"/>
         <field:datetime dateTimePattern="${dataset_updated_date_format}" field="updated" id="c_org_datacite_mds_domain_Dataset_updated" render="false" z="user-managed"/>
-        <field:datetime dateTimePattern="${dataset_minted_date_format}" field="minted" id="c_org_datacite_mds_domain_Dataset_minted" z="s78qPq/CEYxcV/Qzt1zOlpMpUlw="/>
+        <field:datetime dateTimePattern="${dataset_minted_date_format}" field="minted" id="c_org_datacite_mds_domain_Dataset_minted" render="false" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Dataset" render="${not empty dependencies}" z="LWdyQ83dcuGqnymb9lRlQ6rNsFA="/>
 </div>
