@@ -3,7 +3,7 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <page:list id="pl_org_datacite_mds_domain_Media" items="${medias}" z="user-managed">
-        <table:table data="${medias}" id="l_org_datacite_mds_domain_Media" path="/medias" z="PLHupX7aKyBoeEa4fyxfBAVr1rY=">
+        <table:table data="${medias}" delete="false" id="l_org_datacite_mds_domain_Media" path="/medias" z="ptReNHPdD655D6VITqjBG579ugE=">
             <table:column id="c_org_datacite_mds_domain_Media_dataset" property="dataset" z="PLt1IQse1Fb/D6k/+opcPCYOy3U="/>
             <table:column id="c_org_datacite_mds_domain_Media_mediaType" property="mediaType" z="z/L9pXl/JUmaAR4eX7vnkwmzoIY="/>
             <table:column id="c_org_datacite_mds_domain_Media_url" property="url" z="TNUBLTjUkFtiqZwmckauxQAFLf8="/>
