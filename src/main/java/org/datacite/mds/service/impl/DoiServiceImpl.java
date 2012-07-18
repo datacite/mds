@@ -1,5 +1,7 @@
 package org.datacite.mds.service.impl;
 
+import java.util.Date;
+
 import javax.validation.ValidationException;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,6 +42,7 @@ public class DoiServiceImpl implements DoiService {
         if (!testMode && StringUtils.isNotEmpty(url)) {
             try {
                 handleService.create(doi, url);
+                dataset.setMinted(new Date());
             } catch (HandleException e) {
                 handleService.update(doi, url);
             }

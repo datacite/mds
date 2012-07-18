@@ -6,6 +6,10 @@ import static org.datacite.mds.test.TestUtils.createDataset;
 import static org.datacite.mds.test.TestUtils.createPrefixes;
 import static org.datacite.mds.test.TestUtils.login;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.Date;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
@@ -185,6 +189,24 @@ public class DoiServiceImplTest {
     public void testCreateOrUpdateNonBelongingDataset() throws Exception {
         createDataset(DOI, datacentre2).persist();
         doiService.createOrUpdate(DOI, URL, false);
+    }
+    
+    @Test
+    public void testCreateOrUpdateMintedTimestamp() throws Exception {
+        Dataset dataset = createDataset(DOI, datacentre);
+        dataset.persist();
+        assertNull(dataset.getMinted());
+        
+        // doi minting
+        expectHandleServiceCreate(DOI, URL);
+        doiService.createOrUpdate(DOI, URL, false);
+        Date minted = dataset.getMinted();
+        assertNotNull(minted);
+
+        // doi update
+        expectHandleServiceUpdate(DOI, URL);
+        doiService.createOrUpdate(DOI, URL, false);
+        assertEquals(minted, dataset.getMinted());
     }
 
     @Test

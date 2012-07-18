@@ -2,6 +2,7 @@ package org.datacite.mds.web.ui.controller;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -119,6 +120,7 @@ public class DatasetController implements UiController {
         if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
             try {
                 handleService.create(dataset.getDoi(), dataset.getUrl());
+                dataset.setMinted(new Date());
                 log.info(dataset.getDatacentre().getSymbol() + " successfuly minted (via UI) " + dataset.getDoi());
             } catch (HandleException e) {
                 log.debug("minting DOI failed; try to update it");
@@ -154,6 +156,7 @@ public class DatasetController implements UiController {
                 log.debug("updating DOI failed; try to mint it");
                 try {
                     handleService.create(dataset.getDoi(), dataset.getUrl());
+                    dataset.setMinted(new Date());
                     log.info(dataset.getDatacentre().getSymbol() + " successfuly minted (via UI) " + dataset.getDoi());
                 } catch (HandleException e1) {
                     ObjectError error = new ObjectError("", "HandleService: " + e.getMessage());
