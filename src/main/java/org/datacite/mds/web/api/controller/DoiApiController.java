@@ -10,6 +10,7 @@ import javax.validation.ValidationException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
@@ -19,6 +20,7 @@ import org.datacite.mds.web.api.ApiUtils;
 import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +42,9 @@ public class DoiApiController implements ApiController {
 
     @Autowired
     DoiService doiService;
+    
+    @Value("${handle.metadataRequired}")
+    boolean metadataRequired;
     
     @RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.HEAD })
     public ResponseEntity getRoot() {
@@ -121,6 +126,7 @@ public class DoiApiController implements ApiController {
             throws ValidationException, HandleException, SecurityException, NotFoundException {
         String method = httpRequest.getMethod();
         
+        
         String doi = dataset.getDoi();
         String url = dataset.getUrl();
         
@@ -134,6 +140,11 @@ public class DoiApiController implements ApiController {
             testMode = false;
 
         log4j.debug("*****" + method + " doi (testMode=" + testMode + ") doi: " + doi + ", url: " + url);
+        
+        if (metadataRequired && !hasMetadata(doi)) {
+            String message = ApiUtils.makeResponseMessage("You have to register metadata first!", testMode);
+            return new ResponseEntity<String>(message, new HttpHeaders(), HttpStatus.PRECONDITION_FAILED);
+        }
 
         doiService.createOrUpdate(doi, url, testMode);
 
@@ -144,6 +155,14 @@ public class DoiApiController implements ApiController {
         }
         String message = ApiUtils.makeResponseMessage("OK", testMode);
         return new ResponseEntity<String>(message, headers, HttpStatus.CREATED);
+    }
+    
+    private boolean hasMetadata(String doi) {
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        if (dataset == null)
+            return false;
+        Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
+        return metadata != null;
     }
 
 }

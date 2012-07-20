@@ -5,21 +5,30 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 
 import javax.validation.ValidationException;
 
+import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
+import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
+import org.datacite.mds.test.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("/META-INF/spring/applicationContext.xml")
+@Transactional
 public class DoiApiControllerTest {
 
     DoiApiController doiApiController = new DoiApiController();
@@ -32,6 +41,7 @@ public class DoiApiControllerTest {
     public void setUp() throws Exception {
         mockDoiService = createMock(DoiService.class);
         doiApiController.doiService = this.mockDoiService;
+        doiApiController.metadataRequired = false;
     }
 
     @Test
@@ -78,6 +88,45 @@ public class DoiApiControllerTest {
     @Test(expected = ValidationException.class)
     public void testPostMissingUrl() throws Exception {
         post("url=" + url, false);
+    }
+    
+    @Test
+    public void testPostMetadataRequired() throws Exception {
+        doiApiController.metadataRequired = true;
+        expectDoiServiceCreateOrUpdate();
+        persistMetadata();
+        HttpStatus statusCode = post("doi=" + doi + "\nurl=" + url, false);
+        assertEquals(HttpStatus.CREATED, statusCode);
+    }
+    
+    private Dataset persistDataset() {
+        Datacentre datacentre = TestUtils.createDefaultDatacentre("10.5072");
+        Dataset dataset = TestUtils.createDataset(doi, datacentre);
+        dataset.persist();
+        return dataset;
+    }
+    
+    private Metadata persistMetadata() {
+        Dataset dataset = persistDataset();
+        byte[] xml = TestUtils.getTestMetadata();
+        Metadata metadata = TestUtils.createMetadata(TestUtils.setDoiOfMetadata(xml, doi), dataset);
+        metadata.persist();
+        return metadata;
+    }
+
+    @Test
+    public void testPostMetadataRequiredNoMetadata() throws Exception {
+        doiApiController.metadataRequired = true;
+        persistDataset();
+        HttpStatus statusCode = post("doi=" + doi + "\nurl=" + url, false);
+        assertEquals(HttpStatus.PRECONDITION_FAILED, statusCode);
+    }
+    
+    @Test
+    public void testPostMetadataRequiredNoDataset() throws Exception {
+        doiApiController.metadataRequired = true;
+        HttpStatus statusCode = post("doi=" + doi + "\nurl=" + url, false);
+        assertEquals(HttpStatus.PRECONDITION_FAILED, statusCode);
     }
 
     @Test

@@ -17,4 +17,5 @@ handle.testPrefix.expiration.cron=0 0 0 * * ?
 #same syntax as for datacentre domain list (csv, wildcard support, subdomains included)
 handle.alwaysAllowedDomains=datacite.org
 
-
+#Does metadata for a given DOIs have to exist before minting DOIs?
+handle.metadataRequired=false
