@@ -152,6 +152,7 @@ url={url}</code></pre>
 <p><code>400 Bad Request</code> - request body must be exactly two lines: DOI and URL; , wrong domain, wrong prefix</p>
 <p><code>401 Unauthorized</code> - no login</p>
 <p><code>403 Forbidden</code> - login problem, quota exceeded</p>
+<p><code>412 Precondition failed</code> - metadata must be uploaded first</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
 
