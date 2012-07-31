@@ -117,9 +117,10 @@ public class DoiApiControllerTest {
     @Test
     public void testPostMetadataRequiredNoMetadata() throws Exception {
         doiApiController.metadataRequired = true;
+        expectDoiServiceCreateOrUpdate();
         persistDataset();
         HttpStatus statusCode = post("doi=" + doi + "\nurl=" + url, false);
-        assertEquals(HttpStatus.PRECONDITION_FAILED, statusCode);
+        assertEquals(HttpStatus.CREATED, statusCode);
     }
     
     @Test

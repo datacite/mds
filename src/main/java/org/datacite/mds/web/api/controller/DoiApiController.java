@@ -159,10 +159,7 @@ public class DoiApiController implements ApiController {
     
     private boolean hasMetadata(String doi) {
         Dataset dataset = Dataset.findDatasetByDoi(doi);
-        if (dataset == null)
-            return false;
-        Metadata metadata = Metadata.findLatestMetadatasByDataset(dataset);
-        return metadata != null;
+        return dataset != null;
     }
 
 }
