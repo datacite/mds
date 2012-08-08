@@ -1,12 +1,17 @@
 package org.datacite.mds.web.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import javax.validation.ValidationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
@@ -19,8 +24,11 @@ import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.Utils;
+import org.datacite.mds.util.ValidationUtils;
+import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.NotFoundException;
 import org.datacite.mds.web.ui.UiController;
+import org.datacite.mds.web.ui.model.CreateDatasetModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
@@ -28,11 +36,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 
 @RooWebScaffold(path = "datasets", formBackingObject = Dataset.class, delete = false, populateMethods = false)
 @RequestMapping("/datasets")
@@ -43,6 +54,14 @@ public class DatasetController implements UiController {
 
     @Autowired
     HandleService handleService;
+    
+    @Autowired
+    ValidationHelper validationHelper;
+    
+    @InitBinder
+    void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {
@@ -103,21 +122,56 @@ public class DatasetController implements UiController {
         }
         return "datasets/list";
     }
+    
+    @RequestMapping(params = "form", method = RequestMethod.GET)
+    public String createForm(Model uiModel) {
+        uiModel.addAttribute("createDatasetModel", new CreateDatasetModel());
+        return "datasets/create";
+    }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@Valid Dataset dataset, BindingResult result, Model model) {
-        if (dataset.getUrl().isEmpty()) {
-            result.addError(new FieldError("", "url", "must not be empty"));
+    public String create(@Valid CreateDatasetModel createDatasetModel, BindingResult result, Model model) {
+        Dataset dataset = new Dataset();
+        Metadata metadata = new Metadata();
+
+        dataset.setDoi(createDatasetModel.getDoi());
+        dataset.setDatacentre(createDatasetModel.getDatacentre());
+        dataset.setUrl(createDatasetModel.getUrl());
+        metadata.setDataset(dataset);
+
+        if (!result.hasErrors()) {
+            try {
+                log.info(new String(createDatasetModel.getXml()));
+                metadata.setXml(createDatasetModel.getXml());
+            } catch (ValidationException e) {
+                result.addError(new FieldError("", "xml", e.getMessage()));
+            }
+        }
+        
+        if (!result.hasErrors()) {
+            try {
+                SecurityUtils.checkQuota(dataset.getDatacentre());
+            } catch (SecurityException e) {
+                ObjectError error = new ObjectError("", e.getMessage());
+                result.addError(error);
+            } 
         }
 
-        try {
-            SecurityUtils.checkQuota(dataset.getDatacentre());
-        } catch (SecurityException e) {
-            ObjectError error = new ObjectError("", e.getMessage());
-            result.addError(error);
+        if (!result.hasErrors()) {
+            try {
+                validationHelper.validate(dataset);
+                validationHelper.validate(metadata);
+            } catch (ConstraintViolationException ex) {
+                for (ConstraintViolation<?>v: ex.getConstraintViolations()) {
+                    FieldError error = new FieldError("", v.getPropertyPath().toString(), v.getMessage()); 
+                    result.addError(error);
+                }
+            } 
         }
-
-        if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
+        
+        
+        
+        if (! StringUtils.isEmpty(dataset.getUrl()) && !result.hasErrors()) {
             try {
                 handleService.create(dataset.getDoi(), dataset.getUrl());
                 dataset.setMinted(new Date());
@@ -136,12 +190,13 @@ public class DatasetController implements UiController {
         }
 
         if (result.hasErrors()) {
-            model.addAttribute("dataset", dataset);
+            model.addAttribute("createDatasetModel", createDatasetModel);
             return "datasets/create";
         }
 
         dataset.persist();
         dataset.getDatacentre().incQuotaUsed(Datacentre.ForceRefresh.YES);
+        metadata.persist();
         model.asMap().clear();
         return "redirect:/datasets/" + dataset.getId().toString();
     }

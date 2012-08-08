@@ -17,18 +17,7 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 privileged aspect DatasetController_Roo_Controller {
-    
-    @RequestMapping(params = "form", method = RequestMethod.GET)
-    public String DatasetController.createForm(Model uiModel) {
-        uiModel.addAttribute("dataset", new Dataset());
-        List dependencies = new ArrayList();
-        if (Datacentre.countDatacentres() == 0) {
-            dependencies.add(new String[]{"datacentre", "datacentres"});
-        }
-        uiModel.addAttribute("dependencies", dependencies);
-        return "datasets/create";
-    }
-    
+        
     String DatasetController.encodeUrlPathSegment(String pathSegment, HttpServletRequest httpServletRequest) {
         String enc = httpServletRequest.getCharacterEncoding();
         if (enc == null) {
