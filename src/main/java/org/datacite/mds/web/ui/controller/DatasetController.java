@@ -26,6 +26,7 @@ import org.datacite.mds.web.api.NotFoundException;
 import org.datacite.mds.web.ui.UiController;
 import org.datacite.mds.web.ui.model.CreateDatasetModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.roo.addon.web.mvc.controller.RooWebScaffold;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,9 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 public class DatasetController implements UiController {
 
     private static Logger log = Logger.getLogger(DatasetController.class);
+
+    @Value("${handle.metadataRequired}")
+    boolean metadataRequired;
 
     @Autowired
     HandleService handleService;
@@ -137,19 +141,25 @@ public class DatasetController implements UiController {
         metadata.setDataset(dataset);
 
         byte[] xmlUpload = createDatasetModel.getXmlUpload();
-        boolean isFileUploaded = !ArrayUtils.isEmpty(xmlUpload); 
+        boolean isFileUploaded = !ArrayUtils.isEmpty(xmlUpload);
         if (isFileUploaded)
             createDatasetModel.setXml(xmlUpload);
+        
+        boolean hasMetadata = !ArrayUtils.isEmpty(createDatasetModel.getXml());
 
         try {
-            byte[] xml = createDatasetModel.getXml();
-            metadata.setXml(xml);
+            if (hasMetadata) {
+                byte[] xml = createDatasetModel.getXml();
+                metadata.setXml(xml);
+                validationHelper.validateTo(result, metadata);
+            } else if (metadataRequired)
+                throw new ValidationException("may not be empty");
         } catch (ValidationException e) {
             result.rejectValue("xml", null, e.getMessage());
         }
 
-        validationHelper.validateTo(result, dataset, metadata);
-
+        validationHelper.validateTo(result, dataset);
+        
         try {
             SecurityUtils.checkQuota(dataset.getDatacentre());
         } catch (SecurityException e) {
@@ -182,7 +192,8 @@ public class DatasetController implements UiController {
 
         dataset.persist();
         dataset.getDatacentre().incQuotaUsed(Datacentre.ForceRefresh.YES);
-        metadata.persist();
+        if (hasMetadata)
+            metadata.persist();
         model.asMap().clear();
         return "redirect:/datasets/" + dataset.getId().toString();
     }
