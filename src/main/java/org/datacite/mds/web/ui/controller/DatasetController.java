@@ -147,7 +147,7 @@ public class DatasetController implements UiController {
                 else 
                     throw new ValidationException("may not be empty");   
             } catch (ValidationException e) {
-                result.addError(new FieldError("", "xml", e.getMessage()));
+                result.rejectValue("xml", null, e.getMessage());
             }
         }
         
