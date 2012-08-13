@@ -16,8 +16,11 @@ public class ValidationHelper {
     @Autowired
     Validator validator;
 
-    public void validate(Object object) throws ConstraintViolationException {
-        Set<ConstraintViolation<Object>> violations = validator.validate(object);
+    public void validate(Object... objects) throws ConstraintViolationException {
+        Set<ConstraintViolation<Object>> violations = new HashSet<ConstraintViolation<Object>>();
+        for (Object object : objects)
+            violations.addAll(validator.validate(object));
+
         if (!violations.isEmpty()) {
             Set<ConstraintViolation<?>> castedViolations = new HashSet<ConstraintViolation<?>>(violations);
             throw new ConstraintViolationException(castedViolations);
