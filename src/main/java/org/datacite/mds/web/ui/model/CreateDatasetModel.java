@@ -1,12 +1,9 @@
 package org.datacite.mds.web.ui.model;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.datacite.mds.domain.Datacentre;
-import org.datacite.mds.validation.constraints.Doi;
-import org.datacite.mds.validation.constraints.ValidXML;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class CreateDatasetModel {
@@ -21,6 +18,8 @@ public class CreateDatasetModel {
     private Datacentre datacentre;
 
     private byte[] xml;
+    
+    private byte[] xmlUpload;
 
     public String getDoi() {
         return doi;
@@ -52,6 +51,14 @@ public class CreateDatasetModel {
 
     public void setXml(byte[] xml) {
         this.xml = xml;
+    }
+    
+    public byte[] getXmlUpload() {
+        return xmlUpload;
+    }
+
+    public void setXmlUpload(byte[] xml) {
+        this.xmlUpload = xml;
     }
 
     @Override

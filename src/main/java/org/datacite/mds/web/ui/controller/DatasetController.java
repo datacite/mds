@@ -138,14 +138,18 @@ public class DatasetController implements UiController {
         dataset.setDatacentre(createDatasetModel.getDatacentre());
         dataset.setUrl(createDatasetModel.getUrl());
         metadata.setDataset(dataset);
+        
+        byte[] xmlUpload = createDatasetModel.getXmlUpload();
+        if (xmlUpload.length > 0)
+            createDatasetModel.setXml(xmlUpload);
 
         if (!result.hasErrors()) {
             try {
                 byte[] xml = createDatasetModel.getXml();
-                if (xml.length > 0)  
-                    metadata.setXml(createDatasetModel.getXml());
-                else 
-                    throw new ValidationException("may not be empty");   
+                if (xml.length > 0)
+                    metadata.setXml(xml);
+                else
+                    throw new ValidationException("may not be empty");
             } catch (ValidationException e) {
                 result.rejectValue("xml", null, e.getMessage());
             }
