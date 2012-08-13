@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.validator.UrlValidator;
@@ -47,6 +48,18 @@ public class ValidationUtils {
     public static void addConstraintViolation(ConstraintValidatorContext context, String message) {
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(message).addConstraintViolation();
+    }
+    
+    public static void constraintViolationToBindingResult(ConstraintViolationException exception, BindingResult result) {
+        for (ConstraintViolation<?> violation : exception.getConstraintViolations()) {
+            constraintViolationToBindingResult(violation, result);
+        }
+    }
+    
+    public static void constraintViolationToBindingResult(ConstraintViolation<?> violation, BindingResult result) {
+        String field = violation.getPropertyPath().toString();
+        String msg = violation.getMessage();
+        result.rejectValue(field, null, msg);
     }
 
     /**

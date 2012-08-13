@@ -165,10 +165,7 @@ public class DatasetController implements UiController {
                 validationHelper.validate(dataset);
                 validationHelper.validate(metadata);
             } catch (ConstraintViolationException ex) {
-                for (ConstraintViolation<?>v: ex.getConstraintViolations()) {
-                    String field = v.getPropertyPath().toString();
-                    result.rejectValue(field, null, v.getMessage());
-                }
+                ValidationUtils.constraintViolationToBindingResult(ex, result);
             } 
         }
         
