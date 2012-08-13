@@ -413,8 +413,8 @@ fieldset th {
 }
 
 .dijitTextBox, .dijitComboBox, .dijitSpinner, .dijitTextArea {
-    width: 270px  !important;
-    max-width: 270px !important;
+    width: 270px;
+    max-width: 270px;
     padding: 0px !important;
 }
 
@@ -422,6 +422,14 @@ fieldset th {
     font-family: monospace !important;
     font-size: 12px;
     color: #666666;
+}
+
+.dijitTextArea {
+    min-width: 270px;
+    max-width: 580px;
+    max-width: -moz-calc(100% - 160px);
+    max-width: -webkit-calc(100% - 160px);
+    max-width: calc(100% - 160px);
 }
 
 .dijitDateTextBox {
@@ -554,5 +562,4 @@ label:not([title=""]), th:not([title=" "]) {
 
 label:not([title=""]) span {
     border-bottom: thin dotted black;
-}
-            
+}     
