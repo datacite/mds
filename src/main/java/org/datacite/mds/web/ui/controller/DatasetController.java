@@ -1,18 +1,14 @@
 package org.datacite.mds.web.ui.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
@@ -25,7 +21,6 @@ import org.datacite.mds.service.HandleService;
 import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.Utils;
-import org.datacite.mds.util.ValidationUtils;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.api.NotFoundException;
 import org.datacite.mds.web.ui.UiController;
@@ -55,10 +50,10 @@ public class DatasetController implements UiController {
 
     @Autowired
     HandleService handleService;
-    
+
     @Autowired
     ValidationHelper validationHelper;
-    
+
     @InitBinder
     void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(byte[].class, new ByteArrayMultipartFileEditor());
@@ -83,7 +78,7 @@ public class DatasetController implements UiController {
         model.addAttribute("itemId", id);
         return "datasets/show";
     }
-    
+
     private String resolveDoi(Dataset dataset) {
         try {
             String url = handleService.resolve(dataset.getDoi());
@@ -112,9 +107,10 @@ public class DatasetController implements UiController {
         AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
         if (page != null || size != null) {
             int sizeNo = size == null ? 10 : size.intValue();
-            model.addAttribute("datasets", Dataset.findDatasetEntriesByAllocatorOrDatacentre(user, page == null ? 0 : (page
-                    .intValue() - 1)
-                    * sizeNo, sizeNo));
+            model.addAttribute(
+                    "datasets",
+                    Dataset.findDatasetEntriesByAllocatorOrDatacentre(user, page == null ? 0 : (page.intValue() - 1)
+                            * sizeNo, sizeNo));
             float nrOfPages = (float) Dataset.countDatasetsByAllocatorOrDatacentre(user) / sizeNo;
             model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
                     : nrOfPages));
@@ -123,7 +119,7 @@ public class DatasetController implements UiController {
         }
         return "datasets/list";
     }
-    
+
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
         uiModel.addAttribute("createDatasetModel", new CreateDatasetModel());
@@ -139,36 +135,28 @@ public class DatasetController implements UiController {
         dataset.setDatacentre(createDatasetModel.getDatacentre());
         dataset.setUrl(createDatasetModel.getUrl());
         metadata.setDataset(dataset);
-        
+
         byte[] xmlUpload = createDatasetModel.getXmlUpload();
-        if (!ArrayUtils.isEmpty(xmlUpload))
+        boolean isFileUploaded = !ArrayUtils.isEmpty(xmlUpload); 
+        if (isFileUploaded)
             createDatasetModel.setXml(xmlUpload);
 
-        if (!result.hasErrors()) {
-            try {
-                byte[] xml = createDatasetModel.getXml();
-                if (!ArrayUtils.isEmpty(xml))
-                    metadata.setXml(xml);
-                else
-                    throw new ValidationException("may not be empty");
-            } catch (ValidationException e) {
-                result.rejectValue("xml", null, e.getMessage());
-            }
-        }
-        
-        if (!result.hasErrors()) {
-            try {
-                SecurityUtils.checkQuota(dataset.getDatacentre());
-            } catch (SecurityException e) {
-                ObjectError error = new ObjectError("", e.getMessage());
-                result.addError(error);
-            } 
+        try {
+            byte[] xml = createDatasetModel.getXml();
+            metadata.setXml(xml);
+        } catch (ValidationException e) {
+            result.rejectValue("xml", null, e.getMessage());
         }
 
-        if (!result.hasErrors()) {
-            validationHelper.validateTo(result, dataset, metadata);
+        validationHelper.validateTo(result, dataset, metadata);
+
+        try {
+            SecurityUtils.checkQuota(dataset.getDatacentre());
+        } catch (SecurityException e) {
+            ObjectError error = new ObjectError("", e.getMessage());
+            result.addError(error);
         }
-        
+
         if (!result.hasErrors()) {
             try {
                 handleService.create(dataset.getDoi(), dataset.getUrl());

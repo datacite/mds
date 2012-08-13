@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class CreateDatasetModel {
 
-    @NotEmpty
     private String doi;
     
     @NotEmpty
