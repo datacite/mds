@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
@@ -140,13 +141,13 @@ public class DatasetController implements UiController {
         metadata.setDataset(dataset);
         
         byte[] xmlUpload = createDatasetModel.getXmlUpload();
-        if (xmlUpload.length > 0)
+        if (!ArrayUtils.isEmpty(xmlUpload))
             createDatasetModel.setXml(xmlUpload);
 
         if (!result.hasErrors()) {
             try {
                 byte[] xml = createDatasetModel.getXml();
-                if (xml.length > 0)
+                if (!ArrayUtils.isEmpty(xml))
                     metadata.setXml(xml);
                 else
                     throw new ValidationException("may not be empty");
