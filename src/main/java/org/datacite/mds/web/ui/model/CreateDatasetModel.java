@@ -3,6 +3,7 @@ package org.datacite.mds.web.ui.model;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.validation.constraints.Doi;
 import org.datacite.mds.validation.constraints.ValidXML;
@@ -52,6 +53,11 @@ public class CreateDatasetModel {
 
     public void setXml(byte[] xml) {
         this.xml = xml;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 
     
