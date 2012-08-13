@@ -7,8 +7,10 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
+import org.datacite.mds.util.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.BindingResult;
 
 @Component
 public class ValidationHelper {
@@ -24,6 +26,14 @@ public class ValidationHelper {
         if (!violations.isEmpty()) {
             Set<ConstraintViolation<?>> castedViolations = new HashSet<ConstraintViolation<?>>(violations);
             throw new ConstraintViolationException(castedViolations);
+        }
+    }
+    
+    public void validateTo(BindingResult result, Object... objects) {
+        try {
+            validate(objects);
+        } catch (ConstraintViolationException ex) {
+            ValidationUtils.constraintViolationToBindingResult(ex, result);
         }
     }
 

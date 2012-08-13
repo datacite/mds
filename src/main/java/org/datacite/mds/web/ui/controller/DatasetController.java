@@ -161,14 +161,8 @@ public class DatasetController implements UiController {
         }
 
         if (!result.hasErrors()) {
-            try {
-                validationHelper.validate(dataset, metadata);
-            } catch (ConstraintViolationException ex) {
-                ValidationUtils.constraintViolationToBindingResult(ex, result);
-            } 
+            validationHelper.validateTo(result, dataset, metadata);
         }
-        
-        
         
         if (! StringUtils.isEmpty(dataset.getUrl()) && !result.hasErrors()) {
             try {
