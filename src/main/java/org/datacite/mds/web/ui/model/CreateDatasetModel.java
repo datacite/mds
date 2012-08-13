@@ -20,7 +20,6 @@ public class CreateDatasetModel {
     @NotNull
     private Datacentre datacentre;
 
-    @NotNull
     private byte[] xml;
 
     public String getDoi() {

@@ -164,7 +164,7 @@ public class DatasetController implements UiController {
             validationHelper.validateTo(result, dataset, metadata);
         }
         
-        if (! StringUtils.isEmpty(dataset.getUrl()) && !result.hasErrors()) {
+        if (!result.hasErrors()) {
             try {
                 handleService.create(dataset.getDoi(), dataset.getUrl());
                 dataset.setMinted(new Date());
