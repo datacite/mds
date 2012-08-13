@@ -12,7 +12,7 @@
         <field:input field="doi" id="c_org_datacite_mds_domain_Dataset_doi" required="true" z="user-managed"/>
         <field:input field="url" id="c_org_datacite_mds_domain_Dataset_url" z="la6gXUeXRd0G8QElrLkaBvsDozk="/>
         <field:upload field="xmlUpload" id="c_org_datacite_mds_domain_Metadata_xmlupload" z="user-managed"/>
-        <field:textarea field="xml" id="c_org_datacite_mds_domain_Metadata_xml" z="user-managed"/>
+        <field:textarea field="xml" id="c_org_datacite_mds_domain_Metadata_xml" readonly="true" z="user-managed"/>
     </form:create>
     <form:dependency dependencies="${dependencies}" id="d_org_datacite_mds_domain_Dataset" render="${not empty dependencies}" z="LWdyQ83dcuGqnymb9lRlQ6rNsFA="/>
 </div>
