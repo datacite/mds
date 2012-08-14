@@ -213,6 +213,7 @@ public abstract class TestUtils {
 
     private static Document bytesToDocument(byte[] bytes) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
         ByteArrayInputStream input = new ByteArrayInputStream(bytes);
         Document doc = builder.parse(input);
