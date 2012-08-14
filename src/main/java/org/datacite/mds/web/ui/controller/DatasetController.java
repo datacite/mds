@@ -133,27 +133,7 @@ public class DatasetController implements UiController {
     @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid CreateDatasetModel createDatasetModel, BindingResult result, Model model) {
         Dataset dataset = modelToDataset(createDatasetModel, result);
-        
-        Metadata metadata = new Metadata();
-        metadata.setDataset(dataset);
-
-        byte[] xmlUpload = createDatasetModel.getXmlUpload();
-        boolean isFileUploaded = !ArrayUtils.isEmpty(xmlUpload);
-        if (isFileUploaded)
-            createDatasetModel.setXml(xmlUpload);
-        
-        boolean hasMetadata = !ArrayUtils.isEmpty(createDatasetModel.getXml());
-
-        try {
-            if (hasMetadata) {
-                byte[] xml = createDatasetModel.getXml();
-                metadata.setXml(xml);
-                validationHelper.validateTo(result, metadata);
-            } else if (metadataRequired)
-                throw new ValidationException("may not be empty");
-        } catch (ValidationException e) {
-            result.rejectValue("xml", null, e.getMessage());
-        }
+        Metadata metadata = modelToMetadata(createDatasetModel, dataset, result);
 
         checkQuota(dataset, result);
 
@@ -182,6 +162,7 @@ public class DatasetController implements UiController {
 
         dataset.persist();
         dataset.getDatacentre().incQuotaUsed(Datacentre.ForceRefresh.YES);
+        boolean hasMetadata = !ArrayUtils.isEmpty(metadata.getXml());
         if (hasMetadata)
             metadata.persist();
         model.asMap().clear();
@@ -195,6 +176,34 @@ public class DatasetController implements UiController {
         dataset.setUrl(createDatasetModel.getUrl());
         validationHelper.validateTo(result, dataset);
         return dataset;
+    }
+    
+    private Metadata modelToMetadata(CreateDatasetModel createDatasetModel, Dataset dataset, BindingResult result) {
+        Metadata metadata = new Metadata();
+        metadata.setDataset(dataset);
+
+        handleUploadedXml(createDatasetModel);
+        
+        try {
+            boolean hasMetadata = !ArrayUtils.isEmpty(createDatasetModel.getXml());
+            if (hasMetadata) {
+                byte[] xml = createDatasetModel.getXml();
+                metadata.setXml(xml);
+                validationHelper.validateTo(result, metadata);
+            } else if (metadataRequired)
+                throw new ValidationException("may not be empty");
+        } catch (ValidationException e) {
+            result.rejectValue("xml", null, e.getMessage());
+        }
+        
+        return metadata;
+    }
+    
+    private void handleUploadedXml(CreateDatasetModel createDatasetModel) {
+        byte[] xmlUpload = createDatasetModel.getXmlUpload();
+        boolean isFileUploaded = !ArrayUtils.isEmpty(xmlUpload);
+        if (isFileUploaded)
+            createDatasetModel.setXml(xmlUpload);
     }
     
     private void checkQuota(Dataset dataset, BindingResult result) { 
