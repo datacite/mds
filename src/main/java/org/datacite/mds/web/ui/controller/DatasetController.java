@@ -132,12 +132,9 @@ public class DatasetController implements UiController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid CreateDatasetModel createDatasetModel, BindingResult result, Model model) {
-        Dataset dataset = new Dataset();
+        Dataset dataset = modelToDataset(createDatasetModel, result);
+        
         Metadata metadata = new Metadata();
-
-        dataset.setDoi(createDatasetModel.getDoi());
-        dataset.setDatacentre(createDatasetModel.getDatacentre());
-        dataset.setUrl(createDatasetModel.getUrl());
         metadata.setDataset(dataset);
 
         byte[] xmlUpload = createDatasetModel.getXmlUpload();
@@ -158,14 +155,7 @@ public class DatasetController implements UiController {
             result.rejectValue("xml", null, e.getMessage());
         }
 
-        validationHelper.validateTo(result, dataset);
-        
-        try {
-            SecurityUtils.checkQuota(dataset.getDatacentre());
-        } catch (SecurityException e) {
-            ObjectError error = new ObjectError("", e.getMessage());
-            result.addError(error);
-        }
+        checkQuota(dataset, result);
 
         if (!result.hasErrors()) {
             try {
@@ -196,6 +186,24 @@ public class DatasetController implements UiController {
             metadata.persist();
         model.asMap().clear();
         return "redirect:/datasets/" + dataset.getId().toString();
+    }
+    
+    private Dataset modelToDataset(CreateDatasetModel createDatasetModel, BindingResult result) {
+        Dataset dataset = new Dataset();
+        dataset.setDoi(createDatasetModel.getDoi());
+        dataset.setDatacentre(createDatasetModel.getDatacentre());
+        dataset.setUrl(createDatasetModel.getUrl());
+        validationHelper.validateTo(result, dataset);
+        return dataset;
+    }
+    
+    private void checkQuota(Dataset dataset, BindingResult result) { 
+        try {
+            SecurityUtils.checkQuota(dataset.getDatacentre());
+        } catch (SecurityException e) {
+            ObjectError error = new ObjectError("", e.getMessage());
+            result.addError(error);
+        }
     }
 
     @RequestMapping(method = RequestMethod.PUT)
