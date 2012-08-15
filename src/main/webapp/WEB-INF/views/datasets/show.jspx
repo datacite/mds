@@ -20,9 +20,9 @@
             <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
         </util:hide>
         <field:display field="url" id="s_org_datacite_mds_domain_Dataset_url" object="${dataset}" render="false" z="user-managed"/>
-        <field:display date="true" dateTimePattern="${dataset_created_date_format}" field="created" id="s_org_datacite_mds_domain_Dataset_created" object="${dataset}" z="d0NVtjb9qN+UTT5MHEFzN9SMDzU="/>
+        <field:display date="true" dateTimePattern="${dataset_created_date_format}" field="created" id="s_org_datacite_mds_domain_Dataset_created" object="${dataset}" render="false" z="user-managed"/>
+        <field:display date="true" dateTimePattern="${dataset_minted_date_format}" field="minted" id="s_org_datacite_mds_domain_Dataset_minted" object="${dataset}" defaultMessageCode="dataset_not_minted" render="true" z="user-managed"/>
         <field:display date="true" dateTimePattern="${dataset_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Dataset_updated" object="${dataset}" z="0xOiEJrTlBixi8pKrahDtV0iGhs="/>
-        <field:display date="true" dateTimePattern="${dataset_minted_date_format}" field="minted" id="s_org_datacite_mds_domain_Dataset_minted" object="${dataset}" z="ddE9IQc4WFqLiLkpH0gl/2cyKz0="/>
     </page:show>
     <c:if test="${not empty metadata}">
         <page:show create="false" delete="false" id="ps_org_datacite_mds_domain_CurrentMetadata" list="false" object="${metadata}" openPane="false" path="/metadatas" update="false" z="user-managed">
