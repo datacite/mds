@@ -191,7 +191,7 @@ public class DatasetController implements UiController {
                 metadata.setXml(xml);
                 validationHelper.validateTo(result, metadata);
             } else if (metadataRequired)
-                throw new ValidationException("may not be empty");
+                result.rejectValue("xml", "org.datacite.mds.ui.model.CreateDatasetModel.xml.required");
         } catch (ValidationException e) {
             result.rejectValue("xml", null, e.getMessage());
         }
