@@ -11,6 +11,7 @@
   <jsp:directive.attribute name="link" type="java.lang.String" required="false" description="link to the given URL" />
   <jsp:directive.attribute name="linkTitle" type="java.lang.String" required="false" description="title param for the link" />
   <jsp:directive.attribute name="showPath" type="java.lang.String" required="false" description="path to show the reference entity" />
+  <jsp:directive.attribute name="defaultMessageCode" type="java.lang.String" required="false" description="code of default message if field is empty" />
   <jsp:directive.attribute name="useHtmlList" type="java.lang.Boolean" required="false" description="Indicate if collections are handled as html unordered lists (default 'true')" />
   <jsp:directive.attribute name="render" type="java.lang.Boolean" required="false" description="Indicate if the contents of this tag and all enclosed tags should be rendered (default 'true')" />
   <jsp:directive.attribute name="z" type="java.lang.String" required="false" description="Used for checking if element has been modified (to recalculate simply provide empty string value)" />
@@ -41,6 +42,9 @@
       <div class="box" id="_${fn:escapeXml(id)}_${fn:escapeXml(field)}_id">
         <c:choose>
           <c:when test="${empty object[field]}">
+            <c:if test="${not empty defaultMessageCode}">
+              <spring:message code="${defaultMessageCode}"/>
+            </c:if>
             &amp;nbsp; <!-- strange looking escape for &nbsp; -->
           </c:when>
           <c:when test="${date}">
