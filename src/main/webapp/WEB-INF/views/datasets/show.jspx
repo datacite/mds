@@ -12,6 +12,9 @@
             <a href="javascript:resolveDoi()">[handle record]</a>
         </field:display>
         <util:comment messageCode="handle_latency_info"/>
+        <field:display date="true" dateTimePattern="${dataset_created_date_format}" field="created" id="s_org_datacite_mds_domain_Dataset_created" object="${dataset}" render="false" z="user-managed"/>
+        <field:display date="true" dateTimePattern="${dataset_minted_date_format}" field="minted" id="s_org_datacite_mds_domain_Dataset_minted" object="${dataset}" defaultMessageCode="dataset_not_minted" render="true" z="user-managed"/>
+        <field:display date="true" dateTimePattern="${dataset_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Dataset_updated" object="${dataset}" z="0xOiEJrTlBixi8pKrahDtV0iGhs="/>
         <field:display field="isActive" id="s_org_datacite_mds_domain_Dataset_isActive" object="${dataset}" z="+iKflUoWmGCa+/BloB8nbPxnrbI="/>
         <field:display field="isRefQuality" id="s_org_datacite_mds_domain_Dataset_isRefQuality" object="${dataset}" z="Pa2TcTvIA3/kRn3GSb4afhSP7vE="/>
         <util:hide>
@@ -20,9 +23,6 @@
             <field:display field="lastMetadataStatus" id="s_org_datacite_mds_domain_Dataset_lastMetadataStatus" object="${dataset}" z="ZLgwrEyz/qKcANxy5YdscojoaNc="/>
         </util:hide>
         <field:display field="url" id="s_org_datacite_mds_domain_Dataset_url" object="${dataset}" render="false" z="user-managed"/>
-        <field:display date="true" dateTimePattern="${dataset_created_date_format}" field="created" id="s_org_datacite_mds_domain_Dataset_created" object="${dataset}" render="false" z="user-managed"/>
-        <field:display date="true" dateTimePattern="${dataset_minted_date_format}" field="minted" id="s_org_datacite_mds_domain_Dataset_minted" object="${dataset}" defaultMessageCode="dataset_not_minted" render="true" z="user-managed"/>
-        <field:display date="true" dateTimePattern="${dataset_updated_date_format}" field="updated" id="s_org_datacite_mds_domain_Dataset_updated" object="${dataset}" z="0xOiEJrTlBixi8pKrahDtV0iGhs="/>
     </page:show>
     <c:if test="${not empty metadata}">
         <page:show create="false" delete="false" id="ps_org_datacite_mds_domain_CurrentMetadata" list="false" object="${metadata}" openPane="false" path="/metadatas" update="false" z="user-managed">
