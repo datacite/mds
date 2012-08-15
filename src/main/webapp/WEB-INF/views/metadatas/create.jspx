@@ -6,10 +6,7 @@
         <field:select field="dataset" id="c_org_datacite_mds_domain_Metadata_dataset" itemValue="id" items="${datasets}" path="/datasets" readonly="true" required="true" z="user-managed"/>
         <field:input field="metadataVersion" id="c_org_datacite_mds_domain_Metadata_metadataVersion" min="0" render="false" validationMessageCode="field_invalid_integer" z="user-managed"/>
         <field:upload field="xml" id="c_org_datacite_mds_domain_Metadata_xml" z="user-managed"/>
-        <util:comment messageCode="metadata_xsd">:
-          <c:set value="${properties['xml.schema.location.prefix']}" var="schema"/>
-            <a href="${schema}">${schema}</a>
-        </util:comment>
+        <util:comment-xml-upload/>
         <field:datetime dateTimePattern="${metadata_created_date_format}" field="created" id="c_org_datacite_mds_domain_Metadata_created" render="false" z="user-managed"/>
         <field:input field="namespace" id="c_org_datacite_mds_domain_Metadata_namespace" render="false" z="user-managed"/>
         <field:checkbox field="isConvertedByMds" id="c_org_datacite_mds_domain_Metadata_isConvertedByMds" render="false" z="user-managed"/>
