@@ -4,6 +4,8 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.datacite.mds.domain.Datacentre;
 import org.datacite.mds.domain.Dataset;
@@ -94,6 +96,14 @@ public class DatasetControllerTest {
         EasyMock.replay(mockHandleService);
     }
     
+    private void expectHandleServiceCreateAfterUpdate(String doi, String url) throws HandleException {
+        EasyMock.reset(mockHandleService);
+        mockHandleService.update(doi, url);
+        EasyMock.expectLastCall().andThrow(new HandleException("handle exists"));
+        mockHandleService.create(doi, url);
+        EasyMock.replay(mockHandleService);
+    }
+    
     @Test
     public void create() throws Exception {
         assertCreateSuccess();
@@ -164,6 +174,19 @@ public class DatasetControllerTest {
         assertEquals("datasets/create", view);
         assertEquals(0, Dataset.countDatasets());
         assertEquals(0, Metadata.countMetadatas());
-    }
+    }   
+    
+    @Test
+    public void updateKeepMintedTimestamp() throws HandleException {
+        assertCreateSuccess();
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        dataset.setUrl(url + "/foo");
+        Date minted = dataset.getMinted();
 
+        expectHandleServiceCreateAfterUpdate(doi, dataset.getUrl());
+        controller.update(dataset, result, model);
+        
+        assertEquals(minted, dataset.getMinted());
+    }
+    
 }

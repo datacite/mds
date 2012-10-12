@@ -207,6 +207,11 @@ public class DoiServiceImplTest {
         expectHandleServiceUpdate(DOI, URL);
         doiService.createOrUpdate(DOI, URL, false);
         assertEquals(minted, dataset.getMinted());
+        
+        // doi update after deleted/lost in handle
+        expectHandleServiceCreate(DOI, URL);
+        doiService.createOrUpdate(DOI, URL, false);
+        assertEquals(minted, dataset.getMinted());
     }
 
     @Test

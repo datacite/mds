@@ -42,7 +42,8 @@ public class DoiServiceImpl implements DoiService {
         if (!testMode && StringUtils.isNotEmpty(url)) {
             try {
                 handleService.create(doi, url);
-                dataset.setMinted(new Date());
+                if (dataset.getMinted() == null)
+                    dataset.setMinted(new Date());
             } catch (HandleException e) {
                 handleService.update(doi, url);
             }
