@@ -67,6 +67,10 @@ public class HandleServiceImpl implements HandleService {
                 throw new NotFoundException("handle " + doi + " does not exist");
             }
 
+            if (response.responseCode == AbstractMessage.RC_VALUES_NOT_FOUND) {
+                throw new NotFoundException("handle " + doi + " does not have any URL");
+            }
+
             if (response.responseCode != AbstractMessage.RC_SUCCESS) {
                 throw new HandleException(msg);
             }
