@@ -8,6 +8,7 @@ import net.handle.hdllib.AdminRecord;
 import net.handle.hdllib.AuthenticationInfo;
 import net.handle.hdllib.CreateHandleRequest;
 import net.handle.hdllib.Encoder;
+import net.handle.hdllib.ErrorResponse;
 import net.handle.hdllib.HandleResolver;
 import net.handle.hdllib.HandleValue;
 import net.handle.hdllib.ModifyValueRequest;
@@ -59,18 +60,23 @@ public class HandleServiceImpl implements HandleService {
         
         try {
             AbstractResponse response = resolver.processRequest(resReq);
+            String msg = AbstractMessage.getResponseCodeMessage(response.responseCode);
+            log4j.debug("response code from Handle request: " + msg);
+            
+            if (response.responseCode == AbstractMessage.RC_HANDLE_NOT_FOUND) {
+                throw new NotFoundException("handle " + doi + " does not exist");
+            }
+
+            if (response.responseCode != AbstractMessage.RC_SUCCESS) {
+                throw new HandleException(msg);
+            }
+
             HandleValue[] values = ((ResolutionResponse)response).getHandleValues();
-            if (values.length == 0)
-                throw new NotFoundException("no url found for handle " + doi);
             return values[0].getDataAsString();
         } catch (net.handle.hdllib.HandleException e) {
-            if (e.getCode() == net.handle.hdllib.HandleException.HANDLE_DOES_NOT_EXIST) {
-                throw new NotFoundException("handle " + doi + " does not exist");
-            } else {
-                String message = "tried to resolve handle " + doi + " but failed: " + e.getMessage();
-                log4j.warn(message);
-                throw new HandleException(message, e);
-            }
+            String message = "tried to resolve handle " + doi + " but failed: " + e.getMessage();
+            log4j.warn(message);
+            throw new HandleException(message, e);
         }
     }
 
