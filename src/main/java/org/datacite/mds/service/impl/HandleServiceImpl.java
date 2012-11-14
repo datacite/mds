@@ -11,7 +11,10 @@ import net.handle.hdllib.Encoder;
 import net.handle.hdllib.HandleResolver;
 import net.handle.hdllib.HandleValue;
 import net.handle.hdllib.ModifyValueRequest;
+import net.handle.hdllib.ResolutionRequest;
+import net.handle.hdllib.ResolutionResponse;
 import net.handle.hdllib.SecretKeyAuthenticationInfo;
+import net.handle.hdllib.Util;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -48,10 +51,15 @@ public class HandleServiceImpl implements HandleService {
     public String resolve(String doi) throws HandleException, NotFoundException {
         if (dummyMode)
             return "dummyMode";
+
+        byte[] handle = Util.encodeString(doi);
+        byte[][] types = { Util.encodeString("URL") };
+        int[] indexes = new int[0];
+        ResolutionRequest resReq = new ResolutionRequest(handle, types, indexes, null);
         
         try {
-            String[] types = { "URL" };
-            HandleValue[] values = resolver.resolveHandle(doi, types, null);
+            AbstractResponse response = resolver.processRequest(resReq);
+            HandleValue[] values = ((ResolutionResponse)response).getHandleValues();
             if (values.length == 0)
                 throw new NotFoundException("no url found for handle " + doi);
             return values[0].getDataAsString();
