@@ -72,6 +72,13 @@ public class HandleServiceImplTest {
         replay(service.resolver);
         service.resolve(doi);
     }
+    
+    @Test(expected = HandleException.class)
+    public void testResolveUnhandledErrorCode() throws Exception {
+        mockResponseCode(AbstractMessage.RC_PROTOCOL_ERROR);
+        replay(service.resolver);
+        service.resolve(doi);
+    }
 
     @Test
     public void testCreate() throws Exception {
