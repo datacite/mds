@@ -57,6 +57,7 @@ public class HandleServiceImpl implements HandleService {
         byte[][] types = { Util.encodeString("URL") };
         int[] indexes = new int[0];
         ResolutionRequest resReq = new ResolutionRequest(handle, types, indexes, null);
+        resReq.authoritative = true; //always ask a primary server
         
         try {
             AbstractResponse response = resolver.processRequest(resReq);
