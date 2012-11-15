@@ -61,7 +61,7 @@ public class HandleServiceImpl implements HandleService {
         try {
             checkPrimary(pingServer);
         } catch (net.handle.hdllib.HandleException e) {
-            throw new HandleException("HandleException", e);
+            throw new HandleException("error while checking handle server " + pingServer, e);
         }
     }
     
@@ -78,7 +78,7 @@ public class HandleServiceImpl implements HandleService {
         }
         
         if (!hasPrimary)
-            throw new HandleException("no primary server found");
+            throw new HandleException("no primary handle server found for " + serviceHandle);
     }
     
     private void checkSite(SiteInfo site) throws HandleException, net.handle.hdllib.HandleException {
