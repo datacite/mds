@@ -31,5 +31,7 @@ public interface HandleService {
      * @throws HandleException wraps exception from the server
      */
     void update(String doi, String newUrl) throws HandleException;
+
+    void ping() throws HandleException;
     
 }

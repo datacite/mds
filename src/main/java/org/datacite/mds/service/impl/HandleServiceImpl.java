@@ -3,18 +3,21 @@ package org.datacite.mds.service.impl;
 import java.nio.charset.Charset;
 
 import net.handle.hdllib.AbstractMessage;
+import net.handle.hdllib.AbstractRequest;
 import net.handle.hdllib.AbstractResponse;
 import net.handle.hdllib.AdminRecord;
 import net.handle.hdllib.AuthenticationInfo;
 import net.handle.hdllib.CreateHandleRequest;
 import net.handle.hdllib.Encoder;
-import net.handle.hdllib.ErrorResponse;
+import net.handle.hdllib.GenericRequest;
 import net.handle.hdllib.HandleResolver;
 import net.handle.hdllib.HandleValue;
+import net.handle.hdllib.Interface;
 import net.handle.hdllib.ModifyValueRequest;
 import net.handle.hdllib.ResolutionRequest;
 import net.handle.hdllib.ResolutionResponse;
 import net.handle.hdllib.SecretKeyAuthenticationInfo;
+import net.handle.hdllib.SiteInfo;
 import net.handle.hdllib.Util;
 
 import org.apache.commons.lang.StringUtils;
@@ -38,6 +41,8 @@ public class HandleServiceImpl implements HandleService {
 
     @Value("${handle.dummyMode}") boolean dummyMode;    
     
+    @Value("${handle.pingServer}") String pingServer;    
+    
     private static final int URL_RECORD_INDEX = 1;
 
     private static final int ADMIN_RECORD_INDEX = 100;
@@ -47,6 +52,42 @@ public class HandleServiceImpl implements HandleService {
     static final Logger log4j = Logger.getLogger(HandleServiceImpl.class);
 
     HandleResolver resolver = new HandleResolver();
+    
+    @Override
+    public void ping() throws HandleException {
+        if (dummyMode || StringUtils.isEmpty(pingServer))
+            return;
+                    
+        try {
+            checkPrimary(pingServer);
+        } catch (net.handle.hdllib.HandleException e) {
+            throw new HandleException("HandleException", e);
+        }
+    }
+    
+    private void checkPrimary(String serviceHandle) throws net.handle.hdllib.HandleException, HandleException {
+        HandleValue[] values = resolver.resolveHandle(serviceHandle, new String[] { "HS_SITE" }, new int[0]);
+        SiteInfo[] sites = Util.getSitesFromValues(values);
+
+        boolean hasPrimary = false;
+        for (SiteInfo site : sites) {
+            if (site.isPrimary) {
+                hasPrimary = true;
+                checkSite(site);
+            }
+        }
+        
+        if (!hasPrimary)
+            throw new HandleException("no primary server found");
+    }
+    
+    private void checkSite(SiteInfo site) throws HandleException, net.handle.hdllib.HandleException {
+        AbstractRequest req = new GenericRequest(Util.encodeString("0.SITE/status"), AbstractMessage.OC_GET_SITE_INFO, null);
+        int protocol = Interface.SP_HDL_UDP; // only udp because of long timeouts for other protocols
+        AbstractResponse response = resolver.sendRequestToSite(req, site, protocol); 
+        if (response.responseCode != AbstractMessage.RC_SUCCESS) 
+            throw new HandleException("non succesful request to primary " + site);
+    }
 
     @Override
     public String resolve(String doi) throws HandleException, NotFoundException {
