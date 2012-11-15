@@ -1,6 +1,7 @@
 package org.datacite.mds.service.impl;
 
 import java.nio.charset.Charset;
+import java.util.List;
 
 import net.handle.hdllib.AbstractMessage;
 import net.handle.hdllib.AbstractRequest;
@@ -24,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
+import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.api.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -57,11 +59,14 @@ public class HandleServiceImpl implements HandleService {
     public void ping() throws HandleException {
         if (dummyMode || StringUtils.isEmpty(pingServer))
             return;
-                    
-        try {
-            checkPrimary(pingServer);
-        } catch (net.handle.hdllib.HandleException e) {
-            throw new HandleException("error while checking handle server " + pingServer, e);
+        
+        List<String> servers = Utils.csvToList(Utils.normalizeCsvStandard(pingServer));
+        for (String server: servers) {
+            try {
+                checkPrimary(server);
+            } catch (net.handle.hdllib.HandleException e) {
+                throw new HandleException("error while checking handle server " + server, e);
+            }
         }
     }
     

@@ -20,5 +20,5 @@ handle.alwaysAllowedDomains=datacite.org
 #Does metadata for a given DOIs have to exist before minting DOIs?
 handle.metadataRequired=false
 
-#the server to ping for status check 
+#the server to ping for status check; separate multiple server by space  
 handle.pingServer=0.SERV/10.TIB
