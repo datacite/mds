@@ -3,6 +3,8 @@ package org.datacite.mds.service.impl;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import net.handle.hdllib.AbstractMessage;
 import net.handle.hdllib.AbstractRequest;
 import net.handle.hdllib.AbstractResponse;
@@ -55,6 +57,11 @@ public class HandleServiceImpl implements HandleService {
 
     HandleResolver resolver = new HandleResolver();
     
+    @PostConstruct
+    private void init() {
+        resolver.traceMessages = traceMessages;
+    }
+
     @Override
     public void ping() throws HandleException {
         if (dummyMode || StringUtils.isEmpty(pingServer))
@@ -136,7 +143,6 @@ public class HandleServiceImpl implements HandleService {
         if (StringUtils.isEmpty(doi) || StringUtils.isEmpty(url))
             throw new IllegalArgumentException("DOI and URL cannot be empty");
 
-        resolver.traceMessages = traceMessages;
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         try {
             log4j.debug("creating Handle: DOI: " + doi + " URL: " + url);
@@ -183,7 +189,6 @@ public class HandleServiceImpl implements HandleService {
 
         log4j.debug("update Handle: DOI: " + doi + " URL: " + newUrl);
 
-        resolver.traceMessages = traceMessages;
         int timestamp = (int) (System.currentTimeMillis() / 1000);
         
         try {
