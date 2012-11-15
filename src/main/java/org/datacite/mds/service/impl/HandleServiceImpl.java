@@ -85,7 +85,7 @@ public class HandleServiceImpl implements HandleService {
         AbstractRequest req = new GenericRequest(Util.encodeString("0.SITE/status"), AbstractMessage.OC_GET_SITE_INFO, null);
         int protocol = Interface.SP_HDL_UDP; // only udp because of long timeouts for other protocols
         AbstractResponse response = resolver.sendRequestToSite(req, site, protocol); 
-        if (response.responseCode != AbstractMessage.RC_SUCCESS) 
+        if (response == null || response.responseCode != AbstractMessage.RC_SUCCESS) 
             throw new HandleException("non succesful request to primary " + site);
     }
 
