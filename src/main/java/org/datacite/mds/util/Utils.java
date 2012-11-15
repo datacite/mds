@@ -148,7 +148,7 @@ public class Utils {
     }
     
     public static String normalizeCsvStandard(String csv) {
-        return normalizeCsv(csv, Arrays.asList(" ", "\n"), true);
+        return normalizeCsv(csv, Arrays.asList(" ", ";", "\n"), true);
     }
 
     /**
