@@ -42,12 +42,13 @@ public class DoiServiceImpl implements DoiService {
         if (!testMode && StringUtils.isNotEmpty(url)) {
             try {
                 handleService.create(doi, url);
+                log4j.info(datacentre.getSymbol() + " successfuly minted " + doi);
                 if (dataset.getMinted() == null)
                     dataset.setMinted(new Date());
             } catch (HandleException e) {
                 handleService.update(doi, url);
+                log4j.info(datacentre.getSymbol() + " successfuly updated " + doi);
             }
-            log4j.info(datacentre.getSymbol() + " successfuly minted " + doi);
         } else
             log4j.debug("TEST MODE or empty URL- minting skipped");
 
