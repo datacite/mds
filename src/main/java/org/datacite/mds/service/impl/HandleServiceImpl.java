@@ -57,9 +57,13 @@ public class HandleServiceImpl implements HandleService {
 
     HandleResolver resolver = new HandleResolver();
     
+    HandleResolver resolverLowTimeout = new HandleResolver();
+
     @PostConstruct
     private void init() {
         resolver.traceMessages = traceMessages;
+        resolverLowTimeout.traceMessages = traceMessages;
+        resolverLowTimeout.setTcpTimeout(2000); // 2 seconds
     }
 
     @Override
@@ -95,8 +99,7 @@ public class HandleServiceImpl implements HandleService {
     
     private void checkSite(SiteInfo site) throws HandleException, net.handle.hdllib.HandleException {
         AbstractRequest req = new GenericRequest(Util.encodeString("0.SITE/status"), AbstractMessage.OC_GET_SITE_INFO, null);
-        int protocol = Interface.SP_HDL_UDP; // only udp because of long timeouts for other protocols
-        AbstractResponse response = resolver.sendRequestToSite(req, site, protocol); 
+        AbstractResponse response = resolverLowTimeout.sendRequestToSite(req, site); 
         if (response == null || response.responseCode != AbstractMessage.RC_SUCCESS) 
             throw new HandleException("non succesful request to primary " + site);
     }
