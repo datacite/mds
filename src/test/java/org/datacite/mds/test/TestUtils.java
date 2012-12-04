@@ -7,15 +7,10 @@ import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.management.RuntimeErrorException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
@@ -27,13 +22,13 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Media;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.domain.Prefix;
+import org.datacite.mds.util.Utils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 public abstract class TestUtils {
 
@@ -142,6 +137,13 @@ public abstract class TestUtils {
         dataset.setDatacentre(datacentre);
         return dataset;
     }
+    
+    public static Dataset createDefaultDataset(String doi) {
+        Datacentre datacentre = createDefaultDatacentre(Utils.getDoiPrefix(doi));
+        Dataset dataset = createDataset(doi, datacentre);
+        dataset.persist();
+        return dataset;
+    }
 
     public static Prefix createPrefix(String prefix) {
         Prefix prefixObj = new Prefix();
@@ -211,7 +213,7 @@ public abstract class TestUtils {
         }
     }
 
-    private static Document bytesToDocument(byte[] bytes) throws Exception {
+    public static Document bytesToDocument(byte[] bytes) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setNamespaceAware(true);
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -220,7 +222,7 @@ public abstract class TestUtils {
         return doc;
     }
 
-    private static byte[] documentToBytes(Document doc) throws Exception {
+    public static byte[] documentToBytes(Document doc) throws Exception {
         Transformer transformer = TransformerFactory.newInstance().newTransformer();
         DOMSource source = new DOMSource(doc);
         ByteArrayOutputStream output = new ByteArrayOutputStream();
