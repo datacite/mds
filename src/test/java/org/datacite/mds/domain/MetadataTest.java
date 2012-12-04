@@ -3,13 +3,14 @@ package org.datacite.mds.domain;
 import static org.easymock.EasyMock.expect;
 import static org.junit.Assert.assertEquals;
 
+import javax.validation.ConstraintViolationException;
+
 import org.apache.commons.lang.StringUtils;
 import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.test.TestUtils;
 import org.easymock.EasyMockSupport;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,12 +41,12 @@ public class MetadataTest extends EasyMockSupport {
     
     @Test
     public void testXmlNotTooBig() throws Exception {
-        createMetadataWithSize(65535).persist();
+        createMetadataWithSize(Metadata.XML_MAX_SIZE).persist();
     }
 
-    @Test(expected = JpaSystemException.class)
+    @Test(expected = ConstraintViolationException.class)
     public void testXmlTooBig() throws Exception {
-        createMetadataWithSize(65536).persist();
+        createMetadataWithSize(Metadata.XML_MAX_SIZE + 1).persist();
     }
     
     private Metadata createMetadataWithSize(int size) throws Exception {
@@ -66,7 +67,6 @@ public class MetadataTest extends EasyMockSupport {
         String fillin = StringUtils.leftPad("", incSize);
         publisher.setNodeValue(publisher.getNodeValue() + fillin);
         xml = TestUtils.documentToBytes(doc);
-        System.out.println(xml.length);
         return xml;
     }
     
