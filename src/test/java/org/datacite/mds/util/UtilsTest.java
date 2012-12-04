@@ -31,6 +31,7 @@ public class UtilsTest {
     @Test
     public void testGetDoiPrefix() {
         assertTrue(Utils.getDoiPrefix("10.5072/suffix").equals("10.5072"));
+        assertTrue(Utils.getDoiPrefix("10.12345/suffix").equals("10.12345"));
         assertTrue(Utils.getDoiPrefix("/emptyprefix").equals(""));
         assertNull(Utils.getDoiPrefix("noprefix"));
         assertNull(Utils.getDoiPrefix(""));

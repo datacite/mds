@@ -20,6 +20,7 @@ public class DoiPrefixTest extends AbstractContraintsTest {
         assertFalse(isValid("10.1234/test"));
         assertFalse(isValid("10..1234"));
         assertTrue(isValid("10.1234"));
+        assertTrue(isValid("10.12345"));
     }
 
     boolean isValid(String prefix) {
