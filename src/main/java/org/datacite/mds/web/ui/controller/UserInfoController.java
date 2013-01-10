@@ -1,6 +1,7 @@
 package org.datacite.mds.web.ui.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -74,7 +75,8 @@ public class UserInfoController implements UiController {
     }
 
     private void addPrefixesToModel(Allocator allocator, Model model) {
-        Set<Prefix> prefixes = allocator.getPrefixes();
+        List<Prefix> prefixes = new ArrayList<Prefix>(allocator.getPrefixes());
+        Collections.sort(prefixes);
         List<String> labels = new ArrayList<String>();
         labels.add(testPrefix + " (test prefix)");
         for (Prefix prefix : prefixes)
@@ -84,7 +86,8 @@ public class UserInfoController implements UiController {
     }
 
     private void addPrefixesToModel(Datacentre datacentre, Model model) {
-        Set<Prefix> prefixes = datacentre.getPrefixes();
+        List<Prefix> prefixes = new ArrayList<Prefix>(datacentre.getPrefixes());
+        Collections.sort(prefixes);
         List<String> labels = new ArrayList<String>();
         long countTest = Dataset.countTestDatasetsByAllocatorOrDatacentre(datacentre);
         labels.add(testPrefix + " (test prefix; " + countTest + " DOIs)");

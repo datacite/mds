@@ -1,7 +1,5 @@
 package org.datacite.mds.domain;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Unique(field = "prefix")
 @Entity
 @XmlRootElement
-public class Prefix {
+public class Prefix implements Comparable<Prefix>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -83,12 +81,12 @@ public class Prefix {
 
     @SuppressWarnings("unchecked")
     public static List<Prefix> findAllPrefixes() {
-        return entityManager().createQuery("select o from Prefix o order by prefix").getResultList();
+        return entityManager().createQuery("select o from Prefix o order by length(prefix),prefix").getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public static List<Prefix> findPrefixEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("select o from Prefix o order by prefix").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+        return entityManager().createQuery("select o from Prefix o order by length(prefix),prefix").setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
 
     @Transactional
@@ -151,5 +149,15 @@ public class Prefix {
     @Override
     public String toString() {
         return getPrefix() + " (id=" + getId() + ")";
+    }
+
+    @Override
+    public int compareTo(Prefix o) {
+        String prefix1 = getPrefix();
+        String prefix2 = o.getPrefix();
+        int cmp = prefix1.length() - prefix2.length();
+        if (cmp == 0)
+            cmp = prefix1.compareTo(prefix2);
+        return cmp;
     }
 }
