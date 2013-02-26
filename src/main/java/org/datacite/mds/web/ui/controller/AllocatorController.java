@@ -1,10 +1,13 @@
 package org.datacite.mds.web.ui.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.Prefix;
@@ -114,7 +117,17 @@ public class AllocatorController implements UiController {
     
     @ModelAttribute("prefixes")
     public Collection<Prefix> populatePrefixes() {
-        return Prefix.findAllPrefixes();
+        List<Prefix> allPrefixes = Prefix.findAllPrefixes();
+        List<Prefix> assignedPrefixes = new ArrayList<Prefix>(); 
+        List<Prefix> unassignedPrefixes = new ArrayList<Prefix>(); 
+        for (Prefix prefix : allPrefixes) {
+            boolean isAssigned = Allocator.findAllocatorsByPrefix(prefix).size() > 0;
+            if (isAssigned) 
+                assignedPrefixes.add(prefix);
+            else
+                unassignedPrefixes.add(prefix);
+        }
+        return ListUtils.union(unassignedPrefixes, assignedPrefixes);
     }
     
     @ModelAttribute("experiments")
