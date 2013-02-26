@@ -562,4 +562,9 @@ label:not([title=""]), th:not([title=" "]) {
 
 label:not([title=""]) span {
     border-bottom: thin dotted black;
-}     
+}
+
+select#prefixes, select#prefixestsms {
+    height: 150px;
+}
+
