@@ -1,4 +1,4 @@
-<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+<jsp:root xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions" xmlns:util="urn:jsptagdir:/WEB-INF/tags/util" xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form" xmlns:fmt="http://java.sun.com/jsp/jstl/fmt" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
   <jsp:directive.tag import="java.util.ArrayList" />
   <jsp:output omit-xml-declaration="yes" />
 
@@ -45,6 +45,8 @@
     
     <c:set var="lengths" value="${fn:split(columnMaxLengths, ',')}" scope="request" />
     <c:set var="tooltips" value="${fn:split(columnTooltips, ',')}" scope="request" />
+    <c:set var="types" value="${fn:split(columnTypes, ',')}" scope="request" />
+    <c:set var="datePatterns" value="${fn:split(columnDatePatterns, ',')}" scope="request" />
 
     <table>
       <thead>
@@ -71,10 +73,21 @@
         <tr>
           <c:forTokens items="${columnProperties}" delims="," var="column" varStatus="num">
             <c:set var="columnMaxLength" value="${lengths[num.count-1]}" scope="request" />
+            <c:set var="type" value="${types[num.count-1]}" scope="request" />
+            <c:set var="datePattern" value="${datePatterns[num.count-1]}" scope="request" />
             <td>
               <c:choose>
                 <c:when test="${columnMaxLength lt 0}">
-                  <spring:eval expression="item[column]" />
+                  <c:choose>
+                     <c:when test="${type == 'date'}">
+                       <spring:escapeBody>
+                          <fmt:formatDate value="${item[column]}" pattern="${fn:escapeXml(datePattern)}" />
+                       </spring:escapeBody>
+                     </c:when>
+                     <c:otherwise>
+                       <spring:eval expression="item[column]" />
+                     </c:otherwise>
+                   </c:choose>
                 </c:when>
                 <c:otherwise>
                   <c:set var="colTxt"><spring:eval expression="item[column]"/></c:set>
