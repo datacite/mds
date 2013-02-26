@@ -3,7 +3,7 @@
     <jsp:output omit-xml-declaration="yes"/>
     <page:show delete="false" id="ps_org_datacite_mds_domain_Dataset" object="${dataset}" path="/datasets" z="GTOIDp28o0CtA9jRRKQT81aO7fc=">
         <util:hide roles="ROLE_DATACENTRE">
-            <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" object="${dataset}" render="true" z="user-managed"/>
+            <field:display field="datacentre" id="s_org_datacite_mds_domain_Dataset_datacentre" showPath="/datacentres" object="${dataset}" render="true" z="user-managed"/>
         </util:hide>
         <c:set value="${properties['link.handleProxy']}" var="proxy_url"/>
         <util:handle-proxy doi="${dataset.doi}" redirect="false" types="URL"/>
