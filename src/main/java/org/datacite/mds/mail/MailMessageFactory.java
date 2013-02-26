@@ -27,6 +27,9 @@ public class MailMessageFactory {
     @Value("${handle.testPrefix}")
     String testPrefix;
 
+    @Value("${magicAuthString.validityInDays}")
+    String magicAuthStringValidityInDays;
+
     @Value("classpath:template/ResetPasswordMail")
     Resource templateResetPasswordMail;
     
@@ -41,14 +44,12 @@ public class MailMessageFactory {
 
     public MailMessage createResetPasswordMail(AllocatorOrDatacentre user) {
         MailMessage mail = createMailWithTemplate(user, templateResetPasswordMail);
-        mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(user));
         return mail;
     }
 
     public MailMessage createWelcomeDatacentreMail(Datacentre datacentre) {
         MailMessage mail = createMailWithTemplate(datacentre, templateWelcomeDatacentreMail);
         mail.setCc(datacentre.getAllocator().getContactEmail());
-        mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(datacentre));
         mail.replacePlaceholder("allocatorName", datacentre.getAllocator().getName());
         String prefixes = Utils.convertCollectionToCsv(datacentre.getPrefixes(), ApplicationConversionServiceFactoryBean.getSimplePrefixConverter());
         mail.replacePlaceholder("prefixes", prefixes);
@@ -59,7 +60,6 @@ public class MailMessageFactory {
     public MailMessage createWelcomeAllocatorMail(Allocator allocator) {
         MailMessage mail = createMailWithTemplate(allocator, templateWelcomeAllocatorMail);
         mail.setCc(DomainUtils.getAdmin().getContactEmail());
-        mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(allocator));
         return mail;
     }
 
@@ -70,6 +70,8 @@ public class MailMessageFactory {
         mail.replacePlaceholder("symbol", user.getSymbol());
         mail.replacePlaceholder("testPrefix", testPrefix);
         mail.replacePlaceholder("mdsUrl", mdsUrl);
+        mail.replacePlaceholder("magicAuth", magicAuthStringService.getCurrentAuthString(user));
+        mail.replacePlaceholder("magicAuthValidityInDays", magicAuthStringValidityInDays);
         return mail;
     }
 
