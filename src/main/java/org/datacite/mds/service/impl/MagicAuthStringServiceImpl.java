@@ -21,7 +21,7 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
     Logger log4j = Logger.getLogger(MagicAuthStringServiceImpl.class);
 
     @Value("${magicAuthString.validityInDays}")
-    int validityInDays;
+    Integer validityInDays;
 
     @Value("${salt.magicAuthString}")
     String salt;
