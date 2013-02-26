@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 public class MagicAuthStringServiceImpl implements MagicAuthStringService {
     Logger log4j = Logger.getLogger(MagicAuthStringServiceImpl.class);
 
+    @Value("${magicAuthString.validityInDays}")
+    int validityInDays;
+
     @Value("${salt.magicAuthString}")
     String salt;
 
@@ -39,12 +42,13 @@ public class MagicAuthStringServiceImpl implements MagicAuthStringService {
         if (user == null)
             return list;
 
-        Date curDate = new Date();
-        Date prevDate = DateUtils.addDays(curDate, -1);
-
         String baseAuthString = user.getBaseAuthString();
-        list.add(saltAndHash(baseAuthString, curDate));
-        list.add(saltAndHash(baseAuthString, prevDate));
+
+        Date date = new Date();
+        for (int i = 0; i <= validityInDays; i++) {
+            list.add(saltAndHash(baseAuthString, date));
+            date = DateUtils.addDays(date, -1);
+        }
         
         log4j.debug("valid auth strings for " + user.getSymbol() + ": " + list);
         return list;

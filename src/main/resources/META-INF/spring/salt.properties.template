@@ -1,3 +1,6 @@
 salt.password=<<'random' string; must not contain one of "{}">>
 salt.magicAuthString=<<'random' string>>
 salt.rememberMe=<<'random' string>>
+
+# days a change password link is valid
+magicAuthString.validityInDays=7

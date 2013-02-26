@@ -19,6 +19,7 @@ import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore( { "javax.*", "org.apache.log4j.*" })
@@ -29,11 +30,18 @@ public class MagicAuthStringImplTest {
     
     AllocatorOrDatacentre user = TestUtils.createAllocator("AL");
     
+    int validityInDays = 42;
+
     Date today = new Date();
     Date tomorrow = DateUtils.addDays(today, 1);
     Date yesterday = DateUtils.addDays(today, -1);
-    Date anotherDay = DateUtils.addDays(today, 2);
+    Date lastDay = DateUtils.addDays(today, validityInDays);
+    Date anotherDay = DateUtils.addDays(lastDay, 1);
     
+    public MagicAuthStringImplTest() {
+        ReflectionTestUtils.setField(service,  "validityInDays", validityInDays);
+    }
+
     @Test
     public void testGetValidAuthStrings() {
         setDate(today);
@@ -45,7 +53,7 @@ public class MagicAuthStringImplTest {
         setDate(today);
         Collection<String> validAuthStrings = service.getValidAuthStrings(user);
         
-        assertEquals(2, validAuthStrings.size());
+        assertEquals(validityInDays + 1, validAuthStrings.size());
         assertTrue(validAuthStrings.contains(authToday));
         assertTrue(validAuthStrings.contains(authYesterday));
     }
@@ -60,7 +68,10 @@ public class MagicAuthStringImplTest {
         
         setDate(tomorrow);
         assertTrue(service.isValidAuthString(user, auth));
-        
+
+        setDate(lastDay);
+        assertTrue(service.isValidAuthString(user, auth));
+
         setDate(yesterday);
         assertFalse(service.isValidAuthString(user, auth));
         
