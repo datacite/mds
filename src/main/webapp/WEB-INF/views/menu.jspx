@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" xmlns:sec="http://www.springframework.org/security/tags" id="menu" version="2.0">
     <jsp:output omit-xml-declaration="yes"/>
-    <c:set value="20" var="defaultListSize"/>
+    <c:set value="50" var="defaultListSize"/>
     <menu:menu id="_menu" z="user-managed">
         <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_DEV">
             <menu:category id="c_prefix" z="UoY6ZmE5dw0GJWXxFuRnP4Ci2Pw=">
