@@ -86,7 +86,7 @@
               <c:out value=" "/>
               <spring:url value="${showPath}/${object[field].id}" var="show_form_url" />
               <spring:url value="/resources/images/show.png" var="show_image_url" />
-              <spring:message arguments="${typeName}" code="entity_show" var="show_label" htmlEscape="false"/>
+              <spring:message arguments="${label}" code="entity_show" var="show_label" htmlEscape="false"/>
               <a href="${fn:escapeXml(show_form_url)}" alt="${fn:escapeXml(show_label)}" title="${fn:escapeXml(show_label)}">
                 <img alt="${fn:escapeXml(show_label)}" class="image" src="${fn:escapeXml(show_image_url)}" title="${fn:escapeXml(show_label)}" />
               </a>

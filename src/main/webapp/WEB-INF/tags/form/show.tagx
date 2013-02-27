@@ -57,7 +57,7 @@
                 <spring:url value="${path}/${itemId}" var="delete_form_url" />
                 <spring:url value="/resources/images/delete.png" var="delete_image_url" />
                 <form:form action="${fn:escapeXml(delete_form_url)}" method="DELETE">
-                  <spring:message arguments="${typeName}" code="entity_delete" var="delete_label" htmlEscape="false"/>
+                  <spring:message arguments="${label}" code="entity_delete" var="delete_label" htmlEscape="false"/>
                   <c:set var="delete_confirm_msg">
                     <spring:escapeBody javaScriptEscape="true">
                       <spring:message code="entity_delete_confirm" htmlEscape="false"/>
@@ -73,7 +73,7 @@
                   <spring:param name="form" />
                 </spring:url>
                 <spring:url value="/resources/images/update.png" var="update_image_url" />
-                <spring:message arguments="${typeName}" code="entity_update" var="update_label" htmlEscape="false"/>
+                <spring:message arguments="${label}" code="entity_update" var="update_label" htmlEscape="false"/>
                 <a href="${fn:escapeXml(update_form_url)}" alt="${fn:escapeXml(update_label)}" title="${fn:escapeXml(update_label)}">
                   <img alt="${fn:escapeXml(update_label)}" class="image" src="${fn:escapeXml(update_image_url)}" title="${fn:escapeXml(update_label)}" />
                 </a>
@@ -85,7 +85,7 @@
                   <spring:param name="form" />
                 </spring:url>
                 <spring:url value="/resources/images/create.png" var="create_image_url" />
-                <spring:message arguments="${typeName}" code="entity_create" var="create_label" htmlEscape="false"/>
+                <spring:message arguments="${label}" code="entity_create" var="create_label" htmlEscape="false"/>
                 <a href="${fn:escapeXml(create_form_url)}" alt="${fn:escapeXml(create_label)}" title="${fn:escapeXml(create_label)}">
                   <img alt="${fn:escapeXml(create_label)}" class="image" src="${fn:escapeXml(create_image_url)}" title="${fn:escapeXml(create_label)}" />
                 </a>
@@ -97,7 +97,7 @@
                   <spring:param name="j_username" value="${object[switchToUserField]}"/>
                 </spring:url>
                 <spring:url value="/resources/images/page_go.png" var="switch_to_image_url" />
-                <spring:message arguments="${typeName}" code="entity_switch_to" var="switch_to_label" htmlEscape="false"/>
+                <spring:message arguments="${label}" code="entity_switch_to" var="switch_to_label" htmlEscape="false"/>
                 <a href="${fn:escapeXml(switch_to_url)}" alt="${fn:escapeXml(switch_to_label)}" title="${fn:escapeXml(switch_to_label)}">
                   <img alt="${fn:escapeXml(switch_to_label)}" class="image" src="${fn:escapeXml(switch_to_image_url)}" title="${fn:escapeXml(switch_to_label)}" />
                 </a>
