@@ -79,16 +79,14 @@ public class DatacentreController implements UiController {
     public String list(@RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size, Model model) {
         Allocator allocator = getCurrentAllocator();
-        if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            model.addAttribute("datacentres", Datacentre.findDatacentreEntriesByAllocator(allocator, page == null ? 0
-                    : (page.intValue() - 1) * sizeNo, sizeNo));
-            float nrOfPages = (float) Datacentre.countDatacentresByAllocator(allocator) / sizeNo;
-            model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-                    : nrOfPages));
-        } else {
-            model.addAttribute("datacentres", Datacentre.findAllDatacentresByAllocator(allocator));
-        }
+        int sizeNo = size == null ? LIST_DEFAULT_SIZE : Math.min(size.intValue(), LIST_MAX_SIZE);
+        model.addAttribute("datacentres", Datacentre.findDatacentreEntriesByAllocator(allocator, page == null ? 0
+                : (page.intValue() - 1) * sizeNo, sizeNo));
+        float nrOfPages = (float) Datacentre.countDatacentresByAllocator(allocator) / sizeNo;
+        model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
+                : nrOfPages));
+        System.out.println(model.asMap());
+        model.addAttribute("size", sizeNo);
         return "datacentres/list";
     }
 

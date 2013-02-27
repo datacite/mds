@@ -44,20 +44,7 @@ privileged aspect PrefixController_Roo_Controller {
         uiModel.addAttribute("itemId", id);
         return "prefixes/show";
     }
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public String PrefixController.list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model uiModel) {
-        if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            uiModel.addAttribute("prefixes", Prefix.findPrefixEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
-            float nrOfPages = (float) Prefix.countPrefixes() / sizeNo;
-            uiModel.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
-        } else {
-            uiModel.addAttribute("prefixes", Prefix.findAllPrefixes());
-        }
-        return "prefixes/list";
-    }
-    
+        
     @RequestMapping(method = RequestMethod.PUT)
     public String PrefixController.update(@Valid Prefix prefix, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
         if (bindingResult.hasErrors()) {

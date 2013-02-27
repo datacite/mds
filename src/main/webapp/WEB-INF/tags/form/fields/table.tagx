@@ -143,8 +143,8 @@
                 <c:if test="${not empty param.page}">
                   <input name="page" type="hidden" value="${fn:escapeXml(param.page)}" />
                 </c:if>
-                <c:if test="${not empty param.size}">
-                  <input name="size" type="hidden" value="${fn:escapeXml(param.size)}" />
+                <c:if test="${not empty size}">
+                  <input name="size" type="hidden" value="${fn:escapeXml(size)}" />
                 </c:if>
               </form:form>
             </td>
@@ -170,7 +170,7 @@
             <c:out value=" " />
           </c:if>
           <c:if test="${not empty maxPages}">
-            <util:pagination maxPages="${maxPages}" page="${param.page}" size="${param.size}" />
+            <util:pagination maxPages="${maxPages}" page="${param.page}" size="${size}" />
           </c:if>
         </td>
       </tr>

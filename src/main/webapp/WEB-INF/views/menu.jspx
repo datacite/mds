@@ -6,14 +6,14 @@
         <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_DEV">
             <menu:category id="c_prefix" z="UoY6ZmE5dw0GJWXxFuRnP4Ci2Pw=">
                 <menu:item id="i_prefix_new" messageCode="global_menu_new" url="/prefixes?form" z="Mn3ToVTR3O12jAFfx2gTHcz2Qt4="/>
-                <menu:item id="i_prefix_list" messageCode="global_menu_list" url="/prefixes?page=1&amp;size=${defaultListSize}" z="user-managed"/>
+                <menu:item id="i_prefix_list" messageCode="global_menu_list" url="/prefixes" z="user-managed"/>
                 <menu:item id="fi_prefix_prefixlike" messageCode="global_menu_find" url="/prefixes?find=ByPrefixLike&amp;form" z="OJncnX3HQzOQ1yRop65exEyPmHk="/>
             </menu:category>
         </sec:authorize>
         <sec:authorize ifAnyGranted="ROLE_ADMIN,ROLE_DEV">
             <menu:category id="c_allocator" z="iLSmvxIkMXVJXHF0wFMGX9o0qP0=">
                 <menu:item id="i_allocator_new" messageCode="global_menu_new" url="/allocators?form" z="y/NPimJktFG6tgpMZhm/cttPZLc="/>
-                <menu:item id="i_allocator_list" messageCode="global_menu_list" url="/allocators?page=1&amp;size=${defaultListSize}" z="user-managed"/>
+                <menu:item id="i_allocator_list" messageCode="global_menu_list" url="/allocators" z="user-managed"/>
                 <menu:item id="fi_allocator_symbolequals" messageCode="global_menu_find" url="/allocators?find=BySymbolEquals&amp;form" z="jJMmBovVVwhaYnO/EMYkZs6HByo="/>
                 <menu:item id="fi_allocator_namelike" messageCode="global_menu_find" url="/allocators?find=ByNameLike&amp;form" z="jBRvOq9ZUHDYiSDUPNMBP9UwAA0="/>
             </menu:category>
@@ -21,7 +21,7 @@
         <sec:authorize ifAnyGranted="ROLE_ALLOCATOR,ROLE_DEV">
             <menu:category id="c_datacentre" z="8aWSi7JtMgKf/+09az41cVJ+kvY=">
                 <menu:item id="i_datacentre_new" messageCode="global_menu_new" url="/datacentres?form" z="G7kSQp6HuNiDpBdOT42AroCeTgI="/>
-                <menu:item id="i_datacentre_list" messageCode="global_menu_list" url="/datacentres?page=1&amp;size=${defaultListSize}" z="user-managed"/>
+                <menu:item id="i_datacentre_list" messageCode="global_menu_list" url="/datacentres" z="user-managed"/>
                 <menu:item id="fi_datacentre_symbolequals" messageCode="global_menu_find" url="/datacentres?find=BySymbolEquals&amp;form" z="Y7mMtAyfgjHAHyQf8c2tKnbWLAE="/>
                 <menu:item id="fi_datacentre_namelike" messageCode="global_menu_find" url="/datacentres?find=ByNameLike&amp;form" z="j1pnMvDkTtNqhc+d/AhXyDN7/1U="/>
             </menu:category>
@@ -29,12 +29,12 @@
         <sec:authorize ifAnyGranted="ROLE_DATACENTRE,ROLE_ALLOCATOR,ROLE_DEV">
             <menu:category id="c_dataset" z="8v6u2JQw6ua8kbT2zW1sFUNGceU=">
                 <menu:item id="i_dataset_new" messageCode="global_menu_register" url="/datasets?form" z="user-managed"/>
-                <menu:item id="i_dataset_list" messageCode="global_menu_list" url="/datasets?page=1&amp;size=${defaultListSize}" z="user-managed"/>
+                <menu:item id="i_dataset_list" messageCode="global_menu_list" url="/datasets" z="user-managed"/>
                 <menu:item id="fi_dataset_doiequals" messageCode="global_menu_find" url="/datasets?find=ByDoiEquals&amp;form" z="QG8NTZw9ek/kLlzpa5Q+qDN+FZA="/>
             </menu:category>
             <menu:category id="c_metadata" render="false" z="user-managed">
                 <menu:item id="i_metadata_new" messageCode="global_menu_new" url="/metadatas?form" z="t7Y7EyYeymOIiWS/6t44dCQDHc4="/>
-                <menu:item id="i_metadata_list" messageCode="global_menu_list" url="/metadatas?page=1&amp;size=${defaultListSize}" z="user-managed"/>
+                <menu:item id="i_metadata_list" messageCode="global_menu_list" url="/metadatas" z="user-managed"/>
             </menu:category>
         </sec:authorize>
         <menu:category id="c_view" z="HjmI4Chx/kBYfS/6HjBLbCA+XpU=">
@@ -42,7 +42,7 @@
         </menu:category>
         <menu:category id="c_media" render="false" z="user-managed">
             <menu:item id="i_media_new" messageCode="global_menu_new" url="/medias?form" z="OIfbj50qi1kFkSFTSJLE93WzBC0="/>
-            <menu:item id="i_media_list" messageCode="global_menu_list" url="/medias?page=1&amp;size=${empty param.size ? 10 : param.size}" z="VgX3ic5+KXqm7H7gzcyK4PHeDvg="/>
+            <menu:item id="i_media_list" messageCode="global_menu_list" url="/medias" z="VgX3ic5+KXqm7H7gzcyK4PHeDvg="/>
             <menu:item id="fi_media_dataset" messageCode="global_menu_find" url="/medias?find=ByDataset&amp;form" z="YEzxwvMmmhU3l/aeI1eYPO+xTec="/>
         </menu:category>
     </menu:menu>

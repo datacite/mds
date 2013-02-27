@@ -109,18 +109,15 @@ public class DatasetController implements UiController {
     public String list(@RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "size", required = false) Integer size, Model model) throws SecurityException {
         AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
-        if (page != null || size != null) {
-            int sizeNo = size == null ? 10 : size.intValue();
-            model.addAttribute(
-                    "datasets",
-                    Dataset.findDatasetEntriesByAllocatorOrDatacentre(user, page == null ? 0 : (page.intValue() - 1)
-                            * sizeNo, sizeNo));
-            float nrOfPages = (float) Dataset.countDatasetsByAllocatorOrDatacentre(user) / sizeNo;
-            model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
-                    : nrOfPages));
-        } else {
-            model.addAttribute("datasets", Dataset.findDatasetsByAllocatorOrDatacentre(user));
-        }
+        int sizeNo = size == null ? LIST_DEFAULT_SIZE : Math.min(size.intValue(), LIST_MAX_SIZE);
+        model.addAttribute(
+                "datasets",
+                Dataset.findDatasetEntriesByAllocatorOrDatacentre(user, page == null ? 0 : (page.intValue() - 1)
+                        * sizeNo, sizeNo));
+        float nrOfPages = (float) Dataset.countDatasetsByAllocatorOrDatacentre(user) / sizeNo;
+        model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
+                : nrOfPages));
+        model.addAttribute("size", sizeNo);
         return "datasets/list";
     }
 

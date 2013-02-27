@@ -49,6 +49,16 @@ public class AllocatorController implements UiController {
         model.asMap().clear();
         return (allocator == null) ? "allocators/show" : "redirect:/allocators/" + allocator.getId();
     }
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String list(@RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "size", required = false) Integer size, Model model) {
+        int sizeNo = size == null ? LIST_DEFAULT_SIZE : Math.min(size.intValue(), LIST_MAX_SIZE);
+        model.addAttribute("allocators", Allocator.findAllocatorEntries(page == null ? 0 : (page.intValue() - 1) * sizeNo, sizeNo));
+        float nrOfPages = (float) Allocator.countAllocators() / sizeNo;
+        model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1 : nrOfPages));
+        model.addAttribute("size", sizeNo);
+        return "allocators/list";
+    }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model model) {
