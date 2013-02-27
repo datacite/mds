@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -92,7 +93,7 @@ public class DatacentreController implements UiController {
 
     @ModelAttribute("prefixes")
     public Collection<Prefix> populatePrefixes() {
-        Set<Prefix> allPrefixes = getCurrentAllocator().getPrefixes();
+        Set<Prefix> allPrefixes = new TreeSet(getCurrentAllocator().getPrefixes());
         List<Prefix> assignedPrefixes = new ArrayList<Prefix>(); 
         List<Prefix> unassignedPrefixes = new ArrayList<Prefix>(); 
         for (Prefix prefix : allPrefixes) {
