@@ -1,7 +1,8 @@
 package org.datacite.mds.web.ui.controller;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
@@ -42,7 +43,7 @@ public class PrefixController implements UiController {
     
     @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid PrefixCreateModel createModel, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-        List<String> prefixesStr = Utils.csvToList(createModel.getPrefixes());
+        Collection<String> prefixesStr = new HashSet<String>(Utils.csvToList(createModel.getPrefixes()));
 
         ArrayList<Prefix> prefixes = new ArrayList<Prefix>();
         for (String prefixStr : prefixesStr) {
