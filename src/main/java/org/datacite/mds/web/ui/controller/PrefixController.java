@@ -43,7 +43,8 @@ public class PrefixController implements UiController {
     
     @RequestMapping(method = RequestMethod.POST)
     public String create(@Valid PrefixCreateModel createModel, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-        Collection<String> prefixesStr = new HashSet<String>(Utils.csvToList(createModel.getPrefixes()));
+        Collection<String> prefixesStr = Utils.csvToList(Utils.normalizeCsvStandard(createModel.getPrefixes()));
+        prefixesStr = new HashSet<String>(prefixesStr);
 
         ArrayList<Prefix> prefixes = new ArrayList<Prefix>();
         for (String prefixStr : prefixesStr) {
