@@ -17,7 +17,7 @@ import javax.validation.constraints.Size;
  * valid URL (use @NotNull annotation if you don't want this).
  */
 @Documented
-@Size(max = 255)
+@Size(max = 2048)
 @org.hibernate.validator.constraints.URL
 @Pattern(regexp = "(https?|ftp)://.*|\\s*", message = "{org.datacite.mds.validation.constraints.URL.protocol.message}")
 @Target( { ElementType.FIELD, ElementType.ANNOTATION_TYPE })

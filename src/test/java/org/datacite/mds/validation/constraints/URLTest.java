@@ -21,8 +21,8 @@ public class URLTest extends AbstractContraintsTest {
 
     @Test
     public void testLength() {
-        assertTrue(isValid(urlWithLength(255)));
-        assertFalse(isValid(urlWithLength(256)));
+        assertTrue(isValid(urlWithLength(2048)));
+        assertFalse(isValid(urlWithLength(2049)));
     }
 
     @Test
