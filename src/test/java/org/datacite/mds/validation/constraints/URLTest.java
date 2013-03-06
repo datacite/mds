@@ -3,6 +3,7 @@ package org.datacite.mds.validation.constraints;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 
 public class URLTest extends AbstractContraintsTest {
@@ -19,11 +20,25 @@ public class URLTest extends AbstractContraintsTest {
     }
 
     @Test
+    public void testLength() {
+        assertTrue(isValid(urlWithLength(255)));
+        assertFalse(isValid(urlWithLength(256)));
+    }
+
+    @Test
     public void testProtocol() {
         assertTrue(isValid("http://example.com"));
         assertTrue(isValid("https://example.com"));
         assertTrue(isValid("ftp://example.com"));
         assertFalse(isValid("file://example.com"));
+    }
+
+    String urlWithLength(int len) {
+        return urlWithLength(len, "http://example.com/");
+    }
+
+    String urlWithLength(int len, String base) {
+        return StringUtils.rightPad(base, len, 'x');
     }
 
     boolean isValid(String url) {
