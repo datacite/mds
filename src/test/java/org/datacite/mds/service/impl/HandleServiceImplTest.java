@@ -53,15 +53,22 @@ public class HandleServiceImplTest {
     }
 
     @Test(expected = NotFoundException.class)
-    public void testResolveNonExistingUrl() throws Exception {
+    public void testResolveNonExistingUrlValue() throws Exception {
         mockResponseCode(AbstractMessage.RC_VALUES_NOT_FOUND);
         replay(service.resolver);
         service.resolve(doi);
     }
 
     @Test(expected = NotFoundException.class)
-    public void testResolveNonExisting() throws Exception {
+    public void testResolveNonExistingHandle() throws Exception {
         mockResponseCode(AbstractMessage.RC_HANDLE_NOT_FOUND);
+        replay(service.resolver);
+        service.resolve(doi);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testResolveNonExistingPrefix() throws Exception {
+        mockResponseException(net.handle.hdllib.HandleException.SERVICE_NOT_FOUND);
         replay(service.resolver);
         service.resolve(doi);
     }

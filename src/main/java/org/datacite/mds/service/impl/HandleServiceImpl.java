@@ -135,9 +135,13 @@ public class HandleServiceImpl implements HandleService {
             HandleValue[] values = ((ResolutionResponse)response).getHandleValues();
             return values[0].getDataAsString();
         } catch (net.handle.hdllib.HandleException e) {
-            String message = "tried to resolve handle " + doi + " but failed: " + e.getMessage();
-            log4j.warn(message);
-            throw new HandleException(message, e);
+            if (e.getCode() == net.handle.hdllib.HandleException.SERVICE_NOT_FOUND) {
+                throw new NotFoundException("prefix of handle " + doi + " does not exist");
+            } else {
+                String message = "tried to resolve handle " + doi + " but failed: " + e.getMessage();
+                log4j.warn(message);
+                throw new HandleException(message, e);
+            }
         }
     }
 
