@@ -73,7 +73,6 @@ public class DoiServiceImpl implements DoiService {
         String url = resolveDoiOrNull(doi);
         
         Dataset dataset = findOrNewDataset(doi);
-        validationHelper.validate(dataset);
         
         if (url == null && dataset.getId() == null)
             throw new NotFoundException("DOI not found");

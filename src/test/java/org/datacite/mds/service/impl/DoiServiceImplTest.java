@@ -266,16 +266,9 @@ public class DoiServiceImplTest {
     }
 
     @Test(expected = SecurityException.class)
-    public void testResolveNonBelongingDataset1() throws Exception {
+    public void testResolveNonBelongingDataset() throws Exception {
         login(datacentre2);
         testResolve_HandleAndDatasetExisting();
-    }
-
-    @Test(expected = ConstraintViolationException.class)
-    public void testResolveNoneBelongingDataset2() throws Exception {
-        datacentre2.setPrefixes(TestUtils.createPrefixes());
-        login(datacentre2);
-        testResolve_onlyHandleExisting();
     }
 
 }
