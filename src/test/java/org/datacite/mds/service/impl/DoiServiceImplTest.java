@@ -214,7 +214,7 @@ public class DoiServiceImplTest {
         assertEquals(minted, dataset.getMinted());
     }
 
-    @Test
+    @Test(expected = NotFoundException.class)
     public void testResolve_onlyHandleExisting() throws Exception {
         expectHandleServiceResolve();
         callResolveAndCheck(DOI, URL);

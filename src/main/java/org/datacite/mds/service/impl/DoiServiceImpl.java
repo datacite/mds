@@ -74,7 +74,7 @@ public class DoiServiceImpl implements DoiService {
         
         Dataset dataset = findOrNewDataset(doi);
         
-        if (url == null && dataset.getId() == null)
+        if (dataset.getId() == null)
             throw new NotFoundException("DOI not found");
         
         dataset.setUrl(url);
