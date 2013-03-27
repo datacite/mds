@@ -148,7 +148,7 @@ url={url}</code></pre>
 <p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
 <p><code>201 Created</code> - operation successful</p>
-<p><code>400 Bad Request</code> - request body must be exactly two lines: DOI and URL; , wrong domain, wrong prefix</p>
+<p><code>400 Bad Request</code> - request body must be exactly two lines: DOI and URL; wrong domain, wrong prefix</p>
 <p><code>401 Unauthorized</code> - no login</p>
 <p><code>403 Forbidden</code> - login problem, quota exceeded</p>
 <p><code>412 Precondition failed</code> - metadata must be uploaded first</p>
@@ -208,7 +208,7 @@ try later and if problem persists please contact us
 <p><code>Location</code> - URL of the newly stored metadata</p> 
 <h4>Response statuses</h4> 
 <p><code>201 Created</code> - operation successful</p>
-<p><code>400 Bad Request</code> - invalid XML, wrong domain, wrong prefix</p>
+<p><code>400 Bad Request</code> - invalid XML, wrong prefix</p>
 <p><code>401 Unauthorized</code> - no login</p>
 <p><code>403 Forbidden</code> - login problem, quota exceeded</p>
 <p><code>500 Internal Server Error</code> - server internal error,
@@ -224,7 +224,7 @@ try later and if problem persists please contact us</p>
 <p>short explanation of status code e.g. CREATED, HANDLE_ALREADY_EXISTS etc</p> 
 <h4>Response statuses</h4> 
 <p><code>201 Created</code> - operation successful</p>
-<p><code>400 Bad Request</code> - invalid XML, wrong domain, wrong prefix</p>
+<p><code>400 Bad Request</code> - invalid XML, wrong prefix</p>
 <p><code>403 Forbidden</code> - login problem, quota excceded</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us</p> 
