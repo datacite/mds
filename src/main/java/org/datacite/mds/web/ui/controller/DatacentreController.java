@@ -86,7 +86,6 @@ public class DatacentreController implements UiController {
         float nrOfPages = (float) Datacentre.countDatacentresByAllocator(allocator) / sizeNo;
         model.addAttribute("maxPages", (int) ((nrOfPages > (int) nrOfPages || nrOfPages == 0.0) ? nrOfPages + 1
                 : nrOfPages));
-        System.out.println(model.asMap());
         model.addAttribute("size", sizeNo);
         return "datacentres/list";
     }

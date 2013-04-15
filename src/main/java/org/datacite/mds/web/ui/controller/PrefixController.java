@@ -63,7 +63,6 @@ public class PrefixController implements UiController {
         }
         
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
             uiModel.addAttribute("prefixCreateModel", createModel);
             return "prefixes/create";
         }
