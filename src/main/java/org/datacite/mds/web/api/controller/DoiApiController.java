@@ -62,7 +62,7 @@ public class DoiApiController implements ApiController {
         Dataset dataset = doiService.resolve(doi);
         String url = dataset.getUrl();
         if (url == null)
-            return new ResponseEntity<String>("DOI is known to MDS but not (yet?) resolveable.", HttpStatus.NO_CONTENT);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         else
             return new ResponseEntity<String>(url, HttpStatus.OK);
     }

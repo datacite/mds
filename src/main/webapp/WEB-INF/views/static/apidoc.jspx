@@ -123,7 +123,7 @@ empty
 <h4>Response headers</h4>
 none
 <h4>Response body</h4> 
-<p>If response status is 200: URL representing a dataset, otherwise short explanation for non-200 status</p> 
+<p>If response status is 200: URL representing a dataset; empty for 204; otherwise short explanation for non-200 status</p>
 <h4>Response statuses</h4> 
 <p><code>200 OK</code> - operation successful</p>
 <p><code>204 No Content</code> - DOI is known to MDS, but is not minted (or not resolvable e.g. due to handle's latency)</p>
