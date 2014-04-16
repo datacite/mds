@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import javax.validation.ValidationException;
 
 import org.datacite.mds.test.TestUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +22,17 @@ public class SchemaServiceImplTest {
     @Autowired
     SchemaServiceImpl service;
     
+    String originalSchemaLocationLocal;
+    
     @Before
     public void init() {
+        originalSchemaLocationLocal = service.schemaLocationLocal;
         service.schemaLocationLocal = "";
+    }
+    
+    @After
+    public void teardown() {
+        service.schemaLocationLocal = originalSchemaLocationLocal;
     }
     
     @Test
