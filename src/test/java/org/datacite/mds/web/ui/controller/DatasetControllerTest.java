@@ -66,8 +66,8 @@ public class DatasetControllerTest {
         datacentre = TestUtils.createDefaultDatacentre("10.5072");
         TestUtils.login(datacentre);
 
-        xml = TestUtils.setDoiOfMetadata(TestUtils.getTestMetadata20(), doi);
-        xml2 = TestUtils.setDoiOfMetadata(TestUtils.getTestMetadata21(), doi);
+        xml = TestUtils.setDoiOfMetadata(TestUtils.getTestMetadata21(), doi);
+        xml2 = TestUtils.setDoiOfMetadata(TestUtils.getTestMetadata20(), doi);
         assertTrue(!ArrayUtils.isEquals(xml, xml2));
 
         createDatasetModel = new CreateDatasetModel();
@@ -114,11 +114,11 @@ public class DatasetControllerTest {
     
     @Test
     public void createUploadMetadata() throws Exception {
-        createDatasetModel.setXml(xml2);
+        createDatasetModel.setXml(xml);
         assertCreateSuccess();
         assertEquals(1, Metadata.countMetadatas());
         Metadata metadata = Metadata.findAllMetadatas().get(0);
-        assertArrayEquals(xml2, metadata.getXml());
+        assertArrayEquals(xml, metadata.getXml());
     }
     
     @Test
