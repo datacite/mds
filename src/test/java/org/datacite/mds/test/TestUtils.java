@@ -181,7 +181,7 @@ public abstract class TestUtils {
     }
 
     public static byte[] getTestMetadata() {
-        return getTestMetadata20();
+        return getTestMetadata21();
     }
 
     public static byte[] getTestMetadata20() {
