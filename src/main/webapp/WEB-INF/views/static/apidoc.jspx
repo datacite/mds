@@ -112,7 +112,8 @@ href="https://github.com/datacite/mds/tree/master/client" target="_">Github</a>.
 
 <h2>Doi API</h2>
 
-<h3>GET</h3> 
+<h3>GET (a specific DOI)</h3>
+
 <p><i>URI: https://mds.datacite.org/doi/{doi}</i> where <code>{doi}</code> is a specific DOI.</p> 
  
 <p>This request returns an URL associated with a given DOI.</p>
@@ -128,11 +129,29 @@ none
 <p><code>200 OK</code> - operation successful</p>
 <p><code>204 No Content</code> - DOI is known to MDS, but is not minted (or not resolvable e.g. due to handle's latency)</p>
 <p><code>401 Unauthorized</code> - no login</p>
-<p><code>403 login problem or dataset belongs to another party</code></p>
+<p><code>403</code> - login problem or dataset belongs to another party</p>
 <p><code>404 Not Found</code> - DOI does not exist in our database</p>
 <p><code>500 Internal Server Error</code> - server internal error,
 try later and if problem persists please contact us
-</p> 
+</p>
+
+<h3>GET (list all DOIs)</h3>
+
+<p><i>URI: https://mds.datacite.org/doi</i></p> 
+ 
+<p>This request returns a list of all DOIs for the requesting datacentre. There is no guaranteed order.</p>
+<h4>Request headers</h4>
+none 
+<h4>Request body</h4> 
+empty
+<h4>Response headers</h4>
+none
+<h4>Response body</h4> 
+<p>If response status is 200: list of DOIs, one DOI per line; empty for 204</p>
+<h4>Response statuses</h4> 
+<p><code>200 OK</code> - operation successful</p>
+<p><code>204 No Content</code> - no DOIs founds</p>
+ 
 
 <h3>POST</h3>
 <p><i>URI: https://mds.datacite.org/doi</i></p> 
