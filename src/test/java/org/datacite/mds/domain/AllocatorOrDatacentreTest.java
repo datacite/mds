@@ -26,6 +26,13 @@ public class AllocatorOrDatacentreTest {
         assertEquals(email, user.getContactEmail());
     }
     
+    @Test
+    public void testNameReplaceLinebreak() {
+        String name = " Foo\r\nbar\n";
+        user.setName(name);
+        assertEquals("Foo bar", user.getName());
+    }
+    
     @Parameters
     public static Collection<Object[]> getUsers() {
         Collection<Object[]> params = new ArrayList<Object[]>();

@@ -27,6 +27,10 @@ public interface AllocatorOrDatacentre {
     
     void setPassword(String password);
     
+    String getName();
+    
+    void setName(String name);
+    
     /**
      * calculate String to be used for magic auth key
      * 

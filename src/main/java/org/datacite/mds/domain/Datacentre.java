@@ -313,6 +313,10 @@ public class Datacentre implements AllocatorOrDatacentre {
     public void setContactEmail(String contactEmail) {
         this.contactEmail = contactEmail.trim();
     }
+    
+    public void setName(String name) {
+        this.name = name.replaceAll("\r?\n", " ").trim();
+    }
 
     private transient long countDatasets; 
     

@@ -32,10 +32,6 @@ privileged aspect Allocator_Roo_JavaBean {
         return this.name;
     }
     
-    public void Allocator.setName(String name) {
-        this.name = name;
-    }
-    
     public String Allocator.getContactName() {
         return this.contactName;
     }
