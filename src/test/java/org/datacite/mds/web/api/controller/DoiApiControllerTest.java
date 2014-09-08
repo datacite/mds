@@ -16,6 +16,7 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.test.TestUtils;
+import org.datacite.mds.util.Utils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,10 +45,24 @@ public class DoiApiControllerTest {
         doiApiController.doiService = this.mockDoiService;
         doiApiController.metadataRequired = false;
     }
+    
+    @Test
+    public void testGetList() throws Exception {
+        String doi2 = "10.5072/test2";
+        Datacentre datacentre = TestUtils.createDefaultDatacentre("10.5072");
+        TestUtils.createDataset(doi, datacentre).persist();
+        TestUtils.createDataset(doi2, datacentre).persist();
+        TestUtils.login(datacentre);
+        
+        ResponseEntity response = doiApiController.getDoiList();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(Utils.normalizeDoi(doi) + "\n" + Utils.normalizeDoi(doi2), response.getBody());
+    }
 
     @Test
-    public void testGetRoot() throws Exception {
-        ResponseEntity response = doiApiController.getRoot();
+    public void testGetListNoDatasets() throws Exception {
+        TestUtils.login(TestUtils.createDefaultDatacentre());
+        ResponseEntity response = doiApiController.getDoiList();
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
     }

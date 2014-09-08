@@ -2,18 +2,22 @@ package org.datacite.mds.web.api.controller;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.datacite.mds.domain.AllocatorOrDatacentre;
 import org.datacite.mds.domain.Dataset;
-import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.DoiService;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.SecurityException;
+import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.util.Utils;
 import org.datacite.mds.web.api.ApiController;
 import org.datacite.mds.web.api.ApiUtils;
@@ -47,8 +51,18 @@ public class DoiApiController implements ApiController {
     boolean metadataRequired;
     
     @RequestMapping(value = "", method = { RequestMethod.GET, RequestMethod.HEAD })
-    public ResponseEntity getRoot() {
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    public ResponseEntity getDoiList() throws SecurityException {
+        AllocatorOrDatacentre user = SecurityUtils.getCurrentAllocatorOrDatacentre();
+        List<Dataset> datasets = Dataset.findDatasetsByAllocatorOrDatacentre(user);
+        if (datasets.isEmpty())
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        
+        Collection<String> dois = new TreeSet<String>();
+        for (Dataset dataset : datasets)
+            dois.add(dataset.getDoi());
+                
+        String body = StringUtils.join(dois, "\n");
+        return new ResponseEntity<String>(body, HttpStatus.OK);
     }
     
     @RequestMapping(value = "", method = RequestMethod.PUT)
