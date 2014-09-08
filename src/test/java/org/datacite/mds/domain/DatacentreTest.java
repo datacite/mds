@@ -18,14 +18,10 @@ public class DatacentreTest {
     @Test
     @Rollback
     public void testIncQuotaUsed() {
-        Datacentre datacentre;
-        Integer expectedQuota;
+        Datacentre datacentre = TestUtils.createDefaultDatacentre();
+        Integer expectedQuota = 43;
 
-        Allocator allocator = TestUtils.createAllocator("AL");
-        allocator.persist();
-        datacentre = TestUtils.createDatacentre("AL.DC", allocator);
         datacentre.setDoiQuotaUsed(42);
-        expectedQuota = 43;
         datacentre.persist();
         
         datacentre.incQuotaUsed(Datacentre.ForceRefresh.YES);
@@ -39,11 +35,7 @@ public class DatacentreTest {
     @Test
     @Rollback
     public void testIsQuotaExceeded() {
-        Datacentre datacentre;
-
-        Allocator allocator = TestUtils.createAllocator("AL");
-        allocator.persist();
-        datacentre = TestUtils.createDatacentre("AL.DC", allocator);
+        Datacentre datacentre = TestUtils.createDefaultDatacentre();
         datacentre.setDoiQuotaUsed(42);
         datacentre.setDoiQuotaAllowed(43);
         datacentre.persist();
