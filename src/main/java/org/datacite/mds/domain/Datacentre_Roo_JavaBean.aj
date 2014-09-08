@@ -40,10 +40,6 @@ privileged aspect Datacentre_Roo_JavaBean {
         return this.contactEmail;
     }
     
-    public void Datacentre.setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-    
     public Integer Datacentre.getDoiQuotaAllowed() {
         return this.doiQuotaAllowed;
     }

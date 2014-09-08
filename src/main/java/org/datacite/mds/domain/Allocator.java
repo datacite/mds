@@ -163,6 +163,10 @@ public class Allocator implements AllocatorOrDatacentre {
     public void setExperiments(Collection<String> experiments) {
         this.experiments = Utils.collectionToCsv(experiments);
     }
+    
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail.trim();
+    }
 
     /**
      * calculate String to be used for magic auth key

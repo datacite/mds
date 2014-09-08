@@ -19,6 +19,8 @@ public interface AllocatorOrDatacentre {
 
     String getContactEmail();
     
+    void setContactEmail(String contactEmail);
+    
     String getPassword();
     
     Collection<String> getExperiments();

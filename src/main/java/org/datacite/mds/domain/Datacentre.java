@@ -310,6 +310,10 @@ public class Datacentre implements AllocatorOrDatacentre {
         this.experiments = Utils.collectionToCsv(experiments);
     }
     
+    public void setContactEmail(String contactEmail) {
+        this.contactEmail = contactEmail.trim();
+    }
+
     private transient long countDatasets; 
     
     public long getCountDatasets() {

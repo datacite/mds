@@ -48,10 +48,6 @@ privileged aspect Allocator_Roo_JavaBean {
         return this.contactEmail;
     }
     
-    public void Allocator.setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
-    
     public Integer Allocator.getDoiQuotaAllowed() {
         return this.doiQuotaAllowed;
     }
