@@ -30,7 +30,7 @@
 </c:set>
 
 <c:set var="mail_contact"> 
-  <script>mail("contact","datacite",1,"")</script>
+  <script>mail("support","datacite",1,"")</script>
 </c:set>
 
 <c:set var="mail_tech">
