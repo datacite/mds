@@ -3,16 +3,15 @@ package org.datacite.mds.validation.constraints;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/META-INF/spring/applicationContext.xml")
 public class MediaTypeTest extends AbstractContraintsTest {
+    
     @MediaType
     String mediaType;
     
@@ -22,7 +21,9 @@ public class MediaTypeTest extends AbstractContraintsTest {
         assertFalse(isValid(""));
         assertFalse(isValid("text"));
         assertFalse(isValid("text/"));
+        assertFalse(isValid("/xml"));
         assertTrue(isValid("text/foobar"));
+        assertFalse(isValid("text/foo/bar"));
         assertFalse(isValid("text/ foobar"));
         assertFalse(isValid(" text/foobar"));
         assertFalse(isValid("text/foobar "));
@@ -45,7 +46,8 @@ public class MediaTypeTest extends AbstractContraintsTest {
         assertTrue(isValid("application/foobar"));
         assertTrue(isValid("audio/foobar"));
         assertTrue(isValid("video/foobar"));
-        assertFalse(isValid("foo/bar"));
+        assertTrue(isValid("chemical/foobar"));
+        assertTrue(isValid("foo/bar"));
     }
 
     boolean isValid(String mediaType) {
