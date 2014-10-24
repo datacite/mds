@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 @Configurable
 public class MediaTypeValidator implements ConstraintValidator<MediaType, String> {
 
-    static Set<String> validTypes = new HashSet<String>(Arrays.asList("text", "application", "video", "audio", "image"));
-    
     String disallowedTypesRegExp;
 
     public void initialize(MediaType constraintAnnotation) {
@@ -35,14 +33,11 @@ public class MediaTypeValidator implements ConstraintValidator<MediaType, String
         String constructedMediaType = mediaType.getType() + "/" + mediaType.getSubtype();
         boolean hasNoParameter = StringUtils.equals(mediaTypeString, constructedMediaType);
         boolean isWildCard = mediaType.isWildcardType() || mediaType.isWildcardSubtype();
-        boolean isValidType = validTypes.contains(mediaType.getType());
-        if (!isValidType)
-            ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.MediaType.unsupported.message}");
         boolean isAllowed = StringUtils.isBlank(disallowedTypesRegExp) || ! mediaTypeString.matches(disallowedTypesRegExp);
         if (!isAllowed)
             ValidationUtils.addConstraintViolation(context, "{org.datacite.mds.validation.constraints.MediaType.disallowed.message}");
         
-        return hasNoParameter && !isWildCard && isValidType && isAllowed;
+        return hasNoParameter && !isWildCard && isAllowed;
     }
 
     public String getDisallowedTypesRegExp() {
