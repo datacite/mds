@@ -191,7 +191,7 @@ public class MediaApiControllerTest {
     
     @Test(expected = ValidationException.class)
     public void testPostWrongMediaType() throws Exception {
-        Media media = TestUtils.createMedia("foo/bar", "http://example.com/example.pdf", dataset);
+        Media media = TestUtils.createMedia("text/*", "http://example.com/example.pdf", dataset);
         String body = createBody(media);
         mediaApiController.post(body, false, doiRequest);
     }
