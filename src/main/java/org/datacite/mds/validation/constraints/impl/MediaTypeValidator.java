@@ -1,9 +1,5 @@
 package org.datacite.mds.validation.constraints.impl;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
