@@ -147,6 +147,10 @@ public class SecurityUtils {
         if (!(userSymbol.equals(datacentreSymbol) || userSymbol.equals(allocatorSymbol)))
             throw new SecurityException("cannot access dataset which belongs to another party");
     }
+    
+    public static void checkDatasetOwnership(Dataset dataset) throws SecurityException {
+        checkDatasetOwnership(dataset, getCurrentAllocatorOrDatacentre());
+    }
 
     private static List<String> ROLES = new ArrayList<String>() {
         {

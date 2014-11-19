@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import javax.validation.ValidationException;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.datacite.mds.domain.Allocator;
 import org.datacite.mds.domain.AllocatorOrDatacentre;
@@ -64,8 +65,9 @@ public class DatasetController implements UiController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable("id") Long id, Model model) {
+    public String show(@PathVariable("id") Long id, Model model) throws SecurityException {
         Dataset dataset = Dataset.findDataset(id);
+        SecurityUtils.checkDatasetOwnership(dataset);
         model.addAttribute("dataset", dataset);
         List<Media> medias = Media.findMediasByDataset(dataset).getResultList();
         model.addAttribute("medias", medias);
@@ -128,8 +130,9 @@ public class DatasetController implements UiController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@Valid CreateDatasetModel createDatasetModel, BindingResult result, Model model) {
+    public String create(@Valid CreateDatasetModel createDatasetModel, BindingResult result, Model model) throws SecurityException {
         Dataset dataset = modelToDataset(createDatasetModel, result);
+        SecurityUtils.checkDatasetOwnership(dataset);
         Metadata metadata = modelToMetadata(createDatasetModel, dataset, result);
 
         checkQuota(dataset, result);
@@ -214,7 +217,8 @@ public class DatasetController implements UiController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public String update(@Valid Dataset dataset, BindingResult result, Model model) {
+    public String update(@Valid Dataset dataset, BindingResult result, Model model) throws SecurityException {
+        checkBeforeMerge(dataset);
         if (!dataset.getUrl().isEmpty() && !result.hasErrors()) {
             try {
                 handleService.update(dataset.getDoi(), dataset.getUrl());
@@ -241,6 +245,13 @@ public class DatasetController implements UiController {
         model.asMap().clear();
         return "redirect:/datasets/" + dataset.getId().toString();
     }
+    
+    private void checkBeforeMerge(Dataset dataset) throws SecurityException {
+        Dataset origDataset = Dataset.findDataset(dataset.getId());
+        if (!StringUtils.equals(origDataset.getDoi(), dataset.getDoi()))
+            throw new SecurityException("changing DOI is not allowed");
+        SecurityUtils.checkDatasetOwnership(origDataset);
+    }
 
     @RequestMapping(params = "find=ByDoiEquals", method = RequestMethod.GET)
     public String findDatasetsByDoiEquals(@RequestParam("doi") String doi, Model model) {
@@ -250,8 +261,9 @@ public class DatasetController implements UiController {
     }
 
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") Long id, Model model) {
+    public String updateForm(@PathVariable("id") Long id, Model model) throws SecurityException {
         Dataset dataset = Dataset.findDataset(id);
+        SecurityUtils.checkDatasetOwnership(dataset);
         model.addAttribute("dataset", dataset);
         model.addAttribute("resolvedUrl", resolveDoi(dataset));
         return "datasets/update";
