@@ -119,8 +119,9 @@ public class DatacentreController implements UiController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable("id") Long id, Model model) {
+    public String show(@PathVariable("id") Long id, Model model) throws SecurityException {
         Datacentre datacentre = Datacentre.findDatacentre(id);
+        SecurityUtils.checkDatacentreOwnership(datacentre);
         model.addAttribute("datacentre", datacentre);
         model.addAttribute("itemId", id);
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
@@ -128,7 +129,8 @@ public class DatacentreController implements UiController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String create(@Valid Datacentre datacentre, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
+    public String create(@Valid Datacentre datacentre, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) throws SecurityException {
+        SecurityUtils.checkDatacentreOwnership(datacentre);
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
             model.addAttribute("sendWelcomeMail", sendWelcomeMail);
@@ -147,8 +149,9 @@ public class DatacentreController implements UiController {
     }
 
     @RequestMapping(value = "/{id}", params = "form", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") Long id, Model model) {
+    public String updateForm(@PathVariable("id") Long id, Model model) throws SecurityException {
         Datacentre datacentre = Datacentre.findDatacentre(id);
+        SecurityUtils.checkDatacentreOwnership(datacentre);
         model.addAttribute("datacentre", datacentre);
         model.addAttribute("sendWelcomeMail", "false");
         model.addAttribute("magicAuthString", magicAuthStringService.getCurrentAuthString(datacentre));
@@ -156,7 +159,8 @@ public class DatacentreController implements UiController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public String update(@Valid Datacentre datacentre, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) {
+    public String update(@Valid Datacentre datacentre, BindingResult result, @RequestParam(required=false) Boolean sendWelcomeMail, Model model, HttpSession session) throws SecurityException {
+        SecurityUtils.checkDatacentreOwnership(datacentre);
         if (result.hasErrors()) {
             model.addAttribute("datacentre", datacentre);
             model.addAttribute("sendWelcomeMail", sendWelcomeMail);
