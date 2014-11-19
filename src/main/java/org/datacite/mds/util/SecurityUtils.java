@@ -151,6 +151,16 @@ public class SecurityUtils {
     public static void checkDatasetOwnership(Dataset dataset) throws SecurityException {
         checkDatasetOwnership(dataset, getCurrentAllocatorOrDatacentre());
     }
+    
+    public static void checkDatacentreOwnership(Datacentre datacentre, Allocator user) throws SecurityException {
+        if (datacentre.getAllocator().getSymbol() != user.getSymbol())
+            throw new SecurityException("cannot access datacentre which belongs to another party");
+    }
+    
+    public static void checkDatacentreOwnership(Datacentre datacentre) throws SecurityException {
+        checkDatacentreOwnership(datacentre, getCurrentAllocator());
+    }
+    
 
     private static List<String> ROLES = new ArrayList<String>() {
         {
