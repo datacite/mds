@@ -12,8 +12,9 @@ import org.datacite.mds.domain.Dataset;
 import org.datacite.mds.domain.Metadata;
 import org.datacite.mds.service.HandleException;
 import org.datacite.mds.service.HandleService;
+import org.datacite.mds.service.SecurityException;
 import org.datacite.mds.test.TestUtils;
-import org.datacite.mds.util.Utils;
+import org.datacite.mds.util.SecurityUtils;
 import org.datacite.mds.validation.ValidationHelper;
 import org.datacite.mds.web.ui.model.CreateDatasetModel;
 import org.easymock.EasyMock;
@@ -36,6 +37,7 @@ import org.springframework.validation.BindingResult;
 public class DatasetControllerTest {
     
     Datacentre datacentre;
+    Datacentre datacentre2;
     
     DatasetController controller;
 
@@ -64,6 +66,8 @@ public class DatasetControllerTest {
         expectNoHandleServiceCall();
         
         datacentre = TestUtils.createDefaultDatacentre("10.5072");
+        datacentre2 = TestUtils.createDatacentre("AL.DC2", datacentre.getAllocator());
+        datacentre2.persist();
         TestUtils.login(datacentre);
 
         xml = TestUtils.setDoiOfMetadata(TestUtils.getTestMetadata21(), doi);
@@ -104,6 +108,12 @@ public class DatasetControllerTest {
         EasyMock.replay(mockHandleService);
     }
     
+    private void expectHandleServiceResolve(String doi, String url) throws Exception {
+        EasyMock.reset(mockHandleService);
+        EasyMock.expect(mockHandleService.resolve(doi)).andReturn(url);
+        EasyMock.replay(mockHandleService);
+    }
+    
     @Test
     public void create() throws Exception {
         assertCreateSuccess();
@@ -136,25 +146,25 @@ public class DatasetControllerTest {
     }
 
     @Test
-    public void createDoiMalformed() {
+    public void createDoiMalformed() throws Exception {
         createDatasetModel.setDoi("foobar");
         assertCreateFailure();
     }
 
     @Test
-    public void createUrlMalformed() {
+    public void createUrlMalformed() throws Exception {
         createDatasetModel.setUrl("foobar");
         assertCreateFailure();
     }
 
     @Test
-    public void createBadXml() {
+    public void createBadXml() throws Exception {
         createDatasetModel.setXml("foo".getBytes());
         assertCreateFailure();
     }
     
     @Test
-    public void createTestHandlingOfXmlUploaded() {
+    public void createTestHandlingOfXmlUploaded() throws Exception {
         createDatasetModel.setDoi(null); // force failure
         createDatasetModel.setXmlUpload(xml2);
         assertArrayEquals(xml, createDatasetModel.getXml());
@@ -162,14 +172,14 @@ public class DatasetControllerTest {
         assertArrayEquals(xml2, createDatasetModel.getXml());
     }
 
-    public void assertCreateSuccess() throws HandleException {
+    public void assertCreateSuccess() throws Exception {
         expectHandleServiceCreate(doi, url);
         String view = controller.create(createDatasetModel, result, model);
         assertTrue(view.startsWith("redirect"));
         assertEquals(1, Dataset.countDatasets());
     }
 
-    public void assertCreateFailure() {
+    public void assertCreateFailure() throws Exception {
         String view = controller.create(createDatasetModel, result, model);
         assertEquals("datasets/create", view);
         assertEquals(0, Dataset.countDatasets());
@@ -177,7 +187,7 @@ public class DatasetControllerTest {
     }   
     
     @Test
-    public void updateKeepMintedTimestamp() throws HandleException {
+    public void updateKeepMintedTimestamp() throws Exception {
         assertCreateSuccess();
         Dataset dataset = Dataset.findDatasetByDoi(doi);
         dataset.setUrl(url + "/foo");
@@ -187,6 +197,46 @@ public class DatasetControllerTest {
         controller.update(dataset, result, model);
         
         assertEquals(minted, dataset.getMinted());
+    }
+    
+    @Test(expected = SecurityException.class)
+    public void updateWrongDatacentre() throws Exception {
+        assertCreateSuccess();
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        TestUtils.login(datacentre2);
+
+        controller.update(dataset, result, model);
+    }
+    
+    @Test(expected = SecurityException.class)
+    public void updateDoi() throws Exception {
+        assertCreateSuccess();
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        Dataset dataset2 = new Dataset();
+        dataset2.setId(dataset.getId());
+        dataset2.setDoi(dataset.getDoi() + "foo");
+
+        controller.update(dataset2, result, model);
+    }
+    
+    @Test
+    public void show() throws Exception {
+        assertCreateSuccess();
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+
+        expectHandleServiceResolve(doi, url);
+        controller.show(dataset.getId(), model);
+        assertEquals(dataset.getId(), model.asMap().get("itemId"));
+        assertEquals(url, model.asMap().get("resolvedUrl"));
+    }
+    
+    @Test(expected = SecurityException.class)
+    public void showWrongDatacentre() throws Exception {
+        assertCreateSuccess();
+        Dataset dataset = Dataset.findDatasetByDoi(doi);
+        TestUtils.login(datacentre2);
+        
+        controller.show(dataset.getId(), model);
     }
     
 }
