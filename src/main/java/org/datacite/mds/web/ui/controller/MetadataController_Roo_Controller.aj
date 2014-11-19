@@ -19,18 +19,7 @@ import org.springframework.web.util.UriUtils;
 import org.springframework.web.util.WebUtils;
 
 privileged aspect MetadataController_Roo_Controller {
-    
-    @RequestMapping(method = RequestMethod.POST)
-    public String MetadataController.create(@Valid Metadata metadata, BindingResult bindingResult, Model uiModel, HttpServletRequest httpServletRequest) {
-        if (bindingResult.hasErrors()) {
-            uiModel.addAttribute("metadata", metadata);
-            return "metadatas/create";
-        }
-        uiModel.asMap().clear();
-        metadata.persist();
-        return "redirect:/metadatas/" + encodeUrlPathSegment(metadata.getId().toString(), httpServletRequest);
-    }
-    
+        
     @RequestMapping(params = "form", method = RequestMethod.GET)
     public String MetadataController.createForm(Model uiModel) {
         uiModel.addAttribute("metadata", new Metadata());
