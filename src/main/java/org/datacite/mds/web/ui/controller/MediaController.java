@@ -29,7 +29,8 @@ public class MediaController {
     @ModelAttribute("datasets")
     public Collection<Dataset> populateDatasets(@RequestParam(value = "dataset", required = false) Long datasetId) throws SecurityException {
         Dataset dataset = Dataset.findDataset(datasetId);
-        SecurityUtils.checkDatasetOwnership(dataset);
+        if (dataset != null)
+            SecurityUtils.checkDatasetOwnership(dataset);
         return Arrays.asList(dataset);
     }
     
