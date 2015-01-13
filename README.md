@@ -13,12 +13,10 @@ To use this software please go to [https://mds.datacite.org](https://mds.datacit
 
 ## Tools
 
-It's assumed you have PosgreSQL 8.4 and Roo 1.1 installed. You also
-will need Maven 2.2.1 and JDK 6 in your system (OpenJDK from Ubuntu
+It's assumed you have mysql 5.5 (or mariadb) and Roo 1.1.5 installed. Roo is not needed to
+run the application, only if you want to re-generate code from database. You also
+will need Maven 2.2.1 or newer. Minimum version of JDK is 6 (OpenJDK from Ubuntu
 works fine).
-
-You don't need Roo to run the code. Although you will most likely need
-it for development.
 
 ### mysql setup
 
@@ -59,10 +57,14 @@ the browser will complain but all will work OK.
 
 The default password is 'changeit'
 
-## Configure the source code 
+This self-generated certificate is required only for local development. If keystore password is changed
+the procedure to run the app locally will not work as pom.xml (responsible for configuration of maven's
+ build-in tomcat) doesn't contain the new password.
+
+## Configure the source code
 
 I assume you had created a fork from the master DataCite
-repository. Now you need to configure the code before compiling. 
+repository. Now you need to configure the code before compiling.
 
 The git repository has a bunch of *.template files. You can find them
 with:
@@ -92,6 +94,10 @@ for consecutive runs use 'validate'.
 
 values put there will be used for password hashing.
 
+Tip: to quickly generate random sequence:
+
+    openssl rand -base64 32
+
 ### src/main/resources/META-INF/spring/database.properties
 
 your database configuration, password etc as you typed then creating
@@ -120,7 +126,7 @@ location of XSD and flag if XML should be validated.
 
 your usual log4j stuff.
 
-## Running locally 
+## Running locally
 
 ### First run
 
@@ -128,12 +134,21 @@ At this stage you should be able to run application.
 
     mvn compile tomcat:run
 
-point your browser at https://localhost:8443/mds/
+point your browser at:
+
+> https://localhost:8443/mds/
 
 it will complain about untrusted SSL certificate but you say it's OK
 and the main page of MDS should be presented.
 
-Now kill tomcat and change src/main/resources/META-INF/persistence.xml
+Please note that although you access on port 8443, port 8080 must be unbound (the app does redirect from http
+8080 to https 8443). If
+you need to change this add specific port when running the above command e.g.
+
+    mvn -Dmaven.tomcat.port=8181 compile tomcat:run
+
+If you set value 'create' in src/main/resources/META-INF/persistence.xml (see above),
+now you can kill tomcat and change to 'validate'.
 
 ### Creating user accounts
 
@@ -141,14 +156,17 @@ To login and create accounts for the users you need to insert admin
 account. Therefore run
 
     mvn exec:java -Dexec.mainClass=org.datacite.mds.tools.AdminAccountCreator
-    
+
 You will be asked to specify symbol, password and e-mail for the admin account.
+
+This command works only if database doesn't have Admin account already. If this is not the case, please
+remove Admin from the database manually.
 
 ### That's all!
 
-You can run: 
+You can run:
 
-    mvn compile tomcat:run 
+    mvn compile tomcat:run
 
 again and create appropriate accounts and prefixes.
 
