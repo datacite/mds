@@ -71,7 +71,7 @@ public class DatasetControllerTest {
         TestUtils.login(datacentre);
 
         xml = TestUtils.setDoiOfMetadata(TestUtils.getTestMetadata21(), doi);
-        xml2 = TestUtils.setDoiOfMetadata(TestUtils.getTestMetadata20(), doi);
+        xml2 = TestUtils.setDoiOfMetadata(TestUtils.getTestMetadata31(), doi);
         assertTrue(!ArrayUtils.isEquals(xml, xml2));
 
         createDatasetModel = new CreateDatasetModel();

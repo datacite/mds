@@ -184,12 +184,18 @@ public abstract class TestUtils {
         return getTestMetadata21();
     }
 
+    // schema 2.0 is no longer accepted by production MDS.
+    @Deprecated
     public static byte[] getTestMetadata20() {
         return getTestMetadata("datacite-metadata-sample-v2.0.xml");
     }
 
     public static byte[] getTestMetadata21() {
         return getTestMetadata("datacite-metadata-sample-v2.1.xml");
+    }
+
+    public static byte[] getTestMetadata31() {
+        return getTestMetadata("datacite-metadata-sample-v3.1.xml");
     }
 
     public static byte[] getTestMetadata(String filename) {
