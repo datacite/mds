@@ -7,16 +7,16 @@
     <description>Roo generated mds application</description>
     
     <!-- force HTTPS (from http://wiki.apache.org/tomcat/FAQ/Security#Q4) -->
-    <security-constraint>
-    	<web-resource-collection>
-	    	<web-resource-name>Protected Context</web-resource-name>
-        	<url-pattern>/*</url-pattern>
-    	</web-resource-collection>
-    	<!-- auth-constraint goes here if you require authentication -->
-    	<user-data-constraint>
-    		<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-    	</user-data-constraint>
-	</security-constraint>
+    <!--<security-constraint>-->
+    	<!--<web-resource-collection>-->
+	    	<!--<web-resource-name>Protected Context</web-resource-name>-->
+        	<!--<url-pattern>/*</url-pattern>-->
+    	<!--</web-resource-collection>-->
+    	<!--&lt;!&ndash; auth-constraint goes here if you require authentication &ndash;&gt;-->
+    	<!--<user-data-constraint>-->
+    		<!--<transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+    	<!--</user-data-constraint>-->
+	<!--</security-constraint>-->
     
     <!-- Enable escaping of form submission contents -->
     <context-param>
