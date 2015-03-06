@@ -1,5 +1,5 @@
 /* DataCite color:
-  dark blue:  #0084B9
+  dark blue:  #00A0DF
   light blue: #77C9EA
 */
 
@@ -8,7 +8,7 @@
 body,div,td {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	color: #666;
+	color: #333333;
 }
 
 body {
@@ -38,7 +38,7 @@ body {
 
 #title a {
     font-size: 50px;
-    color: #0084B9;
+    color: #00A0DF;
     text-decoration: none;
 }
 
@@ -106,7 +106,7 @@ body {
 }
 
 #menu h2 {
-	color: #0084B9;
+	color: #00A0DF;
     text-transform: capitalize;
 	font-weight:bold;
 	font-size: 12px;
@@ -196,7 +196,7 @@ a.menu, a.menu:link, a.menu:visited {display:block; width:150px; height:25px;}
 
 h1,h2,h3 {
 	font-family: Helvetica, sans-serif;
-	color: #0084B9;
+	color: #00A0DF;
 }
 
 h1 {
@@ -246,15 +246,15 @@ tr:nth-child(even) {
 }
 
 a:link {
-	color: #0084B8;
+	color: #00A0DF;
 }
 
 a:active {
-	color: #0084B8;
+	color: #00A0DF;
 }
 
 a:visited {
-	color: #0084B8;
+	color: #00A0DF;
 }
 
 a:hover {
@@ -482,7 +482,7 @@ p.indent {
 }
 
 .toc-heading {
-    color: #0084B9;
+    color: #00A0DF;
     font-size: 18px;
     margin-bottom: 12px;
 }
