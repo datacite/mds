@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @GroupSequence({ Metadata.class, Metadata.SecondLevelConstraint.class })
 public class Metadata {
 
-    public static final int XML_MAX_SIZE = 1024 * 1024; // 1 MByte
+    public static final int XML_MAX_SIZE = 10 * 1024 * 1024; // 10 MByte
 
     private static Logger log4j = Logger.getLogger(Metadata.class);
     
