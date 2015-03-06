@@ -10,11 +10,11 @@
   <spring:url value="/resources/spring/Spring.js" var="spring_url" />
   <spring:url value="/resources/spring/Spring-Dojo.js" var="spring_dojo_url" />
   <spring:url value="/resources/js/jquery-1.5.1.min.js" var="jquery_url" />
-  <spring:url value="/resources/images/favicon.ico" var="favicon" />
+  <spring:url value="/resources/images/favicon.png" var="favicon" />
   <link rel="stylesheet" type="text/css" href="${tundra_url}"><!-- required for FF3 and Opera --></link>
   <link rel="stylesheet" type="text/css" media="screen" href="${roo_css_url}"><!-- required for FF3 and Opera --></link>
   <link rel="stylesheet" href="${dojox_highlight_url}"><!-- required for FF3 and Opera --></link>
-  <link rel="SHORTCUT ICON" href="${favicon}" />
+  <link rel="SHORTCUT ICON" type="image/png" href="${favicon}" />
 
   <!-- Get the user local from the page context (it was set by Spring MVC's locale resolver) -->
   <c:set var="userLocale">
