@@ -1,22 +1,18 @@
-import httplib2, sys, base64, codecs
+import requests, sys, codecs
  
+#endpoint = 'https://mds.datacite.org/metadata'
+endpoint = 'https://mds.test.datacite.org/metadata'
+
 if (len(sys.argv) < 4):
     raise Exception('Please provide username, password and location of metadata file')
- 
-endpoint = 'https://mds.datacite.org/metadata'
 
-body_unicode = codecs.open(sys.argv[3], 'r', encoding='utf-8').read()
+username, password, filename = sys.argv[1:]
 
-print(body_unicode);
+metadata = codecs.open(filename, 'r', encoding='utf-8').read()
 
-h = httplib2.Http()
-auth_string = base64.encodestring(sys.argv[1] + ':' + sys.argv[2])
-response, content = h.request(endpoint,
-                              'POST',
-                              body = body_unicode.encode('utf-8'),
-                              headers={'Content-Type':'application/xml;charset=UTF-8',
-                                       'Authorization':'Basic ' + auth_string})
-if (response.status != 201):
-    print str(response.status)
- 
-print(content.decode('utf-8'))
+response = requests.post(endpoint,
+                         auth = (username, password),
+                         data = metadata.encode('utf-8'),
+                         headers = {'Content-Type':'application/xml;charset=UTF-8'})
+
+print str(response.status_code) + " " + response.text
