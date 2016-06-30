@@ -662,7 +662,21 @@
             </configuration>
         </execution>
     </executions>
-</plugin>      
+</plugin>
+            <plugin>
+                <!-- run "mvn hibernate3:hbm2ddl" to generate a schema -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>hibernate3-maven-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <hibernatetool>
+                        <jpaconfiguration persistenceunit="persistenceUnit" />
+                        <hbm2ddl export="false" create="true"
+                                 update="false" format="true" outputfilename="schema.ddl" />
+
+                    </hibernatetool>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 </project>
