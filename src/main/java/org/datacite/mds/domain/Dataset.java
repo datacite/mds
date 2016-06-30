@@ -25,6 +25,7 @@ import org.datacite.mds.validation.constraints.MatchDoiPrefix;
 import org.datacite.mds.validation.constraints.MatchDomain;
 import org.datacite.mds.validation.constraints.URL;
 import org.datacite.mds.validation.constraints.Unique;
+import org.hibernate.annotations.Index;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.roo.addon.entity.RooEntity;
@@ -79,6 +80,7 @@ public class Dataset {
 
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(iso = ISO.DATE_TIME)
+    @Index(name = "updated")
     private Date updated;
     
     @Temporal(TemporalType.TIMESTAMP)

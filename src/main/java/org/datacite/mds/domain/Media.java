@@ -15,6 +15,8 @@ import org.datacite.mds.validation.constraints.MatchDomain;
 import org.datacite.mds.validation.constraints.MediaType;
 import org.datacite.mds.validation.constraints.URL;
 import org.datacite.mds.validation.constraints.Unique;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -29,6 +31,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Unique(field = { "dataset", "mediaType" })
 @MatchDomain(groups = Media.SecondLevelConstraint.class)
 @GroupSequence( { Media.class, Media.SecondLevelConstraint.class })
+@Table(
+        appliesTo = "media",
+        indexes = {
+                @Index(name = "dataset_updated", columnNames = {"dataset", "updated"})
+        }
+)
 public class Media implements Comparable {
 
     @ManyToOne

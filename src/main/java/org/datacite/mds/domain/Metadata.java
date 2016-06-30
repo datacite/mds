@@ -21,6 +21,8 @@ import org.apache.log4j.Logger;
 import org.datacite.mds.service.SchemaService;
 import org.datacite.mds.validation.constraints.MatchDoi;
 import org.datacite.mds.validation.constraints.ValidXML;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -34,6 +36,12 @@ import org.springframework.transaction.annotation.Transactional;
 @RooEntity
 @MatchDoi(groups = Metadata.SecondLevelConstraint.class)
 @GroupSequence({ Metadata.class, Metadata.SecondLevelConstraint.class })
+@Table(
+        appliesTo = "metadata",
+        indexes = {
+                @Index(name = "dataset_version", columnNames = {"dataset", "metadataVersion"})
+        }
+)
 public class Metadata {
 
     public static final int XML_MAX_SIZE = 10 * 1024 * 1024; // 10 MByte
