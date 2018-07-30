@@ -1,13 +1,8 @@
 # Overview
 
-This is Metadata Store (MDS) for DataCite central infrastructure. This
-app has UI and API for DataCite members and their datacentres. The
-main functionality is minting DOIs and storing metadata for the
-datasets.
+This software was running the DataCite Metadata Store (MDS) from 2011 until July 2018. Please go to [https://github.com/datacite/poodle](https://github.com/datacite/poodle) for the current software running the MDS API.
 
 To learn more about DataCite please visit [our website](http://www.datacite.org)
-
-To use this software please go to [https://mds.datacite.org](https://mds.datacite.org)
 
 # Installation (for development only)
 
